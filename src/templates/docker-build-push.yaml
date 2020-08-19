@@ -43,5 +43,5 @@ stages:
         repository: ${{ parameters.containerRepository }}
         command: buildAndPush
         Dockerfile: ${{ parameters.dockerFilePath }}
-        tags: $(fullVersionFriendly)
+        tags: ${{ parameters.fullVersionFriendly }}
         addPipelineData: false
