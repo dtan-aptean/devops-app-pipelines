@@ -1,12 +1,4 @@
 parameters:
-  majorVersionYear: ''
-  majorVersionMonth: ''
-  minorVersion: ''
-  fullVersion: ''
-  friendlyName: ''
-  fullVersionFriendly: ''
-  containerRegistry: ''
-  containerRepository: ''
   dockerFilePath: ''
   protoSrcPath: ''
   protoDestPath: ''
@@ -39,9 +31,6 @@ stages:
       displayName: Build Docker Image
       name: buildDockerImage
       inputs:
-        containerRegistry: ${{ parameters.containerRegistry }}
-        repository: ${{ parameters.containerRepository }}
-        command: buildAndPush
+        command: build
         Dockerfile: ${{ parameters.dockerFilePath }}
-        tags: $(fullVersionFriendly)
         addPipelineData: false
