@@ -1,0 +1,32 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: comms-api-svc-docker-build-push
+    source: comms-api-svc-docker-build-push
+    trigger:
+      branches:
+      - master
+
+stages:
+- stage: DEV_Helm_Deploy
+  displayName: DEV - Helm Deploy
+
+  jobs:
+  - deployment: Helm_Deply
+    displayName: Helm Deploy
+    environment: comms-api-svc-dev
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - pwsh: |
+              Write-Host "Deploy using Helm!"
+            displayName: helm upgrade --install
+            name: helmDeploy
+            workingDirectory: $(System.DefaultWorkingDirectory)
+            failOnStderr: true
