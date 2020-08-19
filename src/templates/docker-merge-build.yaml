@@ -1,0 +1,36 @@
+parameters:
+  dockerFilePath: ''
+  protoSrcPath: ''
+  protoDestPath: ''
+
+stages:
+- stage: Build
+  displayName: Execute build, unit tests, build docker image and push to ACR
+
+  jobs:
+  - job: Execute
+
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+    - pwsh: |
+        if ("${{ parameters.protoSrcPath }}".length -eq 0 -Or "${{ parameters.protoDestPath }}".length -eq 0) {
+          Write-Host "No protobuff src or dest path provided. Not copying file."
+          Exit
+        }
+
+        Copy-Item -Path "${{ parameters.protoSrcPath }}" -Destination "${{ parameters.protoDestPath }}" -Recurse
+        $fileCount = @( Get-ChildItem "${{ parameters.protoDestPath }}" ).Count
+        Write-Host "Protobuff definitions copied! $fileCount file(s) copied!"
+      displayName: Copy Protobuff Definition
+      name: copyProtoDef
+      workingDirectory: $(System.DefaultWorkingDirectory)
+      failOnStderr: true
+    - task: Docker@2
+      displayName: Build Docker Image
+      name: buildDockerImage
+      inputs:
+        command: build
+        Dockerfile: ${{ parameters.dockerFilePath }}
+        addPipelineData: false
