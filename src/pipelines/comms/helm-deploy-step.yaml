@@ -38,7 +38,8 @@ parameters:
 steps:
 - pwsh: |
     $env:HELM_EXPERIMENTAL_OCI = 1
-    Write-Host $env:SP_CLIENT_ID
+    $cr = $env:CONTAINER_REGISTRY_NAME
+    Write-Host $cr
     $env:SP_SECRET | helm registry login $env:CONTAINER_REGISTRY_NAME.azurecr.io `
       --username $env:SP_CLIENT_ID `
       --password-stdin
