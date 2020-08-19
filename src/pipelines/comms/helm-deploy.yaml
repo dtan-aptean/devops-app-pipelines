@@ -32,7 +32,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yml
+          - template: helm-deploy-step.yaml
             parameters:
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
               svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
