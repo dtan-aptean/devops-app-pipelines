@@ -38,9 +38,9 @@ parameters:
 steps:
 - pwsh: |
     $env:HELM_EXPERIMENTAL_OCI = 1
-    $cr = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
+    $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
     Write-Host $cr
-    $env:SP_SECRET | helm registry login $env:CONTAINER_REGISTRY_NAME.azurecr.io `
+    $env:SP_SECRET | helm registry login $fullRegistryName `
       --username $env:SP_CLIENT_ID `
       --password-stdin
   displayName: helm upgrade --install
