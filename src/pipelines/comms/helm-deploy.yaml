@@ -6,7 +6,8 @@ resources:
     source: comms-api-svc-docker-build-push
     trigger:
       branches:
-      - master
+        include:
+        - master
 
 variables:
 - group: helm-chart-svc-principal-config
