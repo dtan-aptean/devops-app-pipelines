@@ -1,13 +1,13 @@
 variables:
-- name: majorVersionYear
+- name: MAJOR_VERSION_YEAR
   value: 2020
-- name: majorVersionMonth
+- name: MAJOR_VERSION_MONTH
   value: 08
-- name: minorVersion
-  value: $[counter(variables['majorVersionMonth'], 100)]
-- name: fullVersion
-  value: $(majorVersionYear)$(majorVersionMonth).$(minorVersion)
-- name: friendlyName
+- name: MINOR_VERSION
+  value: $[counter(variables['MAJOR_VERSION_MONTH'], 100)]
+- name: FULL_VERSION
+  value: $(MAJOR_VERSION_YEAR)$(MAJOR_VERSION_MONTH).$(MINOR_VERSION)
+- name: FRIENDLY_NAME
   value: 'Late Aug 2020'
-- name: fullVersionFriendly
-  value: $(majorVersionYear)$(majorVersionMonth).$(minorVersion).0-late.aug.2020
+- name: FULL_VERSION_FRIENDLY
+  value: $(MAJOR_VERSION_YEAR)$(MAJOR_VERSION_MONTH).$(MINOR_VERSION).0-late.aug.2020

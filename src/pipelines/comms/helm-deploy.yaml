@@ -8,6 +8,9 @@ resources:
       branches:
       - master
 
+variables:
+- group: helm-chart-svc-principal-config
+
 stages:
 - stage: DEV_Helm_Deploy
   displayName: DEV - Helm Deploy
@@ -20,13 +23,48 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
 
+    variables:
+    - group: comms-api-svc-dev
+    - template: helm-variables-dev.yaml
+
     strategy:
       runOnce:
         deploy:
           steps:
-          - pwsh: |
-              Write-Host "Deploy using Helm!"
-            displayName: helm upgrade --install
-            name: helmDeploy
-            workingDirectory: $(System.DefaultWorkingDirectory)
-            failOnStderr: true
+          - template: helm-deploy-step.yml
+            parameters:
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_COMMS_API_SVC_DATABASE)
+              cosmosContainer: $(COSMOSDB_COMMS_API_SVC_CONTAINER)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbSmsReqQueue: $(SB_SMS_REQ_QUEUE)
+              sbEmailReqQueue: $(SB_EMAIL_REQ_QUEUE)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
+              smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
+              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
