@@ -169,6 +169,11 @@ steps:
     SMS_FROM_PHONE_NUMBER: ${{ parameters.smsFromPhoneNumber }}
     PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
 
+- task: HelmInstaller@1
+  displayName: Helm installer
+  inputs:
+    helmVersionToInstall: latest
+
 - task: HelmDeploy@0
   displayName: Helm Deploy
   name: helmDeploy
