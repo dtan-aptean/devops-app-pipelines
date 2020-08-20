@@ -48,13 +48,22 @@ steps:
       --username $env:SP_CLIENT_ID `
       --password-stdin
 
+      Write-Host "CONTAINER_REGISTRY_NAME: $env:CONTAINER_REGISTRY_NAME"
+      Write-Host "CHART_REPOSITORY_NAME: $env:CHART_REPOSITORY_NAME"
+
     $latestHelmChart = az acr repository show-tags `
       --name $env:CONTAINER_REGISTRY_NAME `
       --repository $env:CHART_REPOSITORY_NAME `
       --top 1 `
       --orderby time_desc | ConvertFrom-Json
 
+    Write-Host "chart: $latestHelmChart"
+
+    Write-Host "IMAGE_REPOSITORY_NAME: $env:IMAGE_REPOSITORY_NAME"
+
     $latestTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+
+    Write-Host "tag: $latestTag"
 
     Write-Host ""
     $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CHART_REPOSITORY_NAME:$latestHelmChart"
