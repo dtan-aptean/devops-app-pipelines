@@ -66,7 +66,7 @@ steps:
     Write-Host "tag: $latestTag"
 
     Write-Host ""
-    $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CHART_REPOSITORY_NAME:$latestHelmChart"
+    $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
     Write-Host "fullChartName: $fullChartName"
 
     helm chart pull $fullChartName
