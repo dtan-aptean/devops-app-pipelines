@@ -182,18 +182,25 @@ steps:
     script: wget https://github.com/Azure/kubelogin/releases/download/v0.0.4/kubelogin.zip
     workingDirectory: $(System.DefaultWorkingDirectory)
     failOnStderr: false
-  env:
-    NOOP_PATH: $(Build.ArtifactStagingDirectory)/noop.txt
 
 - pwsh: |
     Test-Path ./kubelogin.zip
     Write-Host ""
     Expand-Archive -Path kubelogin.zip -DestinationPath ./kubelogin
-    cd ./kubelogin
-    cd ./bin
-    cd ./linux_amd64
-    ./kubelogin --version
   displayName: Debug Files
   name: debugFiles
   workingDirectory: $(System.DefaultWorkingDirectory)
   failOnStderr: false
+
+- task: Bash@3
+  displayName: Kubelogin
+  name: kubelogin
+  inputs:
+    targetType: 'inline'
+    script: |
+      cd ./kubelogin
+      cd ./bin
+      cd ./linux_amd64
+      kubelogin --version
+    workingDirectory: $(System.DefaultWorkingDirectory)
+    failOnStderr: false
