@@ -198,9 +198,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      cd ./kubelogin
-      cd ./bin
-      cd ./linux_amd64
+      cd kubelogin/bin/linux_amd64
+      ls
       kubelogin --version
     workingDirectory: $(System.DefaultWorkingDirectory)
     failOnStderr: false
