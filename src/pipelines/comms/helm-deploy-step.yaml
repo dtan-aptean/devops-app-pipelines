@@ -189,22 +189,10 @@ steps:
     Test-Path ./kubelogin.zip
     Write-Host ""
     Expand-Archive -Path kubelogin.zip -DestinationPath ./kubelogin
-    Write-Host ""
-    ls
-    Write-Host ""
     cd ./kubelogin
-    Write-Host ""
-    ls
-    Write-Host ""
-    cd bin
-    Write-Host ""
-    ls
-    Write-Host ""
-    cd linux_amd64
-    Write-Host ""
-    ls
-    Write-Host ""
-    kubelogin --version
+    cd ./bin
+    cd ./linux_amd64
+    ./kubelogin --version
   displayName: Debug Files
   name: debugFiles
   workingDirectory: $(System.DefaultWorkingDirectory)
