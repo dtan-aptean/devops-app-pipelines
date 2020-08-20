@@ -200,6 +200,7 @@ steps:
     script: |
       cd kubelogin/bin/linux_amd64
       ls
+      chmod +x kubelogin
       kubelogin --version
     workingDirectory: $(System.DefaultWorkingDirectory)
     failOnStderr: false
