@@ -174,20 +174,11 @@ steps:
   inputs:
     helmVersionToInstall: latest
 
-- task: HelmDeploy@0
-  displayName: Helm Deploy
-  name: helmDeploy
-  inputs:
-    connectionType: 'Azure Resource Manager'
-    azureSubscription: ${{ parameters.serviceConnection }}
-    azureResourceGroup: ${{ parameters.aksResourceGroup }}
-    kubernetesCluster: ${{ parameters.aksName }}
-    namespace: ${{ parameters.k8sNamespace }}
-    command: 'upgrade'
-    chartType: 'FilePath'
-    chartPath: ./${{ parameters.chartName }}
-    releaseName: ${{ parameters.helmReleaseName }}
-    valueFile: ./deploy-values.yaml
-    install: true
-    waitForExecution: false
-    failOnStderr: false
+- pwsh: |
+    Write-Host ( Get-ChildItem ./comms-api-svc | Measure-Object ).Count;
+    Write-Host ""
+    get-content -Path ./deploy-values.yaml
+  displayName: Prep Helm Deploy
+  name: prepHelmDeploy
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  failOnStderr: true
