@@ -125,7 +125,7 @@ steps:
         serviceId: "$env:SUBS_MGMT_SERVICE_ID"
       smsFromPhoneNumber: "$env:SMS_FROM_PHONE_NUMBER"
       processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
-    "@ | Out-File -FilePath .\deploy-values.yaml
+    "@ | Out-File -FilePath ./deploy-values.yaml
 
     Write-Host ""
     Write-Host "Helm deploy prep complete!"
@@ -170,6 +170,8 @@ steps:
     PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
 
 - task: HelmDeploy@0
+  displayName: Helm Deploy
+  name: helmDeploy
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscription: ${{ parameters.serviceConnection }}
@@ -181,3 +183,6 @@ steps:
     chartPath: ./${{ parameters.chartName }}
     releaseName: ${{ parameters.helmReleaseName }}
     valueFile: ./deploy-values.yaml
+    install: true
+    waitForExecution: false
+    failOnStderr: false
