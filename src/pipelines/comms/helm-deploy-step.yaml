@@ -169,21 +169,35 @@ steps:
     SMS_FROM_PHONE_NUMBER: ${{ parameters.smsFromPhoneNumber }}
     PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
 
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+    azureResourceGroup: 'rg-eastus-shr-apteank8s'
+    kubernetesCluster: 'aks-eastus-shr-apteank8s'
+    namespace: 'comms-dev'
+    command: 'version'
+    arguments: '--short'
+
 - task: HelmInstaller@1
   displayName: Helm installer
   inputs:
     helmVersionToInstall: latest
 
-- task: Bash@3
-  displayName: Download kubelogin
-  name: downloadKubelogin
+- task: HelmDeploy@0
+  displayName: Helm Deploy
+  name: helmDeploy
   inputs:
-    targetType: 'inline'
-    script: |
-      set -eou pipefail
-      wget https://github.com/Azure/kubelogin/releases/download/v0.0.4/kubelogin.zip
-      python -m zipfile -e kubelogin.zip kl/
-      sudo mv kl/bin/linux-amd64/kubelogin /usr/bin/kubelogin
-      kubelogin --version
-    workingDirectory: $(System.DefaultWorkingDirectory)
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'upgrade'
+    chartType: 'FilePath'
+    chartPath: ./${{ parameters.chartName }}
+    releaseName: ${{ parameters.helmReleaseName }}
+    valueFile: ./deploy-values.yaml
+    install: true
+    waitForExecution: false
     failOnStderr: false
