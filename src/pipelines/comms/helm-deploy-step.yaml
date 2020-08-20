@@ -2,6 +2,8 @@ parameters:
   svcPrincipalClientId: ''
   svcPrincipalSecret: ''
   azureTenantId: ''
+  aksName: ''
+  aksResourceGroup: ''
   containerRegistryName: ''
   imageRepositoryName: ''
   chartRepositoryName: ''
@@ -41,6 +43,7 @@ steps:
     $env:HELM_EXPERIMENTAL_OCI = 1
 
     az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+    az aks get-credentials --name $env:AKS_NAME --resource-group $env:AKS_RG
 
     $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
 
@@ -120,6 +123,8 @@ steps:
     SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
     SP_SECRET: ${{ parameters.svcPrincipalSecret }}
     AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
+    AKS_NAME: ${{ parameters.aksName }}
+    AKS_RG: ${{ parameters.aksResourceGroup }}
     HELM_RELEASE_NAME: ${{ parameters.helmReleaseName }}
     K8S_NS: ${{ parameters.k8sNamespace }}
     CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
