@@ -189,6 +189,7 @@ steps:
     Test-Path ./kubelogin.zip
     Write-Host ""
     Expand-Archive -Path kubelogin.zip -DestinationPath ./kubelogin
+    chmod +x ./kubelogin/bin/linux_amd64/kubelogin
     ./kubelogin/bin/linux_amd64/kubelogin --version
   displayName: Debug Files
   name: debugFiles
