@@ -170,6 +170,8 @@ steps:
     PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
 
 - task: Kubernetes@1
+  displayName: Kubectl Version
+  name: kubectlVersion
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscriptionEndpoint: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -193,6 +195,7 @@ steps:
     azureSubscription: ${{ parameters.serviceConnection }}
     azureResourceGroup: ${{ parameters.aksResourceGroup }}
     kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
     namespace: ${{ parameters.k8sNamespace }}
     command: 'upgrade'
     chartType: 'FilePath'
