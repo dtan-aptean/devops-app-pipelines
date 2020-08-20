@@ -175,9 +175,10 @@ steps:
     helmVersionToInstall: latest
 
 - pwsh: |
-    Write-Host ( Get-ChildItem ./comms-api-svc | Measure-Object ).Count;
+    wget https://github.com/Azure/kubelogin/releases/download/v0.0.4/kubelogin.zip
     Write-Host ""
-    get-content -Path ./deploy-values.yaml
+    Expand-Archive -Path kubelogin.zip -DestinationPath ./kubelogin
+    Write-Host ( Get-ChildItem ./kubelogin | Measure-Object ).Count;
   displayName: Debug Files
   name: debugFiles
   workingDirectory: $(System.DefaultWorkingDirectory)
