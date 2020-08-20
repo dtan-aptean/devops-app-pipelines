@@ -183,7 +183,8 @@ steps:
     arguments: '--short'
 
 - task: HelmInstaller@1
-  displayName: Helm installer
+  displayName: Helm Installer
+  name: helmInstaller
   inputs:
     helmVersionToInstall: latest
 
