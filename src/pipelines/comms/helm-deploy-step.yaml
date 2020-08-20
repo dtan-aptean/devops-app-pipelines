@@ -175,6 +175,7 @@ steps:
     azureSubscriptionEndpoint: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
     azureResourceGroup: 'rg-eastus-shr-apteank8s'
     kubernetesCluster: 'aks-eastus-shr-apteank8s'
+    useClusterAdmin: true
     namespace: 'comms-dev'
     command: 'version'
     arguments: '--short'
