@@ -189,7 +189,7 @@ steps:
     Test-Path ./kubelogin.zip
     Write-Host ""
     Expand-Archive -Path kubelogin.zip -DestinationPath ./kubelogin
-    Write-Host ( Get-ChildItem ./kubelogin | Measure-Object ).Count;
+    ./kubelogin/bin/linux_amd64/kubelogin --version
   displayName: Debug Files
   name: debugFiles
   workingDirectory: $(System.DefaultWorkingDirectory)
