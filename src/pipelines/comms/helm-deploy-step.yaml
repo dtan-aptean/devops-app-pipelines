@@ -1,4 +1,5 @@
 parameters:
+  serviceConnection: ''
   svcPrincipalClientId: ''
   svcPrincipalSecret: ''
   azureTenantId: ''
@@ -43,8 +44,6 @@ steps:
     $env:HELM_EXPERIMENTAL_OCI = 1
 
     az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
-    az aks get-credentials --name $env:AKS_NAME --resource-group $env:AKS_RG
-    kubectl config use-context $env:AKS_NAME
 
     $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
 
@@ -52,22 +51,14 @@ steps:
       --username $env:SP_CLIENT_ID `
       --password-stdin
 
-      Write-Host "CONTAINER_REGISTRY_NAME: $env:CONTAINER_REGISTRY_NAME"
-      Write-Host "CHART_REPOSITORY_NAME: $env:CHART_REPOSITORY_NAME"
-
     $latestHelmChart = az acr repository show-tags `
       --name $env:CONTAINER_REGISTRY_NAME `
       --repository $env:CHART_REPOSITORY_NAME `
       --top 1 `
       --orderby time_desc | ConvertFrom-Json
 
-    Write-Host "chart: $latestHelmChart"
-
-    Write-Host "IMAGE_REPOSITORY_NAME: $env:IMAGE_REPOSITORY_NAME"
-
     $latestTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
-
-    Write-Host "tag: $latestTag"
+    $imageRepository = "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CHART_NAME"
 
     Write-Host ""
     $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
@@ -78,56 +69,74 @@ steps:
     Write-Host ""
     helm chart export $fullChartName --destination .
 
-    Write-Host ""
-    $chartPath = "./$env:CHART_NAME"
-    $imageRepository = "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CHART_NAME"
-    helm upgrade $env:HELM_RELEASE_NAME `
-      --install $chartPath `
-      --namespace $env:K8S_NS `
-      --set image.repository=$imageRepository `
-      --set image.tag=$latestTag `
-      --set commonLabels.env=$env:ENV `
-      --set deployment.replicas=$env:REPLICAS `
-      --set config.pod.resources.limits.cpu=$env:RESOURCE_LIMITS_CPU `
-      --set config.pod.resources.limits.memory=$env:RESOURCE_LIMITS_MEMORY `
-      --set config.pod.resources.requests.cpu=$env:RESOURCE_REQUESTS_CPU `
-      --set config.pod.resources.requests.memory=$env:RESOURCE_REQUESTS_MEMORY `
-      --set kongIngress.route.headers."x\-azure\-fdid"[0]=$env:FRONT_DOOR_ID `
-      --set kongIngress.upstream.host_header=$env:KONG_INGRESS_UPSTREAM_HOST_HEADER `
-      --set ingress.annotations."kubernetes\.io/ingress\.class"=$env:KONG_INGRESS_CLASS `
-      --set config.cosmos.connectionString=$env:COSMOS_CONN_STRING `
-      --set config.cosmos.databaseName=$env:COSMOS_DATABASE `
-      --set config.cosmos.containerName=$env:COSMOS_CONTAINER `
-      --set config.serviceBus.connectionString=$env:SB_CONN_STRING `
-      --set config.serviceBus.smsRequestQueue=$env:SB_SMS_REQ_QUEUE `
-      --set config.serviceBus.emailRequestQueue=$env:SB_EMAIL_REQ_QUEUE `
-      --set config.serviceBus.eventsTopic=$env:SB_EVENTS_TOPIC `
-      --set config.serviceBus.platformEventsSubscription=$env:SB_PLATFORM_EVENTS_SUBSCRIPTION `
-      --set config.appInsights.instrumentationKey=$env:APP_INSIGHTS_INSTRUMENTATION_KEY `
-      --set config.b2c.clientId=$env:B2C_CLIENT_ID `
-      --set config.b2c.domainHost=$env:B2C_DOMAIN_HOST `
-      --set config.b2c.tenantId=$env:B2C_TENANT_ID `
-      --set config.b2c.policyName=$env:B2C_POLICY_NAME `
-      --set config.subsMgmt.apiKey=$env:SUBS_MGMT_API_KEY `
-      --set config.subsMgmt.grpcUrl=$env:SUBS_MGMT_GRPC_URL `
-      --set config.subsMgmt.serviceId=$env:SUBS_MGMT_SERVICE_ID `
-      --set config.smsFromPhoneNumber=$env:SMS_FROM_PHONE_NUMBER `
-      --set config.processPlatformEvents=$env:PROCESS_PLATFORM_EVENTS
+    @"
+    image:
+      repository: $imageRepository
+      tag: $latestTag
+
+    commonLabels:
+      env: $env:ENV
+
+    deployment:
+      replicas: $env:REPLICAS
+
+    pod:
+      resources:
+        limits:
+          cpu: $env:RESOURCE_LIMITS_CPU
+          memory: $env:RESOURCE_LIMITS_MEMORY
+        requests:
+          cpu: $env:RESOURCE_REQUESTS_CPU
+          memory: $env:RESOURCE_REQUESTS_MEMORY
+
+    kongIngress:
+      route:
+        headers:
+          x-azure-fdid:
+          - $env:FRONT_DOOR_ID
+      upstream:
+        host_header: $env:KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+    ingress:
+      annotations:
+        kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
+
+    config:
+      cosmos:
+        connectionString: "$env:COSMOS_CONN_STRING"
+        databaseName: "$env:COSMOS_DATABASE"
+        containerName: "$env:COSMOS_CONTAINER"
+      serviceBus:
+        connectionString: "$env:SB_CONN_STRING"
+        smsRequestQueue: "$env:SB_SMS_REQ_QUEUE"
+        emailRequestQueue: "$env:SB_EMAIL_REQ_QUEUE"
+        eventsTopic: "$env:SB_EVENTS_TOPIC"
+        platformEventsSubscription: "$env:SB_PLATFORM_EVENTS_SUBSCRIPTION"
+      appInsights:
+        instrumentationKey: "$env:APP_INSIGHTS_INSTRUMENTATION_KEY"
+      b2c:
+        clientId: "$env:B2C_CLIENT_ID"
+        domainHost: "$env:B2C_DOMAIN_HOST"
+        tenantId: "$env:B2C_TENANT_ID"
+        policyName: "$env:B2C_POLICY_NAME"
+      subsMgmt:
+        grpcUrl: "$env:SUBS_MGMT_GRPC_URL"
+        apiKey: "$env:SUBS_MGMT_API_KEY"
+        serviceId: "$env:SUBS_MGMT_SERVICE_ID"
+      smsFromPhoneNumber: "$env:SMS_FROM_PHONE_NUMBER"
+      processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
+    "@ | Out-File -FilePath .\deploy-values.yaml
 
     Write-Host ""
-    Write-Host "Helm deployment complete!"
-  displayName: helm upgrade --install
-  name: helmDeploy
+    Write-Host "Helm deploy prep complete!"
+  displayName: Prep Helm Deploy
+  name: prepHelmDeploy
   workingDirectory: $(System.DefaultWorkingDirectory)
   failOnStderr: true
   env:
     SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
     SP_SECRET: ${{ parameters.svcPrincipalSecret }}
     AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
-    AKS_NAME: ${{ parameters.aksName }}
-    AKS_RG: ${{ parameters.aksResourceGroup }}
-    HELM_RELEASE_NAME: ${{ parameters.helmReleaseName }}
-    K8S_NS: ${{ parameters.k8sNamespace }}
     CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
     IMAGE_REPOSITORY_NAME: ${{ parameters.imageRepositoryName }}
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
@@ -159,3 +168,16 @@ steps:
     SUBS_MGMT_API_KEY: ${{ parameters.subsMgmtApiKey }}
     SMS_FROM_PHONE_NUMBER: ${{ parameters.smsFromPhoneNumber }}
     PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
+
+- task: HelmDeploy@0
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'upgrade'
+    chartType: 'FilePath'
+    chartPath: ./${{ parameters.chartName }}
+    releaseName: ${{ parameters.helmReleaseName }}
+    valueFile: ./deploy-values.yaml
