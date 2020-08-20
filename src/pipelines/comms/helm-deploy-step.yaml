@@ -174,8 +174,19 @@ steps:
   inputs:
     helmVersionToInstall: latest
 
+- task: Bash@3
+  displayName: Download kubelogin
+  name: downloadKubelogin
+  inputs:
+    targetType: 'inline'
+    script: wget https://github.com/Azure/kubelogin/releases/download/v0.0.4/kubelogin.zip
+    workingDirectory: $(System.DefaultWorkingDirectory)
+    failOnStderr: false
+  env:
+    NOOP_PATH: $(Build.ArtifactStagingDirectory)/noop.txt
+
 - pwsh: |
-    wget https://github.com/Azure/kubelogin/releases/download/v0.0.4/kubelogin.zip
+    Test-Path ./kubelogin.zip
     Write-Host ""
     Expand-Archive -Path kubelogin.zip -DestinationPath ./kubelogin
     Write-Host ( Get-ChildItem ./kubelogin | Measure-Object ).Count;
