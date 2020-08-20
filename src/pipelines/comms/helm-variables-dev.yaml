@@ -29,3 +29,5 @@ variables:
   value: kong-dev
 - name: REPLICAS
   value: 1
+- name: AZURE_TENANT_ID
+  value: "560ec2b0-df0c-4e8c-9848-a15718863bb6"

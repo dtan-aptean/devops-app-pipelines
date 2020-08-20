@@ -1,6 +1,7 @@
 parameters:
   svcPrincipalClientId: ''
   svcPrincipalSecret: ''
+  azureTenantId: ''
   containerRegistryName: ''
   imageRepositoryName: ''
   chartRepositoryName: ''
@@ -38,6 +39,9 @@ parameters:
 steps:
 - pwsh: |
     $env:HELM_EXPERIMENTAL_OCI = 1
+
+    az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+
     $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
 
     $env:SP_SECRET | helm registry login $fullRegistryName `
@@ -104,6 +108,7 @@ steps:
   env:
     SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
     SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+    AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
     HELM_RELEASE_NAME: ${{ parameters.helmReleaseName }}
     K8S_NS: ${{ parameters.k8sNamespace }}
     CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
