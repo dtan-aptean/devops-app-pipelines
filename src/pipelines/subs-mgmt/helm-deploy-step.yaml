@@ -20,24 +20,6 @@ parameters:
   resourceLimitsMemory: ''
   resourceRequestsCpu: ''
   resourceRequestsMemory: ''
-  appInsightsKey: ''
-  cosmosConnString: ''
-  cosmosDatabase: ''
-  cosmosContainer: ''
-  serviceBusConnectionString: ''
-  sbSmsReqQueue: ''
-  sbEmailReqQueue: ''
-  sbEventsTopic: ''
-  sbPlatformEventsSubscription: ''
-  b2cClientId: ''
-  b2cDomainHost: ''
-  b2cTenantId: ''
-  b2cPolicyName: ''
-  subsMgmtGrpcUrl: ''
-  subsMgmtServiceId: ''
-  subsMgmtApiKey: ''
-  smsFromPhoneNumber: ''
-  processPlatformEvents: ''
 
 steps:
 - pwsh: |
@@ -101,30 +83,7 @@ steps:
       annotations:
         kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
 
-    config:
-      cosmos:
-        connectionString: "$env:COSMOS_CONN_STRING"
-        databaseName: "$env:COSMOS_DATABASE"
-        containerName: "$env:COSMOS_CONTAINER"
-      serviceBus:
-        connectionString: "$env:SB_CONN_STRING"
-        smsRequestQueue: "$env:SB_SMS_REQ_QUEUE"
-        emailRequestQueue: "$env:SB_EMAIL_REQ_QUEUE"
-        eventsTopic: "$env:SB_EVENTS_TOPIC"
-        platformEventsSubscription: "$env:SB_PLATFORM_EVENTS_SUBSCRIPTION"
-      appInsights:
-        instrumentationKey: "$env:APP_INSIGHTS_INSTRUMENTATION_KEY"
-      b2c:
-        clientId: "$env:B2C_CLIENT_ID"
-        domainHost: "$env:B2C_DOMAIN_HOST"
-        tenantId: "$env:B2C_TENANT_ID"
-        policyName: "$env:B2C_POLICY_NAME"
-      subsMgmt:
-        grpcUrl: "$env:SUBS_MGMT_GRPC_URL"
-        apiKey: "$env:SUBS_MGMT_API_KEY"
-        serviceId: "$env:SUBS_MGMT_SERVICE_ID"
-      smsFromPhoneNumber: "$env:SMS_FROM_PHONE_NUMBER"
-      processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
+    config: {}
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     Write-Host ""
@@ -150,24 +109,6 @@ steps:
     RESOURCE_LIMITS_MEMORY: ${{ parameters.resourceLimitsMemory }}
     RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
-    APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.appInsightsKey }}
-    COSMOS_CONN_STRING: ${{ parameters.cosmosConnString }}
-    COSMOS_DATABASE: ${{ parameters.cosmosDatabase }}
-    COSMOS_CONTAINER: ${{ parameters.cosmosContainer }}
-    SB_CONN_STRING: ${{ parameters.serviceBusConnectionString }}
-    SB_SMS_REQ_QUEUE: ${{ parameters.sbSmsReqQueue }}
-    SB_EMAIL_REQ_QUEUE: ${{ parameters.sbEmailReqQueue }}
-    SB_EVENTS_TOPIC: ${{ parameters.sbEventsTopic }}
-    SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.sbPlatformEventsSubscription }}
-    B2C_CLIENT_ID: ${{ parameters.b2cClientId }}
-    B2C_DOMAIN_HOST: ${{ parameters.b2cDomainHost }}
-    B2C_TENANT_ID: ${{ parameters.b2cTenantId }}
-    B2C_POLICY_NAME: ${{ parameters.b2cPolicyName }}
-    SUBS_MGMT_GRPC_URL: ${{ parameters.subsMgmtGrpcUrl }}
-    SUBS_MGMT_SERVICE_ID: ${{ parameters.subsMgmtServiceId }}
-    SUBS_MGMT_API_KEY: ${{ parameters.subsMgmtApiKey }}
-    SMS_FROM_PHONE_NUMBER: ${{ parameters.smsFromPhoneNumber }}
-    PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
