@@ -34,4 +34,5 @@ stages:
       inputs:
         command: build
         Dockerfile: ${{ parameters.dockerFilePath }}
+        arguments: '--target tests'
         addPipelineData: false
