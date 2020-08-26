@@ -1,0 +1,5 @@
+{
+    "appURI": "#{EZPAY_TOKEN_URL}#",
+    "email": "#{EZPAY_TOKEN_USER}#",
+    "password": "#{EZPAY_TOKEN_PASS}#"
+}

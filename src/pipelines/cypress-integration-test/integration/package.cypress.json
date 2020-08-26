@@ -1,0 +1,7 @@
+{ 
+  "name": "integration-tests", 
+  "version": "0.0.1", 
+  "scripts": { 
+    "cypress:verify": "cypress verify"  
+  } 
+}

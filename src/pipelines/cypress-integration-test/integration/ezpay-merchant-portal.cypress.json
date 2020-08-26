@@ -1,0 +1,13 @@
+{ 
+    "baseUrl": "#{EZPAY_MERCHANT_PORTAL_URL}#", 
+    "defaultCommandTimeout": 30000,
+    "chromeWebSecurity": false,
+    "env": { 
+        "api-svc-url": "#{EZPAY_API_URL}#", 
+        "authorization": "bearer --BEARER_TOKEN--", 
+        "x-aptean-apim": "#{X_APTEAN_APIM}#", 
+        "x-aptean-tenant": "#{X_APTEAN_TENANT}#", 
+        "x-ezpay": "#{X_EZPAY}#" 
+    }, 
+    "supportFile": "cypress/support/index.ts" 
+  }

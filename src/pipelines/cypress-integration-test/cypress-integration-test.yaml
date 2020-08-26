@@ -1,0 +1,101 @@
+pr: none
+trigger: none
+
+schedules:
+# Run every hour on the hour but only if code has changed.
+- cron: "0 */1 * * *"
+  displayName: Integration Tests
+  branches:
+    include:
+    - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: ezpay-integration-tests
+
+resources:
+  pipelines:
+  - pipeline: ezpay-api-svc-master-build
+    source: ezpay-api-svc-master-build
+  - pipeline: ezpay-payer-portal-master-build
+    source: ezpay-payer-portal-master-build
+  - pipeline: ezpay-merchant-portal-master-build
+    source: ezpay-merchant-portal-master-build    
+
+steps:
+  - script: |
+      mv $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/workdir
+    displayName: 'Copy Files'
+
+  - task: replacetokens@3
+    displayName: Replace tokens in ad-token-config.json
+    inputs:
+      rootDirectory: $(System.DefaultWorkingDirectory)/workdir
+      targetFiles: ad-token-config.json
+      encoding: auto
+      writeBOM: true
+      actionOnMissing: fail
+      keepToken: false
+      tokenPrefix: '#{'
+      tokenSuffix: '}#'
+
+  - script: |
+      npm install fs puppeteer util replace-in-file
+      node getADToken.js      
+    displayName: 'Get bearer token'
+    workingDirectory: $(System.DefaultWorkingDirectory)/workdir    
+
+  - script: docker build -t cypress-ts/included:5.0.0 $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test
+    displayName: 'Build Cypress docker image with typescript'
+
+  - template: ./templates/integration-test.yaml
+    parameters:
+      artifactPipeline: ezpay-api-svc-master-build
+      artifactName: ezpay-api-svc
+
+  - template: ./templates/integration-test.yaml
+    parameters:
+      artifactPipeline: ezpay-payer-portal-master-build
+      artifactName: ezpay-payer-portal
+
+  - template: ./templates/integration-tests-cypress.yaml
+    parameters:
+      artifactPipeline: ezpay-merchant-portal-master-build
+      artifactName: ezpay-merchant-portal
+
+  - task: replacetokens@3
+    displayName: Replace tokens in cleanUp-config.json
+    inputs:
+      rootDirectory: $(System.DefaultWorkingDirectory)/workdir
+      targetFiles: cleanUp-config.json
+      encoding: auto
+      writeBOM: true
+      actionOnMissing: fail
+      keepToken: false
+      tokenPrefix: '#{'
+      tokenSuffix: '}#'
+
+  - script: |
+      npm install crypto got
+      node cleanUp.js      
+    displayName: 'Clean up test data'
+    workingDirectory: $(System.DefaultWorkingDirectory)/workdir
+
+  - task: PublishBuildArtifacts@1
+    displayName: Publish build artifact
+    condition: succeededOrFailed()
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+      ArtifactName: results  
+
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFiles: '**/test-result-*.xml'
+      mergeTestResults: true
+      testRunTitle: 'Integration Test'
+      searchFolder: $(Pipeline.Workspace)
+      failTaskOnFailedTests: true
