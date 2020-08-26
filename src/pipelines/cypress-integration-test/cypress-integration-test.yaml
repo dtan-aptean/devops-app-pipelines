@@ -60,7 +60,7 @@ steps:
       artifactPipeline: ezpay-payer-portal-master-build
       artifactName: ezpay-payer-portal
 
-  - template: ./templates/integration-tests-cypress.yaml
+  - template: ./templates/integration-test.yaml
     parameters:
       artifactPipeline: ezpay-merchant-portal-master-build
       artifactName: ezpay-merchant-portal
