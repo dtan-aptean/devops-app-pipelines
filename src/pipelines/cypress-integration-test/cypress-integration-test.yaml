@@ -26,7 +26,7 @@ resources:
 
 steps:
   - script: |
-      mv $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/workdir
+      mv $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/workdir/
     displayName: 'Copy Files'
 
   - task: replacetokens@3
