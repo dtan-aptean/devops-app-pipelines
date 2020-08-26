@@ -26,13 +26,13 @@ resources:
 
 steps:
   - script: |
-      mv $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/workdir/
+      mv $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/src/
     displayName: 'Copy Files'
 
   - task: replacetokens@3
     displayName: Replace tokens in ad-token-config.json
     inputs:
-      rootDirectory: $(System.DefaultWorkingDirectory)/workdir
+      rootDirectory: $(System.DefaultWorkingDirectory)/src
       targetFiles: ad-token-config.json
       encoding: auto
       writeBOM: true
@@ -45,7 +45,7 @@ steps:
       npm install fs puppeteer util replace-in-file
       node getADToken.js      
     displayName: 'Get bearer token'
-    workingDirectory: $(System.DefaultWorkingDirectory)/workdir    
+    workingDirectory: $(System.DefaultWorkingDirectory)/src    
 
   - script: docker build -t cypress-ts/included:5.0.0 $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test
     displayName: 'Build Cypress docker image with typescript'
@@ -68,7 +68,7 @@ steps:
   - task: replacetokens@3
     displayName: Replace tokens in cleanUp-config.json
     inputs:
-      rootDirectory: $(System.DefaultWorkingDirectory)/workdir
+      rootDirectory: $(System.DefaultWorkingDirectory)/src
       targetFiles: cleanUp-config.json
       encoding: auto
       writeBOM: true
@@ -81,7 +81,7 @@ steps:
       npm install crypto got
       node cleanUp.js      
     displayName: 'Clean up test data'
-    workingDirectory: $(System.DefaultWorkingDirectory)/workdir
+    workingDirectory: $(System.DefaultWorkingDirectory)/src
 
   - task: PublishBuildArtifacts@1
     displayName: Publish build artifact

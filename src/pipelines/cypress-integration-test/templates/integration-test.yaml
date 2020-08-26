@@ -13,7 +13,7 @@ steps:
       Contents: '**'
       TargetFolder: $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress
 
-  - script: mv $(System.DefaultWorkingDirectory)/workdir/${{ parameters.artifactName }}.cypress.json $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress.json
+  - script: mv $(System.DefaultWorkingDirectory)/src/${{ parameters.artifactName }}.cypress.json $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress.json
     displayName: ${{ parameters.artifactName }} - Add cypress.json
 
   - task: replacetokens@3
@@ -28,7 +28,7 @@ steps:
       tokenPrefix: '#{'
       tokenSuffix: '}#'
 
-  - script: cp $(System.DefaultWorkingDirectory)/workdir/tsconfig.json $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress
+  - script: cp $(System.DefaultWorkingDirectory)/src/tsconfig.json $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress
     displayName: ${{ parameters.artifactName }} - Add tsconfig.json 
 
   - script: docker run -v $(Pipeline.Workspace)/${{ parameters.artifactName }}:/e2e -w /e2e cypress-ts/included:5.0.0 || true
