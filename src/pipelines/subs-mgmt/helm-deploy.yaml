@@ -120,8 +120,8 @@ stages:
               sbEventsTopic: $(SB_EVENTS_TOPIC)
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)    
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_COMMS_API_SVC_DATABASE)
-              cosmosContainer: $(COSMOSDB_COMMS_API_SVC_CONTAINER)                          
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                                                   
               apiKind: GRPC
 
 - stage: TST_GQL_API_Svc_Helm_Deploy
