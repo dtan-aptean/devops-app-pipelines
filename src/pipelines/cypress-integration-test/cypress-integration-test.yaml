@@ -57,10 +57,10 @@ steps:
       artifactPipeline: ezpay-payer-portal-master-build
       artifactName: ezpay-payer-portal
 
-  # - template: ./templates/integration-test.yaml
-  #   parameters:
-  #     artifactPipeline: ezpay-merchant-portal-master-build
-  #     artifactName: ezpay-merchant-portal
+  - template: ./templates/integration-test.yaml
+    parameters:
+      artifactPipeline: ezpay-merchant-portal-master-build
+      artifactName: ezpay-merchant-portal
 
   - task: replacetokens@3
     displayName: Replace tokens in cleanUp-config.json
