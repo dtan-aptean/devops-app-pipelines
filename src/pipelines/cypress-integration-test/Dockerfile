@@ -5,6 +5,6 @@ WORKDIR /src
 COPY ./cypress ./cypress
 COPY ./cypress.json ./cypress.json
 
-RUN npm install typescript
+RUN npm install typescript puppeteer
 
 ENTRYPOINT ["cypress", "run"] 
