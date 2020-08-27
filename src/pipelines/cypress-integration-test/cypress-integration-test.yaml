@@ -2,8 +2,8 @@ pr: none
 trigger: none
 
 schedules:
-# Run every hour on the hour but only if code has changed.
-- cron: "0 */1 * * *"
+# Run every day at 5 AM but only if code has changed.
+- cron: "0 5 * * *"
   displayName: Integration Tests
   branches:
     include:
