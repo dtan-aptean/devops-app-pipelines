@@ -1,9 +1,10 @@
 FROM cypress/included:5.0.0 as base
 
-COPY entrypoint.sh /entrypoint.sh
+WORKDIR /src
 
-RUN chmod +x /entrypoint.sh
+COPY ./cypress ./cypress
+COPY ./cypress.json ./cypress.json
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+RUN npm install typescript
 
-CMD ["cypress", "run"]
+ENTRYPOINT ["cypress", "run"] 

@@ -47,9 +47,6 @@ steps:
     displayName: 'Get bearer token'
     workingDirectory: $(System.DefaultWorkingDirectory)/src    
 
-  - script: docker build -t cypress-ts/included:5.0.0 $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test
-    displayName: 'Build Cypress docker image with typescript'
-
   - template: ./templates/integration-test.yaml
     parameters:
       artifactPipeline: ezpay-api-svc-master-build
@@ -60,10 +57,10 @@ steps:
       artifactPipeline: ezpay-payer-portal-master-build
       artifactName: ezpay-payer-portal
 
-  - template: ./templates/integration-test.yaml
-    parameters:
-      artifactPipeline: ezpay-merchant-portal-master-build
-      artifactName: ezpay-merchant-portal
+  # - template: ./templates/integration-test.yaml
+  #   parameters:
+  #     artifactPipeline: ezpay-merchant-portal-master-build
+  #     artifactName: ezpay-merchant-portal
 
   - task: replacetokens@3
     displayName: Replace tokens in cleanUp-config.json

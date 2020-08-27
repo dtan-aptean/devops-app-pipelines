@@ -31,8 +31,11 @@ steps:
   - script: cp $(System.DefaultWorkingDirectory)/src/tsconfig.json $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress
     displayName: ${{ parameters.artifactName }} - Add tsconfig.json 
 
-  - script: docker run -v $(Pipeline.Workspace)/${{ parameters.artifactName }}:/e2e -w /e2e cypress-ts/included:5.0.0 || true
-    displayName: ${{ parameters.artifactName }} - Run tests   
+  - script: docker build -t cypress-${{ parameters.artifactName }}:5.0.0 -f  $(System.DefaultWorkingDirectory)/src/Dockerfile $(Pipeline.Workspace)/${{ parameters.artifactName }} 
+    displayName: 'Build Cypress integraton test docker image'
+
+  - script: docker run -v $(Pipeline.Workspace)/${{ parameters.artifactName }}:/e2e cypress-${{ parameters.artifactName }}:5.0.0 || true
+    displayName: ${{ parameters.artifactName }} - Run test
     workingDirectory: $(Pipeline.Workspace)/${{ parameters.artifactName }}
 
   - task: ArchiveFiles@2
