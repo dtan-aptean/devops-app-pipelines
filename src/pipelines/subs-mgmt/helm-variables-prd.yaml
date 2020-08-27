@@ -11,6 +11,8 @@ variables:
   value: subs-mgmt-api-svc
 - name: HELM_RELEASE_NAME
   value: rel01
+- name: HELM_RELEASE_NAME_GRPC
+  value: rel01-grpc  
 - name: RESOURCE_LIMITS_CPU
   value: 50m
 - name: RESOURCE_LIMITS_MEMORY
