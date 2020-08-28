@@ -1,5 +1,34 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+This repository provides templated pipeline files suitable for building and publishing docker images from other repositories (in templates folder). 
+This repository also contains helm deployment pipeline files (src).
+
+For example the docker-build and docker-build-push yaml can be used within any repository like so:
+
+Point to the devops-app-pipelines repo.
+
+        resources:
+        repositories:
+        - repository: templates
+            type: git
+            name: devops-app-pipelines
+            ref: refs/heads/master
+
+Define a stage which uses the docker-build-push.yml template and pass in required variables. 
+
+        stages:
+        - template: src/templates/docker-build-push.yaml@templates
+        parameters:
+            majorVersionYear: $(MAJOR_VERSION_YEAR)
+            majorVersionMonth: $(MAJOR_VERSION_MONTH)
+            minorVersion: $(MINOR_VERSION)
+            fullVersion: $(FULL_VERSION)
+            friendlyName: $(FRIENDLY_NAME)
+            fullVersionFriendly: $(FULL_VERSION_FRIENDLY)
+            containerRegistry: $(containerRegistry)
+            containerRepository: $(containerRepository)
+            dockerFilePath: $(dockerFilePath)
+            protoSrcPath: $(protoSrcPath)
+            protoDestPath: $(protoDestPath)
 
 # Getting Started
 TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:

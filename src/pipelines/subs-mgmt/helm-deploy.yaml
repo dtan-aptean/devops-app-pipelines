@@ -44,7 +44,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -55,6 +55,18 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)         
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
+              apiKind: GQL
 
 - stage: DEV_GRPC_API_Svc_Helm_Deploy
   displayName: DEV - grpc api-svc Helm Deploy
@@ -88,7 +100,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -99,6 +111,18 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)    
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                                                   
+              apiKind: GRPC
 
 - stage: TST_GQL_API_Svc_Helm_Deploy
   displayName: TST - gql api-svc Helm Deploy
@@ -132,7 +156,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -143,6 +167,18 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION) 
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
+              apiKind: GQL
 
 - stage: TST_GRPC_API_Svc_Helm_Deploy
   displayName: TST - grpc api-svc Helm Deploy
@@ -176,7 +212,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -187,6 +223,18 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION) 
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
+              apiKind: GRPC
 
 - stage: STG_GQL_API_Svc_Helm_Deploy
   displayName: STG - gql api-svc Helm Deploy
@@ -220,7 +268,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -231,6 +279,18 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
+              apiKind: GQL
 
 - stage: STG_GRPC_API_Svc_Helm_Deploy
   displayName: STG - grpc api-svc Helm Deploy
@@ -264,7 +324,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -275,6 +335,18 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION) 
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
+              apiKind: GRPC
 
 - stage: PRD_GQL_API_Svc_Helm_Deploy
   displayName: PRD - gql api-svc Helm Deploy
@@ -308,7 +380,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -319,6 +391,18 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)      
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
+              apiKind: GQL
 
 - stage: PRD_GRPC_API_Svc_Helm_Deploy
   displayName: PRD - grpc api-svc Helm Deploy
@@ -352,7 +436,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -363,3 +447,15 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
+              apiKind: GRPC
