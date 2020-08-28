@@ -1,11 +1,5 @@
 variables:
 - group: docker-acr-principal-config
-- name: sharedAcrName
-  value: acreastusshrapteancr.azurecr.io
-- name: prodAcrName
-  value: acreastusprdapteancr.azurecr.io
-- name: tenantId
-  value: 560ec2b0-df0c-4e8c-9848-a15718863bb6
 
 stages:
 - stage: Build
@@ -20,14 +14,15 @@ stages:
     steps:
     - pwsh: |
         az login --service-principal -u $(SERVICE_PRINCIPAL_CLIENT_ID_SHR) -p $(SERVICE_PRINCIPAL_SECRET_SHR) --tenant $(tenantId)
-        $fullRegistryName = "acreastusshrapteancr.azurecr.io"
-        $latestTag = az acr repository show-tags --name acreastusshrapteancr --repository comms-api-svc --top 1 --orderby time_desc | ConvertFrom-Json
+        $fullRegistryName = "$(ACR_FULL_NAME_SHR)"
+        $latestTag = az acr repository show-tags --name $(ACR_SHORT_NAME_SHR) --repository comms-api-svc --top 1 --orderby time_desc | ConvertFrom-Json
         az logout    
+        docker login $(ACR_FULL_NAME_SHR) -u $(ACR_SHORT_NAME_SHR) -p $(ACR_USER_PASSWORD_SECRET_SHR)
+        docker pull $(ACR_FULL_NAME_SHR)/comms-api-svc:$latestTag
+        docker tag $(ACR_FULL_NAME_SHR)/comms-api-svc:$latestTag $(ACR_FULL_NAME_PRD)/comms-api-svc:$latestTag
+        docker login $(ACR_FULL_NAME_PRD) -u $(ACR_SHORT_NAME_PRD) -p $(ACR_USER_PASSWORD_SECRET_SHR)
+        docker push $(ACR_FULL_NAME_PRD)/comms-api-svc:$latestTag      
       displayName: Copy Docker Images
       name: copyImages
 
-        # docker login acreastusshrapteancr.azurecr.io -u acreastusshrapteancr -p [pwd here]
-        # docker pull acreastusshrapteancr.azurecr.io/comms-api-svc:$latestTag
-        # docker tag acreastusshrapteancr.azurecr.io/comms-api-svc:$latestTag acreastusprdapteancr.azurecr.io/comms-api-svc:$latestTag
-        # docker login acreastusprdapteancr.azurecr.io -u acreastusprdapteancr -p [pwd here]
-        # docker push acreastusprdapteancr.azurecr.io/comms-api-svc:$latestTag          
+    
