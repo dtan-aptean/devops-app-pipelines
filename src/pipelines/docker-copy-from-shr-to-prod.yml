@@ -1,0 +1,33 @@
+variables:
+- group: docker-acr-principal-config
+- name: sharedAcrName
+  value: acreastusshrapteancr.azurecr.io
+- name: prodAcrName
+  value: acreastusprdapteancr.azurecr.io
+- name: tenantId
+  value: 560ec2b0-df0c-4e8c-9848-a15718863bb6
+
+stages:
+- stage: Build
+  displayName: Fetch latest from shared ACR, retag and push to prod ACR.
+
+  jobs:
+  - job: Execute
+
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+    - pwsh: |
+        az login --service-principal -u $(SERVICE_PRINCIPAL_CLIENT_ID_SHR) -p $(SERVICE_PRINCIPAL_SECRET_SHR) --tenant $(tenantId)
+        $fullRegistryName = "acreastusshrapteancr.azurecr.io"
+        $latestTag = az acr repository show-tags --name acreastusshrapteancr --repository comms-api-svc --top 1 --orderby time_desc | ConvertFrom-Json
+        az logout    
+      displayName: Copy Docker Images
+      name: copyImages
+
+        # docker login acreastusshrapteancr.azurecr.io -u acreastusshrapteancr -p [pwd here]
+        # docker pull acreastusshrapteancr.azurecr.io/comms-api-svc:$latestTag
+        # docker tag acreastusshrapteancr.azurecr.io/comms-api-svc:$latestTag acreastusprdapteancr.azurecr.io/comms-api-svc:$latestTag
+        # docker login acreastusprdapteancr.azurecr.io -u acreastusprdapteancr -p [pwd here]
+        # docker push acreastusprdapteancr.azurecr.io/comms-api-svc:$latestTag          
