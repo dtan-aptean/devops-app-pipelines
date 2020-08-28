@@ -1,0 +1,5 @@
+{
+  "tenantId": "#{X_APTEAN_TENANT}#",
+  "cosmosDbUrl": "#{EZPAY_COSMOS_DB_URL}#",
+  "cosmosDbKey": "#{EZPAY_COSMOS_DB_KEY}#"
+}

@@ -1,0 +1,55 @@
+parameters:
+  artifactPipeline: ''
+  artifactName: ''
+
+steps:
+  - download: ${{ parameters.artifactPipeline }}
+    displayName: ${{ parameters.artifactName }} - Download test files
+
+  - task: CopyFiles@2
+    displayName: ${{ parameters.artifactName }} - Copy test files
+    inputs:
+      SourceFolder: $(Pipeline.Workspace)/${{ parameters.artifactPipeline }}/drop/integration/${{ parameters.artifactName }}
+      Contents: '**'
+      TargetFolder: $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress
+
+  - script: mv $(System.DefaultWorkingDirectory)/src/${{ parameters.artifactName }}.cypress.json $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress.json
+    displayName: ${{ parameters.artifactName }} - Add cypress.json
+
+  - task: replacetokens@3
+    displayName: ${{ parameters.artifactName }} - Replace tokens in cypress.json
+    inputs:
+      rootDirectory: $(Pipeline.Workspace)/${{ parameters.artifactName }}
+      targetFiles: cypress.json
+      encoding: auto
+      writeBOM: true
+      actionOnMissing: fail
+      keepToken: false
+      tokenPrefix: '#{'
+      tokenSuffix: '}#'
+
+  - script: cp $(System.DefaultWorkingDirectory)/src/tsconfig.json $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress
+    displayName: ${{ parameters.artifactName }} - Add tsconfig.json 
+
+  - script: docker build -t cypress-${{ parameters.artifactName }}:5.0.0 -f  $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test/Dockerfile $(Pipeline.Workspace)/${{ parameters.artifactName }} 
+    displayName: ${{ parameters.artifactName }} - Build integraton test docker image
+
+  - script: docker run -v $(Pipeline.Workspace)/${{ parameters.artifactName }}:/e2e cypress-${{ parameters.artifactName }}:5.0.0 || true
+    displayName: ${{ parameters.artifactName }} - Run test
+    workingDirectory: $(Pipeline.Workspace)/${{ parameters.artifactName }}
+
+  - task: ArchiveFiles@2
+    displayName: ${{ parameters.artifactName }} - Archive test output - screenshots
+    inputs:
+      rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress/screenshots
+      archiveType: zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/${{ parameters.artifactName }}.zip
+      replaceExistingArchive: true 
+
+  - task: ArchiveFiles@2
+    displayName: ${{ parameters.artifactName }} - Archive test output - videos
+    inputs:
+      rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress/videos
+      archiveType: zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/${{ parameters.artifactName }}.zip
+      replaceExistingArchive: true
