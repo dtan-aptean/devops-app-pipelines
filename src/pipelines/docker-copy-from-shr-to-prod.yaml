@@ -1,9 +1,8 @@
-variables:
-- group: docker-acr-principal-config
-
 stages:
 - stage: Build
   displayName: Fetch latest from shared ACR, retag and push to prod ACR.
+  variables:
+    - group: docker-acr-principal-config
 
   jobs:
   - job: Copy Docker Images
