@@ -3,7 +3,7 @@ parameters:
 
     steps:
     - pwsh: |
-        az login --service-principal -u $(SERVICE_PRINCIPAL_CLIENT_ID_SHR) -p $(SERVICE_PRINCIPAL_SECRET_SHR) --tenant $(tenantId)
+        az login --service-principal -u $(SERVICE_PRINCIPAL_CLIENT_ID_SHR) -p $(SERVICE_PRINCIPAL_SECRET_SHR) --tenant $(TENANT_ID)
         $fullRegistryName = "$(ACR_FULL_NAME_SHR)"
         $latestTag = az acr repository show-tags --name $(ACR_SHORT_NAME_SHR) --repository ${{ parameters.serviceName }} --top 1 --orderby time_desc | ConvertFrom-Json
         az logout
