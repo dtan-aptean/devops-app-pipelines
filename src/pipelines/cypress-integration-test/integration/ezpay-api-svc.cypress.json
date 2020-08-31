@@ -1,0 +1,15 @@
+{ 
+  "baseUrl": "#{EZPAY_API_URL}#", 
+  "env": { 
+    "authorization": "bearer --BEARER_TOKEN--", 
+    "x-aptean-apim": "#{X_APTEAN_APIM}#", 
+    "x-aptean-tenant": "#{X_APTEAN_TENANT}#", 
+    "x-ezpay": "#{X_EZPAY}#" 
+  }, 
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "/e2e/cypress/results/test-result-ezpay-api-svc-[hash].xml"
+  },
+  "videosFolder": "/e2e/cypress/videos",
+  "screenshotsFolder": "/e2e/cypress/screenshots" 
+}
