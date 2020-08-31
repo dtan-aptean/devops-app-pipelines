@@ -1,0 +1,190 @@
+parameters:
+  serviceConnection: ''
+  svcPrincipalClientId: ''
+  svcPrincipalSecret: ''
+  azureTenantId: ''
+  aksName: ''
+  aksResourceGroup: ''
+  containerRegistryName: ''
+  imageRepositoryName: ''
+  chartRepositoryName: ''
+  k8sNamespace: ''
+  helmReleaseName: ''
+  chartName: ''
+  env: ''
+  replicas: ''
+  frontDoorId: ''
+  kongIngressClass: ''
+  kongIngressUpstreamHostHeader: ''
+  resourceLimitsCpu: ''
+  resourceLimitsMemory: ''
+  resourceRequestsCpu: ''
+  resourceRequestsMemory: ''
+
+steps:
+- pwsh: |
+    $env:HELM_EXPERIMENTAL_OCI = 1
+
+    az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+
+    $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
+
+    $env:SP_SECRET | helm registry login $fullRegistryName `
+      --username $env:SP_CLIENT_ID `
+      --password-stdin
+
+    $latestHelmChart = az acr repository show-tags `
+      --name $env:CONTAINER_REGISTRY_NAME `
+      --repository $env:CHART_REPOSITORY_NAME `
+      --top 1 `
+      --orderby time_desc | ConvertFrom-Json
+
+    $latestTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    $imageRepository = "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CHART_NAME"
+
+    Write-Host ""
+    $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
+    Write-Host "fullChartName: $fullChartName"
+
+    helm chart pull $fullChartName
+
+    Write-Host ""
+    helm chart export $fullChartName --destination .
+
+    @"
+    image:
+      repository: $imageRepository
+      tag: $latestTag
+
+    commonLabels:
+      env: $env:ENV
+
+    deployment:
+      replicas: $env:REPLICAS
+
+    pod:
+      resources:
+        limits:
+          cpu: $env:RESOURCE_LIMITS_CPU
+          memory: $env:RESOURCE_LIMITS_MEMORY
+        requests:
+          cpu: $env:RESOURCE_REQUESTS_CPU
+          memory: $env:RESOURCE_REQUESTS_MEMORY
+
+    kongIngress:
+      route:
+        headers:
+          x-azure-fdid:
+          - $env:FRONT_DOOR_ID
+      upstream:
+        host_header: $env:KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+    ingress:
+      annotations:
+        kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
+
+    config:
+      cosmos:
+        connectionString: "$env:COSMOS_CONN_STRING"
+        databaseName: "$env:COSMOS_DATABASE"
+        containerName: "$env:COSMOS_CONTAINER"
+      serviceBus:
+        connectionString: "$env:SB_CONN_STRING"
+        eventTopicConnectionString: ""
+        eventsTopic: "$env:SB_EVENTS_TOPIC"
+        platformEventsSubscription: "$env:SB_PLATFORM_EVENTS_SUBSCRIPTION"
+      appInsights:
+        instrumentationKey: "$env:APP_INSIGHTS_INSTRUMENTATION_KEY"
+      b2c:
+        clientId: "$env:B2C_CLIENT_ID"
+        domainHost: "$env:B2C_DOMAIN_HOST"
+        tenantId: "$env:B2C_TENANT_ID"
+        policyName: "$env:B2C_POLICY_NAME"
+      subsMgmt:
+        grpcUrl: "$env:SUBS_MGMT_GRPC_URL"
+        apiKey: "$env:SUBS_MGMT_API_KEY"
+        serviceId: "$env:SUBS_MGMT_SERVICE_ID"
+      wepay:
+        grpcUrl: "wepay-integration-svc:4100"
+        apiVersion: "3.0"
+        appID: "596464"
+        appToken: ""
+      paymentsPlatformFromPhoneNumber: "(404) 383-9485"
+      paymentsPlatformFromEmail: "noreply@apteanpay.com"
+      processPlatformEvents: true
+      blobStorageUrl: "https://dev.merchant.apteanpay.com/"
+      defaultFeeSchedule: "fee-schedule.pdf"
+      encryptPayerUrlToken: true
+      encryptionKey: "5158cca196864b89a9a3505719882516"
+      ezpayTOSVersion: "1"
+      statementContainerName: "statements"
+      invoiceContainerName: "invoice-uploads"
+      invoiceBlobConnectionString: ""
+      urlShortenerUrl: "https://prod-51.eastus.logic.azure.com:443/workflows/1591229dd36845eebcb01480f5abffcd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CnBTUYbjpkyOwDzBERPQjLok5BqvVJoi5aWBlLnVOKQ"
+      merchantPortalUrl: "https://dev.merchant.apteanpay.com/"
+      payerPortalUrl: "https://dev.payer.apteanpay.com/"
+      productAPIsOnly: false
+
+    "@ | Out-File -FilePath ./deploy-values.yaml
+
+    Write-Host ""
+    Write-Host "Helm deploy prep complete!"
+  displayName: Prep Helm Deploy
+  name: prepHelmDeploy
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  failOnStderr: true
+  env:
+    SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
+    SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+    AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
+    CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
+    IMAGE_REPOSITORY_NAME: ${{ parameters.imageRepositoryName }}
+    CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
+    CHART_NAME: ${{ parameters.chartName }}
+    ENV: ${{ parameters.env }}
+    REPLICAS: ${{ parameters.replicas }}
+    FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
+    KONG_INGRESS_CLASS: ${{ parameters.kongIngressClass }}
+    KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.kongIngressUpstreamHostHeader }}
+    RESOURCE_LIMITS_CPU: ${{ parameters.resourceLimitsCpu }}
+    RESOURCE_LIMITS_MEMORY: ${{ parameters.resourceLimitsMemory }}
+    RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
+    RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
+
+- task: Kubernetes@1
+  displayName: Kubectl Version
+  name: kubectlVersion
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'version'
+    arguments: '--short'
+
+- task: HelmInstaller@1
+  displayName: Helm Installer
+  name: helmInstaller
+  inputs:
+    helmVersionToInstall: latest
+
+- task: HelmDeploy@0
+  displayName: Helm Deploy
+  name: helmDeploy
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'upgrade'
+    chartType: 'FilePath'
+    chartPath: ./${{ parameters.chartName }}
+    releaseName: ${{ parameters.helmReleaseName }}
+    valueFile: ./deploy-values.yaml
+    install: true
+    waitForExecution: false
+    failOnStderr: false
