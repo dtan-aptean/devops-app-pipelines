@@ -5,7 +5,7 @@ stages:
     - group: docker-acr-principal-config
 
   jobs:
-  - job: Copy Docker Images
+  - job: CopyDockerImages
 
     pool:
       vmImage: ubuntu-latest
