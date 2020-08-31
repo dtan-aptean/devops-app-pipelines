@@ -1,0 +1,21 @@
+variables:
+- group: docker-acr-principal-config
+
+stages:
+- stage: Build
+  displayName: Fetch latest from shared ACR, retag and push to prod ACR.
+
+  jobs:
+  - job: Copy Docker Images
+
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+      - template: templates\docker-copy-image-to-prod.yml
+        parameters:
+          serviceName: comms-api-svc
+
+      - template: templates\docker-copy-image-to-prod.yml
+        parameters:
+          serviceName: subs-mgmt-api-svc
