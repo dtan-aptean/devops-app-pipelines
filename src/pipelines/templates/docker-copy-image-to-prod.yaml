@@ -11,6 +11,6 @@ steps:
       docker pull $(ACR_FULL_NAME_SHR)/${{ parameters.serviceName }}:$latestTag
       docker tag $(ACR_FULL_NAME_SHR)/${{ parameters.serviceName }}:$latestTag $(ACR_FULL_NAME_PRD)/${{ parameters.serviceName }}:$latestTag
       docker logout
-      docker login $(ACR_FULL_NAME_PRD) -u $(ACR_USER_NAME_PRD) -p $(ACR_USER_PASSWORD_SECRET_SHR)
+      docker login $(ACR_FULL_NAME_PRD) -u $(ACR_USER_NAME_PRD) -p $(ACR_USER_PASSWORD_SECRET_PRD)
       docker push $(ACR_FULL_NAME_PRD)/${{ parameters.serviceName }}:$latestTag      
     displayName: Copy Docker Image for ${{ parameters.serviceName }} Service
