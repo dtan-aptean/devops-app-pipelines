@@ -12,10 +12,10 @@ stages:
       vmImage: ubuntu-latest
 
     steps:
-      - template: templates\docker-copy-image-to-prod.yml
+      - template: templates\docker-copy-image-to-prod.yaml
         parameters:
           serviceName: comms-api-svc
 
-      - template: templates\docker-copy-image-to-prod.yml
+      - template: templates\docker-copy-image-to-prod.yaml
         parameters:
           serviceName: subs-mgmt-api-svc
