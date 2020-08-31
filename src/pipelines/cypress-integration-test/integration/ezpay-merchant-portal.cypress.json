@@ -1,19 +1,26 @@
 { 
-    "baseUrl": "#{EZPAY_MERCHANT_PORTAL_URL}#", 
-    "defaultCommandTimeout": 30000,
-    "chromeWebSecurity": false,
-    "env": { 
-        "api-svc-url": "#{EZPAY_API_URL}#", 
-        "authorization": "bearer --BEARER_TOKEN--", 
-        "x-aptean-apim": "#{X_APTEAN_APIM}#", 
-        "x-aptean-tenant": "#{X_APTEAN_TENANT}#", 
-        "x-ezpay": "#{X_EZPAY}#" 
-    }, 
-    "supportFile": "cypress/support/index.ts",
-    "reporter": "junit",
-    "reporterOptions": {
-      "mochaFile": "/e2e/cypress/results/test-result-ezpay-merchant-portal-[hash].xml"
-    },
-    "videosFolder": "/e2e/cypress/videos",
-    "screenshotsFolder": "/e2e/cypress/screenshots"    
-  }
+  "baseUrl": "#{EZPAY_MERCHANT_PORTAL_URL}#", 
+  "defaultCommandTimeout": 30000,
+  "chromeWebSecurity": false,
+  "clientId": "#{MSAL_CLIENTID}#",
+  "username": "#{EZPAY_TOKEN_USER}#",
+  "password": "#{EZPAY_TOKEN_PASS}#",
+  "authority": "#{MSAL_AUTHORITY}#",
+  "scopes": "#{READ_SCOPE}# #{WRITE_SCOPE}#",
+  "homeAccountIdentifier": "#{HOME_ACCOUNT_IDENTIFIER}#",    
+  "env": { 
+    "api-svc-url": "#{EZPAY_API_URL}#", 
+    "authorization": "bearer --BEARER_TOKEN--", 
+    "x-aptean-apim": "#{X_APTEAN_APIM}#", 
+    "x-aptean-tenant": "#{X_APTEAN_TENANT}#", 
+    "x-ezpay": "#{X_EZPAY}#",
+    "x-ezpay-pmt": "#{X_EZPAY_PMT}#"
+  }, 
+  "supportFile": "cypress/support/index.ts",
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "/e2e/cypress/results/test-result-ezpay-merchant-portal-[hash].xml"
+  },
+  "videosFolder": "/e2e/cypress/videos",
+  "screenshotsFolder": "/e2e/cypress/screenshots"    
+}
