@@ -18,3 +18,11 @@ stages:
       - template: templates\docker-copy-image-to-prod.yaml
         parameters:
           serviceName: subs-mgmt-api-svc
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ecomm-sf
+          
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-api-svc          
