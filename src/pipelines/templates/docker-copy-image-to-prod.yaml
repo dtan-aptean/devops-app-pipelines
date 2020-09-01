@@ -1,16 +1,23 @@
 parameters:
   serviceName: ''
+  svcPrincipalSecret: ''
+  acrSecretShr: ''
+  acrSecretPrd: ''
 
 steps:
   - pwsh: |
-      az login --service-principal -u $(SERVICE_PRINCIPAL_CLIENT_ID_SHR) -p $(SERVICE_PRINCIPAL_SECRET_SHR) --tenant $(TENANT_ID)
+      $SP_SECRET | az login --service-principal -u $(SERVICE_PRINCIPAL_CLIENT_ID_SHR) --password-stdin --tenant $(TENANT_ID)
       $fullRegistryName = "$(ACR_FULL_NAME_SHR)"
       $latestTag = az acr repository show-tags --name $(ACR_SHORT_NAME_SHR) --repository ${{ parameters.serviceName }} --top 1 --orderby time_desc | ConvertFrom-Json
       az logout
-      docker login $(ACR_FULL_NAME_SHR) -u $(ACR_USER_NAME_SHR) -p $(ACR_USER_PASSWORD_SECRET_SHR)
+      $ACR_SECRET_SHR | docker login $(ACR_FULL_NAME_SHR) -u $(ACR_USER_NAME_SHR) --password-stdin
       docker pull $(ACR_FULL_NAME_SHR)/${{ parameters.serviceName }}:$latestTag
       docker tag $(ACR_FULL_NAME_SHR)/${{ parameters.serviceName }}:$latestTag $(ACR_FULL_NAME_PRD)/${{ parameters.serviceName }}:$latestTag
       docker logout
-      docker login $(ACR_FULL_NAME_PRD) -u $(ACR_USER_NAME_PRD) -p $(ACR_USER_PASSWORD_SECRET_PRD)
+      $ACR_SECRET_PRD | docker login $(ACR_FULL_NAME_PRD) -u $(ACR_USER_NAME_PRD) --password-stdin
       docker push $(ACR_FULL_NAME_PRD)/${{ parameters.serviceName }}:$latestTag      
     displayName: Copy Docker Image for ${{ parameters.serviceName }} Service
+    env:
+      SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+      ACR_SECRET_SHR: ${{ parameters.acrSecretShr }}
+      ACR_SECRET_PRD: ${{ parameters.acrSecretPrd }}
