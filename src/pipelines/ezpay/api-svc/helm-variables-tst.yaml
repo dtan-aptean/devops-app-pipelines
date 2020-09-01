@@ -1,6 +1,6 @@
 variables:
 - name: K8S_NAMESPACE
-  value: ezpay-dev
+  value: ezpay-tst
 - name: CHART_NAME
   value: ezpay-api-svc
 - name: CONTAINER_REGISTRY_NAME

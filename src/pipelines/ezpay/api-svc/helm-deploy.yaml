@@ -19,7 +19,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-api-svc-dev
+    environment: ezpay-dev
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -95,7 +95,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-api-svc-tst
+    environment: ezpay-tst
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -171,7 +171,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-api-svc-stg
+    environment: ezpay-stg
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -247,7 +247,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-api-svc-prd
+    environment: ezpay-prd
 
     pool:
       vmImage: 'ubuntu-latest'
