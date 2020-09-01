@@ -60,7 +60,13 @@ stages:
               platformName: $(PLATFORM_NAME)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              payerPortalUrl: $(PAYER_PORTAL_URL)              
+              payerPortalUrl: $(PAYER_PORTAL_URL)            
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_DATABASE)
+              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                
 
 - stage: TST_Email_Notification_Svc_Helm_Deploy
   displayName: TST - Ezpay Email Notifications SVC Helm Deploy
@@ -110,7 +116,13 @@ stages:
               platformName: $(PLATFORM_NAME)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              payerPortalUrl: $(PAYER_PORTAL_URL)     
+              payerPortalUrl: $(PAYER_PORTAL_URL)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_DATABASE)
+              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                
 
 - stage: STG_Email_Notification_Svc_Helm_Deploy
   displayName: STG - Ezpay Email Notifications SVC Helm Deploy
@@ -160,7 +172,13 @@ stages:
               platformName: $(PLATFORM_NAME)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              payerPortalUrl: $(PAYER_PORTAL_URL)          
+              payerPortalUrl: $(PAYER_PORTAL_URL)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_DATABASE)
+              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                        
 
 - stage: PRD_Email_Notification_Svc_Helm_Deploy
   displayName: PRD - Ezpay Email Notifications SVC Helm Deploy
@@ -211,3 +229,9 @@ stages:
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
               payerPortalUrl: $(PAYER_PORTAL_URL)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_DATABASE)
+              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                

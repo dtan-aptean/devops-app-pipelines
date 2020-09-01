@@ -26,6 +26,12 @@ parameters:
   processPlatformEvents: ''
   merchantPortalUrl: ''
   payerPortalUrl: ''
+  sbPlatformEventsSubscription: ''
+  serviceBusConnectionString: ''
+  sbEventsTopic: ''
+  cosmosConnString: ''
+  cosmosDatabase: ''
+  cosmosContainer: ''
 
 steps:
 - pwsh: |
