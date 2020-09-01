@@ -12,21 +12,21 @@ variables:
 - name: HELM_RELEASE_NAME
   value: rel01
 - name: RESOURCE_LIMITS_CPU
-  value: 200m
+  value: 750m
 - name: RESOURCE_LIMITS_MEMORY
-  value: 256Mi
+  value: 1Gi
 - name: RESOURCE_REQUESTS_CPU
-  value: 10m
+  value: 50m
 - name: RESOURCE_REQUESTS_MEMORY
-  value: 10Mi
+  value: 64Mi
 - name: ENV
-  value: DEV
+  value: STG
 - name: FRONT_DOOR_ID
-  value: "ee747644-4fcd-4532-9270-2598f7e3fa5f"
+  value: "b5c7259a-7799-4b08-b2d1-f7ee36186be2"
 - name: KONG_INGRESS_UPSTREAM_HEADER
-  value: ezpay-api-svc.ezpay-dev.svc
+  value: ezpay-api-svc.ezpay-hfx.svc
 - name: KONG_INGRESS_CLASS
-  value: kong-dev
+  value: kong-hfx
 - name: REPLICAS
   value: 1
 - name: AZURE_TENANT_ID

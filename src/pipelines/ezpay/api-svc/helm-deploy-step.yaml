@@ -20,6 +20,38 @@ parameters:
   resourceLimitsMemory: ''
   resourceRequestsCpu: ''
   resourceRequestsMemory: ''
+  appInsightsKey: ''
+  cosmosConnString: ''
+  cosmosDatabase: ''
+  cosmosContainer: ''
+  serviceBusConnectionString: ''
+  sbEventsTopic: ''
+  sbPlatformEventsSubscription: ''
+  sbPlatformEventsTopicConnectionString: ''
+  b2cClientId: ''
+  b2cDomainHost: ''
+  b2cTenantId: ''
+  b2cPolicyName: ''
+  subsMgmtGrpcUrl: ''
+  subsMgmtServiceId: ''
+  subsMgmtApiKey: ''  
+  wepayGrpcUrl: ''
+  wepayApiVersion: ''
+  wepayAppId: ''
+  wepayAppToken: ''
+  paymentsFromPhoneNumber: ''
+  paymentsFromEmail: ''
+  processPlatformEvents: ''
+  blobStorageUrl: ''
+  encryptPayerUrlToken: ''
+  encryptionKey: ''
+  ezpayTosVersion: ''
+  statementsContainerName: ''
+  invoiceContainerName: ''
+  invoiceBlobConnectionString: ''
+  urlShortenerUrl: ''
+  payerPortalUrl: ''
+  productApisOnly: ''  
 
 steps:
 - pwsh: |
@@ -90,7 +122,7 @@ steps:
         containerName: "$env:COSMOS_CONTAINER"
       serviceBus:
         connectionString: "$env:SB_CONN_STRING"
-        eventTopicConnectionString: ""
+        eventTopicConnectionString: "$env:SB_PLATFORM_EVENTS_TOPIC_CONN_STRING"
         eventsTopic: "$env:SB_EVENTS_TOPIC"
         platformEventsSubscription: "$env:SB_PLATFORM_EVENTS_SUBSCRIPTION"
       appInsights:
@@ -105,25 +137,24 @@ steps:
         apiKey: "$env:SUBS_MGMT_API_KEY"
         serviceId: "$env:SUBS_MGMT_SERVICE_ID"
       wepay:
-        grpcUrl: "wepay-integration-svc:4100"
-        apiVersion: "3.0"
-        appID: "596464"
-        appToken: ""
-      paymentsPlatformFromPhoneNumber: "(404) 383-9485"
-      paymentsPlatformFromEmail: "noreply@apteanpay.com"
-      processPlatformEvents: true
-      blobStorageUrl: "https://dev.merchant.apteanpay.com/"
-      defaultFeeSchedule: "fee-schedule.pdf"
-      encryptPayerUrlToken: true
-      encryptionKey: "5158cca196864b89a9a3505719882516"
-      ezpayTOSVersion: "1"
-      statementContainerName: "statements"
-      invoiceContainerName: "invoice-uploads"
-      invoiceBlobConnectionString: ""
-      urlShortenerUrl: "https://prod-51.eastus.logic.azure.com:443/workflows/1591229dd36845eebcb01480f5abffcd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CnBTUYbjpkyOwDzBERPQjLok5BqvVJoi5aWBlLnVOKQ"
-      merchantPortalUrl: "https://dev.merchant.apteanpay.com/"
-      payerPortalUrl: "https://dev.payer.apteanpay.com/"
-      productAPIsOnly: false
+        grpcUrl: "$env:WEPAY_GRPC_URL"
+        apiVersion: "$env:WEPAY_API_VERSION"
+        appID: "$env:WEPAY_APP_ID"
+        appToken: "$env:WEPAY_APP_TOKEN"
+      paymentsPlatformFromPhoneNumber: "$env:PAYMENTS_PLATFORM_FROM_PHONE_NUMBER"
+      paymentsPlatformFromEmail: "$env:PAYMENTS_PLATFORM_FROM_EMAIL"
+      processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
+      blobStorageUrl: "$env:BLOB_STORAGE_URL"
+      encryptPayerUrlToken: $env:ENCRYPT_PAYER_URL_TOKEN
+      encryptionKey: "$env:ENCRYPTION_KEY"
+      ezpayTOSVersion: "$env:EZPAY_TOS_VERSION"
+      statementContainerName: "$env:STATEMENTS_CONTAINER_NAME"
+      invoiceContainerName: "$env:INVOICE_CONTAINER_NAME"
+      invoiceBlobConnectionString: "$env:INVOICE_BLOB_CONNECTION_STRING"
+      urlShortenerUrl: "$env:LOGIC_APP_URL_SHORTENER_URL"
+      merchantPortalUrl: "$env:BLOB_STORAGE_URL"
+      payerPortalUrl: "$env:PAYER_PORTAL_BASE_URL"
+      productAPIsOnly: $env:PRODUCT_APIS_ONLY
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -150,6 +181,38 @@ steps:
     RESOURCE_LIMITS_MEMORY: ${{ parameters.resourceLimitsMemory }}
     RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
+    APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.appInsightsKey }}
+    COSMOS_CONN_STRING: ${{ parameters.cosmosConnString }}
+    COSMOS_DATABASE: ${{ parameters.cosmosDatabase }}
+    COSMOS_CONTAINER: ${{ parameters.cosmosContainer }}
+    SB_CONN_STRING: ${{ parameters.serviceBusConnectionString }} 
+    SB_EVENTS_TOPIC: ${{ parameters.sbEventsTopic }}
+    SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.sbPlatformEventsSubscription }}    
+    SB_PLATFORM_EVENTS_TOPIC_CONN_STRING: ${{ parameters.sbPlatformEventsTopicConnectionString }}
+    B2C_CLIENT_ID: ${{ parameters.b2cClientId }}
+    B2C_DOMAIN_HOST: ${{ parameters.b2cDomainHost }}
+    B2C_TENANT_ID: ${{ parameters.b2cTenantId }}
+    B2C_POLICY_NAME: ${{ parameters.b2cPolicyName }}
+    SUBS_MGMT_GRPC_URL: ${{ parameters.subsMgmtGrpcUrl }}
+    SUBS_MGMT_SERVICE_ID: ${{ parameters.subsMgmtServiceId }}
+    SUBS_MGMT_API_KEY: ${{ parameters.subsMgmtApiKey }}
+    WEPAY_GRPC_URL: ${{ parameters.wepayGrpcUrl }}
+    WEPAY_API_VERSION: ${{ parameters.wepayApiVersion }}
+    WEPAY_APP_ID: ${{ parameters.wepayAppId }}
+    WEPAY_APP_TOKEN: ${{ parameters.wepayAppToken }}
+    PAYMENTS_PLATFORM_FROM_PHONE_NUMBER: ${{ parameters.paymentsFromPhoneNumber }}
+    PAYMENTS_PLATFORM_FROM_EMAIL: ${{ parameters.paymentsFromEmail }}
+    PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
+    BLOB_STORAGE_URL: ${{ parameters.blobStorageUrl }}
+    ENCRYPT_PAYER_URL_TOKEN: ${{ parameters.encryptPayerUrlToken }}
+    ENCRYPTION_KEY: ${{ parameters.encryptionKey }}
+    EZPAY_TOS_VERSION: ${{ parameters.ezpayTosVersion }}
+    STATEMENTS_CONTAINER_NAME: ${{ parameters.statementsContainerName }}
+    INVOICE_CONTAINER_NAME: ${{ parameters.invoiceContainerName }}
+    INVOICE_BLOB_CONNECTION_STRING: ${{ parameters.invoiceBlobConnectionString }}
+    LOGIC_APP_URL_SHORTENER_URL: ${{ parameters.urlShortenerUrl }}
+    PAYER_PORTAL_BASE_URL: ${{ parameters.payerPortalUrl }}
+    PRODUCT_APIS_ONLY: ${{ parameters.productApisOnly }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

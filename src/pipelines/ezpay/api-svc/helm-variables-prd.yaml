@@ -12,13 +12,13 @@ variables:
 - name: HELM_RELEASE_NAME
   value: rel01
 - name: RESOURCE_LIMITS_CPU
-  value: 50m
+  value: 500m
 - name: RESOURCE_LIMITS_MEMORY
-  value: 64Mi
+  value: 1Gi
 - name: RESOURCE_REQUESTS_CPU
-  value: 10m
+  value: 50m
 - name: RESOURCE_REQUESTS_MEMORY
-  value: 10Mi
+  value: 64Mi
 - name: ENV
   value: PRD
 - name: FRONT_DOOR_ID
