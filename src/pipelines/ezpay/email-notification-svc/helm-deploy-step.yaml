@@ -133,7 +133,7 @@ steps:
     SB_CONN_STRING: ${{ parameters.serviceBusConnectionString }} 
     SB_EVENTS_TOPIC: ${{ parameters.sbEventsTopic }}
     SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.sbPlatformEventsSubscription }}    
-    WEPAY_GRPC_URL B2C_POLICY_NAME: ${{ parameters.wepayGrpcUrl }}
+    WEPAY_GRPC_URL: ${{ parameters.wepayGrpcUrl }}
     BROADCAST_PLATFORM_EVENTS: ${{ parameters.broadcastPlatformEvents }}
     EMAIL_TEMPLATE_LOGO_URL: ${{ parameters.emailTemplateLogoUrl }}
     PLATFORM_EMAIL: ${{ parameters.platformEmail }}
