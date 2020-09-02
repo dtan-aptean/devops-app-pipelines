@@ -1,0 +1,43 @@
+# Manual Execution Only
+trigger: none
+
+stages:
+- stage: Build
+  displayName: Fetch latest from shared ACR, retag and push to prod ACR.
+  variables:
+    - group: docker-acr-principal-config
+
+  jobs:
+  - job: CopyDockerImages
+
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: comms-api-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)                    
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: subs-mgmt-api-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)  
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ecomm-sf
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)            
+          
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-api-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)                      
