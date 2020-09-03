@@ -20,7 +20,7 @@ variables:
 - name: RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: ENV
-  value: STG
+  value: HFX
 - name: REPLICAS
   value: 1
 - name: AZURE_TENANT_ID
