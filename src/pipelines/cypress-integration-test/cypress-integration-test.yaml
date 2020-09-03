@@ -19,8 +19,7 @@ resources:
   repositories:
   - repository: testing-e2e
     type: git
-    name: testing-e2e
-    ref: CentralizeCypressCode    
+    name: testing-e2e    
 
 stages:
   - stage: Init
