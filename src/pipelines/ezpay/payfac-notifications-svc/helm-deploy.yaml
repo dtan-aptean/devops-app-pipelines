@@ -2,8 +2,8 @@ trigger: none
 
 resources:
   pipelines:
-  - pipeline: ezpay-email-notifications-docker-build-push
-    source: ezpay-email-notifications-docker-build-push
+  - pipeline: ezpay-payfac-notifications-docker-build-push
+    source: ezpay-payfac-notifications-docker-build-push
     trigger:
       branches:
         include:
@@ -13,8 +13,8 @@ variables:
 - group: helm-chart-svc-principal-config
 
 stages:
-- stage: DEV_Email_Notification_Svc_Helm_Deploy
-  displayName: DEV - Ezpay Email Notifications SVC Helm Deploy
+- stage: DEV_Payfac_Notifications_Svc_Helm_Deploy
+  displayName: DEV - Ezpay Payfac Notifications SVC Helm Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -25,7 +25,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-email-notification-svc-dev
+    - group: ezpay-payfac-notifications-svc-dev
     - template: helm-variables-dev.yaml
 
     strategy:
@@ -54,23 +54,24 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
               wepayGrpcUrl: $(GRPC_URL_WEPAY_INTEGRATION)
+              wepayBaseUrl: $(WEPAY_BASE_URL)
+              wepayApiVersion: $(WEPAY_API_VERSION)
+              wepayAppId: $(WEPAY_APP_ID)
+              wepayAppToken: $(WEPAY_APP_TOKEN)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
-              emailTemplateLogoUrl: $(EMAIL_TEMPLATE_LOGO_URL)
-              platformEmail: $(PLATFORM_EMAIL)
-              platformName: $(PLATFORM_NAME)
+              ezpayWebHookUrl: $(EZPAY_WEBHOOK_URL)
+              eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
-              merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              payerPortalUrl: $(PAYER_PORTAL_URL)            
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                
+              processNotificationEvents: $(PROCESS_NOTIFICATION_EVENTS)
+              serviceBusConnectionString: $(SB_CONN_STRING)   
+              payfacTopicConnectionString: $(SB_PAYFAC_NOTIFICATIONS_TOPIC_CONN_STRING)
+              platformEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
+              payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
+              payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)
 
-- stage: TST_Email_Notification_Svc_Helm_Deploy
-  displayName: TST - Ezpay Email Notifications SVC Helm Deploy
-  dependsOn: DEV_Email_Notification_Svc_Helm_Deploy
+- stage: TST_Payfac_Notifications_Svc_Helm_Deploy
+  displayName: TST - Ezpay Payfac Notifications SVC Helm Deploy
+  dependsOn: DEV_Payfac_Notifications_Svc_Helm_Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -81,7 +82,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-email-notification-svc-tst
+    - group: ezpay-payfac-notifications-svc-tst
     - template: helm-variables-tst.yaml
 
     strategy:
@@ -110,23 +111,24 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
               wepayGrpcUrl: $(GRPC_URL_WEPAY_INTEGRATION)
+              wepayBaseUrl: $(WEPAY_BASE_URL)
+              wepayApiVersion: $(WEPAY_API_VERSION)
+              wepayAppId: $(WEPAY_APP_ID)
+              wepayAppToken: $(WEPAY_APP_TOKEN)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
-              emailTemplateLogoUrl: $(EMAIL_TEMPLATE_LOGO_URL)
-              platformEmail: $(PLATFORM_EMAIL)
-              platformName: $(PLATFORM_NAME)
+              ezpayWebHookUrl: $(EZPAY_WEBHOOK_URL)
+              eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
-              merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              payerPortalUrl: $(PAYER_PORTAL_URL)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                
+              processNotificationEvents: $(PROCESS_NOTIFICATION_EVENTS)
+              serviceBusConnectionString: $(SB_CONN_STRING)   
+              payfacTopicConnectionString: $(SB_PAYFAC_NOTIFICATIONS_TOPIC_CONN_STRING)
+              platformEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
+              payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
+              payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)         
 
-- stage: STG_Email_Notification_Svc_Helm_Deploy
-  displayName: STG - Ezpay Email Notifications SVC Helm Deploy
-  dependsOn: TST_Email_Notification_Svc_Helm_Deploy
+- stage: STG_Payfac_Notifications_Svc_Helm_Deploy
+  displayName: STG - Ezpay Payfac Notifications SVC Helm Deploy
+  dependsOn: TST_Payfac_Notifications_Svc_Helm_Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -137,7 +139,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-email-notification-svc-stg
+    - group: ezpay-payfac-notifications-svc-stg
     - template: helm-variables-stg.yaml
 
     strategy:
@@ -166,23 +168,24 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
               wepayGrpcUrl: $(GRPC_URL_WEPAY_INTEGRATION)
+              wepayBaseUrl: $(WEPAY_BASE_URL)
+              wepayApiVersion: $(WEPAY_API_VERSION)
+              wepayAppId: $(WEPAY_APP_ID)
+              wepayAppToken: $(WEPAY_APP_TOKEN)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
-              emailTemplateLogoUrl: $(EMAIL_TEMPLATE_LOGO_URL)
-              platformEmail: $(PLATFORM_EMAIL)
-              platformName: $(PLATFORM_NAME)
+              ezpayWebHookUrl: $(EZPAY_WEBHOOK_URL)
+              eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
-              merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              payerPortalUrl: $(PAYER_PORTAL_URL)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                        
+              processNotificationEvents: $(PROCESS_NOTIFICATION_EVENTS)
+              serviceBusConnectionString: $(SB_CONN_STRING)   
+              payfacTopicConnectionString: $(SB_PAYFAC_NOTIFICATIONS_TOPIC_CONN_STRING)
+              platformEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
+              payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
+              payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)                   
 
-- stage: PRD_Email_Notification_Svc_Helm_Deploy
-  displayName: PRD - Ezpay Email Notifications SVC Helm Deploy
-  dependsOn: STG_Email_Notification_Svc_Helm_Deploy
+- stage: PRD_Payfac_Notifications_Svc_Helm_Deploy
+  displayName: PRD - Ezpay Payfac Notifications SVC Helm Deploy
+  dependsOn: STG_Payfac_Notifications_Svc_Helm_Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -193,7 +196,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-email-notification-svc-prd
+    - group: ezpay-payfac-notifications-svc-prd
     - template: helm-variables-prd.yaml
 
     strategy:
@@ -222,16 +225,17 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
               wepayGrpcUrl: $(GRPC_URL_WEPAY_INTEGRATION)
+              wepayBaseUrl: $(WEPAY_BASE_URL)
+              wepayApiVersion: $(WEPAY_API_VERSION)
+              wepayAppId: $(WEPAY_APP_ID)
+              wepayAppToken: $(WEPAY_APP_TOKEN)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
-              emailTemplateLogoUrl: $(EMAIL_TEMPLATE_LOGO_URL)
-              platformEmail: $(PLATFORM_EMAIL)
-              platformName: $(PLATFORM_NAME)
+              ezpayWebHookUrl: $(EZPAY_WEBHOOK_URL)
+              eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
-              merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              payerPortalUrl: $(PAYER_PORTAL_URL)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                
+              processNotificationEvents: $(PROCESS_NOTIFICATION_EVENTS)
+              serviceBusConnectionString: $(SB_CONN_STRING)   
+              payfacTopicConnectionString: $(SB_PAYFAC_NOTIFICATIONS_TOPIC_CONN_STRING)
+              platformEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
+              payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
+              payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)            

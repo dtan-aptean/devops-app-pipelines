@@ -1,32 +1,26 @@
 variables:
 - name: K8S_NAMESPACE
-  value: ezpay-hfx
+  value: ezpay-tst
 - name: CHART_NAME
-  value: ezpay-api-svc
+  value: ezpay-payfac-notifications-svc
 - name: CONTAINER_REGISTRY_NAME
   value: acreastusshrapteancr
 - name: CHART_REPOSITORY_NAME
-  value: "helm/ezpay-api-svc"
+  value: "helm/ezpay-payfac-notifications-svc"
 - name: IMAGE_REPOSITORY_NAME
-  value: ezpay-api-svc
+  value: ezpay-payfac-notifications-svc
 - name: HELM_RELEASE_NAME
   value: rel01
 - name: RESOURCE_LIMITS_CPU
-  value: 750m
-- name: RESOURCE_LIMITS_MEMORY
-  value: 1Gi
-- name: RESOURCE_REQUESTS_CPU
   value: 50m
-- name: RESOURCE_REQUESTS_MEMORY
+- name: RESOURCE_LIMITS_MEMORY
   value: 64Mi
+- name: RESOURCE_REQUESTS_CPU
+  value: 10m
+- name: RESOURCE_REQUESTS_MEMORY
+  value: 10Mi
 - name: ENV
-  value: HFX
-- name: FRONT_DOOR_ID
-  value: "b5c7259a-7799-4b08-b2d1-f7ee36186be2"
-- name: KONG_INGRESS_UPSTREAM_HEADER
-  value: ezpay-api-svc.ezpay-hfx.svc
-- name: KONG_INGRESS_CLASS
-  value: kong-hfx
+  value: TST
 - name: REPLICAS
   value: 1
 - name: AZURE_TENANT_ID
