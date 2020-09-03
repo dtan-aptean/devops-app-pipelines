@@ -4,7 +4,7 @@ variables:
 - name: CHART_NAME
   value: ezpay-payfac-notifications-svc
 - name: CONTAINER_REGISTRY_NAME
-  value: acreastusshrapteancr
+  value: acreastusprdapteancr
 - name: CHART_REPOSITORY_NAME
   value: "helm/ezpay-payfac-notifications-svc"
 - name: IMAGE_REPOSITORY_NAME
