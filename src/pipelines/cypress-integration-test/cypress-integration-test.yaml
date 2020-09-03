@@ -85,9 +85,9 @@ stages:
   - stage: Cleanup
     displayName: Generate Test Report
     dependsOn: 
-    - Ezpay-api-svc
-    - Payer-portal
-    - Merchant-portal
+    - Ezpay_api_svc
+    - Payer_portal
+    - Merchant_portal
     condition: succeededOrFailed()
 
     jobs:
