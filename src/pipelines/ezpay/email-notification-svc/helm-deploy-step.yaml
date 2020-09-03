@@ -101,7 +101,7 @@ steps:
       platformEmail: "$env:PLATFORM_EMAIL"
       platformName: "$env:PLATFORM_NAME"
       processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
-      merchantPortalUrl: "$env:BLOB_STORAGE_URL"
+      merchantPortalUrl: "$env:MERCHANT_PORTAL_URL"
       payerPortalUrl: "$env:PAYER_PORTAL_BASE_URL"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
@@ -139,7 +139,7 @@ steps:
     PLATFORM_EMAIL: ${{ parameters.platformEmail }}
     PLATFORM_NAME: ${{ parameters.platformName }}
     PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
-    BLOB_STORAGE_URL: ${{ parameters.merchantPortalUrl }}
+    MERCHANT_PORTAL_URL: ${{ parameters.merchantPortalUrl }}
     PAYER_PORTAL_BASE_URL: ${{ parameters.payerPortalUrl }}    
 
 - task: Kubernetes@1
