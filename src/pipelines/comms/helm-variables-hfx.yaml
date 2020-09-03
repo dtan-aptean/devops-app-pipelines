@@ -20,7 +20,7 @@ variables:
 - name: RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: ENV
-  value: STG
+  value: HFX
 - name: FRONT_DOOR_ID
   value: "b5c7259a-7799-4b08-b2d1-f7ee36186be2"
 - name: KONG_INGRESS_UPSTREAM_HEADER
