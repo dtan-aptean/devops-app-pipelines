@@ -26,16 +26,14 @@ steps:
 
   - checkout: testing-e2e
 
-  - script: dir $(Build.SourcesDirectory)
-
   - script: |
-      mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/src/
+      mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/
     displayName: 'Copy Files'
 
   - task: replacetokens@3
     displayName: Replace tokens in ad-token-config.json
     inputs:
-      rootDirectory: $(System.DefaultWorkingDirectory)/src
+      rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
       targetFiles: ad-token-config.json
       encoding: auto
       writeBOM: true
@@ -48,7 +46,7 @@ steps:
       npm install fs puppeteer util replace-in-file
       node getADToken.js      
     displayName: 'Get bearer token'
-    workingDirectory: $(System.DefaultWorkingDirectory)/src    
+    workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src    
 
   - template: ./templates/integration-test.yaml
     parameters:
@@ -65,7 +63,7 @@ steps:
   - task: replacetokens@3
     displayName: Replace tokens in cleanUp-config.json
     inputs:
-      rootDirectory: $(System.DefaultWorkingDirectory)/src
+      rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
       targetFiles: cleanUp-config.json
       encoding: auto
       writeBOM: true
