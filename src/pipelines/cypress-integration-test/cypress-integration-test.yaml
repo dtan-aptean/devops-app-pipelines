@@ -22,76 +22,104 @@ resources:
     name: testing-e2e
     ref: CentralizeCypressCode    
 
-steps:
-  - checkout: self
+stages:
+  - stage: Init
+    displayName: Prepare data
 
-  - checkout: testing-e2e
+    jobs:
+    - checkout: self
 
-  - script: |
-      mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/
-    displayName: 'Copy Files'
+    - checkout: testing-e2e
 
-  - task: replacetokens@3
-    displayName: Replace tokens in ad-token-config.json
-    inputs:
-      rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
-      targetFiles: ad-token-config.json
-      encoding: auto
-      writeBOM: true
-      actionOnMissing: fail
-      keepToken: false
-      tokenPrefix: '#{'
-      tokenSuffix: '}#'
+    - script: |
+        mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/
+      displayName: 'Copy Files'
 
-  - script: |
-      npm install fs puppeteer util replace-in-file
-      node getADToken.js      
-    displayName: 'Get bearer token'
-    workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src    
+    - task: replacetokens@3
+      displayName: Replace tokens in ad-token-config.json
+      inputs:
+        rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
+        targetFiles: ad-token-config.json
+        encoding: auto
+        writeBOM: true
+        actionOnMissing: fail
+        keepToken: false
+        tokenPrefix: '#{'
+        tokenSuffix: '}#'
 
-  - template: ./templates/integration-test.yaml
-    parameters:
-      packageName: ezpay-api-svc
+    - script: |
+        npm install fs puppeteer util replace-in-file
+        node getADToken.js      
+      displayName: 'Get bearer token'
+      workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src    
 
-  - template: ./templates/integration-test.yaml
-    parameters:
-      packageName: payer-portal
+  - stage: Ezpay-api-svc
+    displayName: Run ezpay-api-svc test
+    dependsOn: Init
 
-  - template: ./templates/integration-test.yaml
-    parameters:
-      packageName: merchant-portal
+    jobs:
+    - template: ./templates/integration-test.yaml
+      parameters:
+        packageName: ezpay-api-svc
 
-  - task: replacetokens@3
-    displayName: Replace tokens in cleanUp-config.json
-    inputs:
-      rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
-      targetFiles: cleanUp-config.json
-      encoding: auto
-      writeBOM: true
-      actionOnMissing: fail
-      keepToken: false
-      tokenPrefix: '#{'
-      tokenSuffix: '}#'
+  - stage: Payer-portal
+    displayName: Run payer portal test
+    dependsOn: Init 
+    
+    jobs:
+    - template: ./templates/integration-test.yaml
+      parameters:
+        packageName: payer-portal
 
-  - script: |
-      npm install crypto got
-      node cleanUp.js      
-    displayName: 'Clean up test data'
-    workingDirectory: $(System.DefaultWorkingDirectory)/src
+  - stage: Merchant-portal
+    displayName: Run merchant portal test
+    dependsOn: Init 
 
-  - task: PublishBuildArtifacts@1
-    displayName: Publish build artifact
+    jobs:
+    - template: ./templates/integration-test.yaml
+      parameters:
+        packageName: merchant-portal
+
+  - stage: Cleanup
+    displayName: Generate Test Report
+    dependsOn: 
+    - Ezpay-api-svc
+    - Payer-portal
+    - Merchant-portal
     condition: succeededOrFailed()
-    inputs:
-      PathtoPublish: $(Build.ArtifactStagingDirectory)
-      ArtifactName: results  
 
-  - task: PublishTestResults@2
-    displayName: 'Publish test results'
-    condition: succeededOrFailed()
-    inputs:
-      testResultsFiles: '**/test-result-*.xml'
-      mergeTestResults: true
-      testRunTitle: 'Integration Test'
-      searchFolder: $(Pipeline.Workspace)
-      failTaskOnFailedTests: true
+    jobs:
+    - task: replacetokens@3
+      displayName: Replace tokens in cleanUp-config.json
+      inputs:
+        rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
+        targetFiles: cleanUp-config.json
+        encoding: auto
+        writeBOM: true
+        actionOnMissing: fail
+        keepToken: false
+        tokenPrefix: '#{'
+        tokenSuffix: '}#'
+
+    - script: |
+        npm install crypto got
+        node cleanUp.js      
+      displayName: 'Clean up test data'
+      workingDirectory: $(System.DefaultWorkingDirectory)/src
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish build artifact
+      condition: succeededOrFailed()
+      inputs:
+        PathtoPublish: $(Build.ArtifactStagingDirectory)
+        ArtifactName: results  
+
+    - task: PublishTestResults@2
+      displayName: 'Publish test results'
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFiles: '**/test-result-*.xml'
+        mergeTestResults: true
+        testRunTitle: 'Integration Test'
+        searchFolder: $(Pipeline.Workspace)
+        failTaskOnFailedTests: true
