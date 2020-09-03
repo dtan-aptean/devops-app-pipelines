@@ -27,31 +27,33 @@ stages:
     displayName: Prepare data
 
     jobs:
-    - checkout: self
+    - job: getData 
+      steps:
+      - checkout: self
 
-    - checkout: testing-e2e
+      - checkout: testing-e2e
 
-    - script: |
-        mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/
-      displayName: 'Copy Files'
+      - script: |
+          mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/
+        displayName: 'Copy Files'
 
-    - task: replacetokens@3
-      displayName: Replace tokens in ad-token-config.json
-      inputs:
-        rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
-        targetFiles: ad-token-config.json
-        encoding: auto
-        writeBOM: true
-        actionOnMissing: fail
-        keepToken: false
-        tokenPrefix: '#{'
-        tokenSuffix: '}#'
+      - task: replacetokens@3
+        displayName: Replace tokens in ad-token-config.json
+        inputs:
+          rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
+          targetFiles: ad-token-config.json
+          encoding: auto
+          writeBOM: true
+          actionOnMissing: fail
+          keepToken: false
+          tokenPrefix: '#{'
+          tokenSuffix: '}#'
 
-    - script: |
-        npm install fs puppeteer util replace-in-file
-        node getADToken.js      
-      displayName: 'Get bearer token'
-      workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src    
+      - script: |
+          npm install fs puppeteer util replace-in-file
+          node getADToken.js      
+        displayName: 'Get bearer token'
+        workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src    
 
   - stage: Ezpay-api-svc
     displayName: Run ezpay-api-svc test
@@ -89,37 +91,39 @@ stages:
     condition: succeededOrFailed()
 
     jobs:
-    - task: replacetokens@3
-      displayName: Replace tokens in cleanUp-config.json
-      inputs:
-        rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
-        targetFiles: cleanUp-config.json
-        encoding: auto
-        writeBOM: true
-        actionOnMissing: fail
-        keepToken: false
-        tokenPrefix: '#{'
-        tokenSuffix: '}#'
+    - job: cleanUp
+      steps:
+      - task: replacetokens@3
+        displayName: Replace tokens in cleanUp-config.json
+        inputs:
+          rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
+          targetFiles: cleanUp-config.json
+          encoding: auto
+          writeBOM: true
+          actionOnMissing: fail
+          keepToken: false
+          tokenPrefix: '#{'
+          tokenSuffix: '}#'
 
-    - script: |
-        npm install crypto got
-        node cleanUp.js      
-      displayName: 'Clean up test data'
-      workingDirectory: $(System.DefaultWorkingDirectory)/src
+      - script: |
+          npm install crypto got
+          node cleanUp.js      
+        displayName: 'Clean up test data'
+        workingDirectory: $(System.DefaultWorkingDirectory)/src
 
-    - task: PublishBuildArtifacts@1
-      displayName: Publish build artifact
-      condition: succeededOrFailed()
-      inputs:
-        PathtoPublish: $(Build.ArtifactStagingDirectory)
-        ArtifactName: results  
+      - task: PublishBuildArtifacts@1
+        displayName: Publish build artifact
+        condition: succeededOrFailed()
+        inputs:
+          PathtoPublish: $(Build.ArtifactStagingDirectory)
+          ArtifactName: results  
 
-    - task: PublishTestResults@2
-      displayName: 'Publish test results'
-      condition: succeededOrFailed()
-      inputs:
-        testResultsFiles: '**/test-result-*.xml'
-        mergeTestResults: true
-        testRunTitle: 'Integration Test'
-        searchFolder: $(Pipeline.Workspace)
-        failTaskOnFailedTests: true
+      - task: PublishTestResults@2
+        displayName: 'Publish test results'
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFiles: '**/test-result-*.xml'
+          mergeTestResults: true
+          testRunTitle: 'Integration Test'
+          searchFolder: $(Pipeline.Workspace)
+          failTaskOnFailedTests: true
