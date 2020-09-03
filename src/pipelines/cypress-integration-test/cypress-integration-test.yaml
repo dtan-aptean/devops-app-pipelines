@@ -19,7 +19,8 @@ resources:
   repositories:
   - repository: testing-e2e
     type: git
-    name: testing-e2e   
+    name: testing-e2e
+    ref: CentralizeCypressCode    
 
 steps:
   - checkout: self
