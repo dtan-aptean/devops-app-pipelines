@@ -1,58 +1,60 @@
 parameters:
   packageName: ''
 
-steps:
-  - task: CopyFiles@2
-    displayName: ${{ parameters.packageName }} - Copy test files
-    inputs:
-      SourceFolder: $(System.DefaultWorkingDirectory)/testing-e2e/packages/${{ parameters.packageName }}/cypress
-      Contents: '**'
-      TargetFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress
+jobs:
+- job: runTest
+  steps:
+    - task: CopyFiles@2
+      displayName: ${{ parameters.packageName }} - Copy test files
+      inputs:
+        SourceFolder: $(System.DefaultWorkingDirectory)/testing-e2e/packages/${{ parameters.packageName }}/cypress
+        Contents: '**'
+        TargetFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress
 
-  - script: mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/${{ parameters.packageName }}.cypress.json $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress.json
-    displayName: ${{ parameters.packageName }} - Add cypress.json
+    - script: mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/${{ parameters.packageName }}.cypress.json $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress.json
+      displayName: ${{ parameters.packageName }} - Add cypress.json
 
-  - task: replacetokens@3
-    displayName: ${{ parameters.packageName }} - Replace tokens in cypress.json
-    inputs:
-      rootDirectory: $(Pipeline.Workspace)/${{ parameters.packageName }}
-      targetFiles: cypress.json
-      encoding: auto
-      writeBOM: true
-      actionOnMissing: fail
-      keepToken: false
-      tokenPrefix: '#{'
-      tokenSuffix: '}#'
+    - task: replacetokens@3
+      displayName: ${{ parameters.packageName }} - Replace tokens in cypress.json
+      inputs:
+        rootDirectory: $(Pipeline.Workspace)/${{ parameters.packageName }}
+        targetFiles: cypress.json
+        encoding: auto
+        writeBOM: true
+        actionOnMissing: fail
+        keepToken: false
+        tokenPrefix: '#{'
+        tokenSuffix: '}#'
 
-  - script: docker build -t cypress-${{ parameters.packageName }}:5.0.0 -f  $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
-    displayName: ${{ parameters.packageName }} - Build integraton test docker image
+    - script: docker build -t cypress-${{ parameters.packageName }}:5.0.0 -f  $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
+      displayName: ${{ parameters.packageName }} - Build integraton test docker image
 
-  - script: docker run -v $(Pipeline.Workspace)/${{ parameters.packageName }}:/e2e cypress-${{ parameters.packageName }}:5.0.0 || true
-    displayName: ${{ parameters.packageName }} - Run test
-    workingDirectory: $(Pipeline.Workspace)/${{ parameters.packageName }}
+    - script: docker run -v $(Pipeline.Workspace)/${{ parameters.packageName }}:/e2e cypress-${{ parameters.packageName }}:5.0.0 || true
+      displayName: ${{ parameters.packageName }} - Run test
+      workingDirectory: $(Pipeline.Workspace)/${{ parameters.packageName }}
 
-  - task: ArchiveFiles@2
-    displayName: ${{ parameters.packageName }} - Archive test output - screenshots
-    inputs:
-      rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress/screenshots
-      archiveType: zip
-      archiveFile: $(Build.ArtifactStagingDirectory)/${{ parameters.packageName }}.zip
-      replaceExistingArchive: true 
+    - task: ArchiveFiles@2
+      displayName: ${{ parameters.packageName }} - Archive test output - screenshots
+      inputs:
+        rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress/screenshots
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/${{ parameters.packageName }}.zip
+        replaceExistingArchive: true 
 
-  - task: ArchiveFiles@2
-    displayName: ${{ parameters.packageName }} - Archive test output - videos
-    inputs:
-      rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress/videos
-      archiveType: zip
-      archiveFile: $(Build.ArtifactStagingDirectory)/${{ parameters.packageName }}.zip
-      replaceExistingArchive: true
+    - task: ArchiveFiles@2
+      displayName: ${{ parameters.packageName }} - Archive test output - videos
+      inputs:
+        rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress/videos
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/${{ parameters.packageName }}.zip
+        replaceExistingArchive: true
 
-  - task: PublishTestResults@2
-    displayName: 'Publish test results'
-    condition: succeededOrFailed()
-    inputs:
-      testResultsFiles: '**/test-result-*.xml'
-      mergeTestResults: false
-      testRunTitle: ${{ parameters.packageName }} Integration Test
-      searchFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}
-      failTaskOnFailedTests: true      
+    - task: PublishTestResults@2
+      displayName: 'Publish test results'
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFiles: '**/test-result-*.xml'
+        mergeTestResults: false
+        testRunTitle: ${{ parameters.packageName }} Integration Test
+        searchFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}
+        failTaskOnFailedTests: true      
