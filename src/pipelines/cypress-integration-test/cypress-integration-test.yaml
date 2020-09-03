@@ -33,9 +33,9 @@ stages:
 
       - checkout: testing-e2e
 
-      - script: |
-          mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/
-        displayName: 'Copy Files'
+      # - script: |
+      #     mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/
+      #   displayName: 'Copy Files'
 
     - job: GetADToken 
       steps:
