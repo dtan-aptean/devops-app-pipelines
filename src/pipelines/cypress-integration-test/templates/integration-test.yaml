@@ -5,14 +5,16 @@ jobs:
 - job: DownloadFiles
   steps: 
   - task: DownloadPipelineArtifact@2
-    source: current
-    artifact: Configs
-    path: $(Build.SourcesDirectory)/src
+    inputs:
+      source: current
+      artifact: Configs
+      path: $(Build.SourcesDirectory)/src
   
-  - task: DownloadPipelineArtifact
-    source: current
-    artifact: CypressFiles
-    path: $(Build.SourcesDirectory)/packages
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      source: current
+      artifact: CypressFiles
+      path: $(Build.SourcesDirectory)/packages
 
 - job: BuildImage
   steps:
