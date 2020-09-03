@@ -60,6 +60,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_COMMS_API_SVC_DATABASE)
               cosmosContainer: $(COSMOSDB_COMMS_API_SVC_CONTAINER)
               serviceBusConnectionString: $(SB_CONN_STRING)
+              managementConnectionString: $(SB_MANAGEMENT_CONN_STRING)
               sbSmsReqQueue: $(SB_SMS_REQ_QUEUE)
               sbEmailReqQueue: $(SB_EMAIL_REQ_QUEUE)
               sbEventsTopic: $(SB_EVENTS_TOPIC)
@@ -73,6 +74,8 @@ stages:
               subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
               smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+              batchSize: $(BATCH_SIZE)
+              executionMode: $(EXECUTION_MODE)
 
 - stage: TST_API_Svc_Helm_Deploy
   displayName: TST - api-svc Helm Deploy
@@ -122,6 +125,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_COMMS_API_SVC_DATABASE)
               cosmosContainer: $(COSMOSDB_COMMS_API_SVC_CONTAINER)
               serviceBusConnectionString: $(SB_CONN_STRING)
+              managementConnectionString: $(SB_MANAGEMENT_CONN_STRING)              
               sbSmsReqQueue: $(SB_SMS_REQ_QUEUE)
               sbEmailReqQueue: $(SB_EMAIL_REQ_QUEUE)
               sbEventsTopic: $(SB_EVENTS_TOPIC)
@@ -135,6 +139,8 @@ stages:
               subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
               smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+              batchSize: $(BATCH_SIZE)
+              executionMode: $(EXECUTION_MODE)              
 
 - stage: STG_API_Svc_Helm_Deploy
   displayName: STG - api-svc Helm Deploy
@@ -184,6 +190,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_COMMS_API_SVC_DATABASE)
               cosmosContainer: $(COSMOSDB_COMMS_API_SVC_CONTAINER)
               serviceBusConnectionString: $(SB_CONN_STRING)
+              managementConnectionString: $(SB_MANAGEMENT_CONN_STRING)              
               sbSmsReqQueue: $(SB_SMS_REQ_QUEUE)
               sbEmailReqQueue: $(SB_EMAIL_REQ_QUEUE)
               sbEventsTopic: $(SB_EVENTS_TOPIC)
@@ -197,6 +204,8 @@ stages:
               subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
               smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+              batchSize: $(BATCH_SIZE)
+              executionMode: $(EXECUTION_MODE)              
 
 - stage: PRD_API_Svc_Helm_Deploy
   displayName: PRD - api-svc Helm Deploy
@@ -246,6 +255,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_COMMS_API_SVC_DATABASE)
               cosmosContainer: $(COSMOSDB_COMMS_API_SVC_CONTAINER)
               serviceBusConnectionString: $(SB_CONN_STRING)
+              managementConnectionString: $(SB_MANAGEMENT_CONN_STRING)              
               sbSmsReqQueue: $(SB_SMS_REQ_QUEUE)
               sbEmailReqQueue: $(SB_EMAIL_REQ_QUEUE)
               sbEventsTopic: $(SB_EVENTS_TOPIC)
@@ -259,3 +269,5 @@ stages:
               subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
               smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+              batchSize: $(BATCH_SIZE)
+              executionMode: $(EXECUTION_MODE)              
