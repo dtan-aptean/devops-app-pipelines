@@ -13,19 +13,19 @@ jobs:
   - task: DownloadPipelineArtifact@2
     inputs:
       source: current
-      artifact: Configs
+      artifact: Docker
       path: $(Build.SourcesDirectory)/docker
 
   - task: DownloadPipelineArtifact@2
     inputs:
       source: current
       artifact: CypressFiles
-      path: $(Build.SourcesDirectory)/packages
+      path: $(Build.SourcesDirectory)/cf
 
   - task: CopyFiles@2
     displayName: ${{ parameters.packageName }} - Copy test files
     inputs:
-      SourceFolder: $(Build.SourcesDirectory)/packages/${{ parameters.packageName }}/cypress
+      SourceFolder: $(Build.SourcesDirectory)/cf/packages/${{ parameters.packageName }}/cypress
       Contents: '**'
       TargetFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress
 
