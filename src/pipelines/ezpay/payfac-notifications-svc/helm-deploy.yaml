@@ -205,7 +205,7 @@ stages:
           steps:
           - template: helm-deploy-step.yaml
             parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
               svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
               azureTenantId: $(AZURE_TENANT_ID)
