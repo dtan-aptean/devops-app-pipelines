@@ -13,6 +13,12 @@ jobs:
   - task: DownloadPipelineArtifact@2
     inputs:
       source: current
+      artifact: Configs
+      path: $(Build.SourcesDirectory)/docker
+
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      source: current
       artifact: CypressFiles
       path: $(Build.SourcesDirectory)/packages
 
@@ -41,7 +47,7 @@ jobs:
       tokenPrefix: '#{'
       tokenSuffix: '}#'
 
-  - script: docker build -t cypress-${{ parameters.packageName }}:5.0.0 -f  $(Build.SourcesDirectory)/src/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
+  - script: docker build -t cypress-${{ parameters.packageName }}:5.0.0 -f  $(Build.SourcesDirectory)/docker/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
     displayName: ${{ parameters.packageName }} - Build integraton test docker image
 
 - job: RunTest

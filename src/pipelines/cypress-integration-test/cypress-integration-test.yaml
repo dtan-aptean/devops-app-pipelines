@@ -59,7 +59,7 @@ stages:
         artifact: Configs
 
       - publish: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile
-        artifact: Configs
+        artifact: Docker
 
       - publish: $(System.DefaultWorkingDirectory)/testing-e2e
         artifact: CypressFiles
