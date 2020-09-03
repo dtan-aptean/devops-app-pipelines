@@ -1,0 +1,181 @@
+parameters:
+  serviceConnection: ''
+  svcPrincipalClientId: ''
+  svcPrincipalSecret: ''
+  azureTenantId: ''
+  aksName: ''
+  aksResourceGroup: ''
+  containerRegistryName: ''
+  imageRepositoryName: ''
+  chartRepositoryName: ''
+  k8sNamespace: ''
+  helmReleaseName: ''
+  chartName: ''
+  env: ''
+  replicas: ''
+  resourceLimitsCpu: ''
+  resourceLimitsMemory: ''
+  resourceRequestsCpu: ''
+  resourceRequestsMemory: ''
+  appInsightsKey: ''
+  wepayGrpcUrl: ''
+  broadcastPlatformEvents: ''
+  emailTemplateLogoUrl: ''
+  platformEmail: ''
+  platformName: ''
+  processPlatformEvents: ''
+  merchantPortalUrl: ''
+  payerPortalUrl: ''
+  sbPlatformEventsSubscription: ''
+  serviceBusConnectionString: ''
+  sbEventsTopic: ''
+  cosmosConnString: ''
+  cosmosDatabase: ''
+  cosmosContainer: ''
+
+steps:
+- pwsh: |
+    $env:HELM_EXPERIMENTAL_OCI = 1
+
+    az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+
+    $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
+
+    $env:SP_SECRET | helm registry login $fullRegistryName `
+      --username $env:SP_CLIENT_ID `
+      --password-stdin
+
+    $latestHelmChart = az acr repository show-tags `
+      --name $env:CONTAINER_REGISTRY_NAME `
+      --repository $env:CHART_REPOSITORY_NAME `
+      --top 1 `
+      --orderby time_desc | ConvertFrom-Json
+
+    $latestTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    $imageRepository = "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CHART_NAME"
+
+    Write-Host ""
+    $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
+    Write-Host "fullChartName: $fullChartName"
+
+    helm chart pull $fullChartName
+
+    Write-Host ""
+    helm chart export $fullChartName --destination .
+
+    @"
+    image:
+      repository: $imageRepository
+      tag: $latestTag
+
+    commonLabels:
+      env: $env:ENV
+
+    deployment:
+      replicas: $env:REPLICAS
+
+    pod:
+      resources:
+        limits:
+          cpu: $env:RESOURCE_LIMITS_CPU
+          memory: $env:RESOURCE_LIMITS_MEMORY
+        requests:
+          cpu: $env:RESOURCE_REQUESTS_CPU
+          memory: $env:RESOURCE_REQUESTS_MEMORY
+
+    config:
+      cosmos:
+        connectionString: "$env:COSMOS_CONN_STRING"
+        databaseName: "$env:COSMOS_DATABASE"
+        containerName: "$env:COSMOS_CONTAINER"
+      serviceBus:
+        connectionString: "$env:SB_CONN_STRING"
+        eventsTopic: "$env:SB_EVENTS_TOPIC"
+        platformEventsSubscription: "$env:SB_PLATFORM_EVENTS_SUBSCRIPTION"        
+      appInsights:
+        instrumentationKey: "$env:APP_INSIGHTS_INSTRUMENTATION_KEY"
+      wepay:
+        grpcUrl: "$env:WEPAY_GRPC_URL"
+      broadcastPlatformEvents: "$env:BROADCAST_PLATFORM_EVENTS"
+      emailTemplateLogoUrl: "$env:EMAIL_TEMPLATE_LOGO_URL"
+      platformEmail: "$env:PLATFORM_EMAIL"
+      platformName: "$env:PLATFORM_NAME"
+      processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
+      merchantPortalUrl: "$env:MERCHANT_PORTAL_URL"
+      payerPortalUrl: "$env:PAYER_PORTAL_BASE_URL"
+
+    "@ | Out-File -FilePath ./deploy-values.yaml
+
+    Write-Host ""
+    Write-Host "Helm deploy prep complete!"
+  displayName: Prep Helm Deploy
+  name: prepHelmDeploy
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  failOnStderr: true
+  env:
+    SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
+    SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+    AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
+    CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
+    IMAGE_REPOSITORY_NAME: ${{ parameters.imageRepositoryName }}
+    CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
+    CHART_NAME: ${{ parameters.chartName }}
+    ENV: ${{ parameters.env }}
+    REPLICAS: ${{ parameters.replicas }}
+    RESOURCE_LIMITS_CPU: ${{ parameters.resourceLimitsCpu }}
+    RESOURCE_LIMITS_MEMORY: ${{ parameters.resourceLimitsMemory }}
+    RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
+    RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
+    APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.appInsightsKey }}
+    COSMOS_CONN_STRING: ${{ parameters.cosmosConnString }}
+    COSMOS_DATABASE: ${{ parameters.cosmosDatabase }}
+    COSMOS_CONTAINER: ${{ parameters.cosmosContainer }}
+    SB_CONN_STRING: ${{ parameters.serviceBusConnectionString }} 
+    SB_EVENTS_TOPIC: ${{ parameters.sbEventsTopic }}
+    SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.sbPlatformEventsSubscription }}    
+    WEPAY_GRPC_URL: ${{ parameters.wepayGrpcUrl }}
+    BROADCAST_PLATFORM_EVENTS: ${{ parameters.broadcastPlatformEvents }}
+    EMAIL_TEMPLATE_LOGO_URL: ${{ parameters.emailTemplateLogoUrl }}
+    PLATFORM_EMAIL: ${{ parameters.platformEmail }}
+    PLATFORM_NAME: ${{ parameters.platformName }}
+    PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
+    MERCHANT_PORTAL_URL: ${{ parameters.merchantPortalUrl }}
+    PAYER_PORTAL_BASE_URL: ${{ parameters.payerPortalUrl }}    
+
+- task: Kubernetes@1
+  displayName: Kubectl Version
+  name: kubectlVersion
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'version'
+    arguments: '--short'
+
+- task: HelmInstaller@1
+  displayName: Helm Installer
+  name: helmInstaller
+  inputs:
+    helmVersionToInstall: latest
+
+- task: HelmDeploy@0
+  displayName: Helm Deploy
+  name: helmDeploy
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'upgrade'
+    chartType: 'FilePath'
+    chartPath: ./${{ parameters.chartName }}
+    releaseName: ${{ parameters.helmReleaseName }}
+    valueFile: ./deploy-values.yaml
+    install: true
+    waitForExecution: false
+    failOnStderr: false
