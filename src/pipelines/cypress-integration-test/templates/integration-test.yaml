@@ -17,6 +17,7 @@ jobs:
       path: $(Build.SourcesDirectory)/packages
 
 - job: BuildImage
+  dependsOn: DownloadFiles
   steps:
   - task: CopyFiles@2
     displayName: ${{ parameters.packageName }} - Copy test files
@@ -44,6 +45,7 @@ jobs:
     displayName: ${{ parameters.packageName }} - Build integraton test docker image
 
 - job: RunTest
+  dependsOn: BuildImage
   steps:
   - script: docker run -v $(Pipeline.Workspace)/${{ parameters.packageName }}:/e2e cypress-${{ parameters.packageName }}:5.0.0 || true
     displayName: ${{ parameters.packageName }} - Run test

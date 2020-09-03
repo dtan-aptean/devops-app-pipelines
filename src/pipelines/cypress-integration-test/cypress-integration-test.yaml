@@ -37,8 +37,6 @@ stages:
       #     mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/
       #   displayName: 'Copy Files'
 
-    - job: GetADToken 
-      steps:
       - task: replacetokens@3
         displayName: Replace tokens in ad-token-config.json
         inputs:
@@ -57,8 +55,6 @@ stages:
         displayName: 'Get bearer token'
         workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration 
 
-    - job: PublishArtifacts
-      steps:
       - publish: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration
         artifact: Configs
 
