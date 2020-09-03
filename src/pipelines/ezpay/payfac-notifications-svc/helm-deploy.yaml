@@ -206,8 +206,8 @@ stages:
           - template: helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
               azureTenantId: $(AZURE_TENANT_ID)
               aksName: $(AKS_NAME)
               aksResourceGroup: $(AKS_RESOURCE_GROUP)
