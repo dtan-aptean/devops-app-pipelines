@@ -4,11 +4,13 @@ parameters:
 jobs:
 - job: DownloadFiles
   steps: 
-  - download: current
+  - task: DownloadPipelineArtifact@2
+    source: current
     artifact: Configs
     path: $(Build.SourcesDirectory)/src
   
-  - download: current
+  - task: DownloadPipelineArtifact
+    source: current
     artifact: CypressFiles
     path: $(Build.SourcesDirectory)/packages
 
