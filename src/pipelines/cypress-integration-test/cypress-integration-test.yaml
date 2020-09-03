@@ -55,7 +55,7 @@ stages:
         displayName: 'Get bearer token'
         workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src    
 
-  - stage: Ezpay-api-svc
+  - stage: Ezpay_api_svc
     displayName: Run ezpay-api-svc test
     dependsOn: Init
 
@@ -64,7 +64,7 @@ stages:
       parameters:
         packageName: ezpay-api-svc
 
-  - stage: Payer-portal
+  - stage: Payer_portal
     displayName: Run payer portal test
     dependsOn: Init 
     
@@ -73,7 +73,7 @@ stages:
       parameters:
         packageName: payer-portal
 
-  - stage: Merchant-portal
+  - stage: Merchant_portal
     displayName: Run merchant portal test
     dependsOn: Init 
 
