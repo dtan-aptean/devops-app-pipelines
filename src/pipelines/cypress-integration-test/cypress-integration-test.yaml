@@ -16,17 +16,20 @@ variables:
 - group: ezpay-integration-tests
 
 resources:
-  pipelines:
-  - pipeline: ezpay-api-svc-master-build
-    source: ezpay-api-svc-master-build
-  - pipeline: ezpay-payer-portal-master-build
-    source: ezpay-payer-portal-master-build
-  - pipeline: ezpay-merchant-portal-master-build
-    source: ezpay-merchant-portal-master-build    
+  repositories:
+  - repository: testing-e2e
+    type: git
+    name: testing-e2e   
 
 steps:
+  - checkout: self
+
+  - checkout: testing-e2e
+
+  - script: dir $(Build.SourcesDirectory)
+
   - script: |
-      mv $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/src/
+      mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/src/
     displayName: 'Copy Files'
 
   - task: replacetokens@3
@@ -49,18 +52,15 @@ steps:
 
   - template: ./templates/integration-test.yaml
     parameters:
-      artifactPipeline: ezpay-api-svc-master-build
-      artifactName: ezpay-api-svc
+      packageName: ezpay-api-svc
 
   - template: ./templates/integration-test.yaml
     parameters:
-      artifactPipeline: ezpay-payer-portal-master-build
-      artifactName: ezpay-payer-portal
+      packageName: payer-portal
 
   - template: ./templates/integration-test.yaml
     parameters:
-      artifactPipeline: ezpay-merchant-portal-master-build
-      artifactName: ezpay-merchant-portal
+      packageName: merchant-portal
 
   - task: replacetokens@3
     displayName: Replace tokens in cleanUp-config.json
