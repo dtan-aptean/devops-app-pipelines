@@ -4,32 +4,18 @@ parameters:
 jobs:
 - job: RunTest
   steps: 
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      source: current
-      artifact: Configs
-      path: $(Build.SourcesDirectory)/src
-  
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      source: current
-      artifact: Docker
-      path: $(Build.SourcesDirectory)/docker
+  - checkout: self
 
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      source: current
-      artifact: CypressFiles
-      path: $(Build.SourcesDirectory)/cf
+  - checkout: testing-e2e  
 
   - task: CopyFiles@2
     displayName: ${{ parameters.packageName }} - Copy test files
     inputs:
-      SourceFolder: $(Build.SourcesDirectory)/cf/packages/${{ parameters.packageName }}/cypress
+      SourceFolder: $(System.DefaultWorkingDirectory)/testing-e2e/src/${{ parameters.packageName }}/cypress
       Contents: '**'
       TargetFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress
 
-  - script: mv $(Build.SourcesDirectory)/src/${{ parameters.packageName }}.cypress.json $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress.json
+  - script: mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/${{ parameters.packageName }}.cypress.json $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress.json
     displayName: ${{ parameters.packageName }} - Add cypress.json
 
   - task: replacetokens@3
@@ -44,7 +30,7 @@ jobs:
       tokenPrefix: '#{'
       tokenSuffix: '}#'
 
-  - script: docker build -t cypress-${{ parameters.packageName }}:5.0.0 -f  $(Build.SourcesDirectory)/docker/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
+  - script: docker build -t cypress-${{ parameters.packageName }}:5.0.0 -f  $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
     displayName: ${{ parameters.packageName }} - Build integraton test docker image
 
   - script: docker run -v $(Pipeline.Workspace)/${{ parameters.packageName }}:/e2e cypress-${{ parameters.packageName }}:5.0.0 || true

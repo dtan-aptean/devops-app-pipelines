@@ -19,50 +19,10 @@ resources:
   repositories:
   - repository: testing-e2e
     type: git
-    name: testing-e2e    
+    name: testing-e2e 
+    ref: CentralizeCypressCode   
 
 stages:
-  - stage: Init
-    displayName: Prepare data
-
-    jobs:
-    - job: CopyFiles 
-      steps:
-      - checkout: self
-
-      - checkout: testing-e2e
-
-      # - script: |
-      #     mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/
-      #   displayName: 'Copy Files'
-
-      - task: replacetokens@3
-        displayName: Replace tokens in ad-token-config.json
-        inputs:
-          rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration
-          targetFiles: ad-token-config.json
-          encoding: auto
-          writeBOM: true
-          actionOnMissing: fail
-          keepToken: false
-          tokenPrefix: '#{'
-          tokenSuffix: '}#'
-
-      - script: |
-          npm install fs puppeteer util replace-in-file
-          node getADToken.js      
-        displayName: 'Get bearer token'
-        workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration 
-
-      - publish: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration
-        artifact: Configs
-
-      - publish: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile
-        artifact: Docker
-
-      - publish: $(System.DefaultWorkingDirectory)/testing-e2e
-        artifact: CypressFiles
-
   - stage: Ezpay_api_svc
     displayName: Run ezpay-api-svc test
     dependsOn: Init
@@ -71,6 +31,26 @@ stages:
     - template: ./templates/integration-test.yaml
       parameters:
         packageName: ezpay-api-svc
+
+    - job: cleanUp
+      steps:
+      - task: replacetokens@3
+        displayName: Replace tokens in cleanUp-config.json
+        inputs:
+          rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test
+          targetFiles: cleanUp-config.json
+          encoding: auto
+          writeBOM: true
+          actionOnMissing: fail
+          keepToken: false
+          tokenPrefix: '#{'
+          tokenSuffix: '}#'
+
+      - script: |
+          npm install crypto got
+          node cleanUp.js      
+        displayName: 'Clean up test data'
+        workingDirectory: $(System.DefaultWorkingDirectory)/src        
 
   - stage: Payer_portal
     displayName: Run payer portal test
@@ -89,14 +69,6 @@ stages:
     - template: ./templates/integration-test.yaml
       parameters:
         packageName: merchant-portal
-
-  # - stage: Cleanup
-  #   displayName: Generate Test Report
-  #   dependsOn: 
-  #   - Ezpay_api_svc
-  #   - Payer_portal
-  #   - Merchant_portal
-  #   condition: succeededOrFailed()
 
   #   jobs:
   #   - job: cleanUp
