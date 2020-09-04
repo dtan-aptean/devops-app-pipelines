@@ -25,7 +25,6 @@ resources:
 stages:
   - stage: Ezpay_api_svc
     displayName: Run ezpay-api-svc test
-    dependsOn: Init
 
     jobs:
     - template: ./templates/integration-test.yaml
@@ -54,7 +53,6 @@ stages:
 
   - stage: Payer_portal
     displayName: Run payer portal test
-    dependsOn: Init 
     
     jobs:
     - template: ./templates/integration-test.yaml
@@ -63,7 +61,6 @@ stages:
 
   - stage: Merchant_portal
     displayName: Run merchant portal test
-    dependsOn: Init 
 
     jobs:
     - template: ./templates/integration-test.yaml
