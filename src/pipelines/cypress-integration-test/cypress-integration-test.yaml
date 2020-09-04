@@ -32,28 +32,6 @@ stages:
       parameters:
         packageName: ezpay-api-svc
 
-    - job: Cleanup
-      dependsOn: RunTest
-      condition: succeededOrFailed()
-      steps:
-      - task: replacetokens@3
-        displayName: Replace tokens in cleanUp-config.json
-        inputs:
-          rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration
-          targetFiles: cleanUp-config.json
-          encoding: auto
-          writeBOM: true
-          actionOnMissing: fail
-          keepToken: false
-          tokenPrefix: '#{'
-          tokenSuffix: '}#'
-
-      - script: |
-          npm install crypto got
-          node cleanUp.js      
-        displayName: 'Clean up test data'
-        workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration        
-
   - stage: Payer_portal
     displayName: Run payer portal test
     dependsOn: []
@@ -72,24 +50,4 @@ stages:
       parameters:
         packageName: merchant-portal
 
-  #   jobs:
-  #   - job: cleanUp
-  #     steps:
-  #     - task: replacetokens@3
-  #       displayName: Replace tokens in cleanUp-config.json
-  #       inputs:
-  #         rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src
-  #         targetFiles: cleanUp-config.json
-  #         encoding: auto
-  #         writeBOM: true
-  #         actionOnMissing: fail
-  #         keepToken: false
-  #         tokenPrefix: '#{'
-  #         tokenSuffix: '}#'
-
-  #     - script: |
-  #         npm install crypto got
-  #         node cleanUp.js      
-  #       displayName: 'Clean up test data'
-  #       workingDirectory: $(System.DefaultWorkingDirectory)/src
  

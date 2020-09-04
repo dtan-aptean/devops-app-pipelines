@@ -55,6 +55,24 @@ jobs:
     displayName: ${{ parameters.packageName }} - Run test
     workingDirectory: $(Pipeline.Workspace)/${{ parameters.packageName }}
 
+  - task: replacetokens@3
+    displayName: Replace tokens in cleanUp-config.json
+    inputs:
+      rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration
+      targetFiles: cleanUp-config.json
+      encoding: auto
+      writeBOM: true
+      actionOnMissing: fail
+      keepToken: false
+      tokenPrefix: '#{'
+      tokenSuffix: '}#'
+
+  - script: |
+      npm install crypto got
+      node cleanUp.js      
+    displayName: 'Clean up test data'
+    workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration        
+
   - task: ArchiveFiles@2
     displayName: ${{ parameters.packageName }} - Archive test output - screenshots
     inputs:
@@ -87,3 +105,5 @@ jobs:
       testRunTitle: ${{ parameters.packageName }} Integration Test
       searchFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}
       failTaskOnFailedTests: true
+
+
