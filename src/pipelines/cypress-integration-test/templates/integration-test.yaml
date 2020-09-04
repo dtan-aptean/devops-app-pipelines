@@ -8,6 +8,24 @@ jobs:
 
   - checkout: testing-e2e  
 
+  - task: replacetokens@3
+    displayName: Replace tokens in ad-token-config.json
+    inputs:
+      rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration
+      targetFiles: ad-token-config.json
+      encoding: auto
+      writeBOM: true
+      actionOnMissing: fail
+      keepToken: false
+      tokenPrefix: '#{'
+      tokenSuffix: '}#'
+
+  - script: |
+      npm install fs puppeteer util replace-in-file
+      node getADToken.js      
+    displayName: 'Get bearer token'
+    workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration 
+
   - task: CopyFiles@2
     displayName: ${{ parameters.packageName }} - Copy test files
     inputs:
@@ -68,4 +86,4 @@ jobs:
       mergeTestResults: false
       testRunTitle: ${{ parameters.packageName }} Integration Test
       searchFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}
-      failTaskOnFailedTests: true      
+      failTaskOnFailedTests: true

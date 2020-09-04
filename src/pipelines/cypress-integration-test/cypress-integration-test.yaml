@@ -25,18 +25,21 @@ resources:
 stages:
   - stage: Ezpay_api_svc
     displayName: Run ezpay-api-svc test
+    dependsOn: []
 
     jobs:
     - template: ./templates/integration-test.yaml
       parameters:
         packageName: ezpay-api-svc
 
-    - job: cleanUp
+    - job: Cleanup
+      dependsOn: RunTest
+      condition: succeededOrFailed()
       steps:
       - task: replacetokens@3
         displayName: Replace tokens in cleanUp-config.json
         inputs:
-          rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test
+          rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration
           targetFiles: cleanUp-config.json
           encoding: auto
           writeBOM: true
@@ -49,11 +52,12 @@ stages:
           npm install crypto got
           node cleanUp.js      
         displayName: 'Clean up test data'
-        workingDirectory: $(System.DefaultWorkingDirectory)/src        
+        workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration        
 
   - stage: Payer_portal
     displayName: Run payer portal test
-    
+    dependsOn: []
+
     jobs:
     - template: ./templates/integration-test.yaml
       parameters:
@@ -61,6 +65,7 @@ stages:
 
   - stage: Merchant_portal
     displayName: Run merchant portal test
+    dependsOn: []
 
     jobs:
     - template: ./templates/integration-test.yaml
