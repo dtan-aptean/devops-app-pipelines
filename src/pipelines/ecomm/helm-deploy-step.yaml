@@ -83,7 +83,61 @@ steps:
       annotations:
         kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
 
-    config: {}
+    config: 
+      tenantId: "$env:TENANT_ID"
+      storeUrl: "$env:STORE_URL"
+      admin:
+        emailAddress: "$env:ADMIN_EMAIL"
+        password: "$env:ADMIN_PSW"
+      sql:
+        connectionString: "$env.SQL_CONN_STRING"
+        commandTimeout: "$env.SQL_COMMAND_TIMEOUT"
+      apteanIdentityPlugin:
+        b2c:
+          clientId: "$env:B2C_CLIENT_ID"
+          domainHost: "$env:B2C_DOMAIN_HOST"
+          tenantId: "$env:TENANT_ID"
+          policyName: "$env:B2C_POLICY_NAME"
+          redirectUri: "$env:B2C_REDIRECT_URI"
+          domainHint: "$env:B2C_DOMAIN_HINT"
+          friendlyName: "$env:FRIENDLY_NAME"
+      apteanPayPlugin:
+        apiUrl: "$env:APTEAN_PAY_API_URL"
+        merchantPortalUrl: "$env:MERCHANT_PORTAL_URL"
+        wepay:
+          appId: "$env:WEPAY_APP_ID"
+          environment: "$env:WEPAY_ENV"
+          apiVersion: "$env:WEPAY_API_VERSION"
+          apiKey: "$env:WEPAY_API_KEY"
+      hosting:
+        useHttpClusterHttps: $env:USE_HTTP_CLUSTER_HTTPS
+        useHttpXForwardedProto: $env:USE_HTTP_X_FORWARDED_PROTO
+        forwardedHttpHeader: $env:FORWARDED_HTTP_HEADER
+      nop:
+        displayFullErrorStack: $env:DISPLAY_FULL_ERROR_STACK
+        azureBlobStorageConnectionString: "$env:BLOB_STORAGE_CONN_STRING"
+        azureBlobStorageContainerName: "$env:BLOB_STORAGE_CONTAINER_NAME"
+        azureBlobStorageEndPoint: "$env:BLOB_STORAGE_ENDPOINT"
+        azureBlobStorageAppendContainerName: $env:BLOB_STORAGE_APPEND_CONTAINER_NAME
+        useAzureBlobStorageToStoreDataProtectionKeys: $env:USE_BLOB_STORAGE_TO_STORE_KEYS
+        azureBlobStorageContainerNameForDataProtectionKeys: "$env:BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS"
+        azureKeyVaultIdForDataProtectionKeys: "$env:KEY_VAULT_ID_FOR_KEYS"
+        redisEnabled: $env:ENABLE_REDIS
+        redisDatabaseId: "$env:REDIS_DATABASE_ID"
+        redisConnectionString: "$env:REDIS_CONN_STRING"
+        useRedisToStoreDataProtectionKeys: $env:USE_REDIS_TO_STORE_KEYS
+        useRedisForCaching: $env:USE_REDIS_FOR_CACHING
+        ignoreRedisTimeoutException: $env:IGNORE_REDIS_TIMEOUT_EXCEPTION
+        useRedisToStorePluginsInfo: $env:USE_REDIS_TO_STORE_PLUGINS_INFO
+        userAgentStringsPath: "$env:USER_AGENT_STRINGS_PATH"
+        crawlerOnlyUserAgentStringsPath: "$env:CRAWLER_ONLY_USER_AGENT_STRINGS_PATH"
+        disableSampleDataDuringInstallation: $env:DISABLE_SAMPLE_DATA_DURING_INSTALLATION
+        pluginsIgnoredDuringInstallation: "$env:PLUGINS_IGNORED_DURING_INSTALLATION"
+        clearPluginShadowDirectoryOnStartup: $env:CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP
+        copyLockedPluginAssembilesToSubdirectoriesOnStartup: $env:COPY_LOCKED_PLUGIN_ASSEMBLIES
+        usePluginsShadowCopy: $env:USE_PLUGIN_SHADOW_COPY
+        useUnsafeLoadAssembly: $env:USE_UNSAFE_LOAD_ASSEMBLY
+        useSessionStateTempDataProvider: $env:USE_SESSION_STATE_TEMP_DATA_PROVIDER      
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     Write-Host ""
@@ -109,6 +163,51 @@ steps:
     RESOURCE_LIMITS_MEMORY: ${{ parameters.resourceLimitsMemory }}
     RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
+    TENANT_ID: ${{ parameters.azureTenantId }}
+    STORE_URL: ${{ parameters.storeUrl }}
+    ADMIN_EMAIL: ${{ parameters.adminEmail }}
+    ADMIN_PSW: ${{ parameters.adminPassword }}
+    SQL_CONN_STRING: ${{ parameters.sqlConnString }}
+    SQL_COMMAND_TIMEOUT: ${{ parameters.sqlCommandTimeout }}
+    B2C_CLIENT_ID: ${{ parameters.b2cClientId }}
+    B2C_DOMAIN_HOST: ${{ parameters.b2cDomainHost }}
+    B2C_POLICY_NAME: ${{ parameters.b2cPolicyName }}
+    B2C_REDIRECT_URI: ${{ parameters.b2cRedirectUri }}
+    B2C_DOMAIN_HINT: ${{ parameters.b2cDomainHint }}
+    FRIENDLY_NAME: ${{ parameters.friendlyName }}
+    APTEAN_PAY_API_URL: ${{ parameters.apteanPayApiUrl }}
+    MERCHANT_PORTAL_URL: ${{ parameters.merchantPortalUrl }}
+    WEPAY_APP_ID: ${{ parameters.wepayAppId }}
+    WEPAY_ENV: ${{ parameters.wepayEnv }}
+    WEPAY_API_VERSION: ${{ parameters.wepayApiVersion }}
+    WEPAY_API_KEY: ${{ parameters.wepayApiKey }}
+    USE_HTTP_CLUSTER_HTTPS: ${{ parameters.useHttpClusterHttps }}
+    USE_HTTP_X_FORWARDED_PROTO: ${{ parameters.useHttpXForwardedProto }}
+    FORWARDED_HTTP_HEADER: ${{ parameters.forwardedHttpHeader }}
+    DISPLAY_FULL_ERROR_STACK: ${{ parameters.displayFullErrorStack }}
+    BLOB_STORAGE_CONN_STRING: ${{ parameters.blobStorageConnString }}
+    BLOB_STORAGE_CONTAINER_NAME: ${{ parameters.blobStorageContainerName }}
+    BLOB_STORAGE_ENDPOINT: ${{ parameters.blobStorageEndpoint }}
+    BLOB_STORAGE_APPEND_CONTAINER_NAME: ${{ parameters.blobStorageAppendContainerName }}
+    USE_BLOB_STORAGE_TO_STORE_KEYS: ${{ parameters.useBlobStorageToStoreKeys }}
+    BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS: ${{ parameters.blobStorageContainerNameForKeys }}
+    KEY_VAULT_ID_FOR_KEYS: ${{ parameters.keyVaultIdForKeys }}
+    ENABLE_REDIS: ${{ parameters.enableRedis }}
+    REDIS_DATABASE_ID: ${{ parameters.redisDatabaseId }}
+    REDIS_CONN_STRING: ${{ parameters.redisConnString }}
+    USE_REDIS_TO_STORE_KEYS: ${{ parameters.useRedisToStoreKeys }}
+    USE_REDIS_FOR_CACHING: ${{ parameters.useRedisForCaching }}
+    IGNORE_REDIS_TIMEOUT_EXCEPTION: ${{ parameters.ignoreRedisTimeoutException }}
+    USE_REDIS_TO_STORE_PLUGINS_INFO: ${{ parameters.useRedisToStorePluginsInfo }}
+    USER_AGENT_STRINGS_PATH: ${{ parameters.userAgentStringsPath }}
+    CRAWLER_ONLY_USER_AGENT_STRINGS_PATH: ${{ parameters.crawlerOnlyUserAgentStringsPath }}
+    DISABLE_SAMPLE_DATA_DURING_INSTALLATION: ${{ parameters.disableSampleDataDuringInstallation }}
+    PLUGINS_IGNORED_DURING_INSTALLATION: ${{ parameters.pluginsIgnoredDuringInstallation }}
+    CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP: ${{ parameters.clearPluginShadowDirOnStartup }}
+    COPY_LOCKED_PLUGIN_ASSEMBLIES: ${{ parameters.copyLockedPluginAssemblies }}
+    USE_PLUGIN_SHADOW_COPY: ${{ parameters.usePluginShadowCopy }}
+    USE_UNSAFE_LOAD_ASSEMBLY: ${{ parameters.useUnsafeLoadAssembly }}
+    USE_SESSION_STATE_TEMP_DATA_PROVIDER: ${{ parameters.useSessionStateTempDataProvider }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
