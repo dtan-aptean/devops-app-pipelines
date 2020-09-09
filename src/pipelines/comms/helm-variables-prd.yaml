@@ -10,7 +10,7 @@ variables:
 - name: IMAGE_REPOSITORY_NAME
   value: comms-api-svc
 - name: HELM_RELEASE_NAME
-  value: rel01
+  value: comms01
 - name: RESOURCE_LIMITS_CPU
   value: 50m
 - name: RESOURCE_LIMITS_MEMORY

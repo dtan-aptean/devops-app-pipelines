@@ -10,7 +10,7 @@ variables:
 - name: IMAGE_REPOSITORY_NAME
   value: ezpay-payfac-notifications-svc
 - name: HELM_RELEASE_NAME
-  value: rel01-payfac-notifications
+  value: pfc-notif01
 - name: RESOURCE_LIMITS_CPU
   value: 50m
 - name: RESOURCE_LIMITS_MEMORY

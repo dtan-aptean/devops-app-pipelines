@@ -10,7 +10,7 @@ variables:
 - name: IMAGE_REPOSITORY_NAME
   value: wepay-integration-svc
 - name: HELM_RELEASE_NAME
-  value: rel01-wepay-integration
+  value: wp-int-grpc01
 - name: RESOURCE_LIMITS_CPU
   value: 50m
 - name: RESOURCE_LIMITS_MEMORY

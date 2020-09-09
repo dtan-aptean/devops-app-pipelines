@@ -10,7 +10,7 @@ variables:
 - name: IMAGE_REPOSITORY_NAME
   value: ezpay-transaction-records-svc
 - name: HELM_RELEASE_NAME
-  value: rel01
+  value: txn-rec
 - name: RESOURCE_LIMITS_CPU
   value: 50m
 - name: RESOURCE_LIMITS_MEMORY
