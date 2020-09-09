@@ -65,7 +65,8 @@ parameters:
   copyLockedPluginAssemblies: ''
   usePluginShadowCopy: ''
   useUnsafeLoadAssembly: ''
-  useSessionStateTempDataProvider: ''  
+  useSessionStateTempDataProvider: ''
+  apteanLanguagePluginApiUrl: ''
 
 steps:
 - pwsh: |
@@ -155,6 +156,8 @@ steps:
           environment: "$env:WEPAY_ENV"
           apiVersion: "$env:WEPAY_API_VERSION"
           apiKey: "$env:WEPAY_API_KEY"
+      apteanLanguagePlugin:
+        apiUrl: "$env:APTEAN_LANGUAGE_PLUGIN_API_URL"
       hosting:
         useHttpClusterHttps: $env:USE_HTTP_CLUSTER_HTTPS
         useHttpXForwardedProto: $env:USE_HTTP_X_FORWARDED_PROTO
@@ -183,7 +186,7 @@ steps:
         copyLockedPluginAssembilesToSubdirectoriesOnStartup: $env:COPY_LOCKED_PLUGIN_ASSEMBLIES
         usePluginsShadowCopy: $env:USE_PLUGIN_SHADOW_COPY
         useUnsafeLoadAssembly: $env:USE_UNSAFE_LOAD_ASSEMBLY
-        useSessionStateTempDataProvider: $env:USE_SESSION_STATE_TEMP_DATA_PROVIDER      
+        useSessionStateTempDataProvider: $env:USE_SESSION_STATE_TEMP_DATA_PROVIDER
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     Write-Host ""
@@ -223,6 +226,7 @@ steps:
     B2C_DOMAIN_HINT: ${{ parameters.b2cDomainHint }}
     FRIENDLY_NAME: ${{ parameters.friendlyName }}
     APTEAN_PAY_API_URL: ${{ parameters.apteanPayApiUrl }}
+    APTEAN_LANGUAGE_PLUGIN_API_URL: ${{ parameters.apteanLanguagePluginApiUrl }}
     MERCHANT_PORTAL_URL: ${{ parameters.merchantPortalUrl }}
     WEPAY_APP_ID: ${{ parameters.wepayAppId }}
     WEPAY_ENV: ${{ parameters.wepayEnv }}

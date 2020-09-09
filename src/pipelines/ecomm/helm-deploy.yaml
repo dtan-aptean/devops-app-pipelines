@@ -100,7 +100,8 @@ stages:
               copyLockedPluginAssemblies: $(COPY_LOCKED_PLUGIN_ASSEMBLIES)
               usePluginShadowCopy: $(USE_PLUGIN_SHADOW_COPY)
               useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
-              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER)             
+              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER) 
+              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)            
 
 - stage: TST_Ecomm_SF_Helm_Deploy
   displayName: TST - Ecomm Storefront Helm Deploy
@@ -190,7 +191,8 @@ stages:
               copyLockedPluginAssemblies: $(COPY_LOCKED_PLUGIN_ASSEMBLIES)
               usePluginShadowCopy: $(USE_PLUGIN_SHADOW_COPY)
               useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
-              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER)               
+              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER) 
+              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)              
 
 - stage: STG_Ecomm_SF_Helm_Deploy
   displayName: STG - Ecomm Storefront Helm Deploy
@@ -280,7 +282,8 @@ stages:
               copyLockedPluginAssemblies: $(COPY_LOCKED_PLUGIN_ASSEMBLIES)
               usePluginShadowCopy: $(USE_PLUGIN_SHADOW_COPY)
               useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
-              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER)               
+              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER)
+              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)               
 
 - stage: PRF_Ecomm_SF_Helm_Deploy
   displayName: PRF - Ecomm Storefront Helm Deploy
@@ -370,4 +373,5 @@ stages:
               copyLockedPluginAssemblies: $(COPY_LOCKED_PLUGIN_ASSEMBLIES)
               usePluginShadowCopy: $(USE_PLUGIN_SHADOW_COPY)
               useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
-              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER)  
+              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER)
+              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)  
