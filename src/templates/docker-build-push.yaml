@@ -10,6 +10,7 @@ parameters:
   dockerFilePath: ''
   protoSrcPath: ''
   protoDestPath: ''
+  dockerBuildContext: '**'  
 
 stages:
 - stage: Build
@@ -45,6 +46,7 @@ stages:
         command: buildAndPush
         Dockerfile: ${{ parameters.dockerFilePath }}
         tags: ${{ parameters.fullVersionFriendly }}
+        buildContext: ${{ parameters.dockerBuildContext }}
         addPipelineData: false
 
     - task: Bash@3
