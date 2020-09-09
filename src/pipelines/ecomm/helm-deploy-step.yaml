@@ -20,6 +20,52 @@ parameters:
   resourceLimitsMemory: ''
   resourceRequestsCpu: ''
   resourceRequestsMemory: ''
+  apteanTenantId: ''
+  storeUrl: ''
+  adminEmail: ''
+  adminPassword: 
+  sqlConnString: ''
+  sqlCommandTimeout: ''
+  b2cClientId: ''
+  b2cTenantId: ''
+  b2cDomainHost: ''
+  b2cPolicyName: ''
+  b2cRedirectUri: ''
+  b2cDomainHint: ''
+  friendlyName: ''
+  apteanPayApiUrl: ''
+  merchantPortalUrl: ''
+  wepayAppId: ''
+  wepayEnv: ''
+  wepayApiVersion: ''
+  wepayApiKey: ''
+  useHttpClusterHttps: ''
+  useHttpXForwardedProto: ''
+  forwardedHttpHeader: ''
+  displayFullErrorStack: ''
+  blobStorageConnString: ''
+  blobStorageContainerName: ''
+  blobStorageEndpoint: ''
+  blobStorageAppendContainerName: ''
+  useBlobStorageToStoreKeys: ''
+  blobStorageContainerNameForKeys: ''
+  keyVaultIdForKeys: ''
+  enableRedis: ''
+  redisDatabaseId: ''
+  redisConnString: ''
+  useRedisToStoreKeys: ''
+  useRedisForCaching: ''
+  ignoreRedisTimeoutException: ''
+  useRedisToStorePluginsInfo: ''
+  userAgentStringsPath: ''
+  crawlerOnlyUserAgentStringsPath: ''
+  disableSampleDataDuringInstallation: ''
+  pluginsIgnoredDuringInstallation: ''
+  clearPluginShadowDirOnStartup: ''
+  copyLockedPluginAssemblies: ''
+  usePluginShadowCopy: ''
+  useUnsafeLoadAssembly: ''
+  useSessionStateTempDataProvider: ''  
 
 steps:
 - pwsh: |
@@ -84,7 +130,7 @@ steps:
         kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
 
     config: 
-      tenantId: "$env:TENANT_ID"
+      tenantId: "$env:APTEAN_TENANT_ID"
       storeUrl: "$env:STORE_URL"
       admin:
         emailAddress: "$env:ADMIN_EMAIL"
@@ -96,7 +142,7 @@ steps:
         b2c:
           clientId: "$env:B2C_CLIENT_ID"
           domainHost: "$env:B2C_DOMAIN_HOST"
-          tenantId: "$env:TENANT_ID"
+          tenantId: "$env:B2C_TENANT_ID"
           policyName: "$env:B2C_POLICY_NAME"
           redirectUri: "$env:B2C_REDIRECT_URI"
           domainHint: "$env:B2C_DOMAIN_HINT"
@@ -163,13 +209,14 @@ steps:
     RESOURCE_LIMITS_MEMORY: ${{ parameters.resourceLimitsMemory }}
     RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
-    TENANT_ID: ${{ parameters.azureTenantId }}
+    APTEAN_TENANT_ID: ${{ parameters.apteanTenantId }}
     STORE_URL: ${{ parameters.storeUrl }}
     ADMIN_EMAIL: ${{ parameters.adminEmail }}
     ADMIN_PSW: ${{ parameters.adminPassword }}
     SQL_CONN_STRING: ${{ parameters.sqlConnString }}
     SQL_COMMAND_TIMEOUT: ${{ parameters.sqlCommandTimeout }}
     B2C_CLIENT_ID: ${{ parameters.b2cClientId }}
+    B2C_TENANT_ID: ${{ parameters.b2cTenantId }}
     B2C_DOMAIN_HOST: ${{ parameters.b2cDomainHost }}
     B2C_POLICY_NAME: ${{ parameters.b2cPolicyName }}
     B2C_REDIRECT_URI: ${{ parameters.b2cRedirectUri }}
