@@ -138,8 +138,8 @@ steps:
         emailAddress: "$env:ADMIN_EMAIL"
         password: "$env:ADMIN_PSW"
       sql:
-        connectionString: "$env.SQL_CONN_STRING"
-        commandTimeout: "$env.SQL_COMMAND_TIMEOUT"
+        connectionString: "$env:SQL_CONN_STRING"
+        commandTimeout: "$env:SQL_COMMAND_TIMEOUT"
       apteanIdentityPlugin:
         b2c:
           clientId: "$env:B2C_CLIENT_ID"
