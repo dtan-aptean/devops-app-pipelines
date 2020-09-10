@@ -129,7 +129,8 @@ steps:
     ingress:
       annotations:
         kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
-
+      path: /ecomm-sf-$env:APTEAN_TENANT_ID
+      
     config: 
       tenantId: "$env:APTEAN_TENANT_ID"
       storeUrl: "$env:STORE_URL"
