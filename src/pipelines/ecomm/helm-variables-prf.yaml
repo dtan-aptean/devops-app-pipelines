@@ -2,7 +2,7 @@ variables:
 - name: K8S_NAMESPACE
   value: ecomm-prf
 - name: CHART_NAME
-  value: ecomm-storefront
+  value: ecomm-sf
 - name: CONTAINER_REGISTRY_NAME
   value: acreastusshrapteancr
 - name: CHART_REPOSITORY_NAME
