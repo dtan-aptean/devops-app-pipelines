@@ -1,6 +1,6 @@
 variables:
 - name: K8S_NAMESPACE
-  value: ezpay-prd
+  value: ezpay-prd-live
 - name: CHART_NAME
   value: ezpay-api-svc
 - name: CONTAINER_REGISTRY_NAME
@@ -24,7 +24,7 @@ variables:
 - name: FRONT_DOOR_ID
   value: "6e18a8d2-1fa5-4632-b089-0ed2d9d21f28"
 - name: KONG_INGRESS_UPSTREAM_HEADER
-  value: ezpay-api-svc.ezpay-prd.svc
+  value: ezpay-api-svc.ezpay-prd-live.svc
 - name: KONG_INGRESS_CLASS
   value: kong-prd
 - name: REPLICAS
