@@ -40,4 +40,18 @@ stages:
           serviceName: ezpay-api-svc
           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)                      
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-email-notification-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-payfac-notifications-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
