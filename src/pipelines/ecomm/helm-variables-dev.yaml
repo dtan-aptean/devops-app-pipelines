@@ -14,7 +14,7 @@ variables:
 - name: RESOURCE_LIMITS_CPU
   value: 100m
 - name: RESOURCE_LIMITS_MEMORY
-  value: 128Mi
+  value: 512Mi
 - name: RESOURCE_REQUESTS_CPU
   value: 10m
 - name: RESOURCE_REQUESTS_MEMORY
