@@ -554,7 +554,7 @@ stages:
               containerRegistryName: $(CONTAINER_REGISTRY_NAME)
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: ezpay-prd
+              k8sNamespace: ezpay-prd-live
               helmReleaseName: $(HELM_RELEASE_NAME)-svc01
               chartName: $(CHART_NAME)
               env: $(ENV)
