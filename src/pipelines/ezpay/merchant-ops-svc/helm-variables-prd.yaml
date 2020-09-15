@@ -12,9 +12,9 @@ variables:
 - name: HELM_RELEASE_NAME
   value: merch-ops01
 - name: RESOURCE_LIMITS_CPU
-  value: 256Mi
+  value: 50m
 - name: RESOURCE_LIMITS_MEMORY
-  value: 64Mi
+  value: 256Mi
 - name: RESOURCE_REQUESTS_CPU
   value: 10m
 - name: RESOURCE_REQUESTS_MEMORY
