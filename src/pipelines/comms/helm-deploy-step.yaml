@@ -25,6 +25,7 @@ parameters:
   cosmosDatabase: ''
   cosmosContainer: ''
   serviceBusConnectionString: ''
+  servicebusManagementConnectionString: ''
   sbSmsReqQueue: ''
   sbEmailReqQueue: ''
   sbEventsTopic: ''
@@ -38,6 +39,8 @@ parameters:
   subsMgmtApiKey: ''
   smsFromPhoneNumber: ''
   processPlatformEvents: ''
+  batchSize: ''
+  executionMode: ''  
 
 steps:
 - pwsh: |
@@ -108,6 +111,7 @@ steps:
         containerName: "$env:COSMOS_CONTAINER"
       serviceBus:
         connectionString: "$env:SB_CONN_STRING"
+        managementConnectionString: "$env:SB_MANAGEMENT_CONN_STRING"
         smsRequestQueue: "$env:SB_SMS_REQ_QUEUE"
         emailRequestQueue: "$env:SB_EMAIL_REQ_QUEUE"
         eventsTopic: "$env:SB_EVENTS_TOPIC"
@@ -125,6 +129,8 @@ steps:
         serviceId: "$env:SUBS_MGMT_SERVICE_ID"
       smsFromPhoneNumber: "$env:SMS_FROM_PHONE_NUMBER"
       processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
+      batchSize: "$env:BATCH_SIZE"
+      executionMode: "$env:EXECUTION_MODE"
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     Write-Host ""
@@ -155,6 +161,7 @@ steps:
     COSMOS_DATABASE: ${{ parameters.cosmosDatabase }}
     COSMOS_CONTAINER: ${{ parameters.cosmosContainer }}
     SB_CONN_STRING: ${{ parameters.serviceBusConnectionString }}
+    SB_MANAGEMENT_CONN_STRING: ${{ parameters.servicebusManagementConnectionString }}
     SB_SMS_REQ_QUEUE: ${{ parameters.sbSmsReqQueue }}
     SB_EMAIL_REQ_QUEUE: ${{ parameters.sbEmailReqQueue }}
     SB_EVENTS_TOPIC: ${{ parameters.sbEventsTopic }}
@@ -168,6 +175,8 @@ steps:
     SUBS_MGMT_API_KEY: ${{ parameters.subsMgmtApiKey }}
     SMS_FROM_PHONE_NUMBER: ${{ parameters.smsFromPhoneNumber }}
     PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
+    BATCH_SIZE: ${{ parameters.batchSize }}
+    EXECUTION_MODE: ${{ parameters.executionMode }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

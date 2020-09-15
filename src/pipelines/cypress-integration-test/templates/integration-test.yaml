@@ -1,25 +1,45 @@
 parameters:
-  artifactPipeline: ''
-  artifactName: ''
+  packageName: ''
 
-steps:
-  - download: ${{ parameters.artifactPipeline }}
-    displayName: ${{ parameters.artifactName }} - Download test files
+jobs:
+- job: RunTest
+  steps: 
+  - checkout: self
 
-  - task: CopyFiles@2
-    displayName: ${{ parameters.artifactName }} - Copy test files
-    inputs:
-      SourceFolder: $(Pipeline.Workspace)/${{ parameters.artifactPipeline }}/drop/integration/${{ parameters.artifactName }}
-      Contents: '**'
-      TargetFolder: $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress
-
-  - script: mv $(System.DefaultWorkingDirectory)/src/${{ parameters.artifactName }}.cypress.json $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress.json
-    displayName: ${{ parameters.artifactName }} - Add cypress.json
+  - checkout: testing-e2e  
 
   - task: replacetokens@3
-    displayName: ${{ parameters.artifactName }} - Replace tokens in cypress.json
+    displayName: Replace tokens in ad-token-config.json
     inputs:
-      rootDirectory: $(Pipeline.Workspace)/${{ parameters.artifactName }}
+      rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration
+      targetFiles: ad-token-config.json
+      encoding: auto
+      writeBOM: true
+      actionOnMissing: fail
+      keepToken: false
+      tokenPrefix: '#{'
+      tokenSuffix: '}#'
+
+  - script: |
+      npm install fs puppeteer util replace-in-file
+      node getADToken.js      
+    displayName: 'Get bearer token'
+    workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration 
+
+  - task: CopyFiles@2
+    displayName: ${{ parameters.packageName }} - Copy test files
+    inputs:
+      SourceFolder: $(System.DefaultWorkingDirectory)/testing-e2e/src/${{ parameters.packageName }}/cypress
+      Contents: '**'
+      TargetFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress
+
+  - script: mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/${{ parameters.packageName }}.cypress.json $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress.json
+    displayName: ${{ parameters.packageName }} - Add cypress.json
+
+  - task: replacetokens@3
+    displayName: ${{ parameters.packageName }} - Replace tokens in cypress.json
+    inputs:
+      rootDirectory: $(Pipeline.Workspace)/${{ parameters.packageName }}
       targetFiles: cypress.json
       encoding: auto
       writeBOM: true
@@ -28,28 +48,62 @@ steps:
       tokenPrefix: '#{'
       tokenSuffix: '}#'
 
-  - script: cp $(System.DefaultWorkingDirectory)/src/tsconfig.json $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress
-    displayName: ${{ parameters.artifactName }} - Add tsconfig.json 
+  - script: docker build -t cypress-${{ parameters.packageName }}:5.0.0 -f  $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
+    displayName: ${{ parameters.packageName }} - Build integraton test docker image
 
-  - script: docker build -t cypress-${{ parameters.artifactName }}:5.0.0 -f  $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test/Dockerfile $(Pipeline.Workspace)/${{ parameters.artifactName }} 
-    displayName: ${{ parameters.artifactName }} - Build integraton test docker image
+  - script: docker run -v $(Pipeline.Workspace)/${{ parameters.packageName }}:/e2e cypress-${{ parameters.packageName }}:5.0.0 || true
+    displayName: ${{ parameters.packageName }} - Run test
+    workingDirectory: $(Pipeline.Workspace)/${{ parameters.packageName }}
 
-  - script: docker run -v $(Pipeline.Workspace)/${{ parameters.artifactName }}:/e2e cypress-${{ parameters.artifactName }}:5.0.0 || true
-    displayName: ${{ parameters.artifactName }} - Run test
-    workingDirectory: $(Pipeline.Workspace)/${{ parameters.artifactName }}
+  - task: replacetokens@3
+    displayName: Replace tokens in cleanUp-config.json
+    inputs:
+      rootDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration
+      targetFiles: cleanUp-config.json
+      encoding: auto
+      writeBOM: true
+      actionOnMissing: fail
+      keepToken: false
+      tokenPrefix: '#{'
+      tokenSuffix: '}#'
+
+  - script: |
+      npm install crypto got
+      node cleanUp.js      
+    displayName: 'Clean up test data'
+    workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration        
 
   - task: ArchiveFiles@2
-    displayName: ${{ parameters.artifactName }} - Archive test output - screenshots
+    displayName: ${{ parameters.packageName }} - Archive test output - screenshots
     inputs:
-      rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress/screenshots
+      rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress/screenshots
       archiveType: zip
-      archiveFile: $(Build.ArtifactStagingDirectory)/${{ parameters.artifactName }}.zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/${{ parameters.packageName }}.zip
       replaceExistingArchive: true 
 
   - task: ArchiveFiles@2
-    displayName: ${{ parameters.artifactName }} - Archive test output - videos
+    displayName: ${{ parameters.packageName }} - Archive test output - videos
     inputs:
-      rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.artifactName }}/cypress/videos
+      rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress/videos
       archiveType: zip
-      archiveFile: $(Build.ArtifactStagingDirectory)/${{ parameters.artifactName }}.zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/${{ parameters.packageName }}.zip
       replaceExistingArchive: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: Publish build artifact
+    condition: succeededOrFailed()
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+      ArtifactName: results  
+
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFiles: '**/test-result-*.xml'
+      mergeTestResults: false
+      testRunTitle: ${{ parameters.packageName }} Integration Test
+      searchFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}
+      failTaskOnFailedTests: true
+
+

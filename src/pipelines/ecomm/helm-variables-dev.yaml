@@ -2,19 +2,19 @@ variables:
 - name: K8S_NAMESPACE
   value: ecomm-dev
 - name: CHART_NAME
-  value: ecomm-storefront
+  value: ecomm-sf
 - name: CONTAINER_REGISTRY_NAME
   value: acreastusshrapteancr
 - name: CHART_REPOSITORY_NAME
-  value: "helm/subs-mgmt-api-svc"
+  value: "helm/ecomm-sf"
 - name: IMAGE_REPOSITORY_NAME
-  value: subs-mgmt-api-svc
+  value: ecomm-sf
 - name: HELM_RELEASE_NAME
   value: ecomm01
 - name: RESOURCE_LIMITS_CPU
-  value: 50m
+  value: 100m
 - name: RESOURCE_LIMITS_MEMORY
-  value: 64Mi
+  value: 128Mi
 - name: RESOURCE_REQUESTS_CPU
   value: 10m
 - name: RESOURCE_REQUESTS_MEMORY
@@ -24,7 +24,7 @@ variables:
 - name: FRONT_DOOR_ID
   value: "ee747644-4fcd-4532-9270-2598f7e3fa5f"
 - name: KONG_INGRESS_UPSTREAM_HEADER
-  value: subs-mgmt-api-svc.subs-mgmt-dev.svc
+  value: ecomm-sf.ecomm-dev.svc
 - name: KONG_INGRESS_CLASS
   value: kong-dev
 - name: REPLICAS

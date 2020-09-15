@@ -16,83 +16,37 @@ variables:
 - group: ezpay-integration-tests
 
 resources:
-  pipelines:
-  - pipeline: ezpay-api-svc-master-build
-    source: ezpay-api-svc-master-build
-  - pipeline: ezpay-payer-portal-master-build
-    source: ezpay-payer-portal-master-build
-  - pipeline: ezpay-merchant-portal-master-build
-    source: ezpay-merchant-portal-master-build    
+  repositories:
+  - repository: testing-e2e
+    type: git
+    name: testing-e2e
+     
+stages:
+  - stage: Ezpay_api_svc
+    displayName: Run ezpay-api-svc test
+    dependsOn: []
 
-steps:
-  - script: |
-      mv $(System.DefaultWorkingDirectory)/src/pipelines/cypress-integration-test/integration/*.* $(System.DefaultWorkingDirectory)/src/
-    displayName: 'Copy Files'
+    jobs:
+    - template: ./templates/integration-test.yaml
+      parameters:
+        packageName: ezpay-api-svc
 
-  - task: replacetokens@3
-    displayName: Replace tokens in ad-token-config.json
-    inputs:
-      rootDirectory: $(System.DefaultWorkingDirectory)/src
-      targetFiles: ad-token-config.json
-      encoding: auto
-      writeBOM: true
-      actionOnMissing: fail
-      keepToken: false
-      tokenPrefix: '#{'
-      tokenSuffix: '}#'
+  - stage: Payer_portal
+    displayName: Run payer portal test
+    dependsOn: []
 
-  - script: |
-      npm install fs puppeteer util replace-in-file
-      node getADToken.js      
-    displayName: 'Get bearer token'
-    workingDirectory: $(System.DefaultWorkingDirectory)/src    
+    jobs:
+    - template: ./templates/integration-test.yaml
+      parameters:
+        packageName: payer-portal
 
-  - template: ./templates/integration-test.yaml
-    parameters:
-      artifactPipeline: ezpay-api-svc-master-build
-      artifactName: ezpay-api-svc
+  - stage: Merchant_portal
+    displayName: Run merchant portal test
+    dependsOn: []
 
-  - template: ./templates/integration-test.yaml
-    parameters:
-      artifactPipeline: ezpay-payer-portal-master-build
-      artifactName: ezpay-payer-portal
+    jobs:
+    - template: ./templates/integration-test.yaml
+      parameters:
+        packageName: merchant-portal
 
-  - template: ./templates/integration-test.yaml
-    parameters:
-      artifactPipeline: ezpay-merchant-portal-master-build
-      artifactName: ezpay-merchant-portal
-
-  - task: replacetokens@3
-    displayName: Replace tokens in cleanUp-config.json
-    inputs:
-      rootDirectory: $(System.DefaultWorkingDirectory)/src
-      targetFiles: cleanUp-config.json
-      encoding: auto
-      writeBOM: true
-      actionOnMissing: fail
-      keepToken: false
-      tokenPrefix: '#{'
-      tokenSuffix: '}#'
-
-  - script: |
-      npm install crypto got
-      node cleanUp.js      
-    displayName: 'Clean up test data'
-    workingDirectory: $(System.DefaultWorkingDirectory)/src
-
-  - task: PublishBuildArtifacts@1
-    displayName: Publish build artifact
-    condition: succeededOrFailed()
-    inputs:
-      PathtoPublish: $(Build.ArtifactStagingDirectory)
-      ArtifactName: results  
-
-  - task: PublishTestResults@2
-    displayName: 'Publish test results'
-    condition: succeededOrFailed()
-    inputs:
-      testResultsFiles: '**/test-result-*.xml'
-      mergeTestResults: true
-      testRunTitle: 'Integration Test'
-      searchFolder: $(Pipeline.Workspace)
-      failTaskOnFailedTests: true
+ 
