@@ -1,0 +1,197 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: wepay-integration-svc-docker-build-push
+    source: wepay-integration-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+
+variables:
+- group: helm-chart-svc-principal-config
+
+stages:
+- stage: DEV_Wepay_Integration_Svc_Helm_Deploy
+  displayName: DEV - wepay-integration-svc Helm Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-dev
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: wepay-integration-svc-dev
+    - template: helm-variables-dev.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              wepayBaseUrl: $(WEPAY_BASE_URL)
+              wepayApiVersion: $(WEPAY_API_VERSION)
+              wepayAppId: $(WEPAY_APP_ID)
+              wepayAppToken: $(WEPAY_APP_TOKEN)
+              wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
+
+- stage: TST_Wepay_Integration_Svc_Helm_Deploy
+  displayName: TST - wepay-integration-svc Helm Deploy
+  dependsOn: DEV_Wepay_Integration_Svc_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: wepay-integration-svc-tst
+    - template: helm-variables-tst.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              wepayBaseUrl: $(WEPAY_BASE_URL)
+              wepayApiVersion: $(WEPAY_API_VERSION)
+              wepayAppId: $(WEPAY_APP_ID)
+              wepayAppToken: $(WEPAY_APP_TOKEN)
+              wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
+
+- stage: STG_Wepay_Integration_Svc_Helm_Deploy
+  displayName: STG - wepay-integration-svc Helm Deploy
+  dependsOn: TST_Wepay_Integration_Svc_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: wepay-integration-svc-stg
+    - template: helm-variables-stg.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              wepayBaseUrl: $(WEPAY_BASE_URL)
+              wepayApiVersion: $(WEPAY_API_VERSION)
+              wepayAppId: $(WEPAY_APP_ID)
+              wepayAppToken: $(WEPAY_APP_TOKEN)
+              wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
+
+- stage: PRD_Wepay_Integration_Svc_Helm_Deploy
+  displayName: PRD - wepay-integration-svc Helm Deploy
+  dependsOn: STG_Wepay_Integration_Svc_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-prd
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: wepay-integration-svc-prd
+    - template: helm-variables-prd.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              wepayBaseUrl: $(WEPAY_BASE_URL)
+              wepayApiVersion: $(WEPAY_API_VERSION)
+              wepayAppId: $(WEPAY_APP_ID)
+              wepayAppToken: $(WEPAY_APP_TOKEN)
+              wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)

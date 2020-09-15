@@ -2,6 +2,7 @@ parameters:
   dockerFilePath: ''
   protoSrcPath: ''
   protoDestPath: ''
+  dockerBuildContext: '**'
 
 stages:
 - stage: Build
@@ -34,5 +35,6 @@ stages:
       inputs:
         command: build
         Dockerfile: ${{ parameters.dockerFilePath }}
+        buildContext: ${{ parameters.dockerBuildContext }}
         arguments: '--target tests'
         addPipelineData: false

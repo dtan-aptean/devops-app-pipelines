@@ -10,7 +10,7 @@ variables:
 - name: IMAGE_REPOSITORY_NAME
   value: ezpay-api-svc
 - name: HELM_RELEASE_NAME
-  value: rel01-gql
+  value: ezp-gql01
 - name: RESOURCE_LIMITS_CPU
   value: 250m
 - name: RESOURCE_LIMITS_MEMORY
