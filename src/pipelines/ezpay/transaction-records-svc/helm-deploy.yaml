@@ -15,6 +15,7 @@ variables:
 stages:
 - stage: DEV_Ezpay_Transaction_Records_Svc_Helm_Deploy
   displayName: DEV - ezpay-transaction-records-svc Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -69,6 +70,7 @@ stages:
 
 - stage: DEV_Ezpay_Transaction_Records_Retrieve_Job_Helm_Deploy
   displayName: DEV - ezpay-transaction-records-retrieve-job Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
