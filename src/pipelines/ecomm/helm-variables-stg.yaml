@@ -12,9 +12,9 @@ variables:
 - name: HELM_RELEASE_NAME
   value: ecomm01
 - name: RESOURCE_LIMITS_CPU
-  value: 100m
+  value: 500m
 - name: RESOURCE_LIMITS_MEMORY
-  value: 512Mi
+  value: 1.5Gi
 - name: RESOURCE_REQUESTS_CPU
   value: 10m
 - name: RESOURCE_REQUESTS_MEMORY
