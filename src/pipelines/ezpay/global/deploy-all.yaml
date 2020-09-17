@@ -543,6 +543,7 @@ stages:
 ## EZPAY EMAIL NOTIFICATIONS ##
 - stage: DEV_Email_Notification_Svc_Helm_Deploy
   displayName: DEV - Ezpay Email Notifications SVC Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -767,6 +768,7 @@ stages:
 ## EZPAY MERCHANT OPS ##
 - stage: DEV_Ezpay_Merchant_Ops_Helm_Deploy
   displayName: DEV - ezpay-merchant-ops-svc Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -971,6 +973,7 @@ stages:
 ## EZPAY PAYMENT OPS ##
 - stage: DEV_Ezpay_Payment_Ops_Helm_Deploy
   displayName: DEV - ezpay-payment-ops-svc Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -1191,6 +1194,7 @@ stages:
 ## EZPAY PAYMENTS SVC ##
 - stage: DEV_Ezpay_Payments_Svc_Helm_Deploy
   displayName: DEV - ezpay-payments-svc Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -1245,6 +1249,7 @@ stages:
 
 - stage: DEV_Ezpay_Payments_Retry_Job_Helm_Deploy
   displayName: DEV - ezpay-payments-retry-job-dev Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -1755,6 +1760,7 @@ stages:
 
 - stage: DEV_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
   displayName: DEV - ezpay-transaction-records-stmts-job Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -2326,6 +2332,7 @@ stages:
 ## EZPAY WEPAY INTEGRATION ##
 - stage: DEV_Wepay_Integration_Svc_Helm_Deploy
   displayName: DEV - wepay-integration-svc Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
