@@ -1,0 +1,19 @@
+trigger: none
+
+parameters:
+- name: pipelines
+  type: object
+  default:
+  - one
+  - two
+
+# steps:
+# - ${{ each value in parameters.pipelines }}:
+#   - script: echo ${{ value }}
+
+stages:
+- stage: DEV_Ezpay_Deploy
+  displayName: DEV - ezpay deploy all services
+
+  jobs:
+  - template: api-svc/helm-deploy.yaml
