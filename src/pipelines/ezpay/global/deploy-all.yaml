@@ -17,13 +17,13 @@ stages:
 
     variables:
     - group: ezpay-api-svc-dev
-    - template: helm-variables-dev.yaml
+    - template: ../api-svc/helm-variables-dev.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yaml
+          - template: ../api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -93,13 +93,13 @@ stages:
 
     variables:
     - group: ezpay-api-svc-tst
-    - template: helm-variables-tst.yaml
+    - template: ../api-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yaml
+          - template: ../api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -169,13 +169,13 @@ stages:
 
     variables:
     - group: ezpay-api-svc-stg
-    - template: helm-variables-stg.yaml
+    - template: ../api-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yaml
+          - template: ../api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -245,13 +245,13 @@ stages:
 
     variables:
     - group: ezpay-api-svc-prd
-    - template: helm-variables-prd.yaml
+    - template: ../api-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yaml
+          - template: ../api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -320,13 +320,13 @@ stages:
 
     variables:
     - group: ezpay-payfac-notifications-svc-dev
-    - template: helm-variables-dev.yaml
+    - template: ../payfac-notifications-svc/helm-variables-dev.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yaml
+          - template: ../payfac-notifications-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -377,13 +377,13 @@ stages:
 
     variables:
     - group: ezpay-payfac-notifications-svc-tst
-    - template: helm-variables-tst.yaml
+    - template: ../payfac-notifications-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yaml
+          - template: ../payfac-notifications-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -434,13 +434,13 @@ stages:
 
     variables:
     - group: ezpay-payfac-notifications-svc-stg
-    - template: helm-variables-stg.yaml
+    - template: ../payfac-notifications-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yaml
+          - template: ../payfac-notifications-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -491,13 +491,13 @@ stages:
 
     variables:
     - group: ezpay-payfac-notifications-svc-prd
-    - template: helm-variables-prd.yaml
+    - template: ../payfac-notifications-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yaml
+          - template: ../payfac-notifications-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
