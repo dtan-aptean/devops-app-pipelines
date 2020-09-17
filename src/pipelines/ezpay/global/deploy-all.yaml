@@ -309,6 +309,7 @@ stages:
 
 - stage: DEV_Payfac_Notifications_Svc_Helm_Deploy
   displayName: DEV - Ezpay Payfac Notifications SVC Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
