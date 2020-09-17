@@ -86,7 +86,7 @@ steps:
     ingress:
       annotations:
         kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
-      path: /ecomm-sf-$env:APTEAN_TENANT_ID
+      path: /ecomm-lang-svc
       
     config: 
       cacheRetainSeconds: $env:ECOMM_CACHE_RETAIN_SECONDS
