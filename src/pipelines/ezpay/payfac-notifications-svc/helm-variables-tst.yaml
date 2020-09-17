@@ -10,7 +10,7 @@ variables:
 - name: IMAGE_REPOSITORY_NAME
   value: ezpay-payfac-notifications-svc
 - name: HELM_RELEASE_NAME
-  value: pfc-notif01
+  value: dandy-kiwi
 - name: RESOURCE_LIMITS_CPU
   value: 50m
 - name: RESOURCE_LIMITS_MEMORY
