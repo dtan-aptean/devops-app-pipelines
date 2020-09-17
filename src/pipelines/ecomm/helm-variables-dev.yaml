@@ -10,7 +10,7 @@ variables:
 - name: IMAGE_REPOSITORY_NAME
   value: ecomm-sf
 - name: HELM_RELEASE_NAME
-  value: ecomm01
+  value: misty-boxer
 - name: RESOURCE_LIMITS_CPU
   value: 500m
 - name: RESOURCE_LIMITS_MEMORY

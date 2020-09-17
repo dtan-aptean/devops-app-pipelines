@@ -45,7 +45,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: ezpay-dev
-              helmReleaseName: $(HELM_RELEASE_NAME)-svc01
+              helmReleaseName: $(HELM_RELEASE_NAME)-svc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -100,7 +100,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-ret-job01
+              helmReleaseName: $(HELM_RELEASE_NAME)-ret-job
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -157,7 +157,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-stmts-job01
+              helmReleaseName: $(HELM_RELEASE_NAME)-stmts-job
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -215,7 +215,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: ezpay-tst
-              helmReleaseName: $(HELM_RELEASE_NAME)-svc01
+              helmReleaseName: $(HELM_RELEASE_NAME)-svc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -270,7 +270,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-ret-job01
+              helmReleaseName: $(HELM_RELEASE_NAME)-ret-job
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -328,7 +328,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-stmts-job01
+              helmReleaseName: $(HELM_RELEASE_NAME)-stmts-job
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -386,7 +386,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: ezpay-stg
-              helmReleaseName: $(HELM_RELEASE_NAME)-svc01
+              helmReleaseName: $(HELM_RELEASE_NAME)-svc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -441,7 +441,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-ret-job01
+              helmReleaseName: $(HELM_RELEASE_NAME)-ret-job
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -499,7 +499,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-stmts-job01
+              helmReleaseName: $(HELM_RELEASE_NAME)-stmts-job
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -557,7 +557,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: ezpay-prd-live
-              helmReleaseName: $(HELM_RELEASE_NAME)-svc01
+              helmReleaseName: $(HELM_RELEASE_NAME)-svc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -612,7 +612,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-ret-job01
+              helmReleaseName: $(HELM_RELEASE_NAME)-ret-job
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -670,7 +670,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-stmts-job01
+              helmReleaseName: $(HELM_RELEASE_NAME)-stmts-job
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
