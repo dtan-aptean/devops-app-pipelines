@@ -16,4 +16,4 @@ stages:
   displayName: DEV - ezpay deploy all services
 
   jobs:
-  - template: api-svc/helm-deploy.yaml
+  - template: ../api-svc/helm-deploy.yaml
