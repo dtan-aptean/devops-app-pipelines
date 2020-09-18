@@ -1,5 +1,3 @@
-# TODO: Remove dev and tst stages
-
 trigger: none
 
 variables:
