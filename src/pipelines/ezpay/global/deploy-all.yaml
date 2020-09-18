@@ -8,84 +8,9 @@ variables:
 stages:
 
 ## EZPAY API SVC ##
-- stage: DEV_API_Svc_Helm_Deploy
-  displayName: DEV - Ezpay API SVC Helm Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ezpay-api-svc-dev
-    - template: ../api-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../api-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_CONTAINER)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              sbPlatformEventsTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
-              b2cClientId: $(B2C_CLIENT_ID)
-              b2cDomainHost: $(B2C_DOMAIN_HOST)
-              b2cTenantId: $(B2C_TENANT_ID)
-              b2cPolicyName: $(B2C_POLICY_NAME)
-              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
-              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
-              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)  
-              wepayGrpcUrl: $(GRPC_URL_WEPAY_INTEGRATION)
-              wepayApiVersion: $(WEPAY_API_VERSION)
-              wepayAppId: $(WEPAY_APP_ID)
-              wepayAppToken: $(WEPAY_APP_TOKEN)
-              paymentsFromPhoneNumber: $(PAYMENTS_PLATFORM_FROM_PHONE_NUMBER)
-              paymentsFromEmail: $(PAYMENTS_PLATFORM_FROM_EMAIL)
-              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
-              blobStorageUrl: $(BLOB_STORAGE_URL)
-              encryptPayerUrlToken: $(ENCRYPT_PAYER_URL_TOKEN)
-              encryptionKey: $(ENCRYPTION_KEY)
-              ezpayTosVersion: $(EZPAY_TOS_VERSION)
-              statementsContainerName: $(STATEMENTS_CONTAINER_NAME)
-              invoiceContainerName: $(INVOICE_CONTAINER_NAME)
-              invoiceBlobConnectionString: $(INVOICE_BLOB_CONNECTION_STRING)
-              urlShortenerUrl: $(LOGIC_APP_URL_SHORTENER_URL)
-              payerPortalUrl: $(PAYER_PORTAL_BASE_URL)
-              productApisOnly: $(PRODUCT_APIS_ONLY) 
-
 - stage: TST_API_Svc_Helm_Deploy
   displayName: TST - Ezpay API SVC Helm Deploy
-  dependsOn: DEV_API_Svc_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -312,66 +237,9 @@ stages:
               productApisOnly: $(PRODUCT_APIS_ONLY)               
 
 ## EZPAY PAYFAC NOTIFICATIONS ##
-- stage: DEV_Payfac_Notifications_Svc_Helm_Deploy
-  displayName: DEV - Ezpay Payfac Notifications SVC Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ezpay-payfac-notifications-svc-dev
-    - template: ../payfac-notifications-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../payfac-notifications-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              wepayGrpcUrl: $(GRPC_URL_WEPAY_INTEGRATION)
-              wepayBaseUrl: $(WEPAY_BASE_URL)
-              wepayApiVersion: $(WEPAY_API_VERSION)
-              wepayAppId: $(WEPAY_APP_ID)
-              wepayAppToken: $(WEPAY_APP_TOKEN)
-              broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
-              ezpayWebHookUrl: $(EZPAY_WEBHOOK_URL)
-              eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
-              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
-              processNotificationEvents: $(PROCESS_NOTIFICATION_EVENTS)
-              serviceBusConnectionString: $(SB_CONN_STRING)   
-              payfacTopicConnectionString: $(SB_PAYFAC_NOTIFICATIONS_TOPIC_CONN_STRING)
-              platformEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
-              payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)
-
 - stage: TST_Payfac_Notifications_Svc_Helm_Deploy
   displayName: TST - Ezpay Payfac Notifications SVC Helm Deploy
-  dependsOn: DEV_Payfac_Notifications_Svc_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -541,65 +409,9 @@ stages:
               payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)
 
 ## EZPAY EMAIL NOTIFICATIONS ##
-- stage: DEV_Email_Notification_Svc_Helm_Deploy
-  displayName: DEV - Ezpay Email Notifications SVC Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ezpay-email-notification-svc-dev
-    - template: ../email-notification-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../email-notification-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              wepayGrpcUrl: $(GRPC_URL_WEPAY_INTEGRATION)
-              broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
-              emailTemplateLogoUrl: $(EMAIL_TEMPLATE_LOGO_URL)
-              platformEmail: $(PLATFORM_EMAIL)
-              platformName: $(PLATFORM_NAME)
-              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
-              merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              payerPortalUrl: $(PAYER_PORTAL_URL)            
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                
-
 - stage: TST_Email_Notification_Svc_Helm_Deploy
   displayName: TST - Ezpay Email Notifications SVC Helm Deploy
-  dependsOn: DEV_Email_Notification_Svc_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -766,60 +578,9 @@ stages:
               cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
 
 ## EZPAY MERCHANT OPS ##
-- stage: DEV_Ezpay_Merchant_Ops_Helm_Deploy
-  displayName: DEV - ezpay-merchant-ops-svc Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ezpay-merchant-ops-svc-dev
-    - template: ../merchant-ops-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../merchant-ops-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDbName: $(COSMOSDB_DB_NAME)
-              cosmosContainerName: $(COSMOSDB_CONTAINER_NAME)
-              sbConnectionString: $(SB_CONN_STRING)
-              eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              enableAppInsights: $(ENABLE_APP_INSIGHTS)
-              enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
-              wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
-
 - stage: TST_Ezpay_Merchant_Ops_Helm_Deploy
   displayName: TST - ezpay-merchant-ops-svc Helm Deploy
-  dependsOn: DEV_Ezpay_Merchant_Ops_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -971,64 +732,9 @@ stages:
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
 
 ## EZPAY PAYMENT OPS ##
-- stage: DEV_Ezpay_Payment_Ops_Helm_Deploy
-  displayName: DEV - ezpay-payment-ops-svc Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ezpay-payment-ops-svc-dev
-    - template: ../payment-ops-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../payment-ops-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDbName: $(COSMOSDB_DB_NAME)
-              cosmosContainerName: $(COSMOSDB_CONTAINER_NAME)
-              sbConnectionString: $(SB_CONN_STRING)
-              eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              enableAppInsights: $(ENABLE_APP_INSIGHTS)
-              enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
-              wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
-              emailReqsQueueConnString: $(SB_EMAIL_REQS_QUEUE_CONN_STRING)
-              emailReqsQueue: $(SB_EMAIL_REQS_QUEUE)
-              smsReqsQueueConnString: $(SB_SMS_REQS_QUEUE_CONN_STRING)
-              smsReqsQueue: $(SB_SMS_REQS_QUEUE)
-
 - stage: TST_Ezpay_Payment_Ops_Helm_Deploy
   displayName: TST - ezpay-payment-ops-svc Helm Deploy
-  dependsOn: DEV_Ezpay_Payment_Ops_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -1192,122 +898,9 @@ stages:
               smsReqsQueue: $(SB_SMS_REQS_QUEUE)
 
 ## EZPAY PAYMENTS SVC ##
-- stage: DEV_Ezpay_Payments_Svc_Helm_Deploy
-  displayName: DEV - ezpay-payments-svc Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ezpay-payments-svc-dev
-    - template: ../payments-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../payments-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              executionMode: $(EXECUTION_MODE)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDbName: $(COSMOSDB_DB_NAME)
-              cosmosContainerName: $(COSMOSDB_CONTAINER_NAME)
-              mongodbConnString: $(MONGODB_CONN_STRING)
-              mongodbName: $(MONGODB_DB_NAME)
-              mongodbCollectionName: $(MONGODB_COLLECTION_NAME)
-              sbConnectionString: $(SB_CONN_STRING)
-              eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              enableAppInsights: $(ENABLE_APP_INSIGHTS)
-              enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
-              wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
-
-- stage: DEV_Ezpay_Payments_Retry_Job_Helm_Deploy
-  displayName: DEV - ezpay-payments-retry-job-dev Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-payments-retry-job-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ezpay-payments-retry-job-dev
-    - template: ../payments-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../payments-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: ezpay-jobs-dev
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              executionMode: $(EXECUTION_MODE)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDbName: $(COSMOSDB_DB_NAME)
-              cosmosContainerName: $(COSMOSDB_CONTAINER_NAME)
-              mongodbConnString: $(MONGODB_CONN_STRING)
-              mongodbName: $(MONGODB_DB_NAME)
-              mongodbCollectionName: $(MONGODB_COLLECTION_NAME)
-              sbConnectionString: $(SB_CONN_STRING)
-              eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              cronSchedule: $(CRON_SCHEDULE)
-              successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
-              failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
-              enableAppInsights: $(ENABLE_APP_INSIGHTS)
-              enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
-              wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
-
 - stage: TST_Ezpay_Payments_Svc_Helm_Deploy
   displayName: TST - ezpay-payments-svc Helm Deploy
-  dependsOn: DEV_Ezpay_Payments_Svc_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -1362,7 +955,7 @@ stages:
 
 - stage: TST_Ezpay_Payments_Retry_Job_Helm_Deploy
   displayName: TST - ezpay-payments-retry-job-dev Helm Deploy
-  dependsOn: DEV_Ezpay_Payments_Retry_Job_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -1645,180 +1238,9 @@ stages:
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
 
 ## EZPAY TRANSACTION RECORDS SVC + JOBS ##
-- stage: DEV_Ezpay_Transaction_Records_Svc_Helm_Deploy
-  displayName: DEV - ezpay-transaction-records-svc Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-transaction-records-svc-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ezpay-transaction-records-svc-dev
-    - template: ../transaction-records-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: ezpay-dev
-              helmReleaseName: $(HELM_RELEASE_NAME)-svc
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              executionMode: $(EXECUTION_MODE)
-              broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              wepayGrpcUrl: $(GRPC_URL_WEPAY_INTEGRATION)
-              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
-              statementsContainerName: $(STATEMENTS_CONTAINER_NAME)
-              statementsPeriod: $(STATEMENT_PERIOD)
-              statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
-
-- stage: DEV_Ezpay_Transaction_Records_Retrieve_Job_Helm_Deploy
-  displayName: DEV - ezpay-transaction-records-retrieve-job Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-transaction-records-retrieve-job-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ezpay-transaction-records-retrieve-job-dev
-    - template: ../transaction-records-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-ret-job
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              cronSchedule: $(CRON_SCHEDULE)
-              executionMode: $(EXECUTION_MODE)
-              broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              wepayGrpcUrl: $(GRPC_URL_WEPAY_INTEGRATION)
-              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
-              statementsContainerName: $(STATEMENTS_CONTAINER_NAME)
-              statementsPeriod: $(STATEMENT_PERIOD)
-              statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
-              successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
-              failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
-
-- stage: DEV_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
-  displayName: DEV - ezpay-transaction-records-stmts-job Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-transaction-stmts-job-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ezpay-transaction-stmts-job-dev
-    - template: ../transaction-records-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-stmts-job
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              cronSchedule: $(CRON_SCHEDULE)
-              executionMode: $(EXECUTION_MODE)
-              broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              wepayGrpcUrl: $(GRPC_URL_WEPAY_INTEGRATION)
-              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
-              statementsContainerName: $(STATEMENTS_CONTAINER_NAME)
-              statementsPeriod: $(STATEMENT_PERIOD)
-              statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
-              successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
-              failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
-
 - stage: TST_Ezpay_Transaction_Records_Svc_Helm_Deploy
   displayName: TST - ezpay-transaction-records-svc Helm Deploy
-  dependsOn: DEV_Ezpay_Transaction_Records_Svc_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -1873,7 +1295,7 @@ stages:
 
 - stage: TST_Ezpay_Transaction_Records_Retrieve_Job_Helm_Deploy
   displayName: TST - ezpay-transaction-records-retrieve-job Helm Deploy
-  dependsOn: DEV_Ezpay_Transaction_Records_Retrieve_Job_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -1931,7 +1353,7 @@ stages:
 
 - stage: TST_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
   displayName: TST - ezpay-transaction-records-stmts-job Helm Deploy
-  dependsOn: DEV_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -2330,55 +1752,9 @@ stages:
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
 
 ## EZPAY WEPAY INTEGRATION ##
-- stage: DEV_Wepay_Integration_Svc_Helm_Deploy
-  displayName: DEV - wepay-integration-svc Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ezpay-dev
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: wepay-integration-svc-dev
-    - template: ../wepay-integration-svc/helm-variables-dev.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../wepay-integration-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              wepayBaseUrl: $(WEPAY_BASE_URL)
-              wepayApiVersion: $(WEPAY_API_VERSION)
-              wepayAppId: $(WEPAY_APP_ID)
-              wepayAppToken: $(WEPAY_APP_TOKEN)
-              wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
-
 - stage: TST_Wepay_Integration_Svc_Helm_Deploy
   displayName: TST - wepay-integration-svc Helm Deploy
-  dependsOn: DEV_Wepay_Integration_Svc_Helm_Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
