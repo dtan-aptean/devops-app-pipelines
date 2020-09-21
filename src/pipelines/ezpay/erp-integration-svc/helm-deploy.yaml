@@ -1,0 +1,214 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: ezpay-erp-integration-svc-docker-build-push
+    source: ezpay-erp-integration-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+
+variables:
+- group: helm-chart-svc-principal-config
+
+stages:
+- stage: DEV_ERP_Integration_Svc_Helm_Deploy
+  displayName: DEV - erp-integration Helm Deploy
+  dependsOn: []
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-dev
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ezpay-erp-integration-svc-dev
+    - template: helm-variables-dev.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
+              ezpayGrpcUrl: $(GRPC_URL_EZPAY_API_SVC)
+              syncTimeout: $(SYNC_TIMEOUT)
+
+- stage: TST_ERP_Integration_Svc_Helm_Deploy
+  displayName: TST - erp-integration Helm Deploy
+  dependsOn: DEV_ERP_Integration_Svc_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ezpay-erp-integration-svc-tst
+    - template: helm-variables-tst.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
+              ezpayGrpcUrl: $(GRPC_URL_EZPAY_API_SVC)
+              syncTimeout: $(SYNC_TIMEOUT)     
+
+- stage: STG_ERP_Integration_Svc_Helm_Deploy
+  displayName: STG - erp-integration Helm Deploy
+  dependsOn: TST_ERP_Integration_Svc_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ezpay-erp-integration-svc-stg
+    - template: helm-variables-stg.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
+              ezpayGrpcUrl: $(GRPC_URL_EZPAY_API_SVC)
+              syncTimeout: $(SYNC_TIMEOUT)            
+
+- stage: PRD_ERP_Integration_Svc_Helm_Deploy
+  displayName: PRD - erp-integration Helm Deploy
+  dependsOn: STG_ERP_Integration_Svc_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-prd
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ezpay-erp-integration-svc-prd
+    - template: helm-variables-prd.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
+              ezpayGrpcUrl: $(GRPC_URL_EZPAY_API_SVC)
+              syncTimeout: $(SYNC_TIMEOUT)          
