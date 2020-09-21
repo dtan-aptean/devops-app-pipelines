@@ -15,6 +15,7 @@ variables:
 stages:
 - stage: DEV_GQL_API_Svc_Helm_Deploy
   displayName: DEV - Ezpay API SVC (GQL) Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
@@ -44,7 +45,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -120,7 +121,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -197,7 +198,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -274,7 +275,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -351,7 +352,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -428,7 +429,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -505,7 +506,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
@@ -582,7 +583,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
               replicas: $(REPLICAS)
