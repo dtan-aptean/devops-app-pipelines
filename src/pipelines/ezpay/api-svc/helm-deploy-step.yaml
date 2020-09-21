@@ -156,7 +156,7 @@ steps:
       merchantPortalUrl: "$env:BLOB_STORAGE_URL"
       payerPortalUrl: "$env:PAYER_PORTAL_BASE_URL"
       productAPIsOnly: $env:PRODUCT_APIS_ONLY
-      apiKind: $API_KIND
+      apiKind: $env:API_KIND
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
