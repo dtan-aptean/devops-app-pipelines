@@ -51,7 +51,8 @@ parameters:
   invoiceBlobConnectionString: ''
   urlShortenerUrl: ''
   payerPortalUrl: ''
-  productApisOnly: ''  
+  productApisOnly: ''
+  apiKind: ''
 
 steps:
 - pwsh: |
@@ -155,6 +156,7 @@ steps:
       merchantPortalUrl: "$env:BLOB_STORAGE_URL"
       payerPortalUrl: "$env:PAYER_PORTAL_BASE_URL"
       productAPIsOnly: $env:PRODUCT_APIS_ONLY
+      apiKind: $API_KIND
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -213,6 +215,7 @@ steps:
     LOGIC_APP_URL_SHORTENER_URL: ${{ parameters.urlShortenerUrl }}
     PAYER_PORTAL_BASE_URL: ${{ parameters.payerPortalUrl }}
     PRODUCT_APIS_ONLY: ${{ parameters.productApisOnly }}
+    API_KIND: ${{ parameters.apiKind }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
