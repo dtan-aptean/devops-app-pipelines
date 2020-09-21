@@ -29,3 +29,7 @@ variables:
   value: aks-eastus-shr-apteank8s
 - name: AKS_RESOURCE_GROUP
   value: rg-eastus-shr-apteank8s
+- name: SUCCESSFUL_JOB_HISTORY_LIMIT
+  value: 3
+- name: FAILED_JOB_HISTORY_LIMIT
+  value: 3  
