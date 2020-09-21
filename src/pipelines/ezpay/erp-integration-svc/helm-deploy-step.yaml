@@ -98,7 +98,7 @@ steps:
         grpcUrl: "$env:SUBS_MGMT_GRPC_URL"
         apiKey: "$env:SUBS_MGMT_API_KEY"
         serviceId: "$env:SUBS_MGMT_SERVICE_ID"
-      syncTimeout: "SYNC_TIMEOUT"
+      syncTimeout: "$env:SYNC_TIMEOUT"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
