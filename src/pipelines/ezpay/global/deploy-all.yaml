@@ -1192,7 +1192,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-payments-retry-job-tst
+    environment: ezpay-tst
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1305,7 +1305,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-payments-retry-job-stg
+    environment: ezpay-stg
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1418,7 +1418,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-payments-retry-job-prd
+    environment: ezpay-prd
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1477,7 +1477,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-transaction-records-svc-tst
+    environment: ezpay-tst
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1532,7 +1532,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-transaction-records-retrieve-job-tst
+    environment: ezpay-tst
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1590,7 +1590,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-transaction-stmts-job-tst
+    environment: ezpay-tst
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1648,7 +1648,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-transaction-records-svc-stg
+    environment: ezpay-stg
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1703,7 +1703,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-transaction-records-retrieve-job-stg
+    environment: ezpay-stg
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1761,7 +1761,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-transaction-stmts-job-dev
+    environment: ezpay-stg
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1819,7 +1819,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-transaction-records-svc-prd
+    environment: ezpay-prd
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1874,7 +1874,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-transaction-records-retrieve-job-prd
+    environment: ezpay-prd
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1932,7 +1932,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-transaction-stmts-job-prd
+    environment: ezpay-prd
 
     pool:
       vmImage: 'ubuntu-latest'
