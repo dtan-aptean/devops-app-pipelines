@@ -92,6 +92,7 @@ stages:
 
 - stage: DEV_GRPC_API_Svc_Helm_Deploy
   displayName: DEV - Ezpay API SVC (GRPC) Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
