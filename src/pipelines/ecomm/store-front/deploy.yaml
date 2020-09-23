@@ -251,7 +251,7 @@ stages:
 
 - stage: PRF_Ecomm_SF_Deploy
   displayName: PRF - Ecomm Storefront App Service Deploy
-  dependsOn: STG_Ecomm_SF_Deploy
+  dependsOn: TST_Ecomm_SF_Deploy
 
   jobs:
   - deployment: App_Service_Deploy
