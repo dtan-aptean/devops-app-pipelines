@@ -1186,7 +1186,7 @@ stages:
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
 
 - stage: TST_Ezpay_Payments_Retry_Job_Helm_Deploy
-  displayName: TST - ezpay-payments-retry-job-dev Helm Deploy
+  displayName: TST - ezpay-payments-retry-job-tst Helm Deploy
   dependsOn: []
 
   jobs:
@@ -1299,7 +1299,7 @@ stages:
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
 
 - stage: STG_Ezpay_Payments_Retry_Job_Helm_Deploy
-  displayName: STG - ezpay-payments-retry-job-dev Helm Deploy
+  displayName: STG - ezpay-payments-retry-job-stg Helm Deploy
   dependsOn: TST_Ezpay_Payments_Retry_Job_Helm_Deploy
 
   jobs:
@@ -1412,7 +1412,7 @@ stages:
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
 
 - stage: PRD_Ezpay_Payments_Retry_Job_Helm_Deploy
-  displayName: PRD - ezpay-payments-retry-job-dev Helm Deploy
+  displayName: PRD - ezpay-payments-retry-job-prd Helm Deploy
   dependsOn: STG_Ezpay_Payments_Retry_Job_Helm_Deploy
 
   jobs:
@@ -1767,8 +1767,8 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-transaction-stmts-job-dev
-    - template: ../transaction-records-svc/helm-variables-dev.yaml
+    - group: ezpay-transaction-stmts-job-stg
+    - template: ../transaction-records-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
