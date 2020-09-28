@@ -56,6 +56,6 @@ stages:
     jobs:
     - template: ./templates/integration-test.yaml
       parameters:
-        packageName: ecomm       
+        packageName: ecomm-sf       
 
  
