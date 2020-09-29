@@ -1,6 +1,8 @@
 variables:
 - name: K8S_NAMESPACE
   value: ezpay-prd-live
+- name: K8S_JOBS_NAMESPACE
+  value: ezpay-jobs-prd-live  
 - name: CHART_NAME
   value: ezpay-payments-svc
 - name: CONTAINER_REGISTRY_NAME

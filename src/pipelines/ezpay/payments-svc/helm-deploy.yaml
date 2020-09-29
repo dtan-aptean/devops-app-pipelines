@@ -97,7 +97,7 @@ stages:
               containerRegistryName: $(CONTAINER_REGISTRY_NAME)
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: ezpay-jobs-dev
+              k8sNamespace: $(K8S_JOBS_NAMESPACE)
               helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)

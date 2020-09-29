@@ -1,5 +1,7 @@
 variables:
 - name: K8S_NAMESPACE
+  value: ezpay-dev
+- name: K8S_JOBS_NAMESPACE
   value: ezpay-jobs-dev
 - name: CHART_NAME
   value: ezpay-transaction-records-svc
