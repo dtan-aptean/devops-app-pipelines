@@ -13,7 +13,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-- group: ezpay-integration-tests
+- group: e2e-integration-tests
 
 resources:
   repositories:
@@ -48,5 +48,14 @@ stages:
     - template: ./templates/integration-test.yaml
       parameters:
         packageName: merchant-portal
+
+  - stage: eCommerce
+    displayName: Run whole test suite of eCommerce
+    dependsOn: []
+
+    jobs:
+    - template: ./templates/integration-test.yaml
+      parameters:
+        packageName: ecomm-sf       
 
  
