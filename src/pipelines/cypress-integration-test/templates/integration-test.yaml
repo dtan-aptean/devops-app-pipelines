@@ -48,10 +48,10 @@ jobs:
       tokenPrefix: '#{'
       tokenSuffix: '}#'
 
-  - script: docker build -t cypress-${{ parameters.packageName }}:5.0.0 -f  $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
+  - script: docker build --tag cypress-${{ parameters.packageName }}:5.0.0 --file  $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
     displayName: ${{ parameters.packageName }} - Build integraton test docker image
 
-  - script: docker run -v $(Pipeline.Workspace)/${{ parameters.packageName }}:/e2e cypress-${{ parameters.packageName }}:5.0.0 || true
+  - script: docker run --ipc=host --volume $(Pipeline.Workspace)/${{ parameters.packageName }}:/e2e cypress-${{ parameters.packageName }}:5.0.0 || true
     displayName: ${{ parameters.packageName }} - Run test
     workingDirectory: $(Pipeline.Workspace)/${{ parameters.packageName }}
 
