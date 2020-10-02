@@ -1,0 +1,198 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: ecomm-gql-api-svc-docker-build-push
+    source: ecomm-gql-api-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+
+variables:
+- group: helm-chart-svc-principal-config
+
+stages:
+- stage: DEV_Ecomm_Grpc_Api_Svc_Helm_Deploy
+  displayName: DEV - ecomm-gql-api-svc Helm Deploy
+  dependsOn: []
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ecomm-dev
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ecomm-gql-api-svc-dev
+    - template: helm-variables-dev.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY) 
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
+              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+
+- stage: TST_Ecomm_Grpc_Api_Svc_Helm_Deploy
+  displayName: TST - ecomm-gql-api-svc Helm Deploy
+  dependsOn: DEV_Ecomm_Grpc_Api_Svc_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ecomm-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ecomm-gql-api-svc-tst
+    - template: helm-variables-tst.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
+              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+
+- stage: STG_Ecomm_Grpc_Api_Svc_Helm_Deploy
+  displayName: STG - ecomm-gql-api-svc Helm Deploy
+  dependsOn: TST_Ecomm_Grpc_Api_Svc_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ecomm-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ecomm-gql-api-svc-stg
+    - template: helm-variables-stg.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
+              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+
+- stage: PRD_Ecomm_Grpc_Api_Svc_Helm_Deploy
+  displayName: PRD - ecomm-gql-api-svc Helm Deploy
+  dependsOn: STG_Ecomm_Grpc_Api_Svc_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ecomm-prd
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ecomm-gql-api-svc-prd
+    - template: helm-variables-prd.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
+              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
