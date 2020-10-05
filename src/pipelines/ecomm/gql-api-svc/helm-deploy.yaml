@@ -54,7 +54,6 @@ stages:
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY) 
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
-              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
 
 - stage: TST_Ecomm_Grpc_Api_Svc_Helm_Deploy
   displayName: TST - ecomm-gql-api-svc Helm Deploy
@@ -97,7 +96,6 @@ stages:
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
-              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
 
 - stage: STG_Ecomm_Grpc_Api_Svc_Helm_Deploy
   displayName: STG - ecomm-gql-api-svc Helm Deploy
@@ -140,7 +138,6 @@ stages:
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
-              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
 
 - stage: PRD_Ecomm_Grpc_Api_Svc_Helm_Deploy
   displayName: PRD - ecomm-gql-api-svc Helm Deploy
@@ -183,4 +180,3 @@ stages:
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
-              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
