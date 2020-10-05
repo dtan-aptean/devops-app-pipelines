@@ -39,6 +39,8 @@ stages:
     - template: ./templates/integration-test.yaml
       parameters:
         packageName: payer-portal
+        updatePayerPortalContentType: true
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
   - stage: Merchant_portal
     displayName: Run merchant portal test
@@ -48,6 +50,8 @@ stages:
     - template: ./templates/integration-test.yaml
       parameters:
         packageName: merchant-portal
+        updateMerchantPortalContentType: true
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
   - stage: eCommerce
     displayName: Run whole test suite of eCommerce
