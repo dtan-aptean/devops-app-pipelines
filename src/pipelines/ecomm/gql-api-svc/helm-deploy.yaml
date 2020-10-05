@@ -53,9 +53,6 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY) 
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
 
@@ -99,9 +96,6 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
 
@@ -145,9 +139,6 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
 
@@ -191,8 +182,5 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
