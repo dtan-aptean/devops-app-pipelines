@@ -83,7 +83,7 @@ steps:
     ingress:
       annotations:
         kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
-      path: /ecomm-lang-svc          
+      path: /ecomm-gql-api-svc          
 
     config:
       erpIntegrationSvc:
