@@ -2230,7 +2230,7 @@ stages:
 
 - stage: PRD_Payer_Portal_Deploy
   displayName: PRD Payer Portal Deploy
-  dependsOn: PRD_Payer_Portal_Deploy
+  dependsOn: STG_Payer_Portal_Deploy
 
   jobs:
     - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
