@@ -3,6 +3,26 @@ trigger: none
 variables:
 - group: helm-chart-svc-principal-config
 
+resources:
+  repositories:
+  - repository: ezpay-frontend-apps
+    type: git
+    name: ezpay-frontend-apps
+    ref: refs/heads/master  
+
+  pipelines:
+  - pipeline: ezpay-merchant-portal-master-build
+    source: ezpay-merchant-portal-master-build
+    trigger:
+      branches:
+      - master
+
+  - pipeline: ezpay-payer-portal-master-build
+    source: ezpay-merchant-portal-master-build
+    trigger:
+      branches:
+      - master
+    
 stages:
 
 ## EZPAY API SVC ##
@@ -2121,3 +2141,101 @@ stages:
               wepayAppId: $(WEPAY_APP_ID)
               wepayAppToken: $(WEPAY_APP_TOKEN)
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
+
+## EZPAY MERCHANT PORTAL ##
+- stage: TST_Merchant_Portal_Deploy
+  displayName: TST Merchant Portal Deploy
+  dependsOn: []
+
+  jobs:
+    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
+      parameters:
+        variableGroup: ezpay-merchant-tst
+        targetEnvironment: ezpay-tenant-portal-tst
+        dropArtifactPath: $(Pipeline.Workspace)/ezpay-merchant-portal-master-build/drop/tst.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: STG_Merchant_Portal_Deploy
+  displayName: STG Merchant Portal Deploy
+  dependsOn: TST_Merchant_Portal_Deploy
+
+  jobs:
+    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
+      parameters:
+        variableGroup: ezpay-merchant-stg
+        targetEnvironment: ezpay-tenant-portal-stg
+        dropArtifactPath: $(Pipeline.Workspace)/ezpay-merchant-portal-master-build/drop/stg.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRF_Merchant_Portal_Deploy
+  displayName: PRF Merchant Portal Deploy
+  dependsOn: TST_Merchant_Portal_Deploy
+
+  jobs:
+    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
+      parameters:
+        variableGroup: ezpay-merchant-prf
+        targetEnvironment: ezpay-tenant-portal-prf
+        dropArtifactPath: $(Pipeline.Workspace)/ezpay-merchant-portal-master-build/drop/prf.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRD_Merchant_Portal_Deploy
+  displayName: PRF Merchant Portal Deploy
+  dependsOn: STG_Merchant_Portal_Deploy
+
+  jobs:
+    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
+      parameters:
+        variableGroup: ezpay-merchant-prd
+        targetEnvironment: ezpay-tenant-portal-prd
+        dropArtifactPath: $(Pipeline.Workspace)/ezpay-merchant-portal-master-build/drop/prd.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-PRD       
+
+## EZPAY PAYER PORTAL ##
+- stage: TST_Payer_Portal_Deploy
+  displayName: TST Payer Portal Deploy
+  dependsOn: []
+
+  jobs:
+    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
+      parameters:
+        variableGroup: ezpay-payer-tst
+        targetEnvironment: ezpay-payer-portal-tst
+        dropArtifactPath: $(Pipeline.Workspace)/ezpay-payer-portal-master-build/drop/tst.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: STG_Payer_Portal_Deploy
+  displayName: STG Payer Portal Deploy
+  dependsOn: TST_Payer_Portal_Deploy
+
+  jobs:
+    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
+      parameters:
+        variableGroup: ezpay-payer-stg
+        targetEnvironment: ezpay-payer-portal-stg
+        dropArtifactPath: $(Pipeline.Workspace)/ezpay-payer-portal-master-build/drop/stg.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRF_Payer_Portal_Deploy
+  displayName: PRF Payer Portal Deploy
+  dependsOn: TST_Payer_Portal_Deploy
+
+  jobs:
+    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
+      parameters:
+        variableGroup: ezpay-payer-prf
+        targetEnvironment: ezpay-payer-portal-prf
+        dropArtifactPath: $(Pipeline.Workspace)/ezpay-payer-portal-master-build/drop/prf.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRD_Payer_Portal_Deploy
+  displayName: PRD Payer Portal Deploy
+  dependsOn: STG_Payer_Portal_Deploy
+
+  jobs:
+    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
+      parameters:
+        variableGroup: ezpay-payer-prd
+        targetEnvironment: ezpay-payer-portal-prd
+        dropArtifactPath: $(Pipeline.Workspace)/ezpay-payer-portal-master-build/drop/prd.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-PRD
