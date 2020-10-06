@@ -52,7 +52,10 @@ stages:
               resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY) 
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
 
 - stage: TST_Ecomm_Grpc_Api_Svc_Helm_Deploy
@@ -95,6 +98,9 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
 
 - stage: STG_Ecomm_Grpc_Api_Svc_Helm_Deploy
@@ -137,6 +143,9 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
 
 - stage: PRD_Ecomm_Grpc_Api_Svc_Helm_Deploy
@@ -179,4 +188,7 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
