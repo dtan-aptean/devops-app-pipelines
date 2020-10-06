@@ -17,6 +17,9 @@ parameters:
   resourceLimitsMemory: ''
   resourceRequestsCpu: ''
   resourceRequestsMemory: ''
+  frontDoorId: ''
+  kongIngressClass: ''
+  kongIngressUpstreamHostHeader: '' 
   grpcUrlErpIntegration: ''
 
 steps:
@@ -69,6 +72,19 @@ steps:
           cpu: $env:RESOURCE_REQUESTS_CPU
           memory: $env:RESOURCE_REQUESTS_MEMORY
 
+    kongIngress:
+      route:
+        headers:
+          x-azure-fdid:
+          - $env:FRONT_DOOR_ID
+      upstream:
+        host_header: $env:KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+    ingress:
+      annotations:
+        kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
+      path: /ecomm-lang-svc          
+
     config:
       erpIntegrationSvc:
         grpcUrl: $env:GRPC_URL_ERP_INTEGRATION
@@ -95,6 +111,9 @@ steps:
     RESOURCE_LIMITS_MEMORY: ${{ parameters.resourceLimitsMemory }}
     RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
+    FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
+    KONG_INGRESS_CLASS: ${{ parameters.kongIngressClass }}
+    KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.kongIngressUpstreamHostHeader }}    
     GRPC_URL_ERP_INTEGRATION: ${{ parameters.grpcUrlErpIntegration }}
 
 - task: Kubernetes@1
