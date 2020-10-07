@@ -20,11 +20,7 @@ parameters:
   resourceLimitsMemory: ''
   resourceRequestsCpu: ''
   resourceRequestsMemory: ''
-  appInsightsKey: ''
-  subsMgmtGrpcUrl: ''
-  subsMgmtServiceId: ''
-  subsMgmtApiKey: ''   
-  ezpayGrpcUrl: ''
+  ezpayGqlUrl: ''
   syncTimeout: ''
     
 steps:
@@ -91,13 +87,7 @@ steps:
 
     config:
       ezpay:
-        grpcUrl: "$env:EZPAY_API_GRPC_URL"
-      appInsights:
-        instrumentationKey: "$env:APP_INSIGHTS_INSTRUMENTATION_KEY"
-      subsMgmt:
-        grpcUrl: "$env:SUBS_MGMT_GRPC_URL"
-        apiKey: "$env:SUBS_MGMT_API_KEY"
-        serviceId: "$env:SUBS_MGMT_SERVICE_ID"
+        gqlUrl: "$env:GQL_URL_EZPAY_API_SVC"
       syncTimeout: "$env:SYNC_TIMEOUT"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
@@ -125,11 +115,7 @@ steps:
     RESOURCE_LIMITS_MEMORY: ${{ parameters.resourceLimitsMemory }}
     RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
-    APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.appInsightsKey }}
-    SUBS_MGMT_GRPC_URL: ${{ parameters.subsMgmtGrpcUrl }}
-    SUBS_MGMT_SERVICE_ID: ${{ parameters.subsMgmtServiceId }}
-    SUBS_MGMT_API_KEY: ${{ parameters.subsMgmtApiKey }}
-    EZPAY_API_GRPC_URL: ${{ parameters.ezpayGrpcUrl }}
+    GQL_URL_EZPAY_API_SVC: ${{ parameters.ezpayGqlUrl }}
     SYNC_TIMEOUT: ${{ parameters.syncTimeout }}
 
 - task: Kubernetes@1

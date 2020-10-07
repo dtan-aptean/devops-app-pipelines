@@ -56,11 +56,7 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
-              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
-              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
-              ezpayGrpcUrl: $(GRPC_URL_EZPAY_API_SVC)
+              ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
               syncTimeout: $(SYNC_TIMEOUT)
 
 - stage: TST_ERP_Integration_Svc_Helm_Deploy
@@ -106,11 +102,7 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
-              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
-              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
-              ezpayGrpcUrl: $(GRPC_URL_EZPAY_API_SVC)
+              ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
               syncTimeout: $(SYNC_TIMEOUT)     
 
 - stage: STG_ERP_Integration_Svc_Helm_Deploy
@@ -156,11 +148,7 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
-              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
-              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
-              ezpayGrpcUrl: $(GRPC_URL_EZPAY_API_SVC)
+              ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
               syncTimeout: $(SYNC_TIMEOUT)            
 
 - stage: PRD_ERP_Integration_Svc_Helm_Deploy
@@ -206,9 +194,5 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
-              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
-              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
-              ezpayGrpcUrl: $(GRPC_URL_EZPAY_API_SVC)
+              ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
               syncTimeout: $(SYNC_TIMEOUT)          
