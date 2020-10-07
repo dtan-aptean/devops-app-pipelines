@@ -2180,7 +2180,7 @@ stages:
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
 - stage: PRD_Merchant_Portal_Deploy
-  displayName: PRF Merchant Portal Deploy
+  displayName: PRD Merchant Portal Deploy
   dependsOn: STG_Merchant_Portal_Deploy
 
   jobs:
