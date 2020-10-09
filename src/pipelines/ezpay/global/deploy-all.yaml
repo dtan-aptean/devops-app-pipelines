@@ -10,6 +10,11 @@ resources:
     name: ezpay-frontend-apps
     ref: refs/heads/master  
 
+  - repository: ezpay-backend-services
+    type: git
+    name: ezpay-backend-services
+    ref: refs/heads/master 
+
   pipelines:
   - pipeline: ezpay-merchant-portal-master-build
     source: ezpay-merchant-portal-master-build
@@ -19,6 +24,12 @@ resources:
 
   - pipeline: ezpay-payer-portal-master-build
     source: ezpay-payer-portal-master-build
+    trigger:
+      branches:
+      - master
+
+  - pipeline: ezpay-static-assets-master-build
+    source: ezpay-static-assets-master-build
     trigger:
       branches:
       - master
@@ -2239,3 +2250,37 @@ stages:
         targetEnvironment: ezpay-payer-portal-prd
         dropArtifactPath: $(Pipeline.Workspace)/ezpay-payer-portal-master-build/drop/prd.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-PRD
+
+## Static Assets ##
+- stage: TST_Static_Assets_Deploy
+  displayName: TST Static Assets Deploy
+  dependsOn: []
+
+  jobs:
+  - template: static-assets/azp-yaml/templates/ezpay-static-assets-deployment-job.yaml@ezpay-backend-services
+    parameters:
+      environment: ezpay-static-assets-tst
+      serviceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+      storageAccount: stezpaytenantfilestst001
+
+- stage: STG_Static_Assets_Deploy
+  displayName: STG Static Assets Deploy
+  dependsOn: TST_Static_Assets_Deploy
+
+  jobs:
+  - template: static-assets/azp-yaml/templates/ezpay-static-assets-deployment-job.yaml@ezpay-backend-services
+    parameters:
+      environment: ezpay-static-assets-stg
+      serviceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+      storageAccount: stezpaytenantfilesstg001
+
+- stage: PRD_Static_Assets_Deploy
+  displayName: PRD Static Assets Deploy
+  dependsOn: STG_Static_Assets_Deploy
+
+  jobs:
+  - template: static-assets/azp-yaml/templates/ezpay-static-assets-deployment-job.yaml@ezpay-backend-services
+    parameters:
+      environment: ezpay-static-assets-prd
+      serviceConnection: AzDevOps-Pipeline-Principal-PRD
+      storageAccount: stezpaytenantfilesprd001
