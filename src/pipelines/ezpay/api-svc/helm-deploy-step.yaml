@@ -53,6 +53,9 @@ parameters:
   payerPortalUrl: ''
   productApisOnly: ''
   apiKind: ''
+  mongoDbConnString: ''
+  mongoDbName: ''
+  idempotencyMongoDbCollection: ''
 
 steps:
 - pwsh: |
@@ -142,6 +145,10 @@ steps:
         apiVersion: "$env:WEPAY_API_VERSION"
         appID: "$env:WEPAY_APP_ID"
         appToken: "$env:WEPAY_APP_TOKEN"
+      cosmosMongo:
+        connectionString: "$env:MONGODB_CONN_STRING"
+        databaseName: "$env:MONGODB_DATABASE"
+        idempotencyCollection: "$env:MONGODB_IDEMPOTENCY_COLLECTION"     
       paymentsPlatformFromPhoneNumber: "$env:PAYMENTS_PLATFORM_FROM_PHONE_NUMBER"
       paymentsPlatformFromEmail: "$env:PAYMENTS_PLATFORM_FROM_EMAIL"
       processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
@@ -216,6 +223,9 @@ steps:
     PAYER_PORTAL_BASE_URL: ${{ parameters.payerPortalUrl }}
     PRODUCT_APIS_ONLY: ${{ parameters.productApisOnly }}
     API_KIND: ${{ parameters.apiKind }}
+    MONGODB_IDEMPOTENCY_COLLECTION: ${{ parameters.idempotencyMongoDbCollection }}
+    MONGODB_DATABASE: ${{ parameters.mongoDbName }}
+    MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

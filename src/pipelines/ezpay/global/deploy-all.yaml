@@ -112,7 +112,10 @@ stages:
               urlShortenerUrl: $(LOGIC_APP_URL_SHORTENER_URL)
               payerPortalUrl: $(PAYER_PORTAL_BASE_URL)
               productApisOnly: $(PRODUCT_APIS_ONLY)
-              apiKind: GQL             
+              apiKind: GQL
+              mongoDbConnString: $(MONGODB_CONN_STRING)
+              mongoDbName: $(MONGODB_DATABASE)
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)                               
 
 - stage: TST_GRPC_API_Svc_Helm_Deploy
   displayName: TST - Ezpay API SVC (GRPC) Helm Deploy
@@ -189,7 +192,10 @@ stages:
               urlShortenerUrl: $(LOGIC_APP_URL_SHORTENER_URL)
               payerPortalUrl: $(PAYER_PORTAL_BASE_URL)
               productApisOnly: $(PRODUCT_APIS_ONLY)
-              apiKind: GRPC             
+              apiKind: GRPC
+              mongoDbConnString: $(MONGODB_CONN_STRING)
+              mongoDbName: $(MONGODB_DATABASE)
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)                  
 
 - stage: STG_GQL_API_Svc_Helm_Deploy
   displayName: STG - Ezpay API SVC (GQL) Helm Deploy
@@ -267,6 +273,9 @@ stages:
               payerPortalUrl: $(PAYER_PORTAL_BASE_URL)
               productApisOnly: $(PRODUCT_APIS_ONLY)
               apiKind: GQL
+              mongoDbConnString: $(MONGODB_CONN_STRING)
+              mongoDbName: $(MONGODB_DATABASE)
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)              
 
 - stage: STG_GRPC_API_Svc_Helm_Deploy
   displayName: STG - Ezpay API SVC (GRPC) Helm Deploy
@@ -343,7 +352,10 @@ stages:
               urlShortenerUrl: $(LOGIC_APP_URL_SHORTENER_URL)
               payerPortalUrl: $(PAYER_PORTAL_BASE_URL)
               productApisOnly: $(PRODUCT_APIS_ONLY)
-              apiKind: GRPC   
+              apiKind: GRPC
+              mongoDbConnString: $(MONGODB_CONN_STRING)
+              mongoDbName: $(MONGODB_DATABASE)
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)               
 
 - stage: PRD_GQL_API_Svc_Helm_Deploy
   displayName: PRD - Ezpay API SVC (GQL) Helm Deploy
@@ -421,6 +433,9 @@ stages:
               payerPortalUrl: $(PAYER_PORTAL_BASE_URL)
               productApisOnly: $(PRODUCT_APIS_ONLY)
               apiKind: GQL
+              mongoDbConnString: $(MONGODB_CONN_STRING)
+              mongoDbName: $(MONGODB_DATABASE)
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)              
 
 - stage: PRD_GRPC_API_Svc_Helm_Deploy
   displayName: PRD - Ezpay API SVC (GRPC) Helm Deploy
@@ -498,6 +513,9 @@ stages:
               payerPortalUrl: $(PAYER_PORTAL_BASE_URL)
               productApisOnly: $(PRODUCT_APIS_ONLY)
               apiKind: GRPC
+              mongoDbConnString: $(MONGODB_CONN_STRING)
+              mongoDbName: $(MONGODB_DATABASE)
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)              
 
 ## EZPAY PAYFAC NOTIFICATIONS ##
 - stage: TST_Payfac_Notifications_Svc_Helm_Deploy
