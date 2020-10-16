@@ -13,6 +13,8 @@ stages:
     pool:
       vmImage: ubuntu-latest
 
+## FOUNDATIONAL IMAGES
+
     steps:
       - template: templates\docker-copy-image-to-prod.yaml
         parameters:
@@ -26,15 +28,17 @@ stages:
           serviceName: subs-mgmt-api-svc
           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)  
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)          
+          
+## EZPAY IMAGES
 
       - template: templates\docker-copy-image-to-prod.yaml
         parameters:
-          serviceName: ecomm-sf
+          serviceName: aptean-pay-lib
           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)            
-          
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+
       - template: templates\docker-copy-image-to-prod.yaml
         parameters:
           serviceName: ezpay-api-svc
@@ -86,7 +90,44 @@ stages:
 
       - template: templates\docker-copy-image-to-prod.yaml
         parameters:
+          serviceName: ezpay-erp-integration-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
           serviceName: wepay-integration-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)          
+
+## ECOMMERCE IMAGES
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ecomm-erp-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ecomm-gql-api-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ecomm-lang-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ecomm-sf
           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
