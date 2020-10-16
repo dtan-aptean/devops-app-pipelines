@@ -51,13 +51,13 @@ stages:
 
     variables:
     - group: ezpay-api-svc-tst
-    - template: ../api-svc/helm-variables-tst.yaml
+    - template: ../ezpay/api-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../api-svc/helm-deploy-step.yaml
+          - template: ../ezpay/ezpay/api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -131,13 +131,13 @@ stages:
 
     variables:
     - group: ezpay-api-svc-tst
-    - template: ../api-svc/helm-variables-tst.yaml
+    - template: ../ezpay/api-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../api-svc/helm-deploy-step.yaml
+          - template: ../ezpay/api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -211,13 +211,13 @@ stages:
 
     variables:
     - group: ezpay-api-svc-stg
-    - template: ../api-svc/helm-variables-stg.yaml
+    - template: ../ezpay/api-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../api-svc/helm-deploy-step.yaml
+          - template: ../ezpay/api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -291,13 +291,13 @@ stages:
 
     variables:
     - group: ezpay-api-svc-stg
-    - template: ../api-svc/helm-variables-stg.yaml
+    - template: ../ezpay/api-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../api-svc/helm-deploy-step.yaml
+          - template: ../ezpay/api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -371,13 +371,13 @@ stages:
 
     variables:
     - group: ezpay-api-svc-prd
-    - template: ../api-svc/helm-variables-prd.yaml
+    - template: ../ezpay/api-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../api-svc/helm-deploy-step.yaml
+          - template: ../ezpay/api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -451,13 +451,13 @@ stages:
 
     variables:
     - group: ezpay-api-svc-prd
-    - template: ../api-svc/helm-variables-prd.yaml
+    - template: ../ezpay/api-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../api-svc/helm-deploy-step.yaml
+          - template: ../ezpay/api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -532,13 +532,13 @@ stages:
 
     variables:
     - group: ezpay-payfac-notifications-svc-tst
-    - template: ../payfac-notifications-svc/helm-variables-tst.yaml
+    - template: ../ezpay/payfac-notifications-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payfac-notifications-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payfac-notifications-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -589,13 +589,13 @@ stages:
 
     variables:
     - group: ezpay-payfac-notifications-svc-stg
-    - template: ../payfac-notifications-svc/helm-variables-stg.yaml
+    - template: ../ezpay/payfac-notifications-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payfac-notifications-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payfac-notifications-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -646,13 +646,13 @@ stages:
 
     variables:
     - group: ezpay-payfac-notifications-svc-prd
-    - template: ../payfac-notifications-svc/helm-variables-prd.yaml
+    - template: ../ezpay/payfac-notifications-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payfac-notifications-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payfac-notifications-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -704,13 +704,13 @@ stages:
 
     variables:
     - group: ezpay-email-notification-svc-tst
-    - template: ../email-notification-svc/helm-variables-tst.yaml
+    - template: ../ezpay/email-notification-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../email-notification-svc/helm-deploy-step.yaml
+          - template: ../ezpay/email-notification-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -760,13 +760,13 @@ stages:
 
     variables:
     - group: ezpay-email-notification-svc-stg
-    - template: ../email-notification-svc/helm-variables-stg.yaml
+    - template: ../ezpay/email-notification-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../email-notification-svc/helm-deploy-step.yaml
+          - template: ../ezpay/email-notification-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -816,13 +816,13 @@ stages:
 
     variables:
     - group: ezpay-email-notification-svc-prd
-    - template: ../email-notification-svc/helm-variables-prd.yaml
+    - template: ../ezpay/email-notification-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../email-notification-svc/helm-deploy-step.yaml
+          - template: ../ezpay/email-notification-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -873,13 +873,13 @@ stages:
 
     variables:
     - group: ezpay-merchant-ops-svc-tst
-    - template: ../merchant-ops-svc/helm-variables-tst.yaml
+    - template: ../ezpay/merchant-ops-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../merchant-ops-svc/helm-deploy-step.yaml
+          - template: ../ezpay/merchant-ops-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -924,13 +924,13 @@ stages:
 
     variables:
     - group: ezpay-merchant-ops-svc-stg
-    - template: ../merchant-ops-svc/helm-variables-stg.yaml
+    - template: ../ezpay/merchant-ops-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../merchant-ops-svc/helm-deploy-step.yaml
+          - template: ../ezpay/merchant-ops-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -975,13 +975,13 @@ stages:
 
     variables:
     - group: ezpay-merchant-ops-svc-prd
-    - template: ../merchant-ops-svc/helm-variables-prd.yaml
+    - template: ../ezpay/merchant-ops-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../merchant-ops-svc/helm-deploy-step.yaml
+          - template: ../ezpay/merchant-ops-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -1027,13 +1027,13 @@ stages:
 
     variables:
     - group: ezpay-payment-ops-svc-tst
-    - template: ../payment-ops-svc/helm-variables-tst.yaml
+    - template: ../ezpay/payment-ops-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payment-ops-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payment-ops-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1082,13 +1082,13 @@ stages:
 
     variables:
     - group: ezpay-payment-ops-svc-stg
-    - template: ../payment-ops-svc/helm-variables-stg.yaml
+    - template: ../ezpay/payment-ops-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payment-ops-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payment-ops-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1137,13 +1137,13 @@ stages:
 
     variables:
     - group: ezpay-payment-ops-svc-prd
-    - template: ../payment-ops-svc/helm-variables-prd.yaml
+    - template: ../ezpay/payment-ops-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payment-ops-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payment-ops-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -1193,13 +1193,13 @@ stages:
 
     variables:
     - group: ezpay-payments-svc-tst
-    - template: ../payments-svc/helm-variables-tst.yaml
+    - template: ../ezpay/payments-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payments-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payments-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1248,13 +1248,13 @@ stages:
 
     variables:
     - group: ezpay-payments-retry-job-tst
-    - template: ../payments-svc/helm-variables-tst.yaml
+    - template: ../ezpay/payments-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payments-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payments-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1306,13 +1306,13 @@ stages:
 
     variables:
     - group: ezpay-payments-svc-stg
-    - template: ../payments-svc/helm-variables-stg.yaml
+    - template: ../ezpay/payments-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payments-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payments-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1361,13 +1361,13 @@ stages:
 
     variables:
     - group: ezpay-payments-retry-job-stg
-    - template: ../payments-svc/helm-variables-stg.yaml
+    - template: ../ezpay/payments-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payments-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payments-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1419,13 +1419,13 @@ stages:
 
     variables:
     - group: ezpay-payments-svc-prd
-    - template: ../payments-svc/helm-variables-prd.yaml
+    - template: ../ezpay/payments-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payments-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payments-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -1474,13 +1474,13 @@ stages:
 
     variables:
     - group: ezpay-payments-retry-job-prd
-    - template: ../payments-svc/helm-variables-prd.yaml
+    - template: ../ezpay/payments-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../payments-svc/helm-deploy-step.yaml
+          - template: ../ezpay/payments-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -1533,13 +1533,13 @@ stages:
 
     variables:
     - group: ezpay-transaction-records-svc-tst
-    - template: ../transaction-records-svc/helm-variables-tst.yaml
+    - template: ../ezpay/transaction-records-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
+          - template: ../ezpay/transaction-records-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1588,13 +1588,13 @@ stages:
 
     variables:
     - group: ezpay-transaction-records-retrieve-job-tst
-    - template: ../transaction-records-svc/helm-variables-tst.yaml
+    - template: ../ezpay/transaction-records-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
+          - template: ../ezpay/transaction-records-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1646,13 +1646,13 @@ stages:
 
     variables:
     - group: ezpay-transaction-stmts-job-tst
-    - template: ../transaction-records-svc/helm-variables-tst.yaml
+    - template: ../ezpay/transaction-records-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
+          - template: ../ezpay/transaction-records-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1704,13 +1704,13 @@ stages:
 
     variables:
     - group: ezpay-transaction-records-svc-stg
-    - template: ../transaction-records-svc/helm-variables-stg.yaml
+    - template: ../ezpay/transaction-records-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
+          - template: ../ezpay/transaction-records-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1759,13 +1759,13 @@ stages:
 
     variables:
     - group: ezpay-transaction-records-retrieve-job-stg
-    - template: ../transaction-records-svc/helm-variables-stg.yaml
+    - template: ../ezpay/transaction-records-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
+          - template: ../ezpay/transaction-records-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1817,13 +1817,13 @@ stages:
 
     variables:
     - group: ezpay-transaction-stmts-job-stg
-    - template: ../transaction-records-svc/helm-variables-stg.yaml
+    - template: ../ezpay/transaction-records-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
+          - template: ../ezpay/transaction-records-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -1875,13 +1875,13 @@ stages:
 
     variables:
     - group: ezpay-transaction-records-svc-prd
-    - template: ../transaction-records-svc/helm-variables-prd.yaml
+    - template: ../ezpay/transaction-records-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
+          - template: ../ezpay/transaction-records-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -1930,13 +1930,13 @@ stages:
 
     variables:
     - group: ezpay-transaction-records-retrieve-job-prd
-    - template: ../transaction-records-svc/helm-variables-prd.yaml
+    - template: ../ezpay/transaction-records-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
+          - template: ../ezpay/transaction-records-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -1988,13 +1988,13 @@ stages:
 
     variables:
     - group: ezpay-transaction-stmts-job-prd
-    - template: ../transaction-records-svc/helm-variables-prd.yaml
+    - template: ../ezpay/transaction-records-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../transaction-records-svc/helm-deploy-step.yaml
+          - template: ../ezpay/transaction-records-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -2047,13 +2047,13 @@ stages:
 
     variables:
     - group: wepay-integration-svc-tst
-    - template: ../wepay-integration-svc/helm-variables-tst.yaml
+    - template: ../ezpay/wepay-integration-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../wepay-integration-svc/helm-deploy-step.yaml
+          - template: ../ezpay/wepay-integration-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -2093,13 +2093,13 @@ stages:
 
     variables:
     - group: wepay-integration-svc-stg
-    - template: ../wepay-integration-svc/helm-variables-stg.yaml
+    - template: ../ezpay/wepay-integration-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../wepay-integration-svc/helm-deploy-step.yaml
+          - template: ../ezpay/wepay-integration-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -2139,13 +2139,13 @@ stages:
 
     variables:
     - group: wepay-integration-svc-prd
-    - template: ../wepay-integration-svc/helm-variables-prd.yaml
+    - template: ../ezpay/wepay-integration-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../wepay-integration-svc/helm-deploy-step.yaml
+          - template: ../ezpay/wepay-integration-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
