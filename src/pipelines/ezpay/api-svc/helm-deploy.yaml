@@ -89,6 +89,9 @@ stages:
               payerPortalUrl: $(PAYER_PORTAL_BASE_URL)
               productApisOnly: $(PRODUCT_APIS_ONLY)
               apiKind: GQL
+              idempotencyMongoDbConnString: $(MONGODB_CONN_STRING)
+              idempotencyMongoDbName: $(MONGODB_DATABASE)
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)
 
 - stage: DEV_GRPC_API_Svc_Helm_Deploy
   displayName: DEV - Ezpay API SVC (GRPC) Helm Deploy
