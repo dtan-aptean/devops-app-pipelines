@@ -34,13 +34,6 @@ stages:
 
       - template: templates\docker-copy-image-to-prod.yaml
         parameters:
-          serviceName: aptean-pay-lib
-          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
-
-      - template: templates\docker-copy-image-to-prod.yaml
-        parameters:
           serviceName: ezpay-api-svc
           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
