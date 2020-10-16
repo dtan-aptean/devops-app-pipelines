@@ -3,8 +3,8 @@ trigger: none
 variables:
 - group: helm-chart-svc-principal-config
 
+stages:
 # Comms API Svc
-
 - stage: TST_Comms_API_Svc_Helm_Deploy
   displayName: TST - comms-api-svc Helm Deploy
   dependsOn: []
