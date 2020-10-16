@@ -57,7 +57,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: ../ezpay/ezpay/api-svc/helm-deploy-step.yaml
+          - template: ../ezpay/api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
