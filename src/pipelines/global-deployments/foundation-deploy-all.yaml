@@ -20,13 +20,13 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - template: ../apteanpay-js-lib/helm-variables-tst.yaml
+    - template: ../ezpay/apteanpay-js-lib/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../apteanpay-js-lib/helm-deploy-step.yaml
+          - template: ../ezpay/apteanpay-js-lib/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -63,13 +63,13 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - template: ../apteanpay-js-lib/helm-variables-stg.yaml
+    - template: ../ezpay/apteanpay-js-lib/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../apteanpay-js-lib/helm-deploy-step.yaml
+          - template: ../ezpay/apteanpay-js-lib/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -106,13 +106,13 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - template: ../apteanpay-js-lib/helm-variables-prd.yaml
+    - template: ../ezpay/apteanpay-js-lib/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../apteanpay-js-lib/helm-deploy-step.yaml
+          - template: ../ezpay/apteanpay-js-lib/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
