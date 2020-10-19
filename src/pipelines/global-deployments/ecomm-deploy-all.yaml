@@ -19,13 +19,13 @@ stages:
 
     variables:
     - group: ecomm-erp-svc-tst
-    - template: ../erp-svc/helm-variables-tst.yaml
+    - template: ../ecomm/erp-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../erp-svc/helm-deploy-step.yaml
+          - template: ../ecomm/erp-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -63,13 +63,13 @@ stages:
 
     variables:
     - group: ecomm-erp-svc-stg
-    - template: ../erp-svc/helm-variables-stg.yaml
+    - template: ../ecomm/erp-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../erp-svc/helm-deploy-step.yaml
+          - template: ../ecomm/erp-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -107,13 +107,13 @@ stages:
 
     variables:
     - group: ecomm-erp-svc-prd
-    - template: ../erp-svc/helm-variables-prd.yaml
+    - template: ../ecomm/erp-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../erp-svc/helm-deploy-step.yaml
+          - template: ../ecomm/erp-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -152,13 +152,13 @@ stages:
 
     variables:
     - group: ecomm-gql-api-svc-tst
-    - template: ../gql-api-svc/helm-variables-tst.yaml
+    - template: ../ecomm/gql-api-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../gql-api-svc/helm-deploy-step.yaml
+          - template: ../ecomm/gql-api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -197,13 +197,13 @@ stages:
 
     variables:
     - group: ecomm-gql-api-svc-stg
-    - template: ../gql-api-svc/helm-variables-stg.yaml
+    - template: ../ecomm/gql-api-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../gql-api-svc/helm-deploy-step.yaml
+          - template: ../ecomm/gql-api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -242,13 +242,13 @@ stages:
 
     variables:
     - group: ecomm-gql-api-svc-prd
-    - template: ../gql-api-svc/helm-variables-prd.yaml
+    - template: ../ecomm/gql-api-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../gql-api-svc/helm-deploy-step.yaml
+          - template: ../ecomm/gql-api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -288,13 +288,13 @@ stages:
 
     variables:
     - group: ecomm-lang-svc-tst
-    - template: ../lang-svc/helm-variables-tst.yaml
+    - template: ../ecomm/lang-svc/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../lang-svc/helm-deploy-step.yaml
+          - template: ../ecomm/lang-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -336,13 +336,13 @@ stages:
 
     variables:
     - group: ecomm-lang-svc-stg
-    - template: ../lang-svc/helm-variables-stg.yaml
+    - template: ../ecomm/lang-svc/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../lang-svc/helm-deploy-step.yaml
+          - template: ../ecomm/lang-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -384,13 +384,13 @@ stages:
 
     variables:
     - group: ecomm-lang-svc-prd
-    - template: ../lang-svc/helm-variables-prd.yaml
+    - template: ../ecomm/lang-svc/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../lang-svc/helm-deploy-step.yaml
+          - template: ../ecomm/lang-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -440,7 +440,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: ../store-front/deploy-step.yaml
+          - template: ../ecomm/store-front/deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -519,7 +519,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: ../store-front/deploy-step.yaml
+          - template: ../ecomm/store-front/deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -598,7 +598,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: ../store-front/deploy-step.yaml
+          - template: ../ecomm/store-front/deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
