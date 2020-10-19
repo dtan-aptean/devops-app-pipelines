@@ -3,138 +3,62 @@ trigger: none
 variables:
 - group: helm-chart-svc-principal-config
 
+resources:
+  pipelines:
+  - pipeline: aptean-pay-js-master-build
+    source: aptean-pay-js-master-build
+
 stages:
 
 ## ApteanPay Js Library
 
-- stage: TST_ApteanPay_Lib_Helm_Deploy
-  displayName: TST - ApteanPay JS Lib Helm Deploy
+- stage: TST_Apteanpay_Js_Lib_Deploy
+  displayName: TST ApteanPay JS Lib Deploy
   dependsOn: []
 
   jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: apteanpay-js-lib-tst
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-tst
+        targetEnvironment: apteanpay-js-lib-tst
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/tst.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - template: ../ezpay/apteanpay-js-lib/helm-variables-tst.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ezpay/apteanpay-js-lib/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-
-- stage: STG_ApteanPay_Lib_Helm_Deploy
-  displayName: STG - ApteanPay JS Lib Helm Deploy
-  dependsOn: TST_ApteanPay_Lib_Helm_Deploy
+- stage: STG_Apteanpay_Js_Lib_Deploy
+  displayName: STG ApteanPay JS Lib Deploy
+  dependsOn: TST_Apteanpay_Js_Lib_Deploy
 
   jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: apteanpay-js-lib-stg
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-stg
+        targetEnvironment: apteanpay-js-lib-stg
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/stg.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - template: ../ezpay/apteanpay-js-lib/helm-variables-stg.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ezpay/apteanpay-js-lib/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-
-- stage: PRD_ApteanPay_Lib_Helm_Deploy
-  displayName: PRD - ApteanPay JS Lib Helm Deploy
-  dependsOn: STG_ApteanPay_Lib_Helm_Deploy
+- stage: PRF_Apteanpay_Js_Lib_Deploy
+  displayName: PRF ApteanPay JS Lib Deploy
+  dependsOn: TST_Apteanpay_Js_Lib_Deploy
 
   jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: apteanpay-js-lib-prd
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-prf
+        targetEnvironment: apteanpay-js-lib-prf
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/prf.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
-    pool:
-      vmImage: 'ubuntu-latest'
+- stage: PRD_Apteanpay_Js_Lib_Deploy
+  displayName: PRD ApteanPay JS Lib Deploy
+  dependsOn: STG_Apteanpay_Js_Lib_Deploy
 
-    variables:
-    - template: ../ezpay/apteanpay-js-lib/helm-variables-prd.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ezpay/apteanpay-js-lib/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+  jobs:
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-prd
+        targetEnvironment: apteanpay-js-lib-prd
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/prd.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-PRD
 
 ## Comms API Svc
 
