@@ -33,6 +33,9 @@ resources:
     trigger:
       branches:
       - master
+
+  - pipeline: aptean-pay-js-master-build
+    source: aptean-pay-js-master-build      
     
 stages:
 
@@ -2302,3 +2305,53 @@ stages:
       environment: ezpay-static-assets-prd
       serviceConnection: AzDevOps-Pipeline-Principal-PRD
       storageAccount: stezpaytenantfilesprd001
+
+## ApteanPay Js Library
+
+- stage: TST_Apteanpay_Js_Lib_Deploy
+  displayName: TST ApteanPay JS Lib Deploy
+  dependsOn: []
+
+  jobs:
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-tst
+        targetEnvironment: apteanpay-js-lib-tst
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/tst.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: STG_Apteanpay_Js_Lib_Deploy
+  displayName: STG ApteanPay JS Lib Deploy
+  dependsOn: TST_Apteanpay_Js_Lib_Deploy
+
+  jobs:
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-stg
+        targetEnvironment: apteanpay-js-lib-stg
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/stg.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRF_Apteanpay_Js_Lib_Deploy
+  displayName: PRF ApteanPay JS Lib Deploy
+  dependsOn: TST_Apteanpay_Js_Lib_Deploy
+
+  jobs:
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-prf
+        targetEnvironment: apteanpay-js-lib-prf
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/prf.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRD_Apteanpay_Js_Lib_Deploy
+  displayName: PRD ApteanPay JS Lib Deploy
+  dependsOn: STG_Apteanpay_Js_Lib_Deploy
+
+  jobs:
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-prd
+        targetEnvironment: apteanpay-js-lib-prd
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/prd.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-PRD
