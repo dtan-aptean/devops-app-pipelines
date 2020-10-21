@@ -18,21 +18,9 @@ resources:
   pipelines:
   - pipeline: ezpay-merchant-portal-master-build
     source: ezpay-merchant-portal-master-build
-    trigger:
-      branches:
-      - master
 
   - pipeline: ezpay-payer-portal-master-build
     source: ezpay-payer-portal-master-build
-    trigger:
-      branches:
-      - master
-
-  - pipeline: ezpay-static-assets-master-build
-    source: ezpay-static-assets-master-build
-    trigger:
-      branches:
-      - master
 
   - pipeline: aptean-pay-js-master-build
     source: aptean-pay-js-master-build      
