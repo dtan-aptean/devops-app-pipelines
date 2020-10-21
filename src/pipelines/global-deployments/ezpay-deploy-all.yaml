@@ -22,6 +22,9 @@ resources:
   - pipeline: ezpay-payer-portal-master-build
     source: ezpay-payer-portal-master-build
 
+  - pipeline: ezpay-static-assets-master-build
+    source: ezpay-static-assets-master-build
+
   - pipeline: aptean-pay-js-master-build
     source: aptean-pay-js-master-build      
     
