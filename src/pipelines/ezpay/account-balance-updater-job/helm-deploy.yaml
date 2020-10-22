@@ -13,8 +13,8 @@ variables:
 - group: helm-chart-svc-principal-config
 
 stages:
-- stage: DEV_GRPC_API_Svc_Helm_Deploy
-  displayName: DEV - Ezpay Account Balance Updater Job (GRPC) Helm Deploy
+- stage: DEV_Account_Balance_Updater_Job_Helm_Deploy
+  displayName: DEV - Ezpay Account Balance Updater Job Helm Deploy
   dependsOn: []
 
   jobs:
