@@ -2,7 +2,7 @@ variables:
 - name: MAJOR_VERSION_YEAR
   value: 2020
 - name: MAJOR_VERSION_MONTH
-  value: 10
+  value: 11
 - name: MINOR_VERSION
   value: $[counter(variables['MAJOR_VERSION_MONTH'], 100)]
 - name: FULL_VERSION
