@@ -1,4 +1,4 @@
-FROM cypress/included:5.0.0 as base
+FROM cypress/included:5.1.0 as base
 
 WORKDIR /src
 
