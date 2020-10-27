@@ -1,0 +1,56 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: ezpay-account-balance-updater-job-docker-build-push
+    source: ezpay-account-balance-updater-job-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+
+variables:
+- group: helm-chart-svc-principal-config
+
+stages:
+- stage: DEV_Account_Balance_Updater_Job_Helm_Deploy
+  displayName: DEV - Ezpay Account Balance Updater Job Helm Deploy
+  dependsOn: []
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-dev
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ezpay-account-balance-updater-job-dev
+    - template: helm-variables-dev.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
+              wepayGrpcUrl: $(WEPAY_INTEGRATION_GRPC_URI)
+              successfulJobHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
+              failedJobHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
+              cronSchedule: $(CRON_SCHEDULE)
