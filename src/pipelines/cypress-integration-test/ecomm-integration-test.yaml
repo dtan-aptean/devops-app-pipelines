@@ -29,7 +29,6 @@ stages:
 
     jobs:
     - template: ./templates/integration-test.yaml
-      timeoutInMinutes: 120
       parameters:
         packageName: ecomm-sf       
 

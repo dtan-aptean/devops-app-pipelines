@@ -6,6 +6,7 @@ parameters:
 
 jobs:
 - job: RunTest
+  timeoutInMinutes: 120
   steps: 
   - checkout: self
 
