@@ -1,1 +1,1 @@
-# AzDevOps Pipelines
+# CI-CD Pipelines
