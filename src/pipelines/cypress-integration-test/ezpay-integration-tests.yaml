@@ -52,14 +52,3 @@ stages:
         packageName: merchant-portal
         updateMerchantPortalContentType: true
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
-
-  - stage: eCommerce
-    displayName: Run whole test suite of eCommerce
-    dependsOn: []
-
-    jobs:
-    - template: ./templates/integration-test.yaml
-      parameters:
-        packageName: ecomm-sf       
-
- 
