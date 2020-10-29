@@ -3,6 +3,8 @@ parameters:
   protoSrcPath: ''
   protoDestPath: ''
   dockerBuildContext: '**'
+  dockerBuildArguments: '--target tests'
+  agentPool: { vmImage: ubuntu-latest }
 
 stages:
 - stage: Build
@@ -11,8 +13,7 @@ stages:
   jobs:
   - job: Execute
 
-    pool:
-      vmImage: ubuntu-latest
+    pool: ${{ parameters.agentPool }}
 
     steps:
     - pwsh: |
@@ -36,5 +37,5 @@ stages:
         command: build
         Dockerfile: ${{ parameters.dockerFilePath }}
         buildContext: ${{ parameters.dockerBuildContext }}
-        arguments: '--target tests'
+        arguments: ${{ parameters.dockerBuildArguments }}
         addPipelineData: false
