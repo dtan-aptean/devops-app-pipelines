@@ -47,7 +47,9 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               cosmosDatabaseConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)     
+              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)                   
 
 - stage: STG_Ecomm_Erp_Svc_Helm_Deploy
   displayName: STG - ecomm-erp-svc Helm Deploy
@@ -92,6 +94,8 @@ stages:
               cosmosDatabaseConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
               cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
 
 - stage: PRD_Ecomm_Erp_Svc_Helm_Deploy
   displayName: PRD - ecomm-erp-svc Helm Deploy
@@ -136,7 +140,9 @@ stages:
               cosmosDatabaseConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
               cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)      
-
+              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
+              
 ## ECOMM-GQL-API-SVC ##    
 - stage: TST_Ecomm_Grpc_Api_Svc_Helm_Deploy
   displayName: TST - ecomm-gql-api-svc Helm Deploy
@@ -497,6 +503,8 @@ stages:
               useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
               useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER) 
               apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL) 
+              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)              
 
 - stage: STG_Ecomm_SF_Deploy
   displayName: STG - Ecomm Storefront App Service Deploy
@@ -575,7 +583,9 @@ stages:
               usePluginShadowCopy: $(USE_PLUGIN_SHADOW_COPY)
               useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
               useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER) 
-              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)  
+              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL) 
+              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)               
 
 - stage: PRF_Ecomm_SF_Deploy
   displayName: PRF - Ecomm Storefront App Service Deploy
@@ -654,4 +664,6 @@ stages:
               usePluginShadowCopy: $(USE_PLUGIN_SHADOW_COPY)
               useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
               useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER) 
-              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)                                                     
+              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)   
+              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)                                                                

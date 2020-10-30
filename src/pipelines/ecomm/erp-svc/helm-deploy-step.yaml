@@ -20,6 +20,8 @@ parameters:
   cosmosDatabaseConnString: ''
   cosmosDatabase: ''
   cosmosContainerName: ''
+  eventsIngressConnString: ''
+  eventsIngressDestination: ''
 
 steps:
 - pwsh: |
@@ -76,6 +78,9 @@ steps:
         connectionString: "$env:COSMOSDB_CONN_STRING"
         databaseName: "$env:COSMOSDB_DATABASE"
         containerName: "$env:COSMOSDB_COLLECTION_NAME"
+      events:
+        connectionString: "$env:EVENTS_INGRESS_CONN_STRING"
+        destination: "$env:EVENTS_INGRESS_DESTINATION"
  
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -102,6 +107,8 @@ steps:
     COSMOSDB_CONN_STRING: ${{ parameters.cosmosDatabaseConnString }}
     COSMOSDB_DATABASE: ${{ parameters.cosmosDatabase }}
     COSMOSDB_COLLECTION_NAME: ${{ parameters.cosmosContainerName }}
+    EVENTS_INGRESS_CONN_STRING: ${{ parameters.eventsIngressConnString }}
+    EVENTS_INGRESS_DESTINATION: ${{ parameters.eventsIngressDestination }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
