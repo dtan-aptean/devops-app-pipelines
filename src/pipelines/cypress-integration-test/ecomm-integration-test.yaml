@@ -1,0 +1,35 @@
+pr: none
+trigger: none
+
+schedules:
+# Run every day at 4 AM but only if code has changed.
+- cron: "0 4 * * *"
+  displayName: Integration Tests
+  branches:
+    include:
+    - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: e2e-integration-tests
+
+resources:
+  repositories:
+  - repository: testing-e2e
+    type: git
+    name: testing-e2e
+    ref: refs/heads/master  
+
+stages:
+  - stage: eCommerce
+    displayName: Run whole test suite of eCommerce storefront
+    dependsOn: []
+
+    jobs:
+    - template: ./templates/integration-test.yaml
+      parameters:
+        packageName: ecomm-sf       
+
+ 
