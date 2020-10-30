@@ -55,4 +55,6 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               cosmosDatabaseConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)              
+              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)

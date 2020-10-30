@@ -90,3 +90,5 @@ stages:
               useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
               useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER) 
               apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)
+              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)

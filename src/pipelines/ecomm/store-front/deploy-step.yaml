@@ -54,6 +54,8 @@ parameters:
   useUnsafeLoadAssembly: ''
   useSessionStateTempDataProvider: ''
   apteanLanguagePluginApiUrl: ''
+  eventsIngressConnString: ''
+  eventsIngressDestination: ''
 
 steps:
 - pwsh: |
@@ -82,7 +84,9 @@ steps:
     AppSettings: |    
       -ECOMM_ECOMMERCE_STORE_FRONT_VERSION $(latestTag) 
       -ECOMM_TENANT_ID ${{ parameters.apteanTenantId }} 
-      -ECOMM_SQL_CONNECTION_STRING "${{ parameters.sqlConnString }}" 
+      -ECOMM_SQL_CONNECTION_STRING "${{ parameters.sqlConnString }}"
+      -ECOMM_EVENTS_INGRESS_CONN_STRING "${{ parameters.eventsIngressConnString }}" 
+      -ECOMM_EVENTS_INGRESS_DESTINATION ${{ parameters.eventsIngressDestination }} 
       -ECOMM_STORE_ADMIN_EMAIL ${{ parameters.adminEmail }} 
       -ECOMM_STORE_ADMIN_PWD ${{ parameters.adminPassword }} 
       -ECOMM_APTEAN_ID_PLUGIN_B2C_CLIENT_ID ${{ parameters.b2cClientId }} 
