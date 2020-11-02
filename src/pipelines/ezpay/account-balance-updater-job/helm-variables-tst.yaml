@@ -25,3 +25,5 @@ variables:
   value: 3
 - name: CRON_SCHEDULE
   value: "42 * * * *"
+- name: NODE_SELECTOR_POOL
+  value: sharedsvc  
