@@ -40,7 +40,8 @@ parameters:
   smsFromPhoneNumber: ''
   processPlatformEvents: ''
   batchSize: ''
-  executionMode: ''  
+  executionMode: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -82,6 +83,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"
 
     pod:
       resources:
@@ -177,6 +181,7 @@ steps:
     PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
     BATCH_SIZE: ${{ parameters.batchSize }}
     EXECUTION_MODE: ${{ parameters.executionMode }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

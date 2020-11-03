@@ -22,6 +22,7 @@ parameters:
   cosmosContainerName: ''
   eventsIngressConnString: ''
   eventsIngressDestination: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -63,6 +64,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"      
 
     pod:
       resources:
@@ -109,6 +113,7 @@ steps:
     COSMOSDB_COLLECTION_NAME: ${{ parameters.cosmosContainerName }}
     EVENTS_INGRESS_CONN_STRING: ${{ parameters.eventsIngressConnString }}
     EVENTS_INGRESS_DESTINATION: ${{ parameters.eventsIngressDestination }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

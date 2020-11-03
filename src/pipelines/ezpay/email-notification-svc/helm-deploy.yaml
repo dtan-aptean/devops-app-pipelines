@@ -67,3 +67,4 @@ stages:
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
               cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

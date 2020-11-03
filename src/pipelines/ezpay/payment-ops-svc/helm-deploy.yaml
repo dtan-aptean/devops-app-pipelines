@@ -66,3 +66,4 @@ stages:
               emailReqsQueue: $(SB_EMAIL_REQS_QUEUE)
               smsReqsQueueConnString: $(SB_SMS_REQS_QUEUE_CONN_STRING)
               smsReqsQueue: $(SB_SMS_REQS_QUEUE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

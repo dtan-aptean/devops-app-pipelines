@@ -76,3 +76,4 @@ stages:
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
               batchSize: $(BATCH_SIZE)
               executionMode: $(EXECUTION_MODE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

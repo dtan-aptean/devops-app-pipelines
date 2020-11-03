@@ -33,6 +33,7 @@ parameters:
   platformEventsTopic: ''
   payfacNotificationTopic: ''
   payfacNotificationSubscription: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -74,6 +75,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"      
 
     pod:
       resources:
@@ -143,6 +147,7 @@ steps:
     PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
     PROCESS_NOTIFICATION_EVENTS: ${{ parameters.processNotificationEvents }}
     BROADCAST_PLATFORM_EVENTS: ${{ parameters.broadcastPlatformEvents }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

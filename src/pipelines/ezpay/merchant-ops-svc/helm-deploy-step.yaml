@@ -28,6 +28,7 @@ parameters:
   enableK8sAppInsights: ''
   wepayIntegrationGrpcUri: ''
   appInsightsKey: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -69,6 +70,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"
 
     pod:
       resources:
@@ -128,7 +132,8 @@ steps:
     ENABLE_APP_INSIGHTS: ${{ parameters.enableAppInsights }}
     ENABLE_K8S_APP_INSIGHTS: ${{ parameters.enableK8sAppInsights }}
     WEPAY_INTEGRATION_GRPC_URI: ${{ parameters.wepayIntegrationGrpcUri }}
-    APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.appInsightsKey }}      
+    APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.appInsightsKey }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

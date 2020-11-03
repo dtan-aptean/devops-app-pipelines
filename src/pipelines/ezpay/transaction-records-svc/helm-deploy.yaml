@@ -67,6 +67,7 @@ stages:
               statementsContainerName: $(STATEMENTS_CONTAINER_NAME)
               statementsPeriod: $(STATEMENT_PERIOD)
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: DEV_Ezpay_Transaction_Records_Retrieve_Job_Helm_Deploy
   displayName: DEV - ezpay-transaction-records-retrieve-job Helm Deploy
@@ -125,6 +126,7 @@ stages:
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: DEV_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
   displayName: DEV - ezpay-transaction-records-stmts-job Helm Deploy
@@ -182,3 +184,4 @@ stages:
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

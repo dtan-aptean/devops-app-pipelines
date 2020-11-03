@@ -32,6 +32,7 @@ parameters:
   cosmosConnString: ''
   cosmosDatabase: ''
   cosmosContainer: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -73,6 +74,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"      
 
     pod:
       resources:
@@ -140,7 +144,8 @@ steps:
     PLATFORM_NAME: ${{ parameters.platformName }}
     PROCESS_PLATFORM_EVENTS: ${{ parameters.processPlatformEvents }}
     MERCHANT_PORTAL_URL: ${{ parameters.merchantPortalUrl }}
-    PAYER_PORTAL_BASE_URL: ${{ parameters.payerPortalUrl }}    
+    PAYER_PORTAL_BASE_URL: ${{ parameters.payerPortalUrl }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}   
 
 - task: Kubernetes@1
   displayName: Kubectl Version

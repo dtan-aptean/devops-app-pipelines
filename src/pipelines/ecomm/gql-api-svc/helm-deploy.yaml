@@ -57,3 +57,4 @@ stages:
               kongIngressClass: $(KONG_INGRESS_CLASS)
               kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

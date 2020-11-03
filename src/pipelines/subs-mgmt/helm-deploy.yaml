@@ -68,6 +68,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
               apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: DEV_GRPC_API_Svc_Helm_Deploy
   displayName: DEV - grpc api-svc Helm Deploy
@@ -124,3 +125,4 @@ stages:
               cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                                                   
               apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
