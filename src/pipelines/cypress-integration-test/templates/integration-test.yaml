@@ -2,6 +2,7 @@ parameters:
   packageName: ''
   updateMerchantPortalContentType: false
   updatePayerPortalContentType: false
+  screenshotsFolderExist: false
   azureServiceConnection: ''
 
 jobs:
@@ -99,8 +100,15 @@ jobs:
     displayName: 'Clean up test data'
     workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration        
 
+  - script: |
+      $folderExists = Test-Path ./screenshots -PathType Container
+      Write-Host "##vso[task.setvariable variable=screenshotsFolderExist;]$folderExists"
+    displayName: Check existence of screenshots folder
+    workingDirectory: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress
+
   - task: ArchiveFiles@2
     displayName: ${{ parameters.packageName }} - Archive test output - screenshots
+    condition: eq(variables.screenshotsFolderExist, true)
     inputs:
       rootFolderOrFile: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress/screenshots
       archiveType: zip

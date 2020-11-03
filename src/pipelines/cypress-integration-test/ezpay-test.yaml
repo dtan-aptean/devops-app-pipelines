@@ -1,0 +1,32 @@
+pr: none
+trigger: none
+
+schedules:
+# Run every day at 5 AM but only if code has changed.
+- cron: "0 5 * * *"
+  displayName: Integration Tests
+  branches:
+    include:
+    - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: e2e-integration-tests
+
+resources:
+  repositories:
+  - repository: testing-e2e
+    type: git
+    name: testing-e2e
+     
+stages:
+  - stage: Ezpay_api_svc
+    displayName: Run ezpay-api-svc test
+    dependsOn: []
+
+    jobs:
+    - template: ./templates/integration-test.yaml
+      parameters:
+        packageName: ezpay-api-svc
