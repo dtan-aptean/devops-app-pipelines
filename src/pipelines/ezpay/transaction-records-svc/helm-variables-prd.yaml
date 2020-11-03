@@ -36,4 +36,4 @@ variables:
 - name: FAILED_JOB_HISTORY_LIMIT
   value: 3
 - name: NODE_SELECTOR_POOL
-  value: sharedsvc
+  value: sharedsvcs
