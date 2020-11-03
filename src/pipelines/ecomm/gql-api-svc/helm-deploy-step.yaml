@@ -21,6 +21,7 @@ parameters:
   kongIngressClass: ''
   kongIngressUpstreamHostHeader: '' 
   grpcUrlErpIntegration: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -62,6 +63,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"      
 
     pod:
       resources:
@@ -115,6 +119,7 @@ steps:
     KONG_INGRESS_CLASS: ${{ parameters.kongIngressClass }}
     KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.kongIngressUpstreamHostHeader }}    
     GRPC_URL_ERP_INTEGRATION: ${{ parameters.grpcUrlErpIntegration }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

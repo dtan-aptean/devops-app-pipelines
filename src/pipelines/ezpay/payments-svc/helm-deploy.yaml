@@ -66,6 +66,7 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: DEV_Ezpay_Payments_Retry_Job_Helm_Deploy
   displayName: DEV - ezpay-payments-retry-job-dev Helm Deploy
@@ -123,3 +124,4 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

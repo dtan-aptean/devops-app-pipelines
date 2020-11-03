@@ -57,3 +57,4 @@ stages:
               wepayAppId: $(WEPAY_APP_ID)
               wepayAppToken: $(WEPAY_APP_TOKEN)
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

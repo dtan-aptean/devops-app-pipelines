@@ -22,6 +22,7 @@ parameters:
   resourceRequestsMemory: ''
   ezpayGqlUrl: ''
   syncTimeout: ''
+  nodeSelectorPool: ''
     
 steps:
 - pwsh: |
@@ -63,6 +64,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"      
 
     pod:
       resources:
@@ -117,6 +121,7 @@ steps:
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
     GQL_URL_EZPAY_API_SVC: ${{ parameters.ezpayGqlUrl }}
     SYNC_TIMEOUT: ${{ parameters.syncTimeout }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

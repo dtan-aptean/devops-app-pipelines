@@ -58,6 +58,7 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
               syncTimeout: $(SYNC_TIMEOUT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: TST_ERP_Integration_Svc_Helm_Deploy
   displayName: TST - erp-integration Helm Deploy
@@ -103,7 +104,8 @@ stages:
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
-              syncTimeout: $(SYNC_TIMEOUT)     
+              syncTimeout: $(SYNC_TIMEOUT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_ERP_Integration_Svc_Helm_Deploy
   displayName: STG - erp-integration Helm Deploy
@@ -149,7 +151,8 @@ stages:
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
-              syncTimeout: $(SYNC_TIMEOUT)            
+              syncTimeout: $(SYNC_TIMEOUT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)           
 
 - stage: PRD_ERP_Integration_Svc_Helm_Deploy
   displayName: PRD - erp-integration Helm Deploy
@@ -195,4 +198,5 @@ stages:
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
-              syncTimeout: $(SYNC_TIMEOUT)          
+              syncTimeout: $(SYNC_TIMEOUT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

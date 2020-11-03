@@ -22,6 +22,7 @@ parameters:
   wepayAppId: ''
   wepayAppToken: ''
   wepayUploadBaseUrl: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -63,6 +64,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"      
 
     pod:
       resources:
@@ -108,6 +112,7 @@ steps:
     WEPAY_APP_ID: ${{ parameters.wepayAppId }}
     WEPAY_APP_TOKEN: ${{ parameters.wepayAppToken }}
     WEPAY_UPLOAD_BASE_URL: ${{ parameters.wepayUploadBaseUrl }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

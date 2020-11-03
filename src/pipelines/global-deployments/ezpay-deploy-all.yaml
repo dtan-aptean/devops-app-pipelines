@@ -109,7 +109,8 @@ stages:
               apiKind: GQL
               mongoDbConnString: $(MONGODB_CONN_STRING)
               mongoDbName: $(MONGODB_DATABASE)
-              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)                               
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)                       
 
 - stage: TST_GRPC_API_Svc_Helm_Deploy
   displayName: TST - Ezpay API SVC (GRPC) Helm Deploy
@@ -189,7 +190,8 @@ stages:
               apiKind: GRPC
               mongoDbConnString: $(MONGODB_CONN_STRING)
               mongoDbName: $(MONGODB_DATABASE)
-              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)                  
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)                 
 
 - stage: STG_GQL_API_Svc_Helm_Deploy
   displayName: STG - Ezpay API SVC (GQL) Helm Deploy
@@ -269,7 +271,8 @@ stages:
               apiKind: GQL
               mongoDbConnString: $(MONGODB_CONN_STRING)
               mongoDbName: $(MONGODB_DATABASE)
-              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)              
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_GRPC_API_Svc_Helm_Deploy
   displayName: STG - Ezpay API SVC (GRPC) Helm Deploy
@@ -349,7 +352,8 @@ stages:
               apiKind: GRPC
               mongoDbConnString: $(MONGODB_CONN_STRING)
               mongoDbName: $(MONGODB_DATABASE)
-              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)               
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_GQL_API_Svc_Helm_Deploy
   displayName: PRD - Ezpay API SVC (GQL) Helm Deploy
@@ -429,7 +433,8 @@ stages:
               apiKind: GQL
               mongoDbConnString: $(MONGODB_CONN_STRING)
               mongoDbName: $(MONGODB_DATABASE)
-              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)              
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_GRPC_API_Svc_Helm_Deploy
   displayName: PRD - Ezpay API SVC (GRPC) Helm Deploy
@@ -509,7 +514,8 @@ stages:
               apiKind: GRPC
               mongoDbConnString: $(MONGODB_CONN_STRING)
               mongoDbName: $(MONGODB_DATABASE)
-              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)              
+              idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## EZPAY PAYFAC NOTIFICATIONS ##
 - stage: TST_Payfac_Notifications_Svc_Helm_Deploy
@@ -567,7 +573,8 @@ stages:
               payfacTopicConnectionString: $(SB_PAYFAC_NOTIFICATIONS_TOPIC_CONN_STRING)
               platformEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
-              payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)         
+              payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Payfac_Notifications_Svc_Helm_Deploy
   displayName: STG - Ezpay Payfac Notifications SVC Helm Deploy
@@ -624,7 +631,8 @@ stages:
               payfacTopicConnectionString: $(SB_PAYFAC_NOTIFICATIONS_TOPIC_CONN_STRING)
               platformEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
-              payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)                   
+              payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)                 
 
 - stage: PRD_Payfac_Notifications_Svc_Helm_Deploy
   displayName: PRD - Ezpay Payfac Notifications SVC Helm Deploy
@@ -682,6 +690,7 @@ stages:
               platformEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
               payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## EZPAY EMAIL NOTIFICATIONS ##
 - stage: TST_Email_Notification_Svc_Helm_Deploy
@@ -738,7 +747,8 @@ stages:
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                
+              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)      
 
 - stage: STG_Email_Notification_Svc_Helm_Deploy
   displayName: STG - Ezpay Email Notifications SVC Helm Deploy
@@ -794,7 +804,8 @@ stages:
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)                        
+              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)                    
 
 - stage: PRD_Email_Notification_Svc_Helm_Deploy
   displayName: PRD - Ezpay Email Notifications SVC Helm Deploy
@@ -851,6 +862,7 @@ stages:
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
               cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## EZPAY MERCHANT OPS ##
 - stage: TST_Ezpay_Merchant_Ops_Helm_Deploy
@@ -903,6 +915,7 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Ezpay_Merchant_Ops_Helm_Deploy
   displayName: STG - ezpay-merchant-ops-svc Helm Deploy
@@ -954,6 +967,7 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ezpay_Merchant_Ops_Helm_Deploy
   displayName: PRD - ezpay-merchant-ops-svc Helm Deploy
@@ -1005,6 +1019,7 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## EZPAY PAYMENT OPS ##
 - stage: TST_Ezpay_Payment_Ops_Helm_Deploy
@@ -1061,6 +1076,7 @@ stages:
               emailReqsQueue: $(SB_EMAIL_REQS_QUEUE)
               smsReqsQueueConnString: $(SB_SMS_REQS_QUEUE_CONN_STRING)
               smsReqsQueue: $(SB_SMS_REQS_QUEUE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Ezpay_Payment_Ops_Helm_Deploy
   displayName: STG - ezpay-payment-ops-svc Helm Deploy
@@ -1116,6 +1132,7 @@ stages:
               emailReqsQueue: $(SB_EMAIL_REQS_QUEUE)
               smsReqsQueueConnString: $(SB_SMS_REQS_QUEUE_CONN_STRING)
               smsReqsQueue: $(SB_SMS_REQS_QUEUE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ezpay_Payment_Ops_Helm_Deploy
   displayName: PRD - ezpay-payment-ops-svc Helm Deploy
@@ -1171,6 +1188,7 @@ stages:
               emailReqsQueue: $(SB_EMAIL_REQS_QUEUE)
               smsReqsQueueConnString: $(SB_SMS_REQS_QUEUE_CONN_STRING)
               smsReqsQueue: $(SB_SMS_REQS_QUEUE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## EZPAY PAYMENTS SVC ##
 - stage: TST_Ezpay_Payments_Svc_Helm_Deploy
@@ -1227,6 +1245,7 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: TST_Ezpay_Payments_Retry_Job_Helm_Deploy
   displayName: TST - ezpay-payments-retry-job-tst Helm Deploy
@@ -1285,6 +1304,7 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Ezpay_Payments_Svc_Helm_Deploy
   displayName: STG - ezpay-payments-svc Helm Deploy
@@ -1340,6 +1360,7 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Ezpay_Payments_Retry_Job_Helm_Deploy
   displayName: STG - ezpay-payments-retry-job-stg Helm Deploy
@@ -1398,6 +1419,7 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ezpay_Payments_Svc_Helm_Deploy
   displayName: PRD - ezpay-payments-svc Helm Deploy
@@ -1453,6 +1475,7 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ezpay_Payments_Retry_Job_Helm_Deploy
   displayName: PRD - ezpay-payments-retry-job-prd Helm Deploy
@@ -1511,6 +1534,7 @@ stages:
               enableAppInsights: $(ENABLE_APP_INSIGHTS)
               enableK8sAppInsights: $(ENABLE_K8S_APP_INSIGHTS)
               wepayIntegrationGrpcUri: $(WEPAY_INTEGRATION_GRPC_URI)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## EZPAY TRANSACTION RECORDS SVC + JOBS ##
 - stage: TST_Ezpay_Transaction_Records_Svc_Helm_Deploy
@@ -1567,6 +1591,7 @@ stages:
               statementsContainerName: $(STATEMENTS_CONTAINER_NAME)
               statementsPeriod: $(STATEMENT_PERIOD)
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: TST_Ezpay_Transaction_Records_Retrieve_Job_Helm_Deploy
   displayName: TST - ezpay-transaction-records-retrieve-job Helm Deploy
@@ -1625,6 +1650,7 @@ stages:
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: TST_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
   displayName: TST - ezpay-transaction-records-stmts-job Helm Deploy
@@ -1683,6 +1709,7 @@ stages:
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Ezpay_Transaction_Records_Svc_Helm_Deploy
   displayName: STG - ezpay-transaction-records-svc Helm Deploy
@@ -1738,6 +1765,7 @@ stages:
               statementsContainerName: $(STATEMENTS_CONTAINER_NAME)
               statementsPeriod: $(STATEMENT_PERIOD)
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Ezpay_Transaction_Records_Retrieve_Job_Helm_Deploy
   displayName: STG - ezpay-transaction-records-retrieve-job Helm Deploy
@@ -1796,6 +1824,7 @@ stages:
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
   displayName: STG - ezpay-transaction-records-stmts-job Helm Deploy
@@ -1854,6 +1883,7 @@ stages:
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ezpay_Transaction_Records_Svc_Helm_Deploy
   displayName: PRD - ezpay-transaction-records-svc Helm Deploy
@@ -1909,6 +1939,7 @@ stages:
               statementsContainerName: $(STATEMENTS_CONTAINER_NAME)
               statementsPeriod: $(STATEMENT_PERIOD)
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ezpay_Transaction_Records_Retrieve_Job_Helm_Deploy
   displayName: PRD - ezpay-transaction-records-retrieve-job Helm Deploy
@@ -1967,6 +1998,7 @@ stages:
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
   displayName: PRD - ezpay-transaction-records-stmts-job Helm Deploy
@@ -2025,6 +2057,7 @@ stages:
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## EZPAY WEPAY INTEGRATION ##
 - stage: TST_Wepay_Integration_Svc_Helm_Deploy
@@ -2072,6 +2105,7 @@ stages:
               wepayAppId: $(WEPAY_APP_ID)
               wepayAppToken: $(WEPAY_APP_TOKEN)
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Wepay_Integration_Svc_Helm_Deploy
   displayName: STG - wepay-integration-svc Helm Deploy
@@ -2118,6 +2152,7 @@ stages:
               wepayAppId: $(WEPAY_APP_ID)
               wepayAppToken: $(WEPAY_APP_TOKEN)
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Wepay_Integration_Svc_Helm_Deploy
   displayName: PRD - wepay-integration-svc Helm Deploy
@@ -2164,6 +2199,7 @@ stages:
               wepayAppId: $(WEPAY_APP_ID)
               wepayAppToken: $(WEPAY_APP_TOKEN)
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## EZPAY MERCHANT PORTAL ##
 - stage: TST_Merchant_Portal_Deploy
@@ -2389,6 +2425,7 @@ stages:
               successfulJobHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
               cronSchedule: $(CRON_SCHEDULE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Account_Balance_Updater_Job_Helm_Deploy
   displayName: STG - Ezpay Account Balance Updater Job Helm Deploy
@@ -2431,6 +2468,7 @@ stages:
               successfulJobHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
               cronSchedule: $(CRON_SCHEDULE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Account_Balance_Updater_Job_Helm_Deploy
   displayName: PRD - Ezpay Account Balance Updater Job Helm Deploy
@@ -2473,3 +2511,4 @@ stages:
               successfulJobHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
               cronSchedule: $(CRON_SCHEDULE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

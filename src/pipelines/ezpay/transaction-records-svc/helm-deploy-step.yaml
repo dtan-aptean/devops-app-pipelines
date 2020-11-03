@@ -34,6 +34,7 @@ parameters:
   statementsBlobConnString: ''
   successfulJobsHistoryLimit: ''
   failedJobsHistoryLimit: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -75,6 +76,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"
 
     pod:
       resources:
@@ -150,6 +154,7 @@ steps:
     STATEMENTS_BLOB_CONNECTION_STRING: ${{ parameters.statementsBlobConnString }}
     SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.successfulJobsHistoryLimit }}
     FAILED_JOB_HISTORY_LIMIT: ${{ parameters.failedJobsHistoryLimit }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

@@ -56,6 +56,7 @@ parameters:
   mongoDbConnString: ''
   mongoDbName: ''
   idempotencyMongoDbCollection: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -97,6 +98,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"      
 
     pod:
       resources:
@@ -226,6 +230,7 @@ steps:
     MONGODB_IDEMPOTENCY_COLLECTION: ${{ parameters.idempotencyMongoDbCollection }}
     MONGODB_DATABASE: ${{ parameters.mongoDbName }}
     MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

@@ -24,6 +24,7 @@ parameters:
   cosmosConnString: ''
   cosmosDatabaseName: ''
   cosmosContainerName: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -65,6 +66,9 @@ steps:
 
     deployment:
       replicas: $env:REPLICAS
+
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"
 
     pod:
       resources:
@@ -124,6 +128,7 @@ steps:
     COSMOSDB_CONN_STRING: ${{ parameters.cosmosConnString }}
     COSMOSDB_LANGUAGE_SVC_DATABASE: ${{ parameters.cosmosDatabaseName }}
     COSMOSDB_COLLECTION_NAME: ${{ parameters.cosmosContainerName }}
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

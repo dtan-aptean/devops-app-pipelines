@@ -70,7 +70,8 @@ stages:
               smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
               batchSize: $(BATCH_SIZE)
-              executionMode: $(EXECUTION_MODE)              
+              executionMode: $(EXECUTION_MODE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)         
 
 - stage: STG_Comms_API_Svc_Helm_Deploy
   displayName: STG - comms-api-svc Helm Deploy
@@ -135,7 +136,8 @@ stages:
               smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
               batchSize: $(BATCH_SIZE)
-              executionMode: $(EXECUTION_MODE)              
+              executionMode: $(EXECUTION_MODE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)  
 
 - stage: PRD_Comms_API_Svc_Helm_Deploy
   displayName: PRD - comms-api-svc Helm Deploy
@@ -201,6 +203,7 @@ stages:
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
               batchSize: $(BATCH_SIZE)
               executionMode: $(EXECUTION_MODE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## Subs Mgmt
 
@@ -259,6 +262,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
               apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: TST_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: TST - subs mgmt grpc api-svc Helm Deploy
@@ -315,6 +319,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
               apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
   displayName: STG - subs mgmt gql api-svc Helm Deploy
@@ -371,6 +376,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
               apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: STG - subs mgmt grpc api-svc Helm Deploy
@@ -427,6 +433,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
               apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
   displayName: PRD - subs mgmt gql api-svc Helm Deploy
@@ -483,6 +490,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
               apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: PRD - subs mgmt grpc api-svc Helm Deploy
@@ -539,3 +547,4 @@ stages:
               cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
               apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

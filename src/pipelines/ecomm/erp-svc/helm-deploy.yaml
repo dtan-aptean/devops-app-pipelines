@@ -58,3 +58,4 @@ stages:
               cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)              
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
               eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

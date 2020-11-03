@@ -18,6 +18,7 @@ parameters:
   successfulJobHistoryLimit: ''
   failedJobHistoryLimit: ''
   cronSchedule: ''
+  nodeSelectorPool: ''
 
 steps:
 - pwsh: |
@@ -57,6 +58,9 @@ steps:
     commonLabels:
       env: $env:ENV
 
+    nodeSelector:
+      pool: "$env:NODE_SELECTOR_POOL"      
+
     config:
       serviceBus:
         connectionString: "$env:SB_CONN_STRING"
@@ -90,7 +94,7 @@ steps:
     SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.successfulJobsHistoryLimit }}
     FAILED_JOB_HISTORY_LIMIT: ${{ parameters.failedJobsHistoryLimit }}
     CRON_SCHEDULE: ${{ parameters.cronSchedule }}
-
+    NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

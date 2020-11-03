@@ -68,3 +68,4 @@ stages:
               platformEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
               payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

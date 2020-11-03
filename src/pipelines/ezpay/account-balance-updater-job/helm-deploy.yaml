@@ -54,3 +54,4 @@ stages:
               successfulJobHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
               cronSchedule: $(CRON_SCHEDULE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)

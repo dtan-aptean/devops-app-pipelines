@@ -49,7 +49,8 @@ stages:
               cosmosDatabase: $(COSMOSDB_DATABASE)
               cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
-              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)                   
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Ecomm_Erp_Svc_Helm_Deploy
   displayName: STG - ecomm-erp-svc Helm Deploy
@@ -96,6 +97,7 @@ stages:
               cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
               eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ecomm_Erp_Svc_Helm_Deploy
   displayName: PRD - ecomm-erp-svc Helm Deploy
@@ -142,6 +144,7 @@ stages:
               cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)      
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
               eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
               
 ## ECOMM-GQL-API-SVC ##    
 - stage: TST_Ecomm_Grpc_Api_Svc_Helm_Deploy
@@ -188,6 +191,7 @@ stages:
               kongIngressClass: $(KONG_INGRESS_CLASS)
               kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Ecomm_Grpc_Api_Svc_Helm_Deploy
   displayName: STG - ecomm-gql-api-svc Helm Deploy
@@ -233,6 +237,7 @@ stages:
               kongIngressClass: $(KONG_INGRESS_CLASS)
               kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ecomm_Grpc_Api_Svc_Helm_Deploy
   displayName: PRD - ecomm-gql-api-svc Helm Deploy
@@ -277,7 +282,8 @@ stages:
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
               kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
-              grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)    
+              grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## ECOMM-LANG-SVC ##
 - stage: TST_Ecomm_Lang_Svc_Helm_Deploy
@@ -326,7 +332,8 @@ stages:
               cacheRetainSeconds: $(ECOMM_CACHE_RETAIN_SECONDS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)       
+              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)  
 
 - stage: STG_Ecomm_Lang_Svc_Helm_Deploy
   displayName: STG - Ecomm Language Svc Helm Deploy
@@ -374,7 +381,8 @@ stages:
               cacheRetainSeconds: $(ECOMM_CACHE_RETAIN_SECONDS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)    
+              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ecomm_Lang_Svc_Helm_Deploy
   displayName: PRD - Ecomm Language Svc Helm Deploy
@@ -422,7 +430,8 @@ stages:
               cacheRetainSeconds: $(ECOMM_CACHE_RETAIN_SECONDS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)  
+              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## ECOMM-STORE-FRONT ##
 - stage: TST_Ecomm_SF_Deploy

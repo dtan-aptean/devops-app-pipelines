@@ -34,4 +34,6 @@ variables:
 - name: AKS_NAME
   value: aks-eastus-shr-apteank8s
 - name: AKS_RESOURCE_GROUP
-  value: rg-eastus-shr-apteank8s
+  value: rg-eastus-shr-apteank8s  
+- name: NODE_SELECTOR_POOL
+  value: prftesting
