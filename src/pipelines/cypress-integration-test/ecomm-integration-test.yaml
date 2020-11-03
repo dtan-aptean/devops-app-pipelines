@@ -23,7 +23,7 @@ resources:
     ref: refs/heads/master  
 
 stages:
-  - stage: eCommerce
+  - stage: eCommerce-sf
     displayName: Run whole test suite of eCommerce storefront
     dependsOn: []
 
@@ -31,5 +31,14 @@ stages:
     - template: ./templates/integration-test.yaml
       parameters:
         packageName: ecomm-sf       
+
+  - stage: eCommerce-api-svc
+    displayName: Run whole test suite of eCommerce api svc
+    dependsOn: []
+
+    jobs:
+    - template: ./templates/integration-test.yaml
+      parameters:
+        packageName: ecomm-api-svc             
 
  

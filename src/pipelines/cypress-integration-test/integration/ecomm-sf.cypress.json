@@ -12,9 +12,9 @@
     "supportFile": "cypress/support/index.ts",
     "reporter": "junit",
     "reporterOptions": {
-      "mochaFile": "/e2e/cypress/results/test-result-ecomm-[hash].xml"
+      "mochaFile": "/e2e/cypress/results/test-result-ecomm-sf-[hash].xml"
     },
     "videosFolder": "/e2e/cypress/videos",
     "screenshotsFolder": "/e2e/cypress/screenshots",
     "retries": 2   
-  }
+}
