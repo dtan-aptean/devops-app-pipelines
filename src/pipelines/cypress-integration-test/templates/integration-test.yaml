@@ -94,11 +94,11 @@ jobs:
       tokenPrefix: '#{'
       tokenSuffix: '}#'
 
-  - script: |
-      npm install crypto got
-      node cleanUp.js      
-    displayName: 'Clean up test data'
-    workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration        
+  # - script: |
+  #     npm install crypto got
+  #     node cleanUp.js      
+  #   displayName: 'Clean up test data'
+  #   workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration        
 
   - script: |
       $folderExists = Test-Path ./screenshots -PathType Container
