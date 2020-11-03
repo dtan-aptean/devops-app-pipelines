@@ -100,7 +100,7 @@ jobs:
   #   displayName: 'Clean up test data'
   #   workingDirectory: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration        
 
-  - script: |
+  - pwsh: |
       $folderExists = Test-Path ./screenshots -PathType Container
       Write-Host "##vso[task.setvariable variable=screenshotsFolderExist;]$folderExists"
     displayName: Check existence of screenshots folder
