@@ -91,7 +91,7 @@ steps:
         connectionString: "$env:EVENT_HUB_CONN_STRING"
         egressStreams: "$env:EVENT_HUB_EGRESS_STREAMS"   
    
-      "@ | Out-File -FilePath ./deploy-values.yaml
+    "@ | Out-File -FilePath ./deploy-values.yaml
 
     Write-Host ""
     Write-Host "Helm deploy prep complete!"
