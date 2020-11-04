@@ -113,7 +113,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ecomm-lang-svc-tst
+    - group: ecomm-lang-svc-prf
     - template: ../ecomm/lang-svc/helm-variables-prf.yaml
 
     strategy:
