@@ -12,15 +12,15 @@ variables:
 - name: HELM_RELEASE_NAME
   value: chatty-sasquatch
 - name: RESOURCE_LIMITS_CPU
-  value: 50m
+  value: 100m
 - name: RESOURCE_LIMITS_MEMORY
-  value: 64Mi
+  value: 128Mi
 - name: RESOURCE_REQUESTS_CPU
   value: 10m
 - name: RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: ENV
-  value: STG
+  value: PRF
 - name: FRONT_DOOR_ID
   value: "6e18a8d2-1fa5-4632-b089-0ed2d9d21f28"
 - name: KONG_INGRESS_UPSTREAM_HEADER
