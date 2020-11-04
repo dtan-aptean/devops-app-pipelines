@@ -83,7 +83,7 @@ steps:
       cosmosMongo:
         connectionString: "$env:MONGODB_CONN_STRING"
         databaseName: "$env:MONGODB_DB_NAME"
-        collectionName: $env:MONGODB_COLLECTION_NAME"  
+        collectionName: "$env:MONGODB_COLLECTION_NAME"  
       serviceBus:
         connectionString: "$env:SB_CONN_STRING"
         ingressQueues: "$env:SB_INGRESS_QUEUES"
