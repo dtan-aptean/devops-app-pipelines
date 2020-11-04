@@ -89,8 +89,9 @@ steps:
         ingressQueues: "$env:SB_INGRESS_QUEUES"
       eventHub:
         connectionString: "$env:EVENT_HUB_CONN_STRING"
-        egressStreams: "$env:EVENT_HUB_EGRESS_STREAMS"      
-        "@ | Out-File -FilePath ./deploy-values.yaml
+        egressStreams: "$env:EVENT_HUB_EGRESS_STREAMS"   
+   
+    "@ | Out-File -FilePath ./deploy-values.yaml
 
     Write-Host ""
     Write-Host "Helm deploy prep complete!"
