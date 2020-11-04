@@ -5,8 +5,8 @@ variables:
 
 stages:
 ## ECOMM ERP SVC ##
-- stage: TST_Ecomm_Erp_Svc_Helm_Deploy
-  displayName: TST - ecomm-erp-svc Helm Deploy
+- stage: PRF _Ecomm_Erp_Svc_Helm_Deploy
+  displayName: PRF - ecomm-erp-svc Helm Deploy
   dependsOn: []
 
   jobs:
@@ -18,7 +18,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ecomm-erp-svc-tst
+    - group: ecomm-erp-svc-prf
     - template: ../ecomm/erp-svc/helm-variables-prf.yaml
 
     strategy:
@@ -53,8 +53,8 @@ stages:
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
             
 ## ECOMM-GQL-API-SVC ##    
-- stage: TST_Ecomm_Grpc_Api_Svc_Helm_Deploy
-  displayName: TST - ecomm-gql-api-svc Helm Deploy
+- stage: PRF _Ecomm_Grpc_Api_Svc_Helm_Deploy
+  displayName: PRF - ecomm-gql-api-svc Helm Deploy
   dependsOn: []
 
   jobs:
@@ -66,7 +66,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ecomm-gql-api-svc-tst
+    - group: ecomm-gql-api-svc-prf
     - template: ../ecomm/gql-api-svc/helm-variables-prf.yaml
 
     strategy:
@@ -100,8 +100,8 @@ stages:
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## ECOMM-LANG-SVC ##
-- stage: TST_Ecomm_Lang_Svc_Helm_Deploy
-  displayName: TST - Ecomm Language Svc Helm Deploy
+- stage: PRF _Ecomm_Lang_Svc_Helm_Deploy
+  displayName: PRF - Ecomm Language Svc Helm Deploy
   dependsOn: []
 
   jobs:

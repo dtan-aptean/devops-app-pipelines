@@ -44,7 +44,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-api-svc-tst
+    - group: ezpay-api-svc-prf
     - template: ../ezpay/api-svc/helm-variables-prf.yaml
 
     strategy:
@@ -125,7 +125,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-api-svc-tst
+    - group: ezpay-api-svc-prf
     - template: ../ezpay/api-svc/helm-variables-prf.yaml
 
     strategy:
@@ -207,7 +207,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-payfac-notifications-svc-tst
+    - group: ezpay-payfac-notifications-svc-prf
     - template: ../ezpay/payfac-notifications-svc/helm-variables-prf.yaml
 
     strategy:
@@ -266,7 +266,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-email-notification-svc-tst
+    - group: ezpay-email-notification-svc-prf
     - template: ../ezpay/email-notification-svc/helm-variables-prf.yaml
 
     strategy:
@@ -324,7 +324,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-merchant-ops-svc-tst
+    - group: ezpay-merchant-ops-svc-prf
     - template: ../ezpay/merchant-ops-svc/helm-variables-prf.yaml
 
     strategy:
@@ -377,7 +377,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-payment-ops-svc-tst
+    - group: ezpay-payment-ops-svc-prf
     - template: ../ezpay/payment-ops-svc/helm-variables-prf.yaml
 
     strategy:
@@ -434,7 +434,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-payments-svc-tst
+    - group: ezpay-payments-svc-prf
     - template: ../ezpay/payments-svc/helm-variables-prf.yaml
 
     strategy:
@@ -478,7 +478,7 @@ stages:
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRF_Ezpay_Payments_Retry_Job_Helm_Deploy
-  displayName: PRF - ezpay-payments-retry-job-tst Helm Deploy
+  displayName: PRF - ezpay-payments-retry-job Helm Deploy
   dependsOn: []
 
   jobs:
@@ -490,7 +490,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-payments-retry-job-tst
+    - group: ezpay-payments-retry-job-prf
     - template: ../ezpay/payments-svc/helm-variables-prf.yaml
 
     strategy:
@@ -550,7 +550,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-transaction-records-svc-tst
+    - group: ezpay-transaction-records-svc-prf
     - template: ../ezpay/transaction-records-svc/helm-variables-prf.yaml
 
     strategy:
@@ -606,7 +606,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-transaction-records-retrieve-job-tst
+    - group: ezpay-transaction-records-retrieve-job-prf
     - template: ../ezpay/transaction-records-svc/helm-variables-prf.yaml
 
     strategy:
@@ -665,7 +665,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-transaction-stmts-job-tst
+    - group: ezpay-transaction-stmts-job-prf
     - template: ../ezpay/transaction-records-svc/helm-variables-prf.yaml
 
     strategy:
@@ -725,7 +725,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: wepay-integration-svc-tst
+    - group: wepay-integration-svc-prf
     - template: ../ezpay/wepay-integration-svc/helm-variables-prf.yaml
 
     strategy:
@@ -787,15 +787,15 @@ stages:
 
 ## Static Assets ##
 - stage: PRF_Static_Assets_Deploy
-  displayName: TST Static Assets Deploy
+  displayName: PRF Static Assets Deploy
   dependsOn: []
 
   jobs:
   - template: static-assets/azp-yaml/templates/ezpay-static-assets-deployment-job.yaml@ezpay-backend-services
     parameters:
-      environment: ezpay-static-assets-tst
+      environment: ezpay-static-assets-prf
       serviceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
-      storageAccount: stezpaytenantfilestst001
+      storageAccount: stezpaytenantfilesprf001
 
 ## ApteanPay Js Library
 - stage: PRF_Apteanpay_Js_Lib_Deploy
@@ -824,7 +824,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ezpay-account-balance-updater-job-tst
+    - group: ezpay-account-balance-updater-job-prf
     - template: ../ezpay/account-balance-updater-job/helm-variables-prf.yaml
 
     strategy:
@@ -854,7 +854,7 @@ stages:
               cronSchedule: $(CRON_SCHEDULE)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
-## ERP INTEGRATION ##
+## ERP INTEGRATION TODO: MOVE ME TO APP SERVICE AND OUT OF THIS FILE ##
 - stage: PRF_ERP_Integration_Svc_Helm_Deploy
   displayName: PRF - erp-integration Helm Deploy
   dependsOn: []
