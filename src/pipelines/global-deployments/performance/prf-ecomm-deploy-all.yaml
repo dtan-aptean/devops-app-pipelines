@@ -12,7 +12,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ecomm-tst
+    environment: ecomm-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -60,7 +60,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ecomm-tst
+    environment: ecomm-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -107,7 +107,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ecomm-tst
+    environment: ecomm-prf
 
     pool:
       vmImage: 'ubuntu-latest'

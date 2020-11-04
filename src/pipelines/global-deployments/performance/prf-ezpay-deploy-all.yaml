@@ -38,7 +38,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -119,7 +119,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -201,7 +201,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -260,7 +260,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -318,7 +318,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -371,7 +371,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -428,7 +428,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -484,7 +484,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -544,7 +544,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -600,7 +600,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -659,7 +659,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -719,7 +719,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -818,7 +818,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -862,7 +862,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
+    environment: ezpay-prf
 
     pool:
       vmImage: 'ubuntu-latest'
