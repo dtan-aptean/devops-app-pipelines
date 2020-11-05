@@ -2,17 +2,17 @@ variables:
 - name: K8S_NAMESPACE
   value: ezpay-prf
 - name: CHART_NAME
-  value: ezpay-erp-integration-svc
+  value: ezpay-payment-ops-svc
 - name: CONTAINER_REGISTRY_NAME
-  value: acreastusprdapteancr
+  value: acreastusshrapteancr
 - name: CHART_REPOSITORY_NAME
-  value: "helm/ezpay-erp-integration-svc"
+  value: "helm/ezpay-payment-ops-svc"
 - name: IMAGE_REPOSITORY_NAME
-  value: ezpay-erp-integration-svc
+  value: ezpay-payment-ops-svc
 - name: HELM_RELEASE_NAME
-  value: hopping-catfish
+  value: solid-wolf
 - name: RESOURCE_LIMITS_CPU
-  value: 100m
+  value: 50m
 - name: RESOURCE_LIMITS_MEMORY
   value: 128Mi
 - name: RESOURCE_REQUESTS_CPU
@@ -21,12 +21,6 @@ variables:
   value: 10Mi
 - name: ENV
   value: PRF
-- name: FRONT_DOOR_ID
-  value: "6e18a8d2-1fa5-4632-b089-0ed2d9d21f28"
-- name: KONG_INGRESS_UPSTREAM_HEADER
-  value: ezpay-erp-integration-svc.ezpay-prf.svc
-- name: KONG_INGRESS_CLASS
-  value: kong-prf
 - name: REPLICAS
   value: 1
 - name: AZURE_TENANT_ID
