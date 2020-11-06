@@ -82,7 +82,7 @@ steps:
     DockerRepository: ${{ parameters.imageRepositoryName }}
     DockerImageTag: $(latestTag)
     AppSettings: |    
-      -ECOMM_ECOMMERCE_STORE_FRONT_VERSION $(latestTag)
+      -ECOMM_ECOMMERCE_STORE_FRONT_VERSION "$(latestTag)"
       -ECOMM_TENANT_ID "${{ parameters.apteanTenantId }}"
       -ECOMM_SQL_CONNECTION_STRING "${{ parameters.sqlConnString }}"
       -ECOMM_EVENTS_INGRESS_CONN_STRING "${{ parameters.eventsIngressConnString }}"
