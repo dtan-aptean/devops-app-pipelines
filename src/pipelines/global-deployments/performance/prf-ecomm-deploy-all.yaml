@@ -5,7 +5,7 @@ variables:
 
 stages:
 ## ECOMM ERP SVC ##
-- stage: PRF _Ecomm_Erp_Svc_Helm_Deploy
+- stage: PRF_Ecomm_Erp_Svc_Helm_Deploy
   displayName: PRF - ecomm-erp-svc Helm Deploy
   dependsOn: []
 
@@ -53,7 +53,7 @@ stages:
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
             
 ## ECOMM-GQL-API-SVC ##    
-- stage: PRF _Ecomm_Grpc_Api_Svc_Helm_Deploy
+- stage: PRF_Ecomm_Grpc_Api_Svc_Helm_Deploy
   displayName: PRF - ecomm-gql-api-svc Helm Deploy
   dependsOn: []
 
@@ -100,7 +100,7 @@ stages:
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## ECOMM-LANG-SVC ##
-- stage: PRF _Ecomm_Lang_Svc_Helm_Deploy
+- stage: PRF_Ecomm_Lang_Svc_Helm_Deploy
   displayName: PRF - Ecomm Language Svc Helm Deploy
   dependsOn: []
 
