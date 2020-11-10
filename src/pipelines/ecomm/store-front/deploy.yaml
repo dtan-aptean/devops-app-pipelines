@@ -33,7 +33,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: deploy-step.yaml
+          - template:  ../../store-front/deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
