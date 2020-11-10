@@ -22,7 +22,7 @@ variables:
 - name: ENV
   value: PRF
 - name: FRONT_DOOR_ID
-  value: "6e18a8d2-1fa5-4632-b089-0ed2d9d21f28"
+  value: "4f1d8d14-c243-4c72-81b9-bb7edf6b1c7e"
 - name: KONG_INGRESS_UPSTREAM_HEADER
   value: comms-api-svc.comms-prf.svc
 - name: KONG_INGRESS_CLASS
