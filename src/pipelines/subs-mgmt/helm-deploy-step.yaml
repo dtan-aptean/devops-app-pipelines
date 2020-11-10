@@ -29,6 +29,7 @@ parameters:
   appInsightsKey: ''
   apiKind: ''
   nodeSelectorPool: ''
+  imageTag: ''
 
 steps:
 - pwsh: |
@@ -48,7 +49,16 @@ steps:
       --top 1 `
       --orderby time_desc | ConvertFrom-Json
 
-    $latestTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if ($env:IMAGE_TAG) 
+    {
+      Write-Host Using configured tag: $env:IMAGE_TAG      
+      $latestTag = $env:IMAGE_TAG
+    }
+    else
+    {      
+      Write-Host Fetching latest tag. 
+      $latestTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
     $imageRepository = "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CHART_NAME"
 
     Write-Host ""
@@ -150,6 +160,7 @@ steps:
     B2C_POLICY_NAME: ${{ parameters.b2cPolicyName }}
     API_KIND: ${{ parameters.apiKind }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
+    IMAGE_TAG: ${{ parameters.imageTag }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

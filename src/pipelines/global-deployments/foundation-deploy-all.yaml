@@ -71,7 +71,7 @@ stages:
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
               batchSize: $(BATCH_SIZE)
               executionMode: $(EXECUTION_MODE)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)         
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: STG_Comms_API_Svc_Helm_Deploy
   displayName: STG - comms-api-svc Helm Deploy

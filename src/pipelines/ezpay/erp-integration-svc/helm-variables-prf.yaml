@@ -4,7 +4,7 @@ variables:
 - name: CHART_NAME
   value: ezpay-erp-integration-svc
 - name: CONTAINER_REGISTRY_NAME
-  value: acreastusprdapteancr
+  value: acreastusshrapteancr
 - name: CHART_REPOSITORY_NAME
   value: "helm/ezpay-erp-integration-svc"
 - name: IMAGE_REPOSITORY_NAME

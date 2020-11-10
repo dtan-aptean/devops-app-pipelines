@@ -37,3 +37,5 @@ variables:
   value: 3  
 - name: NODE_SELECTOR_POOL
   value: prftesting
+- name: IMAGE_TAG
+  value: 202010.105.0-late.oct.2020  

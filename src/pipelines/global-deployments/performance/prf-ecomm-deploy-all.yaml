@@ -19,13 +19,13 @@ stages:
 
     variables:
     - group: ecomm-erp-svc-prf
-    - template: ../ecomm/erp-svc/helm-variables-prf.yaml
+    - template: ../../ecomm/erp-svc/helm-variables-prf.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../ecomm/erp-svc/helm-deploy-step.yaml
+          - template: ../../ecomm/erp-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -51,6 +51,7 @@ stages:
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
               eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              imageTag: $(IMAGE_TAG)
             
 ## ECOMM-GQL-API-SVC ##    
 - stage: PRF_Ecomm_Grpc_Api_Svc_Helm_Deploy
@@ -67,13 +68,13 @@ stages:
 
     variables:
     - group: ecomm-gql-api-svc-prf
-    - template: ../ecomm/gql-api-svc/helm-variables-prf.yaml
+    - template: ../../ecomm/gql-api-svc/helm-variables-prf.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../ecomm/gql-api-svc/helm-deploy-step.yaml
+          - template: ../../ecomm/gql-api-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -98,6 +99,7 @@ stages:
               kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              imageTag: $(IMAGE_TAG)
 
 ## ECOMM-LANG-SVC ##
 - stage: PRF_Ecomm_Lang_Svc_Helm_Deploy
@@ -114,13 +116,13 @@ stages:
 
     variables:
     - group: ecomm-lang-svc-prf
-    - template: ../ecomm/lang-svc/helm-variables-prf.yaml
+    - template: ../../ecomm/lang-svc/helm-variables-prf.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../ecomm/lang-svc/helm-deploy-step.yaml
+          - template: ../../ecomm/lang-svc/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -147,7 +149,8 @@ stages:
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
               cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)  
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              imageTag: $(IMAGE_TAG)
 
 ## ECOMM-STORE-FRONT ##
 - stage: PRF_Ecomm_SF_Deploy
@@ -171,7 +174,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: ../ecomm/store-front/deploy-step.yaml
+          - template: ../../ecomm/store-front/deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -229,4 +232,4 @@ stages:
               useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER) 
               apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)   
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
-              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)                                                                
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)

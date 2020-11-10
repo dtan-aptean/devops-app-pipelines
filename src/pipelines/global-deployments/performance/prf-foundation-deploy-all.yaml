@@ -20,13 +20,13 @@ stages:
 
     variables:
     - group: comms-api-svc-prf
-    - template: ../comms/helm-variables-prf.yaml
+    - template: ../../comms/helm-variables-prf.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../comms/helm-deploy-step.yaml
+          - template: ../../comms/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -70,7 +70,8 @@ stages:
               processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
               batchSize: $(BATCH_SIZE)
               executionMode: $(EXECUTION_MODE)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)         
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              imageTag: $(IMAGE_TAG)
 
 ## Subs Mgmt
 - stage: PRF_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
@@ -87,13 +88,13 @@ stages:
 
     variables:
     - group: subs-mgmt-api-svc-prf
-    - template: ../subs-mgmt/helm-variables-prf.yaml
+    - template: ../../subs-mgmt/helm-variables-prf.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../subs-mgmt/helm-deploy-step.yaml
+          - template: ../../subs-mgmt/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -129,6 +130,7 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              imageTag: $(IMAGE_TAG)
 
 - stage: PRF_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: PRF - subs mgmt grpc api-svc Helm Deploy
@@ -144,13 +146,13 @@ stages:
 
     variables:
     - group: subs-mgmt-api-svc-prf
-    - template: ../subs-mgmt/helm-variables-prf.yaml
+    - template: ../../subs-mgmt/helm-variables-prf.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../subs-mgmt/helm-deploy-step.yaml
+          - template: ../../subs-mgmt/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -186,53 +188,4 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
               apiKind: GRPC
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
-
-## Events 
-- stage: PRF_Events_Stream_Svc_Helm_Deploy
-  displayName: PRF - Events Stream Svc Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: events-prf
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: events-stream-svc-prf
-    - template: helm-variables-prf.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              mongoDbConnString: $(MONGODB_CONN_STRING)
-              mongoDbName: $(MONGODB_DB_NAME)
-              mongoDbCollectionName: $(MONGODB_COLLECTION_NAME)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              serviceBusIngressQueues: $(SB_INGRESS_QUEUES)
-              eventHubConnectionString: $(EVENT_HUB_CONN_STRING)
-              eventHubEgressStreams: $(EVENT_HUB_EGRESS_STREAMS)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)              
+              imageTag: $(IMAGE_TAG)

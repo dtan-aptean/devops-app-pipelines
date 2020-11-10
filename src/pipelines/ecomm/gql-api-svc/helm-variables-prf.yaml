@@ -37,3 +37,5 @@ variables:
   value: rg-eastus-shr-apteank8s
 - name: NODE_SELECTOR_POOL
   value: prftesting
+- name: IMAGE_TAG
+  value: 202011.114.0-mid.nov.2020

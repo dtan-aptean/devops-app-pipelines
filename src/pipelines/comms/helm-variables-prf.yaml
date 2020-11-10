@@ -4,7 +4,7 @@ variables:
 - name: CHART_NAME
   value: comms-api-svc
 - name: CONTAINER_REGISTRY_NAME
-  value: acreastusprdapteancr
+  value: acreastusshrapteancr
 - name: CHART_REPOSITORY_NAME
   value: "helm/comms-api-svc"
 - name: IMAGE_REPOSITORY_NAME
@@ -37,3 +37,5 @@ variables:
   value: rg-eastus-shr-apteank8s  
 - name: NODE_SELECTOR_POOL
   value: prftesting
+- name: IMAGE_TAG
+  value: 202010.100.0-late.oct.2020
