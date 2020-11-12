@@ -33,10 +33,10 @@ stages:
             az pipelines variable-group variable update --org $organization --project $project --group-id $groupObj.id --name "IMAGE_TAG" --value $nextVersion
         }
         Write-Host "##vso[task.setvariable variable=newTag;]$tag"
-    displayName: Get Latest Tag
-    name: GetLatestTag
-    env:
-        SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
-        SP_SECRET: ${{ parameters.svcPrincipalSecret }}
-        AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
-        GROUP_NAME: ${{ parameters.groupName }}
+      displayName: Get Latest Tag
+      name: GetLatestTag
+      env:
+          SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
+          SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+          AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
+          GROUP_NAME: ${{ parameters.groupName }}
