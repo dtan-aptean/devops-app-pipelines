@@ -12,7 +12,9 @@ stages:
   - job: Execute
     steps:
     - pwsh: |
+
         az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+        Write-Host $env:SP_CLIENT_ID
         $organization = "https://dev.azure.com/Aptean"
         $project = "Common Tech"
         $group = $env:GROUP_NAME
