@@ -1,14 +1,14 @@
 variables:
 - name: K8S_NAMESPACE
-  value: events-prf
+  value: events-stg
 - name: CHART_NAME
-  value: events-stream-svc
+  value: events-svc
 - name: CONTAINER_REGISTRY_NAME
   value: acreastusshrapteancr
 - name: CHART_REPOSITORY_NAME
-  value: "helm/events-stream-svc"
+  value: "helm/events-svc"
 - name: IMAGE_REPOSITORY_NAME
-  value: events-stream-svc
+  value: events-svc
 - name: HELM_RELEASE_NAME
   value: vetoed-blackbird
 - name: RESOURCE_LIMITS_CPU
@@ -20,7 +20,7 @@ variables:
 - name: RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: ENV
-  value: PRF
+  value: STG
 - name: REPLICAS
   value: 1
 - name: AZURE_TENANT_ID
@@ -28,6 +28,6 @@ variables:
 - name: AKS_NAME
   value: aks-eastus-shr-apteank8s
 - name: AKS_RESOURCE_GROUP
-  value: rg-eastus-shr-apteank8s  
+  value: rg-eastus-shr-apteank8s
 - name: NODE_SELECTOR_POOL
-  value: prftesting
+  value: sharedsvcs

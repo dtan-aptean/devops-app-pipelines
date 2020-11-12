@@ -2,13 +2,13 @@ variables:
 - name: K8S_NAMESPACE
   value: events-dev
 - name: CHART_NAME
-  value: events-stream-svc
+  value: events-svc
 - name: CONTAINER_REGISTRY_NAME
   value: acreastusshrapteancr
 - name: CHART_REPOSITORY_NAME
-  value: "helm/events-stream-svc"
+  value: "helm/events-svc"
 - name: IMAGE_REPOSITORY_NAME
-  value: events-stream-svc
+  value: events-svc
 - name: HELM_RELEASE_NAME
   value: vetoed-blackbird
 - name: RESOURCE_LIMITS_CPU
