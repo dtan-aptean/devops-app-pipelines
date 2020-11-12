@@ -1,0 +1,43 @@
+parameters:
+  svcPrincipalClientId: ''
+  svcPrincipalSecret: ''
+  azureTenantId: ''
+  groupName: ''
+
+steps:
+- pwsh: |
+    az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+    $organization = "https://dev.azure.com/Aptean"
+    $project = "Common Tech"
+    $group = $env:GROUP_NAME
+    $groupObj = az pipelines variable-group list --org $organization --project $project --group-name $group | ConvertFrom-Json
+    if ($groupObj.id)
+    {
+        Write-Host -ForegroundColor Green Found group: $groupObj.name
+        Write-Host $groupObj.variables.IMAGE_TAG.value
+        $tag = $groupObj.variables.IMAGE_TAG.value
+        $friendlyNameSplit = $tag.Split("-")
+        $tagVersion = $friendlyNameSplit[0]
+        $friendlyName = $friendlyNameSplit[1]
+
+        $tagVersionSplit = $tagVersion.Split(".")
+        $nextPatch = [int]$tagVersionSplit[2]
+        $nextPatch += 1
+        $nextVersion = $tagVersionSplit[0] + "." + $tagVersionSplit[1] + "." + $nextPatch
+        $nextVersion = $nextVersion + "-" + $friendlyName
+        Write-Host "next version: " $nextVersion
+        #Update-Variable -groupId $groupObj.id -value $nextVersion
+        az pipelines variable-group variable update --org $organization --project $project --group-id $groupObj.id --name "IMAGE_TAG" --value $nextVersion
+    }
+    else 
+    {
+        Write-Host -ForegroundColor Red $group "Does not exist."
+    }
+    Write-Host "##vso[task.setvariable variable=newTag;]$tag"
+  displayName: Get Latest Tag
+  name: GetLatestTag
+  env:
+    SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
+    SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+    AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
+    GROUP_NAME: ${{ parameters.groupName }}

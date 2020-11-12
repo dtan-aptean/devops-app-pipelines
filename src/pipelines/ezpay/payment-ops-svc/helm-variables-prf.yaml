@@ -32,4 +32,4 @@ variables:
 - name: NODE_SELECTOR_POOL
   value: prftesting
 - name: IMAGE_TAG
-  value: 202011.101.0-mid.nov.2020  
+  value: 202011.101.0-mid.nov.2020
