@@ -21,9 +21,10 @@ parameters:
   mongoDbName: ''
   mongoDbCollectionName: ''
   serviceBusConnectionString: ''
-  serviceBusIngressQueues: ''
   eventHubConnectionString: ''
-  eventHubEgressStreams: ''
+  streamName: ''
+  ingressName: ''
+  egressName: ''
   nodeSelectorPool: ''
   imageTag: ''
 
@@ -45,14 +46,14 @@ steps:
       --top 1 `
       --orderby time_desc | ConvertFrom-Json
 
-    if ($env:IMAGE_TAG) 
+    if ($env:IMAGE_TAG)
     {
-      Write-Host Using configured tag: $env:IMAGE_TAG      
+      Write-Host Using configured tag: $env:IMAGE_TAG
       $latestTag = $env:IMAGE_TAG
     }
     else
-    {      
-      Write-Host Fetching latest tag. 
+    {
+      Write-Host Fetching latest tag.
       $latestTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
     }
     $imageRepository = "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CHART_NAME"
@@ -90,17 +91,18 @@ steps:
           memory: $env:RESOURCE_REQUESTS_MEMORY
 
     config:
+      streamName: "$env:STREAM_NAME"
+      ingressName: "$env:INGRESS_NAME"
+      egressName: "$env:EGRESS_NAME"
       cosmosMongo:
         connectionString: "$env:MONGODB_CONN_STRING"
         databaseName: "$env:MONGODB_DB_NAME"
-        collectionName: "$env:MONGODB_COLLECTION_NAME"  
+        collectionName: "$env:MONGODB_COLLECTION_NAME"
       serviceBus:
         connectionString: "$env:SB_CONN_STRING"
-        ingressQueues: "$env:SB_INGRESS_QUEUES"
       eventHub:
         connectionString: "$env:EVENT_HUB_CONN_STRING"
-        egressStreams: "$env:EVENT_HUB_EGRESS_STREAMS"   
-   
+
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     Write-Host ""
@@ -127,9 +129,10 @@ steps:
     MONGODB_DB_NAME: ${{ parameters.mongoDbName }}
     MONGODB_COLLECTION_NAME: ${{ parameters.mongoDbCollectionName }}
     SB_CONN_STRING: ${{ parameters.serviceBusConnectionString }}
-    SB_INGRESS_QUEUES: ${{ parameters.serviceBusIngressQueues }}
     EVENT_HUB_CONN_STRING: ${{ parameters.eventHubConnectionString}}
-    EVENT_HUB_EGRESS_STREAMS: ${{ parameters.eventHubEgressStreams }}
+    STREAM_NAME: ${{ parameters.streamName}}
+    INGRESS_NAME: ${{ parameters.ingressName}}
+    EGRESS_NAME: ${{ parameters.egressName}}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
 

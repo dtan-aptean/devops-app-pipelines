@@ -13,20 +13,21 @@ variables:
 - group: helm-chart-svc-principal-config
 
 stages:
-- stage: DEV_Events_Stream_Svc_Helm_Deploy
-  displayName: DEV - Events Stream Svc Helm Deploy
+- stage: DEV_Events_Svc_Ecomm_Helm_Deploy
+  displayName: DEV - Events Svc Ecomm Helm Deploy
   dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
     environment: events-dev
+    dependsOn: []
 
     pool:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: events-stream-svc-dev
+    - group: events-svc-dev
     - template: helm-variables-dev.yaml
 
     strategy:
@@ -57,7 +58,8 @@ stages:
               mongoDbName: $(MONGODB_DB_NAME)
               mongoDbCollectionName: $(MONGODB_COLLECTION_NAME)
               serviceBusConnectionString: $(SB_CONN_STRING)
-              serviceBusIngressQueues: $(SB_INGRESS_QUEUES)
               eventHubConnectionString: $(EVENT_HUB_CONN_STRING)
-              eventHubEgressStreams: $(EVENT_HUB_EGRESS_STREAMS)
+              streamName: $(STREAM_NAME_ECOMM)
+              ingressName: $(INGRESS_NAME_ECOMM)
+              egressName: $(EGRESS_NAME_ECOMM)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
