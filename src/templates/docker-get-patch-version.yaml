@@ -14,15 +14,14 @@ stages:
     - pwsh: |
 
         az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
-        Write-Host $env:SP_CLIENT_ID
+        
         $organization = "https://dev.azure.com/Aptean"
         $project = "Common Tech"
-        $group = $env:GROUP_NAME
-        $groupObj = az pipelines variable-group list --org $organization --project $project --group-name $group | ConvertFrom-Json
-        if ($groupObj.id)
+        $group = az pipelines variable-group list --org $organization --project $project --group-name $env:GROUP_NAME | ConvertFrom-Json
+        if ($group.id)
         {
-            Write-Host $groupObj.variables.IMAGE_TAG.value
-            $tag = $groupObj.variables.IMAGE_TAG.value
+            Write-Host $group.variables.IMAGE_TAG.value
+            $tag = $group.variables.IMAGE_TAG.value
             $friendlyNameSplit = $tag.Split("-")
             $tagVersion = $friendlyNameSplit[0]
             $friendlyName = $friendlyNameSplit[1]
@@ -32,9 +31,10 @@ stages:
             $nextPatch += 1
             $nextVersion = $tagVersionSplit[0] + "." + $tagVersionSplit[1] + "." + $nextPatch
             $nextVersion = $nextVersion + "-" + $friendlyName
-            az pipelines variable-group variable update --org $organization --project $project --group-id $groupObj.id --name "IMAGE_TAG" --value $nextVersion
+            az pipelines variable-group variable update --org $organization --project $project --group-id $group.id --name "IMAGE_TAG" --value $nextVersion
         }
         Write-Host "##vso[task.setvariable variable=newTag;]$tag"
+        
       displayName: Get Latest Tag
       name: GetLatestTag
       env:
