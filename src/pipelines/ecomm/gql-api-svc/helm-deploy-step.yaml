@@ -23,6 +23,9 @@ parameters:
   grpcUrlErpIntegration: ''
   nodeSelectorPool: ''
   imageTag: ''
+  subsMgmtGrpcUrl: ''
+  subsMgmtServiceId: ''
+  subsMgmtApiKey: ''
 
 steps:
 - pwsh: |
@@ -102,6 +105,10 @@ steps:
     config:
       erpIntegrationSvc:
         grpcUrl: $env:GRPC_URL_ERP_INTEGRATION
+      subsMgmt:
+        grpcUrl: "$env:SUBS_MGMT_GRPC_URL"
+        apiKey: "$env:SUBS_MGMT_API_KEY"
+        serviceId: "$env:SUBS_MGMT_SERVICE_ID"
  
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -131,6 +138,9 @@ steps:
     GRPC_URL_ERP_INTEGRATION: ${{ parameters.grpcUrlErpIntegration }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
+    SUBS_MGMT_GRPC_URL: ${{ parameters.subsMgmtGrpcUrl }}
+    SUBS_MGMT_SERVICE_ID: ${{ parameters.subsMgmtServiceId }}
+    SUBS_MGMT_API_KEY: ${{ parameters.subsMgmtApiKey }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
