@@ -192,6 +192,9 @@ stages:
               kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)  
 
 - stage: STG_Ecomm_Grpc_Api_Svc_Helm_Deploy
   displayName: STG - ecomm-gql-api-svc Helm Deploy
@@ -238,6 +241,9 @@ stages:
               kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)  
 
 - stage: PRD_Ecomm_Grpc_Api_Svc_Helm_Deploy
   displayName: PRD - ecomm-gql-api-svc Helm Deploy
@@ -284,6 +290,9 @@ stages:
               kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
               grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)  
 
 ## ECOMM-LANG-SVC ##
 - stage: TST_Ecomm_Lang_Svc_Helm_Deploy
