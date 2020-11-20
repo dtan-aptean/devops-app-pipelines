@@ -13,8 +13,8 @@ variables:
 - group: helm-chart-svc-principal-config
 
 stages:
-- stage: DEV_Events_Svc_Ecomm_Helm_Deploy
-  displayName: DEV - Events Svc Ecomm Helm Deploy
+- stage: DEV_Events_Svc_CRM_Helm_Deploy
+  displayName: DEV - Events Svc CRM Helm Deploy
   dependsOn: []
 
   jobs:
