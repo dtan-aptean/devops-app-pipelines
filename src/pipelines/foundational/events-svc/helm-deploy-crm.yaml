@@ -1,0 +1,65 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: events-svc-docker-build-push
+    source: events-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+
+variables:
+- group: helm-chart-svc-principal-config
+
+stages:
+- stage: DEV_Events_Svc_Ecomm_Helm_Deploy
+  displayName: DEV - Events Svc Ecomm Helm Deploy
+  dependsOn: []
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: events-dev
+    dependsOn: []
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: events-svc-dev
+    - template: helm-variables-dev.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              replicas: $(REPLICAS)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              mongoDbConnString: $(MONGODB_CONN_STRING)
+              mongoDbName: $(MONGODB_DB_NAME)
+              mongoDbCollectionName: $(MONGODB_COLLECTION_NAME)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              eventHubConnectionString: $(EVENT_HUB_CONN_STRING)
+              streamName: $(STREAM_NAME_CRM)
+              ingressName: $(INGRESS_NAME_CRM)
+              egressName: $(EGRESS_NAME_CRM)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
