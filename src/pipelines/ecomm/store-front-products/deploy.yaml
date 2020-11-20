@@ -15,6 +15,7 @@ variables:
 stages:
 - stage: BakedGoods_Ecomm_SF_Deploy
   displayName: BakedGoods - Ecomm Storefront App Service Deploy
+  dependsOn: []
 
   jobs:
   - deployment: App_Service_Deploy
@@ -95,6 +96,7 @@ stages:
 
 - stage: M2M_Ecomm_SF_Deploy
   displayName: M2M - Ecomm Storefront App Service Deploy
+  dependsOn: []
 
   jobs:
   - deployment: App_Service_Deploy
@@ -175,6 +177,7 @@ stages:
 
 - stage: HomeFurnishings_Ecomm_SF_Deploy
   displayName: HomeFurnishings - Ecomm Storefront App Service Deploy
+  dependsOn: []
 
   jobs:
   - deployment: App_Service_Deploy
@@ -255,6 +258,7 @@ stages:
 
 - stage: FreshlyProduce_Ecomm_SF_Deploy
   displayName: FreshlyProduce - Ecomm Storefront App Service Deploy
+  dependsOn: []
 
   jobs:
   - deployment: App_Service_Deploy
