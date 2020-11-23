@@ -16,7 +16,7 @@ variables:
 - name: RESOURCE_LIMITS_CPU
   value: 50m
 - name: RESOURCE_LIMITS_MEMORY
-  value: 128Mi
+  value: 256Mi
 - name: RESOURCE_REQUESTS_CPU
   value: 10m
 - name: RESOURCE_REQUESTS_MEMORY
@@ -37,5 +37,3 @@ variables:
   value: 3  
 - name: NODE_SELECTOR_POOL
   value: prftesting
-- name: IMAGE_TAG
-  value: 202011.100.0-mid.nov.2020    
