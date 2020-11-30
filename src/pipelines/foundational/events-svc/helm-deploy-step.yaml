@@ -20,6 +20,7 @@ parameters:
   mongoDbConnString: ''
   mongoDbName: ''
   mongoDbCollectionName: ''
+  mongoDbCollectionNameExceptions: ''
   serviceBusConnectionString: ''
   eventHubConnectionString: ''
   streamName: ''
@@ -95,11 +96,12 @@ steps:
       ingressName: "$env:INGRESS_NAME"
       egressName: "$env:EGRESS_NAME"
       cosmosMongo:
-        connectionString: "$env:MONGODB_CONN_STRING"
-        databaseName: "$env:MONGODB_DB_NAME"
-        collectionName: "$env:MONGODB_COLLECTION_NAME"
+        connectionString: "$env:COSMOSDB_MONGO_CONN_STRING"
+        databaseName: "$env:COSMOSDB_MONGO_DATABASE"
+        collectionName: "$env:COSMOSDB_MONGO_COLLECTION_EVENTS"
+        collectionNameExceptions: "$env:COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS"
       serviceBus:
-        connectionString: "$env:SB_CONN_STRING"
+        connectionString: "$env:SVC_BUS_CONN_STRING"
       eventHub:
         connectionString: "$env:EVENT_HUB_CONN_STRING"
 
@@ -125,10 +127,11 @@ steps:
     RESOURCE_LIMITS_MEMORY: ${{ parameters.resourceLimitsMemory }}
     RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
-    MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
-    MONGODB_DB_NAME: ${{ parameters.mongoDbName }}
-    MONGODB_COLLECTION_NAME: ${{ parameters.mongoDbCollectionName }}
-    SB_CONN_STRING: ${{ parameters.serviceBusConnectionString }}
+    COSMOSDB_MONGO_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    COSMOSDB_MONGO_DATABASE: ${{ parameters.mongoDbName }}
+    COSMOSDB_MONGO_COLLECTION_EVENTS: ${{ parameters.mongoDbCollectionName }}
+    COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS: ${{ parameters.mongoDbCollectionNameExceptions }}
+    SVC_BUS_CONN_STRING: ${{ parameters.serviceBusConnectionString }}
     EVENT_HUB_CONN_STRING: ${{ parameters.eventHubConnectionString}}
     STREAM_NAME: ${{ parameters.streamName}}
     INGRESS_NAME: ${{ parameters.ingressName}}
