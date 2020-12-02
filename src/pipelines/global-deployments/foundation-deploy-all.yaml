@@ -5,6 +5,154 @@ variables:
 
 stages:
 
+## Foundational Svcs
+- stage: TST_Foundational_Svcs_Helm_Deploy
+  displayName: TST - Foundational Svcs Helm Deploy
+  dependsOn: []
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-svcs-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-tst
+    - template: ../foundational-svcs/helm-variables-tst.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../foundational-svcs/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              env: $(ENV)
+              # EVENTS SVC PARAMS
+              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
+              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
+              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
+              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
+              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
+              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
+              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
+              eventsSvcConfigMongoDbConnString: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING)
+              eventsSvcConfigMongoDbName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE)
+              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
+              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
+              eventsSvcConfigServiceBusConnectionString: $(EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING)
+              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+
+- stage: STG_Foundational_Svcs_Helm_Deploy
+  displayName: STG - Foundational Svcs Helm Deploy
+  dependsOn: TST_Foundational_Svcs_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-svcs-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-stg
+    - template: ../foundational-svcs/helm-variables-stg.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../foundational-svcs/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              env: $(ENV)
+              # EVENTS SVC PARAMS
+              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
+              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
+              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
+              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
+              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
+              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
+              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
+              eventsSvcConfigMongoDbConnString: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING)
+              eventsSvcConfigMongoDbName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE)
+              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
+              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
+              eventsSvcConfigServiceBusConnectionString: $(EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING)
+              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+
+- stage: PRD_Foundational_Svcs_Helm_Deploy
+  displayName: PRD - Foundational Svcs Helm Deploy
+  dependsOn: STG_Foundational_Svcs_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-svcs-prd
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-prd
+    - template: ../foundational-svcs/helm-variables-prd.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../foundational-svcs/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              env: $(ENV)
+              # EVENTS SVC PARAMS
+              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
+              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
+              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
+              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
+              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
+              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
+              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
+              eventsSvcConfigMongoDbConnString: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING)
+              eventsSvcConfigMongoDbName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE)
+              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
+              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
+              eventsSvcConfigServiceBusConnectionString: $(EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING)
+              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+
 ## Comms API Svc
 
 - stage: TST_Comms_API_Svc_Helm_Deploy
@@ -548,166 +696,3 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
               apiKind: GRPC
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
-
-## Events Stream Svc
-
-## Events Stream Svc - Ecomm
-- stage: TST_Events_Svc_Ecomm_Helm_Deploy
-  displayName: TST - Events Svc Ecomm Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: events-tst
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: events-svc-tst
-    - template: ../foundational/events-svc/helm-variables-tst.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../foundational/events-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-ecomm
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              mongoDbConnString: $(MONGODB_CONN_STRING)
-              mongoDbName: $(MONGODB_DB_NAME)
-              mongoDbCollectionName: $(MONGODB_COLLECTION_NAME)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              eventHubConnectionString: $(EVENT_HUB_CONN_STRING)
-              streamName: $(STREAM_NAME_ECOMM)
-              ingressName: $(INGRESS_NAME_ECOMM)
-              egressName: $(EGRESS_NAME_ECOMM)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-
-- stage: STG_Events_Svc_Ecomm_Helm_Deploy
-  displayName: STG - Events Svc Ecomm Helm Deploy
-  dependsOn: TST_Events_Svc_Ecomm_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: events-stg
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: events-svc-stg
-    - template: ../foundational/events-svc/helm-variables-stg.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../foundational/events-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-ecomm
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              mongoDbConnString: $(MONGODB_CONN_STRING)
-              mongoDbName: $(MONGODB_DB_NAME)
-              mongoDbCollectionName: $(MONGODB_COLLECTION_NAME)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              eventHubConnectionString: $(EVENT_HUB_CONN_STRING)
-              streamName: $(STREAM_NAME_ECOMM)
-              ingressName: $(INGRESS_NAME_ECOMM)
-              egressName: $(EGRESS_NAME_ECOMM)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-
-- stage: PRD_Events_Svc_Ecomm_Helm_Deploy
-  displayName: PRD - Events Svc Ecomm Helm Deploy
-  dependsOn: STG_Events_Svc_Ecomm_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: events-prd
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: events-svc-prd
-    - template: ../foundational/events-svc/helm-variables-prd.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../events/stream-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-ecomm
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              mongoDbConnString: $(MONGODB_CONN_STRING)
-              mongoDbName: $(MONGODB_DB_NAME)
-              mongoDbCollectionName: $(MONGODB_COLLECTION_NAME)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              eventHubConnectionString: $(EVENT_HUB_CONN_STRING)
-              streamName: $(STREAM_NAME_ECOMM)
-              ingressName: $(INGRESS_NAME_ECOMM)
-              egressName: $(EGRESS_NAME_ECOMM)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-
-## Events Stream Svc - CRM (coming soon)
-
-## Events Stream Svc - Ezpay (coming soon)
-
-## Events Stream Svc - Comms (coming soon)
-
-## Events Stream Svc - Subs-Mgmt (coming soon)
-
-## Events Stream Svc - Telemetry (coming soon)
