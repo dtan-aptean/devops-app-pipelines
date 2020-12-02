@@ -1,0 +1,34 @@
+variables:
+- name: K8S_NAMESPACE
+  value: foundational-svcs-prd
+- name: CHART_NAME
+  value: foundational-svcs
+- name: CONTAINER_REGISTRY_NAME
+  value: acreastusprdapteancr
+- name: CHART_REPOSITORY_NAME
+  value: "helm/foundational-svcs"
+- name: HELM_RELEASE_NAME
+  value: vetoed-blackbird
+- name: ENV
+  value: PRD
+- name: AZURE_TENANT_ID
+  value: "560ec2b0-df0c-4e8c-9848-a15718863bb6"
+- name: AKS_NAME
+  value: aks-eastus-prd-apteank8s
+- name: AKS_RESOURCE_GROUP
+  value: rg-eastus-prd-apteank8s
+# EVENTS SVC PARAMS
+- name: EVENTS_SVC_IMAGE_REPOSITORY_NAME
+  value: events-svc
+- name: EVENTS_SVC_RESOURCE_LIMITS_CPU
+  value: 100m
+- name: EVENTS_SVC_RESOURCE_LIMITS_MEMORY
+  value: 128Mi
+- name: EVENTS_SVC_RESOURCE_REQUESTS_CPU
+  value: 10m
+- name: EVENTS_SVC_RESOURCE_REQUESTS_MEMORY
+  value: 10Mi
+- name: EVENTS_SVC_REPLICAS
+  value: 1
+- name: EVENTS_SVC_NODE_SELECTOR_POOL
+  value: sharedsvcs
