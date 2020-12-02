@@ -78,35 +78,36 @@ steps:
         repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:EVENTS_SVC_IMAGE_REPOSITORY_NAME"
         tag: $latestEventsSvcTag
 
-    deployment:
-      replicas: $env:EVENTS_SVC_REPLICAS
+      deployment:
+        replicas: $env:EVENTS_SVC_REPLICAS
 
-    nodeSelector:
-      pool: "$env:EVENTS_SVC_NODE_SELECTOR_POOL"
+      nodeSelector:
+        pool: "$env:EVENTS_SVC_NODE_SELECTOR_POOL"
 
-    pod:
-      resources:
-        limits:
-          cpu: $env:EVENTS_SVC_RESOURCE_LIMITS_CPU
-          memory: $env:EVENTS_SVC_RESOURCE_LIMITS_MEMORY
-        requests:
-          cpu: $env:EVENTS_SVC_RESOURCE_REQUESTS_CPU
-          memory: $env:EVENTS_SVC_RESOURCE_REQUESTS_MEMORY
+      pod:
+        resources:
+          limits:
+            cpu: $env:EVENTS_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:EVENTS_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:EVENTS_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:EVENTS_SVC_RESOURCE_REQUESTS_MEMORY
 
-    config:
-      cosmosMongo:
-        connectionString: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING"
-        databaseName: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE"
-        collectionName: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS"
-        collectionNameExceptions: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS"
-      serviceBus:
-        connectionString: "$env:EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING"
-      eventHub:
-        connectionString: "$env:EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING"
+      config:
+        cosmosMongo:
+          connectionString: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING"
+          databaseName: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE"
+          collectionName: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS"
+          collectionNameExceptions: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS"
+        serviceBus:
+          connectionString: "$env:EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING"
+        eventHub:
+          connectionString: "$env:EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
-    Get-Content -Path ./deploy-values.yaml
+    # this line for debugging, will print yaml to console
+    # Get-Content -Path ./deploy-values.yaml
 
     Write-Host ""
     Write-Host "Helm deploy prep complete!"
