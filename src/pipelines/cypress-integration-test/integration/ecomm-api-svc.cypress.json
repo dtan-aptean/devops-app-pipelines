@@ -2,7 +2,8 @@
     "baseUrl": "#{ECOMM_API_SVC_BASE_URL}#",
     "env": {
         "x-aptean-apim": "#{ECOMM_APIM}#",
-        "x-aptean-tenant": "#{ECOMM_TENANT_ID}#"
+        "x-aptean-tenant": "#{ECOMM_TENANT_ID}#",
+        "x-aptean-tenant-secret": "#{ECOMM_TENANT_SECRET}#"
     },
     "chromeWebSecurity": false,
     "defaultCommandTimeout": 120000,
