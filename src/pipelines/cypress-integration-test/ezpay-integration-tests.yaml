@@ -38,7 +38,7 @@ stages:
     jobs:
     - template: ./templates/integration-test.yaml
       parameters:
-        packageName: payer-portal
+        packageName: ezpay-payer-portal
         updatePayerPortalContentType: true
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
@@ -49,6 +49,6 @@ stages:
     jobs:
     - template: ./templates/integration-test.yaml
       parameters:
-        packageName: merchant-portal
+        packageName: ezpay-merchant-portal
         updateMerchantPortalContentType: true
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
