@@ -1,6 +1,6 @@
 variables:
 - name: K8S_NAMESPACE
-  value: foundational-svcs-prf
+  value: foundational-svcs-stg
 - name: CHART_NAME
   value: foundational-svcs
 - name: CONTAINER_REGISTRY_NAME
