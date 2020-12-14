@@ -435,6 +435,7 @@ stages:
               mongoDbName: $(MONGODB_DATABASE)
               idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodeEnv: $(NODE_ENV)
 
 - stage: PRD_GRPC_API_Svc_Helm_Deploy
   displayName: PRD - Ezpay API SVC (GRPC) Helm Deploy
@@ -691,6 +692,7 @@ stages:
               payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
               payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodeEnv: $(NODE_ENV)
 
 ## EZPAY EMAIL NOTIFICATIONS ##
 - stage: TST_Email_Notification_Svc_Helm_Deploy
@@ -863,6 +865,7 @@ stages:
               cosmosDatabase: $(COSMOSDB_DATABASE)
               cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodeEnv: $(NODE_ENV)
 
 ## EZPAY MERCHANT OPS ##
 - stage: TST_Ezpay_Merchant_Ops_Helm_Deploy
@@ -1940,6 +1943,7 @@ stages:
               statementsPeriod: $(STATEMENT_PERIOD)
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodeEnv: $(NODE_ENV)
 
 - stage: PRD_Ezpay_Transaction_Records_Retrieve_Job_Helm_Deploy
   displayName: PRD - ezpay-transaction-records-retrieve-job Helm Deploy
@@ -1999,6 +2003,7 @@ stages:
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodeEnv: $(NODE_ENV)
 
 - stage: PRD_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
   displayName: PRD - ezpay-transaction-records-stmts-job Helm Deploy
@@ -2058,6 +2063,7 @@ stages:
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodeEnv: $(NODE_ENV)
 
 ## EZPAY WEPAY INTEGRATION ##
 - stage: TST_Wepay_Integration_Svc_Helm_Deploy
@@ -2200,6 +2206,7 @@ stages:
               wepayAppToken: $(WEPAY_APP_TOKEN)
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodeEnv: $(NODE_ENV)
 
 ## EZPAY MERCHANT PORTAL ##
 - stage: TST_Merchant_Portal_Deploy

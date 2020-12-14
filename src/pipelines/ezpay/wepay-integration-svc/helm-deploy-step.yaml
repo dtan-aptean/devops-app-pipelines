@@ -24,6 +24,7 @@ parameters:
   wepayUploadBaseUrl: ''
   nodeSelectorPool: ''
   imageTag: ''
+  nodeEnv: ''
 
 steps:
 - pwsh: |
@@ -94,6 +95,7 @@ steps:
         appID: "$env:WEPAY_APP_ID"
         appToken: "$env:WEPAY_APP_TOKEN"
         uploadBaseUrl: "$env:WEPAY_UPLOAD_BASE_URL"
+      nodeEnv: "$env:NODE_ENV"
  
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -124,6 +126,7 @@ steps:
     WEPAY_UPLOAD_BASE_URL: ${{ parameters.wepayUploadBaseUrl }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
+    NODE_ENV: ${{ parameters.nodeEnv }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

@@ -26,6 +26,7 @@ parameters:
   subsMgmtGrpcUrl: ''
   subsMgmtServiceId: ''
   subsMgmtApiKey: ''
+  nodeEnv: ''
 
 steps:
 - pwsh: |
@@ -109,6 +110,7 @@ steps:
         grpcUrl: "$env:SUBS_MGMT_GRPC_URL"
         apiKey: "$env:SUBS_MGMT_API_KEY"
         serviceId: "$env:SUBS_MGMT_SERVICE_ID"
+      nodeEnv: "$env:NODE_ENV"
  
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -141,6 +143,7 @@ steps:
     SUBS_MGMT_GRPC_URL: ${{ parameters.subsMgmtGrpcUrl }}
     SUBS_MGMT_SERVICE_ID: ${{ parameters.subsMgmtServiceId }}
     SUBS_MGMT_API_KEY: ${{ parameters.subsMgmtApiKey }}
+    NODE_ENV: ${{ parameters.nodeEnv }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
