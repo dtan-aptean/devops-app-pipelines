@@ -2233,18 +2233,6 @@ stages:
         dropArtifactPath: $(Pipeline.Workspace)/ezpay-merchant-portal-master-build/drop/stg.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
-- stage: PRF_Merchant_Portal_Deploy
-  displayName: PRF Merchant Portal Deploy
-  dependsOn: TST_Merchant_Portal_Deploy
-
-  jobs:
-    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
-      parameters:
-        variableGroup: ezpay-merchant-prf
-        targetEnvironment: ezpay-tenant-portal-prf
-        dropArtifactPath: $(Pipeline.Workspace)/ezpay-merchant-portal-master-build/drop/prf.zip
-        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
-
 - stage: PRD_Merchant_Portal_Deploy
   displayName: PRD Merchant Portal Deploy
   dependsOn: STG_Merchant_Portal_Deploy
@@ -2280,18 +2268,6 @@ stages:
         variableGroup: ezpay-payer-stg
         targetEnvironment: ezpay-payer-portal-stg
         dropArtifactPath: $(Pipeline.Workspace)/ezpay-payer-portal-master-build/drop/stg.zip
-        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
-
-- stage: PRF_Payer_Portal_Deploy
-  displayName: PRF Payer Portal Deploy
-  dependsOn: TST_Payer_Portal_Deploy
-
-  jobs:
-    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
-      parameters:
-        variableGroup: ezpay-payer-prf
-        targetEnvironment: ezpay-payer-portal-prf
-        dropArtifactPath: $(Pipeline.Workspace)/ezpay-payer-portal-master-build/drop/prf.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
 - stage: PRD_Payer_Portal_Deploy
@@ -2364,18 +2340,6 @@ stages:
         variableGroup: apteanpay-js-lib-stg
         targetEnvironment: apteanpay-js-lib-stg
         dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/stg.zip
-        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
-
-- stage: PRF_Apteanpay_Js_Lib_Deploy
-  displayName: PRF ApteanPay JS Lib Deploy
-  dependsOn: TST_Apteanpay_Js_Lib_Deploy
-
-  jobs:
-    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
-      parameters:
-        variableGroup: apteanpay-js-lib-prf
-        targetEnvironment: apteanpay-js-lib-prf
-        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/prf.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
 - stage: PRD_Apteanpay_Js_Lib_Deploy
