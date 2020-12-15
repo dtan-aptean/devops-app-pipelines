@@ -24,7 +24,7 @@ parameters:
   syncTimeout: ''
   nodeSelectorPool: ''
   imageTag: ''
-  nodeEnv: ''
+  nodejsEnv: ''
     
 steps:
 - pwsh: |
@@ -104,7 +104,7 @@ steps:
       ezpay:
         gqlUrl: "$env:GQL_URL_EZPAY_API_SVC"
       syncTimeout: "$env:SYNC_TIMEOUT"
-      nodeEnv: "$env:NODE_ENV"
+      nodejsEnv: "$env:NODE_ENV"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -135,7 +135,7 @@ steps:
     SYNC_TIMEOUT: ${{ parameters.syncTimeout }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
-    NODE_ENV: ${{ parameters.nodeEnv }}
+    NODE_ENV: ${{ parameters.nodejsEnv }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

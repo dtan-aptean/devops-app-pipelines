@@ -200,4 +200,4 @@ stages:
               ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
               syncTimeout: $(SYNC_TIMEOUT)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              nodeEnv: $(NODE_ENV)
+              nodejsEnv: $(NODE_ENV)

@@ -35,7 +35,7 @@ parameters:
   payfacNotificationSubscription: ''
   nodeSelectorPool: ''
   imageTag: ''
-  nodeEnv: ''
+  nodejsEnv: ''
 
 steps:
 - pwsh: |
@@ -119,7 +119,7 @@ steps:
       processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
       processNotificationEvents: $env:PROCESS_NOTIFICATION_EVENTS
       broadcastPlatformEvents: "$env:BROADCAST_PLATFORM_EVENTS"
-      nodeEnv: "$env:NODE_ENV"
+      nodejsEnv: "$env:NODE_ENV"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -161,7 +161,7 @@ steps:
     BROADCAST_PLATFORM_EVENTS: ${{ parameters.broadcastPlatformEvents }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
-    NODE_ENV: ${{ parameters.nodeEnv }}
+    NODE_ENV: ${{ parameters.nodejsEnv }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
