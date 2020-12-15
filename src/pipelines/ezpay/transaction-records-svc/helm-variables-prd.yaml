@@ -37,5 +37,3 @@ variables:
   value: 3
 - name: NODE_SELECTOR_POOL
   value: sharedsvcs
-- name: NODE_JS_ENV
-  value: production

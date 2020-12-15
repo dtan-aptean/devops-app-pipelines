@@ -31,5 +31,3 @@ variables:
   value: rg-eastus-prd-apteank8s
 - name: NODE_SELECTOR_POOL
   value: sharedsvcs
-- name: NODE_JS_ENV
-  value: production

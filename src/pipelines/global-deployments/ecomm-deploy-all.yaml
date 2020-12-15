@@ -293,6 +293,7 @@ stages:
               subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
               subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
               subsMgmtApiKey: $(SUBS_MGMT_API_KEY)  
+              nodejsEnv: 'production'
 
 ## ECOMM-LANG-SVC ##
 - stage: TST_Ecomm_Lang_Svc_Helm_Deploy
