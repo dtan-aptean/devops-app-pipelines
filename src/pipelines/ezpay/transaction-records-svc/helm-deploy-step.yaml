@@ -36,6 +36,7 @@ parameters:
   failedJobsHistoryLimit: ''
   nodeSelectorPool: ''
   imageTag: ''
+  nodejsEnv: ''
 
 steps:
 - pwsh: |
@@ -123,6 +124,7 @@ steps:
       cronSchedule: "$env:CRON_SCHEDULE"
       successfulJobsHistoryLimit: $env:SUCCESSFUL_JOB_HISTORY_LIMIT
       failedJobsHistoryLimit: $env:FAILED_JOB_HISTORY_LIMIT
+      nodejsEnv: "$env:NODE_JS_ENV"
  
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -166,6 +168,7 @@ steps:
     FAILED_JOB_HISTORY_LIMIT: ${{ parameters.failedJobsHistoryLimit }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
+    NODE_JS_ENV: ${{ parameters.nodejsEnv }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
