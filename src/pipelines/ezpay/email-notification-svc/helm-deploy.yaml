@@ -65,6 +65,6 @@ stages:
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)

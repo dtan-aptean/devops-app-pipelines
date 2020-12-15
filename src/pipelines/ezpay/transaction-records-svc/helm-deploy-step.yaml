@@ -22,7 +22,7 @@ parameters:
   broadcastPlatformEvents: ''
   cosmosConnString: ''
   cosmosDatabase: ''
-  cosmosContainer: ''
+  cosmosCollectionName: ''
   serviceBusConnectionString: ''
   sbEventsTopic: ''
   sbPlatformEventsSubscription: ''
@@ -107,7 +107,7 @@ steps:
       cosmos:
         connectionString: "$env:COSMOSDB_CONN_STRING"
         databaseName: "$env:COSMOSDB_DATABASE"
-        containerName: "$env:COSMOSDB_DATA_PROJECTIONS_COLLECTION"
+        collectionName: "$env:COSMOSDB_COLLECTION_NAME"
       serviceBus:
         connectionString: "$env:SB_CONN_STRING"
         eventsTopic: "$env:SB_EVENTS_TOPIC"
@@ -154,7 +154,7 @@ steps:
     PLATFORM_EMAIL: ${{ parameters.platformEmail }}
     COSMOSDB_CONN_STRING: ${{ parameters.cosmosConnString }}
     COSMOSDB_DATABASE: ${{ parameters.cosmosDatabase }}
-    COSMOSDB_DATA_PROJECTIONS_COLLECTION: ${{ parameters.cosmosContainer }}
+    COSMOSDB_COLLECTION_NAME: ${{ parameters.cosmosCollectionName }}
     SB_CONN_STRING: ${{ parameters.serviceBusConnectionString }}
     SB_EVENTS_TOPIC: ${{ parameters.sbEventsTopic }}
     SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.sbPlatformEventsSubscription }}    
