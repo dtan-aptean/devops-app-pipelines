@@ -119,7 +119,7 @@ steps:
       processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
       processNotificationEvents: $env:PROCESS_NOTIFICATION_EVENTS
       broadcastPlatformEvents: "$env:BROADCAST_PLATFORM_EVENTS"
-      nodejsEnv: "$env:NODE_ENV"
+      nodejsEnv: "$env:NODE_JS_ENV"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -161,7 +161,7 @@ steps:
     BROADCAST_PLATFORM_EVENTS: ${{ parameters.broadcastPlatformEvents }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
-    NODE_ENV: ${{ parameters.nodejsEnv }}
+    NODE_JS_ENV: ${{ parameters.nodejsEnv }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

@@ -118,7 +118,7 @@ steps:
       processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
       merchantPortalUrl: "$env:MERCHANT_PORTAL_URL"
       payerPortalUrl: "$env:PAYER_PORTAL_BASE_URL"
-      nodejsEnv: "$env:NODE_ENV"
+      nodejsEnv: "$env:NODE_JS_ENV"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -159,7 +159,7 @@ steps:
     PAYER_PORTAL_BASE_URL: ${{ parameters.payerPortalUrl }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
-    NODE_ENV: ${{ parameters.nodejsEnv }}
+    NODE_JS_ENV: ${{ parameters.nodejsEnv }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

@@ -179,7 +179,7 @@ steps:
       payerPortalUrl: "$env:PAYER_PORTAL_BASE_URL"
       productAPIsOnly: $env:PRODUCT_APIS_ONLY
       apiKind: $env:API_KIND
-      nodejsEnv: "$env:NODE_ENV"
+      nodejsEnv: "$env:NODE_JS_ENV"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -244,7 +244,7 @@ steps:
     MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
-    NODE_ENV: ${{ parameters.nodejsEnv }}
+    NODE_JS_ENV: ${{ parameters.nodejsEnv }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
