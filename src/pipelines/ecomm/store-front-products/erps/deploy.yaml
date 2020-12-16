@@ -267,7 +267,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ecomm-sf-stg-apprisecnf
+    - group: ecomm-sf-stg-apprise-cnf
     - name: latestTag
       value: ''
 
