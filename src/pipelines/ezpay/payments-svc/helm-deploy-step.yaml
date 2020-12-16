@@ -108,7 +108,7 @@ steps:
       cosmosMongo:
         connectionString: "$env:MONGODB_CONN_STRING"
         databaseName: "$env:MONGODB_DB_NAME"
-        containerName: "$env:MONGODB_COLLECTION_NAME"
+        collectionName: "$env:MONGODB_COLLECTION_NAME"
       serviceBus:
         connectionString: "$env:SB_CONN_STRING"
         eventsTopicConnString: "$env:SB_PLATFORM_EVENTS_TOPIC_CONN_STRING"

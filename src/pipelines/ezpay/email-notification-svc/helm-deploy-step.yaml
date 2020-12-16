@@ -31,7 +31,7 @@ parameters:
   sbEventsTopic: ''
   cosmosConnString: ''
   cosmosDatabase: ''
-  cosmosContainer: ''
+  cosmosCollectionName: ''
   nodeSelectorPool: ''
   imageTag: ''
   nodejsEnv: ''
@@ -101,8 +101,8 @@ steps:
     config:
       cosmos:
         connectionString: "$env:COSMOS_CONN_STRING"
-        databaseName: "$env:COSMOS_DATABASE"
-        containerName: "$env:COSMOS_CONTAINER"
+        databaseName: "$env:COSMOSDB_DATABASE"
+        collectionName: "$env:COSMOSDB_COLLECTION_NAME"
       serviceBus:
         connectionString: "$env:SB_CONN_STRING"
         eventsTopic: "$env:SB_EVENTS_TOPIC"
@@ -144,8 +144,8 @@ steps:
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
     APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.appInsightsKey }}
     COSMOS_CONN_STRING: ${{ parameters.cosmosConnString }}
-    COSMOS_DATABASE: ${{ parameters.cosmosDatabase }}
-    COSMOS_CONTAINER: ${{ parameters.cosmosContainer }}
+    COSMOSDB_DATABASE: ${{ parameters.cosmosDatabase }}
+    COSMOSDB_COLLECTION_NAME: ${{ parameters.cosmosCollectionName }}
     SB_CONN_STRING: ${{ parameters.serviceBusConnectionString }} 
     SB_EVENTS_TOPIC: ${{ parameters.sbEventsTopic }}
     SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.sbPlatformEventsSubscription }}    

@@ -23,7 +23,7 @@ parameters:
   cacheRetainSeconds: ''
   cosmosConnString: ''
   cosmosDatabaseName: ''
-  cosmosContainerName: ''
+  cosmosCollectionName: ''
   nodeSelectorPool: ''
   imageTag: ''
 
@@ -107,7 +107,7 @@ steps:
       cosmosMongo:
         connectionString: "$env:COSMOSDB_CONN_STRING"
         databaseName: "$env:COSMOSDB_LANGUAGE_SVC_DATABASE"
-        containerName: "$env:COSMOSDB_COLLECTION_NAME"
+        collectionName: "$env:COSMOSDB_COLLECTION_NAME"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -137,7 +137,7 @@ steps:
     ECOMM_CACHE_RETAIN_SECONDS: ${{ parameters.cacheRetainSeconds }}
     COSMOSDB_CONN_STRING: ${{ parameters.cosmosConnString }}
     COSMOSDB_LANGUAGE_SVC_DATABASE: ${{ parameters.cosmosDatabaseName }}
-    COSMOSDB_COLLECTION_NAME: ${{ parameters.cosmosContainerName }}
+    COSMOSDB_COLLECTION_NAME: ${{ parameters.cosmosCollectionName }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
 

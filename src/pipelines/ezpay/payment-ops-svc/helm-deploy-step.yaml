@@ -18,8 +18,8 @@ parameters:
   resourceRequestsCpu: ''
   resourceRequestsMemory: ''
   cosmosConnString: ''
-  cosmosDbName: ''
-  cosmosContainerName: ''
+  cosmosDatabase: ''
+  cosmosCollectionName: ''
   sbConnectionString: ''
   eventTopicConnectionString: ''
   sbEventsTopic: ''
@@ -99,8 +99,8 @@ steps:
     config:
       cosmos:
         connectionString: "$env:COSMOSDB_CONN_STRING"
-        databaseName: "$env:COSMOSDB_DB_NAME"
-        containerName: "$env:COSMOSDB_CONTAINER_NAME"
+        databaseName: "$env:COSMOSDB_DATABASE"
+        collectionName: "$env:COSMOSDB_COLLECTION_NAME"
       serviceBus:
         connectionString: "$env:SB_CONN_STRING"
         eventsTopicConnString: "$env:SB_PLATFORM_EVENTS_TOPIC_CONN_STRING"
@@ -138,8 +138,8 @@ steps:
     RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
     COSMOSDB_CONN_STRING: ${{ parameters.cosmosConnString }}
-    COSMOSDB_DB_NAME: ${{ parameters.cosmosDbName }}
-    COSMOSDB_CONTAINER_NAME: ${{ parameters.cosmosContainerName }}
+    COSMOSDB_DATABASE: ${{ parameters.cosmosDatabase }}
+    COSMOSDB_COLLECTION_NAME: ${{ parameters.cosmosCollectionName }}
     SB_CONN_STRING: ${{ parameters.sbConnectionString }}
     SB_PLATFORM_EVENTS_TOPIC_CONN_STRING: ${{ parameters.eventTopicConnectionString }}
     SB_EVENTS_TOPIC: ${{ parameters.sbEventsTopic }}
