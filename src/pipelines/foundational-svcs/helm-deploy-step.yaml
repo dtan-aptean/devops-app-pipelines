@@ -29,6 +29,16 @@ parameters:
   eventsSvcConfigStreamName: ''
   eventsSvcConfigIngressName: ''
   eventsSvcConfigEgressName: ''
+  # STATIC WEB FILES SVC PARAMS
+  staticWebFilesSvcImageRepositoryName: ''
+  staticWebFilesSvcReplicas: ''
+  staticWebFilesSvcResourceLimitsCpu: ''
+  staticWebFilesSvcResourceLimitsMemory: ''
+  staticWebFilesSvcResourceRequestsCpu: ''
+  staticWebFilesSvcResourceRequestsMemory: ''
+  staticWebFilesSvcNodeSelectorPool: ''
+  staticWebFilesSvcConfigAzureStorageAccountName: ''
+  staticWebFilesSvcConfigAzureStorageAccountKey: ''
 
 steps:
 - pwsh: |
@@ -69,6 +79,18 @@ steps:
       $latestEventsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EVENTS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
     }
 
+    # STATIC WEB FILES SVC
+    if ($env:STATIC_WEB_FILES_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured events-svc tag: $env:STATIC_WEB_FILES_SVC_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:STATIC_WEB_FILES_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest events-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+
     @"
     commonLabels:
       env: $env:ENV
@@ -104,6 +126,43 @@ steps:
         eventHub:
           connectionString: "$env:EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING"
 
+    staticWebFilesService:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestStaticWebFilesSvcTag
+
+      deployment:
+        replicas: $env:STATIC_WEB_FILES_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY
+
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
+
+      config:
+        azureStorage:
+          accountName: "$env:STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME"
+          accountKey: "$env:STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY"
+
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     # this line for debugging, will print yaml to console
@@ -138,6 +197,16 @@ steps:
     EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS: ${{ parameters.eventsSvcConfigMongoDbCollectionNameExceptions }}
     EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING: ${{ parameters.eventsSvcConfigServiceBusConnectionString }}
     EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING: ${{ parameters.eventsSvcConfigEventHubConnectionString}}
+    # STATIC WEB FILES SVC PARAMS
+    STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.staticWebFilesSvcImageRepositoryName }}
+    STATIC_WEB_FILES_SVC_REPLICAS: ${{ parameters.staticWebFilesSvcReplicas }}
+    STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.staticWebFilesSvcResourceLimitsCpu }}
+    STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.staticWebFilesSvcResourceLimitsMemory }}
+    STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.staticWebFilesSvcResourceRequestsCpu }}
+    STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.staticWebFilesSvcResourceRequestsMemory }}
+    STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL: ${{ parameters.staticWebFilesSvcNodeSelectorPool }}
+    STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME: ${{ parameters.staticWebFilesSvcConfigAzureStorageAccountName}}
+    STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY: ${{ parameters.staticWebFilesSvcConfigAzureStorageAccountKey}}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
