@@ -152,7 +152,7 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
               syncTimeout: $(SYNC_TIMEOUT)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)           
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_ERP_Integration_Svc_Helm_Deploy
   displayName: PRD - erp-integration Helm Deploy
@@ -200,3 +200,4 @@ stages:
               ezpayGqlUrl: $(GQL_URL_EZPAY_API_SVC)
               syncTimeout: $(SYNC_TIMEOUT)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodejsEnv: 'production'

@@ -12,9 +12,9 @@ variables:
 - name: HELM_RELEASE_NAME
   value: factual-fish
 - name: RESOURCE_LIMITS_CPU
-  value: 50m
+  value: 150m
 - name: RESOURCE_LIMITS_MEMORY
-  value: 64Mi
+  value: 256Mi
 - name: RESOURCE_REQUESTS_CPU
   value: 10m
 - name: RESOURCE_REQUESTS_MEMORY
@@ -28,7 +28,7 @@ variables:
 - name: KONG_INGRESS_CLASS
   value: kong-prd
 - name: REPLICAS
-  value: 1
+  value: 6
 - name: AZURE_TENANT_ID
   value: "560ec2b0-df0c-4e8c-9848-a15718863bb6"
 - name: AKS_NAME

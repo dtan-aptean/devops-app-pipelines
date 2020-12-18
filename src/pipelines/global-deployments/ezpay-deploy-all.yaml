@@ -435,6 +435,7 @@ stages:
               mongoDbName: $(MONGODB_DATABASE)
               idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodejsEnv: 'production'
 
 - stage: PRD_GRPC_API_Svc_Helm_Deploy
   displayName: PRD - Ezpay API SVC (GRPC) Helm Deploy
@@ -691,6 +692,7 @@ stages:
               payfacNotificationTopic: $(SB_PAYFAC_NOTIFICATIONS_TOPIC)
               payfacNotificationSubscription: $(SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodejsEnv: 'production'
 
 ## EZPAY EMAIL NOTIFICATIONS ##
 - stage: TST_Email_Notification_Svc_Helm_Deploy
@@ -746,8 +748,8 @@ stages:
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)      
 
 - stage: STG_Email_Notification_Svc_Helm_Deploy
@@ -803,8 +805,8 @@ stages:
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)                    
 
 - stage: PRD_Email_Notification_Svc_Helm_Deploy
@@ -860,9 +862,10 @@ stages:
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodejsEnv: 'production'
 
 ## EZPAY MERCHANT OPS ##
 - stage: TST_Ezpay_Merchant_Ops_Helm_Deploy
@@ -1063,8 +1066,8 @@ stages:
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDbName: $(COSMOSDB_DB_NAME)
-              cosmosContainerName: $(COSMOSDB_CONTAINER_NAME)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               sbConnectionString: $(SB_CONN_STRING)
               eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
@@ -1119,8 +1122,8 @@ stages:
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDbName: $(COSMOSDB_DB_NAME)
-              cosmosContainerName: $(COSMOSDB_CONTAINER_NAME)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               sbConnectionString: $(SB_CONN_STRING)
               eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
@@ -1175,8 +1178,8 @@ stages:
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDbName: $(COSMOSDB_DB_NAME)
-              cosmosContainerName: $(COSMOSDB_CONTAINER_NAME)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               sbConnectionString: $(SB_CONN_STRING)
               eventTopicConnectionString: $(SB_PLATFORM_EVENTS_TOPIC_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
@@ -1580,8 +1583,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
@@ -1637,8 +1640,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
@@ -1696,8 +1699,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
@@ -1754,8 +1757,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
@@ -1811,8 +1814,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
@@ -1870,8 +1873,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
@@ -1928,8 +1931,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
@@ -1940,6 +1943,7 @@ stages:
               statementsPeriod: $(STATEMENT_PERIOD)
               statementsBlobConnString: $(STATEMENTS_BLOB_CONNECTION_STRING)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodejsEnv: 'production'
 
 - stage: PRD_Ezpay_Transaction_Records_Retrieve_Job_Helm_Deploy
   displayName: PRD - ezpay-transaction-records-retrieve-job Helm Deploy
@@ -1985,8 +1989,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
@@ -1999,6 +2003,7 @@ stages:
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodejsEnv: 'production'
 
 - stage: PRD_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
   displayName: PRD - ezpay-transaction-records-stmts-job Helm Deploy
@@ -2044,8 +2049,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               broadcastPlatformEvents: $(BROADCAST_PLATFORM_EVENTS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainer: $(COSMOSDB_DATA_PROJECTIONS_COLLECTION)
+              cosmosDatabase: $(COSMOSDB_EZPAY_DATABASE)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               serviceBusConnectionString: $(SB_CONN_STRING)
               sbEventsTopic: $(SB_PLATFORM_EVENTS_TOPIC)
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
@@ -2058,6 +2063,7 @@ stages:
               successfulJobsHistoryLimit: $(SUCCESSFUL_JOB_HISTORY_LIMIT)
               failedJobsHistoryLimit: $(FAILED_JOB_HISTORY_LIMIT)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodejsEnv: 'production'
 
 ## EZPAY WEPAY INTEGRATION ##
 - stage: TST_Wepay_Integration_Svc_Helm_Deploy
@@ -2200,6 +2206,7 @@ stages:
               wepayAppToken: $(WEPAY_APP_TOKEN)
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodejsEnv: 'production'
 
 ## EZPAY MERCHANT PORTAL ##
 - stage: TST_Merchant_Portal_Deploy
@@ -2224,18 +2231,6 @@ stages:
         variableGroup: ezpay-merchant-stg
         targetEnvironment: ezpay-tenant-portal-stg
         dropArtifactPath: $(Pipeline.Workspace)/ezpay-merchant-portal-master-build/drop/stg.zip
-        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
-
-- stage: PRF_Merchant_Portal_Deploy
-  displayName: PRF Merchant Portal Deploy
-  dependsOn: TST_Merchant_Portal_Deploy
-
-  jobs:
-    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
-      parameters:
-        variableGroup: ezpay-merchant-prf
-        targetEnvironment: ezpay-tenant-portal-prf
-        dropArtifactPath: $(Pipeline.Workspace)/ezpay-merchant-portal-master-build/drop/prf.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
 - stage: PRD_Merchant_Portal_Deploy
@@ -2273,18 +2268,6 @@ stages:
         variableGroup: ezpay-payer-stg
         targetEnvironment: ezpay-payer-portal-stg
         dropArtifactPath: $(Pipeline.Workspace)/ezpay-payer-portal-master-build/drop/stg.zip
-        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
-
-- stage: PRF_Payer_Portal_Deploy
-  displayName: PRF Payer Portal Deploy
-  dependsOn: TST_Payer_Portal_Deploy
-
-  jobs:
-    - template: /azp-yaml/templates/deploy.yaml@ezpay-frontend-apps
-      parameters:
-        variableGroup: ezpay-payer-prf
-        targetEnvironment: ezpay-payer-portal-prf
-        dropArtifactPath: $(Pipeline.Workspace)/ezpay-payer-portal-master-build/drop/prf.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
 - stage: PRD_Payer_Portal_Deploy
@@ -2357,18 +2340,6 @@ stages:
         variableGroup: apteanpay-js-lib-stg
         targetEnvironment: apteanpay-js-lib-stg
         dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/stg.zip
-        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
-
-- stage: PRF_Apteanpay_Js_Lib_Deploy
-  displayName: PRF ApteanPay JS Lib Deploy
-  dependsOn: TST_Apteanpay_Js_Lib_Deploy
-
-  jobs:
-    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
-      parameters:
-        variableGroup: apteanpay-js-lib-prf
-        targetEnvironment: apteanpay-js-lib-prf
-        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/prf.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
 - stage: PRD_Apteanpay_Js_Lib_Deploy

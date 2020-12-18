@@ -19,7 +19,7 @@ parameters:
   resourceRequestsMemory: ''
   cosmosDatabaseConnString: ''
   cosmosDatabase: ''
-  cosmosContainerName: ''
+  cosmosCollectionName: ''
   eventsIngressConnString: ''
   eventsIngressDestination: ''
   nodeSelectorPool: ''
@@ -91,7 +91,7 @@ steps:
       cosmos:
         connectionString: "$env:COSMOSDB_CONN_STRING"
         databaseName: "$env:COSMOSDB_DATABASE"
-        containerName: "$env:COSMOSDB_COLLECTION_NAME"
+        collectionName: "$env:COSMOSDB_COLLECTION_NAME"
       events:
         connectionString: "$env:EVENTS_INGRESS_CONN_STRING"
         destination: "$env:EVENTS_INGRESS_DESTINATION"
@@ -120,7 +120,7 @@ steps:
     RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
     COSMOSDB_CONN_STRING: ${{ parameters.cosmosDatabaseConnString }}
     COSMOSDB_DATABASE: ${{ parameters.cosmosDatabase }}
-    COSMOSDB_COLLECTION_NAME: ${{ parameters.cosmosContainerName }}
+    COSMOSDB_COLLECTION_NAME: ${{ parameters.cosmosCollectionName }}
     EVENTS_INGRESS_CONN_STRING: ${{ parameters.eventsIngressConnString }}
     EVENTS_INGRESS_DESTINATION: ${{ parameters.eventsIngressDestination }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}

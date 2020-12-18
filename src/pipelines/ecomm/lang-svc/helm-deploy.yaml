@@ -58,5 +58,5 @@ stages:
               cacheRetainSeconds: $(ECOMM_CACHE_RETAIN_SECONDS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)

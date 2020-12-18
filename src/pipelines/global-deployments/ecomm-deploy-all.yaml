@@ -47,7 +47,7 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               cosmosDatabaseConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
               eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
@@ -94,7 +94,7 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               cosmosDatabaseConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
               eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
@@ -141,7 +141,7 @@ stages:
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               cosmosDatabaseConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)      
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)      
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
               eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
@@ -293,6 +293,7 @@ stages:
               subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
               subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
               subsMgmtApiKey: $(SUBS_MGMT_API_KEY)  
+              nodejsEnv: 'production'
 
 ## ECOMM-LANG-SVC ##
 - stage: TST_Ecomm_Lang_Svc_Helm_Deploy
@@ -341,7 +342,7 @@ stages:
               cacheRetainSeconds: $(ECOMM_CACHE_RETAIN_SECONDS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)  
 
 - stage: STG_Ecomm_Lang_Svc_Helm_Deploy
@@ -390,7 +391,7 @@ stages:
               cacheRetainSeconds: $(ECOMM_CACHE_RETAIN_SECONDS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: PRD_Ecomm_Lang_Svc_Helm_Deploy
@@ -439,7 +440,7 @@ stages:
               cacheRetainSeconds: $(ECOMM_CACHE_RETAIN_SECONDS)
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
-              cosmosContainerName: $(COSMOSDB_COLLECTION_NAME)
+              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 ## ECOMM-STORE-FRONT ##
@@ -604,84 +605,3 @@ stages:
               apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL) 
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
               eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)               
-
-- stage: PRF_Ecomm_SF_Deploy
-  displayName: PRF - Ecomm Storefront App Service Deploy
-  dependsOn: TST_Ecomm_SF_Deploy
-
-  jobs:
-  - deployment: App_Service_Deploy
-    displayName: App Service Deploy
-    environment: ecomm-prf
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ecomm-sf-prf
-    - name: latestTag
-      value: ''
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ecomm/store-front/deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: '560ec2b0-df0c-4e8c-9848-a15718863bb6'
-              appServiceName: 'apsvc-eastus-prf-ecommerce'
-              containerRegistryName: 'acreastusshrapteancr.azurecr.io'
-              imageRepositoryName: 'ecomm-sf'
-              env: $(ENV)
-              apteanTenantId: $(APTEAN_TENANT_ID)
-              storeUrl: $(STORE_URL)
-              adminEmail: $(ADMIN_EMAIL)
-              adminPassword: $(ADMIN_PASSWORD)
-              sqlConnString: $(SQL_CONN_STRING)
-              sqlCommandTimeout: $(SQL_COMMAND_TIMEOUT)
-              b2cClientId: $(B2C_CLIENT_ID)
-              b2cTenantId: $(B2C_TENANT_ID)
-              b2cDomainHost: $(B2C_DOMAIN_HOST)
-              b2cPolicyName: $(B2C_POLICY_NAME)
-              b2cRedirectUri: $(B2C_REDIRECT_URI)
-              b2cDomainHint: $(B2C_DOMAIN_HINT)
-              friendlyName: $(FRIENDLY_NAME)
-              apteanPayApiUrl: $(APTEAN_PAY_API_URL)
-              merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              wepayAppId: $(WEPAY_APP_ID)
-              wepayEnv: $(WEPAY_ENV)
-              wepayApiVersion: $(WEPAY_API_VERSION)
-              wepayApiKey: $(WEPAY_APP_TOKEN)
-              useHttpClusterHttps: $(USE_HTTP_CLUSTER_HTTPS)
-              useHttpXForwardedProto: $(USE_HTTP_X_FORWARDED_PROTO)
-              forwardedHttpHeader: $(FORWARDED_HTTP_HEADER)
-              displayFullErrorStack: $(DISPLAY_FULL_ERROR_STACK)
-              blobStorageConnString: $(BLOB_STORAGE_CONN_STRING)
-              blobStorageContainerName: $(BLOB_STORAGE_CONTAINER_NAME)
-              blobStorageEndpoint: $(BLOB_STORAGE_ENDPOINT)
-              blobStorageAppendContainerName: $(BLOB_STORAGE_APPEND_CONTAINER_NAME)
-              useBlobStorageToStoreKeys: $(USE_BLOB_STORAGE_TO_STORE_KEYS)
-              blobStorageContainerNameForKeys: $(BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS)
-              keyVaultIdForKeys: $(KEY_VAULT_ID_FOR_KEYS)
-              enableRedis: $(ENABLE_REDIS)
-              redisDatabaseId: $(REDIS_DATABASE_ID)
-              redisConnString: $(REDIS_CONN_STRING)
-              useRedisToStoreKeys: $(USE_REDIS_TO_STORE_KEYS)
-              useRedisForCaching: $(USE_REDIS_FOR_CACHING)
-              ignoreRedisTimeoutException: $(IGNORE_REDIS_TIMEOUT_EXCEPTION)
-              useRedisToStorePluginsInfo: $(USE_REDIS_TO_STORE_PLUGINS_INFO)
-              userAgentStringsPath: $(USER_AGENT_STRINGS_PATH)
-              crawlerOnlyUserAgentStringsPath: $(CRAWLER_ONLY_USER_AGENT_STRINGS_PATH)
-              disableSampleDataDuringInstallation: $(DISABLE_SAMPLE_DATA_DURING_INSTALLATION)
-              pluginsIgnoredDuringInstallation: $(PLUGINS_IGNORED_DURING_INSTALLATION)
-              clearPluginShadowDirOnStartup: $(CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP)
-              copyLockedPluginAssemblies: $(COPY_LOCKED_PLUGIN_ASSEMBLIES)
-              usePluginShadowCopy: $(USE_PLUGIN_SHADOW_COPY)
-              useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
-              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER) 
-              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)   
-              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
-              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)                                                                
