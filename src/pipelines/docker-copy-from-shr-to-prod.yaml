@@ -37,6 +37,13 @@ stages:
           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: static-web-files-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+
 ## EZPAY IMAGES
 
       - template: templates\docker-copy-image-to-prod.yaml
