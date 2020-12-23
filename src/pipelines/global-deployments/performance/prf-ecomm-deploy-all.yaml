@@ -156,13 +156,13 @@ stages:
               imageTag: $(IMAGE_TAG)
 
 ## ECOMM-STORE-FRONT ##
-- stage: PRF_Ecomm_SF_Deploy
-  displayName: PRF - Ecomm Storefront App Service Deploy
+- stage: PRF_Ecomm_SF_Helm_Deploy
+  displayName: PRF - Ecomm Storefront Helm Deploy
   dependsOn: []
 
   jobs:
-  - deployment: App_Service_Deploy
-    displayName: App Service Deploy
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
     environment: ecomm-prf
 
     pool:
@@ -170,23 +170,35 @@ stages:
 
     variables:
     - group: ecomm-sf-prf
-    - name: latestTag
-      value: ''
+    - template: ../../ecomm/store-front/helm-variables-prf.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../../ecomm/store-front/deploy-step.yaml
+          - template: ../../ecomm/store-front/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
               svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: '560ec2b0-df0c-4e8c-9848-a15718863bb6'
-              appServiceName: 'apsvc-eastus-prf-ecommerce'
-              containerRegistryName: 'acreastusshrapteancr.azurecr.io'
-              imageRepositoryName: 'ecomm-sf'
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
               env: $(ENV)
+              replicas: $(REPLICAS)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
               apteanTenantId: $(APTEAN_TENANT_ID)
               storeUrl: $(STORE_URL)
               adminEmail: $(ADMIN_EMAIL)
@@ -232,7 +244,7 @@ stages:
               copyLockedPluginAssemblies: $(COPY_LOCKED_PLUGIN_ASSEMBLIES)
               usePluginShadowCopy: $(USE_PLUGIN_SHADOW_COPY)
               useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
-              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER) 
-              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)   
+              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER)
+              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)
               eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
-              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
+              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)              
