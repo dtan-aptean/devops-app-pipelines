@@ -25,7 +25,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ecomm-sf-dev-k8s
+    - group: ecomm-sf-dev
     - template: helm-variables-dev.yaml
 
     strategy:
