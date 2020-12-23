@@ -446,7 +446,8 @@ stages:
 ## ECOMM-STORE-FRONT ##
 - stage: TST_Ecomm_SF_Helm_Deploy
   displayName: TST - Ecomm Storefront Helm Deploy
-
+  dependsOn: []
+  
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
