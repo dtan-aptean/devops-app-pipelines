@@ -36,4 +36,4 @@ variables:
 - name: AKS_RESOURCE_GROUP
   value: rg-eastus-shr-apteank8s
 - name: NODE_SELECTOR_POOL
-  value: sharedsvcs
+  value: ecommsfs
