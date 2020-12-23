@@ -1,6 +1,6 @@
 variables:
 - name: K8S_NAMESPACE
-  value: ecomm-dev
+  value: ecomm-tst
 - name: CHART_NAME
   value: ecomm-sf
 - name: CONTAINER_REGISTRY_NAME
@@ -12,21 +12,21 @@ variables:
 - name: HELM_RELEASE_NAME
   value: misty-boxer
 - name: RESOURCE_LIMITS_CPU
-  value: 750m
+  value: 250m
 - name: RESOURCE_LIMITS_MEMORY
-  value: 1Gi
+  value: 500Mi
 - name: RESOURCE_REQUESTS_CPU
   value: 10m
 - name: RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: ENV
-  value: DEV
+  value: TST
 - name: FRONT_DOOR_ID
-  value: "ee747644-4fcd-4532-9270-2598f7e3fa5f"
+  value: "b5c7259a-7799-4b08-b2d1-f7ee36186be2"
 - name: KONG_INGRESS_UPSTREAM_HEADER
-  value: ecomm-sf.ecomm-dev.svc
+  value: ecomm-sf.ecomm-tst.svc
 - name: KONG_INGRESS_CLASS
-  value: kong-dev
+  value: kong-tst
 - name: REPLICAS
   value: 1
 - name: AZURE_TENANT_ID
