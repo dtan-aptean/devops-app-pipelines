@@ -5,69 +5,112 @@ parameters:
   azureTenantId: ''
   aksName: ''
   aksResourceGroup: ''
-  containerRegistryName: ''
-  imageRepositoryName: ''
+  containerRegistryName: ''  
   chartRepositoryName: ''
   k8sNamespace: ''
   helmReleaseName: ''
   chartName: ''
   env: ''
-  replicas: ''
-  frontDoorId: ''
-  kongIngressClass: ''
-  kongIngressUpstreamHostHeader: ''
-  resourceLimitsCpu: ''
-  resourceLimitsMemory: ''
-  resourceRequestsCpu: ''
-  resourceRequestsMemory: ''
-  apteanTenantId: ''
-  storeUrl: ''
-  adminEmail: ''
-  adminPassword: 
-  sqlConnString: ''
-  sqlCommandTimeout: ''
-  b2cClientId: ''
-  b2cTenantId: ''
-  b2cDomainHost: ''
-  b2cPolicyName: ''
-  b2cRedirectUri: ''
-  b2cDomainHint: ''
-  friendlyName: ''
-  apteanPayApiUrl: ''
-  merchantPortalUrl: ''
+  eventsIngressConnString: ''
+  eventsIngressDestination: '' 
   wepayAppId: ''
   wepayEnv: ''
   wepayApiVersion: ''
-  wepayApiKey: ''
-  useHttpClusterHttps: ''
-  useHttpXForwardedProto: ''
-  forwardedHttpHeader: ''
-  displayFullErrorStack: ''
-  blobStorageConnString: ''
-  blobStorageContainerName: ''
-  blobStorageEndpoint: ''
-  blobStorageAppendContainerName: ''
-  useBlobStorageToStoreKeys: ''
-  blobStorageContainerNameForKeys: ''
-  keyVaultIdForKeys: ''
-  enableRedis: ''
-  redisDatabaseId: ''
-  redisConnString: ''
-  useRedisToStoreKeys: ''
-  useRedisForCaching: ''
-  ignoreRedisTimeoutException: ''
-  useRedisToStorePluginsInfo: ''
-  userAgentStringsPath: ''
-  crawlerOnlyUserAgentStringsPath: ''
-  disableSampleDataDuringInstallation: ''
-  pluginsIgnoredDuringInstallation: ''
-  clearPluginShadowDirOnStartup: ''
-  copyLockedPluginAssemblies: ''
-  usePluginShadowCopy: ''
-  useUnsafeLoadAssembly: ''
-  useSessionStateTempDataProvider: ''
-  apteanLanguagePluginApiUrl: ''
-  imageTag: ''
+  wepayApiKey: '' 
+  frontDoorId: '' 
+  cosmosConnString: ''
+  cosmosDatabaseName: ''
+  # STOREFRONT Params
+  storefrontImageRepositoryName: ''
+  storefrontReplicas: ''  
+  storefrontKongIngressClass: ''
+  storefrontKongIngressUpstreamHostHeader: ''
+  storefrontResourceLimitsCpu: ''
+  storefrontResourceLimitsMemory: ''
+  storefrontResourceRequestsCpu: ''
+  storefrontResourceRequestsMemory: ''
+  storefrontApteanTenantId: ''
+  storefrontStoreUrl: ''
+  storefrontAdminEmail: ''
+  storefrontAdminPassword: 
+  storefrontSqlConnString: ''
+  storefrontSqlCommandTimeout: ''
+  storefrontB2cClientId: ''
+  storefrontB2cTenantId: ''
+  storefrontB2cDomainHost: ''
+  storefrontB2cPolicyName: ''
+  storefrontB2cRedirectUri: ''
+  storefrontB2cDomainHint: ''
+  storefrontFriendlyName: ''
+  storefrontApteanPayApiUrl: ''
+  storefrontMerchantPortalUrl: ''
+  storefrontUseHttpClusterHttps: ''
+  storefrontUseHttpXForwardedProto: ''
+  storefrontForwardedHttpHeader: ''
+  storefrontDisplayFullErrorStack: ''
+  storefrontBlobStorageConnString: ''
+  storefrontBlobStorageContainerName: ''
+  storefrontBlobStorageEndpoint: ''
+  storefrontBlobStorageAppendContainerName: ''
+  storefrontUseBlobStorageToStoreKeys: ''
+  storefrontBlobStorageContainerNameForKeys: ''
+  storefrontKeyVaultIdForKeys: ''
+  storefrontEnableRedis: ''
+  storefrontRedisDatabaseId: ''
+  storefrontRedisConnString: ''
+  storefrontUseRedisToStoreKeys: ''
+  storefrontUseRedisForCaching: ''
+  storefrontIgnoreRedisTimeoutException: ''
+  storefrontUseRedisToStorePluginsInfo: ''
+  storefrontUserAgentStringsPath: ''
+  storefrontCrawlerOnlyUserAgentStringsPath: ''
+  storefrontDisableSampleDataDuringInstallation: ''
+  storefrontPluginsIgnoredDuringInstallation: ''
+  storefrontClearPluginShadowDirOnStartup: ''
+  storefrontCopyLockedPluginAssemblies: ''
+  storefrontUsePluginShadowCopy: ''
+  storefrontUseUnsafeLoadAssembly: ''
+  storefrontUseSessionStateTempDataProvider: ''
+  storefrontApteanLanguagePluginApiUrl: ''
+  # GQL API SVC Params
+  gqlAPISvcImageRepositoryName: ''
+  gqlAPISvcReplicas: ''
+  gqlAPISvcResourceLimitsCpu: ''
+  gqlAPISvcResourceLimitsMemory: ''
+  gqlAPISvcResourceRequestsCpu: ''
+  gqlAPISvcResourceRequestsMemory: ''
+  gqlAPISvcKongIngressClass: ''
+  gqlAPISvcKongIngressUpstreamHostHeader: '' 
+  gqlAPISvcGrpcUrlErpIntegration: ''
+  gqlAPISvcNodeSelectorPool: ''
+  gqlAPISvcImageTag: ''
+  gqlAPISvcSubsMgmtGrpcUrl: ''
+  gqlAPISvcSubsMgmtServiceId: ''
+  gqlAPISvcSubsMgmtApiKey: ''
+  gqlAPISvcNodejsEnv: ''  
+  # ERP SVC Params
+  erpSvcImageRepositoryName: ''
+  erpSvcReplicas: ''
+  erpSvcResourceLimitsCpu: ''
+  erpSvcResourceLimitsMemory: ''
+  erpSvcResourceRequestsCpu: ''
+  erpSvcResourceRequestsMemory: ''
+  erpSvcCosmosCollectionName: ''
+  erpSvcNodeSelectorPool: ''
+  erpSvcImageTag: ''  
+  # LANG SVC Params
+  langSvcImageRepositoryName: ''
+  langSvcReplicas: ''
+  langSvcKongIngressClass: ''
+  langSvcKongIngressUpstreamHostHeader: ''
+  langSvcResourceLimitsCpu: ''
+  langSvcResourceLimitsMemory: ''
+  langSvcResourceRequestsCpu: ''
+  langSvcResourceRequestsMemory: ''
+  langSvcCacheRetainSeconds: ''
+  langSvcCosmosCollectionName: ''
+  langSvcNodeSelectorPool: ''
+  langSvcImageTag: ''  
 
 steps:
 - pwsh: |
@@ -87,18 +130,6 @@ steps:
       --top 1 `
       --orderby time_desc | ConvertFrom-Json
 
-    if ($env:IMAGE_TAG) 
-    {
-      Write-Host Using configured tag: $env:IMAGE_TAG      
-      $latestTag = $env:IMAGE_TAG
-    }
-    else
-    {      
-      Write-Host Fetching latest tag. 
-      $latestTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
-    }
-    $imageRepository = "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CHART_NAME"
-
     Write-Host ""
     $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
     Write-Host "fullChartName: $fullChartName"
@@ -108,97 +139,255 @@ steps:
     Write-Host ""
     helm chart export $fullChartName --destination .
 
-    @"
-    image:
-      repository: $imageRepository
-      tag: $latestTag
+    # ECOMM SF 
+    Write-Host Fetching latest ecomm-sf tag.
+    $latestStorefrontTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:STOREFRONT_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
 
+    # GQL API SVC
+    if ($env:GQL_API_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured gql-api-svc tag: $env:GQL_API_SVC_IMAGE_TAG
+      $latestGqlApiSvcTag = $env:GQL_API_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest gql-api-svc tag.
+      $latestGqlApiSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:GQL_API_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+
+    # ERP SVC
+    if ($env:ERP_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured erp-svc tag: $env:ERP_SVC_IMAGE_TAG
+      $latestErpSvcTag = $env:ERP_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest erp-svc tag.
+      $latestErpSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ERP_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }  
+
+    # LANG SVC
+    if ($env:LANG_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured lang-svc tag: $env:LANG_SVC_IMAGE_TAG
+      $latestLangSvcTag = $env:LANG_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest lang-svc tag.
+      $latestLangSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:LANG_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }  
+    @"
     commonLabels:
       env: $env:ENV
 
-    deployment:
-      replicas: $env:REPLICAS
+    storefront：
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:STOREFRONT_IMAGE_REPOSITORY_NAME"
+        tag: $latestStorefrontTag
 
-    pod:
-      resources:
-        limits:
-          cpu: $env:RESOURCE_LIMITS_CPU
-          memory: $env:RESOURCE_LIMITS_MEMORY
-        requests:
-          cpu: $env:RESOURCE_REQUESTS_CPU
-          memory: $env:RESOURCE_REQUESTS_MEMORY
+      deployment:
+        replicas: $env:STOREFRONT_REPLICAS
 
-    kongIngress:
-      route:
-        headers:
-          x-azure-fdid:
-          - $env:FRONT_DOOR_ID
-      upstream:
-        host_header: $env:KONG_INGRESS_UPSTREAM_HOST_HEADER
+      pod:
+        resources:
+          limits:
+            cpu: $env:STOREFRONT_RESOURCE_LIMITS_CPU
+            memory: $env:STOREFRONT_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:STOREFRONT_RESOURCE_REQUESTS_CPU
+            memory: $env:STOREFRONT_RESOURCE_REQUESTS_MEMORY
 
-    ingress:
-      annotations:
-        kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
-      path: /ecomm-sf-$env:APTEAN_TENANT_ID
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:STOREFRONT_KONG_INGRESS_UPSTREAM_HOST_HEADER 
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:STOREFRONT_KONG_INGRESS_CLASS
+        path: /ecomm-sf-$env:STOREFRONT_APTEAN_TENANT_ID
       
-    config: 
-      tenantId: "$env:APTEAN_TENANT_ID"
-      storeUrl: "$env:STORE_URL"
-      admin:
-        emailAddress: "$env:ADMIN_EMAIL"
-        password: "$env:ADMIN_PSW"
-      sql:
-        connectionString: "$env:SQL_CONN_STRING"
-        commandTimeout: "$env:SQL_COMMAND_TIMEOUT"
-      apteanIdentityPlugin:
-        b2c:
-          clientId: "$env:B2C_CLIENT_ID"
-          domainHost: "$env:B2C_DOMAIN_HOST"
-          tenantId: "$env:B2C_TENANT_ID"
-          policyName: "$env:B2C_POLICY_NAME"
-          redirectUri: "$env:B2C_REDIRECT_URI"
-          domainHint: "$env:B2C_DOMAIN_HINT"
-          friendlyName: "$env:FRIENDLY_NAME"
-      apteanPayPlugin:
-        apiUrl: "$env:APTEAN_PAY_API_URL"
-        merchantPortalUrl: "$env:MERCHANT_PORTAL_URL"
-        wepay:
-          appId: "$env:WEPAY_APP_ID"
-          environment: "$env:WEPAY_ENV"
-          apiVersion: "$env:WEPAY_API_VERSION"
-          apiKey: "$env:WEPAY_API_KEY"
-      apteanLanguagePlugin:
-        apiUrl: "$env:APTEAN_LANGUAGE_PLUGIN_API_URL"
-      hosting:
-        useHttpClusterHttps: $env:USE_HTTP_CLUSTER_HTTPS
-        useHttpXForwardedProto: $env:USE_HTTP_X_FORWARDED_PROTO
-        forwardedHttpHeader: $env:FORWARDED_HTTP_HEADER
-      nop:
-        displayFullErrorStack: $env:DISPLAY_FULL_ERROR_STACK
-        azureBlobStorageConnectionString: "$env:BLOB_STORAGE_CONN_STRING"
-        azureBlobStorageContainerName: "$env:BLOB_STORAGE_CONTAINER_NAME"
-        azureBlobStorageEndPoint: "$env:BLOB_STORAGE_ENDPOINT"
-        azureBlobStorageAppendContainerName: $env:BLOB_STORAGE_APPEND_CONTAINER_NAME
-        useAzureBlobStorageToStoreDataProtectionKeys: $env:USE_BLOB_STORAGE_TO_STORE_KEYS
-        azureBlobStorageContainerNameForDataProtectionKeys: "$env:BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS"
-        azureKeyVaultIdForDataProtectionKeys: "$env:KEY_VAULT_ID_FOR_KEYS"
-        redisEnabled: $env:ENABLE_REDIS
-        redisDatabaseId: "$env:REDIS_DATABASE_ID"
-        redisConnectionString: "$env:REDIS_CONN_STRING"
-        useRedisToStoreDataProtectionKeys: $env:USE_REDIS_TO_STORE_KEYS
-        useRedisForCaching: $env:USE_REDIS_FOR_CACHING
-        ignoreRedisTimeoutException: $env:IGNORE_REDIS_TIMEOUT_EXCEPTION
-        useRedisToStorePluginsInfo: $env:USE_REDIS_TO_STORE_PLUGINS_INFO
-        userAgentStringsPath: "$env:USER_AGENT_STRINGS_PATH"
-        crawlerOnlyUserAgentStringsPath: "$env:CRAWLER_ONLY_USER_AGENT_STRINGS_PATH"
-        disableSampleDataDuringInstallation: $env:DISABLE_SAMPLE_DATA_DURING_INSTALLATION
-        pluginsIgnoredDuringInstallation: "$env:PLUGINS_IGNORED_DURING_INSTALLATION"
-        clearPluginShadowDirectoryOnStartup: $env:CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP
-        copyLockedPluginAssembilesToSubdirectoriesOnStartup: $env:COPY_LOCKED_PLUGIN_ASSEMBLIES
-        usePluginsShadowCopy: $env:USE_PLUGIN_SHADOW_COPY
-        useUnsafeLoadAssembly: $env:USE_UNSAFE_LOAD_ASSEMBLY
-        useSessionStateTempDataProvider: $env:USE_SESSION_STATE_TEMP_DATA_PROVIDER
+      config: 
+        tenantId: "$env:STOREFRONT_APTEAN_TENANT_ID"
+        storeUrl: "$env:STOREFRONT_STORE_URL"
+        admin:
+          emailAddress: "$env:STOREFRONT_ADMIN_EMAIL"
+          password: "$env:STOREFRONT_ADMIN_PSW"
+        sql:
+          connectionString: "$env:STOREFRONT_SQL_CONN_STRING"
+          commandTimeout: "$env:STOREFRONT_SQL_COMMAND_TIMEOUT"
+        apteanIdentityPlugin:
+          b2c:
+            clientId: "$env:STOREFRONT_B2C_CLIENT_ID"
+            domainHost: "$env:STOREFRONT_B2C_DOMAIN_HOST"
+            tenantId: "$env:STOREFRONT_B2C_TENANT_ID"
+            policyName: "$env:STOREFRONT_B2C_POLICY_NAME"
+            redirectUri: "$env:STOREFRONT_B2C_REDIRECT_URI"
+            domainHint: "$env:STOREFRONT_B2C_DOMAIN_HINT"
+            friendlyName: "$env:STOREFRONT_FRIENDLY_NAME"
+        apteanPayPlugin:
+          apiUrl: "$env:STOREFRONT_APTEAN_PAY_API_URL"
+          merchantPortalUrl: "$env:STOREFRONT_MERCHANT_PORTAL_URL"
+          wepay:
+            appId: "$env:WEPAY_APP_ID"
+            environment: "$env:WEPAY_ENV"
+            apiVersion: "$env:WEPAY_API_VERSION"
+            apiKey: "$env:WEPAY_API_KEY"
+        apteanLanguagePlugin:
+          apiUrl: "$env:STOREFRONT_APTEAN_LANGUAGE_PLUGIN_API_URL"
+        hosting:
+          useHttpClusterHttps: $env:STOREFRONT_USE_HTTP_CLUSTER_HTTPS
+          useHttpXForwardedProto: $env:STOREFRONT_USE_HTTP_X_FORWARDED_PROTO
+          forwardedHttpHeader: $env:STOREFRONT_FORWARDED_HTTP_HEADER
+        nop:
+          displayFullErrorStack: $env:STOREFRONT_DISPLAY_FULL_ERROR_STACK
+          azureBlobStorageConnectionString: "$env:STOREFRONT_BLOB_STORAGE_CONN_STRING"
+          azureBlobStorageContainerName: "$env:STOREFRONT_BLOB_STORAGE_CONTAINER_NAME"
+          azureBlobStorageEndPoint: "$env:STOREFRONT_BLOB_STORAGE_ENDPOINT"
+          azureBlobStorageAppendContainerName: $env:STOREFRONT_BLOB_STORAGE_APPEND_CONTAINER_NAME
+          useAzureBlobStorageToStoreDataProtectionKeys: $env:STOREFRONT_USE_BLOB_STORAGE_TO_STORE_KEYS
+          azureBlobStorageContainerNameForDataProtectionKeys: "$env:STOREFRONT_BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS"
+          azureKeyVaultIdForDataProtectionKeys: "$env:STOREFRONT_KEY_VAULT_ID_FOR_KEYS"
+          redisEnabled: $env:STOREFRONT_ENABLE_REDIS
+          redisDatabaseId: "$env:STOREFRONT_REDIS_DATABASE_ID"
+          redisConnectionString: "$env:STOREFRONT_REDIS_CONN_STRING"
+          useRedisToStoreDataProtectionKeys: $env:STOREFRONT_USE_REDIS_TO_STORE_KEYS
+          useRedisForCaching: $env:STOREFRONT_USE_REDIS_FOR_CACHING
+          ignoreRedisTimeoutException: $env:STOREFRONT_IGNORE_REDIS_TIMEOUT_EXCEPTION
+          useRedisToStorePluginsInfo: $env:STOREFRONT_USE_REDIS_TO_STORE_PLUGINS_INFO
+          userAgentStringsPath: "$env:STOREFRONT_USER_AGENT_STRINGS_PATH"
+          crawlerOnlyUserAgentStringsPath: "$env:STOREFRONT_CRAWLER_ONLY_USER_AGENT_STRINGS_PATH"
+          disableSampleDataDuringInstallation: $env:STOREFRONT_DISABLE_SAMPLE_DATA_DURING_INSTALLATION
+          pluginsIgnoredDuringInstallation: "$env:STOREFRONT_PLUGINS_IGNORED_DURING_INSTALLATION"
+          clearPluginShadowDirectoryOnStartup: $env:STOREFRONT_CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP
+          copyLockedPluginAssembilesToSubdirectoriesOnStartup: $env:STOREFRONT_COPY_LOCKED_PLUGIN_ASSEMBLIES
+          usePluginsShadowCopy: $env:STOREFRONT_USE_PLUGIN_SHADOW_COPY
+          useUnsafeLoadAssembly: $env:STOREFRONT_USE_UNSAFE_LOAD_ASSEMBLY
+          useSessionStateTempDataProvider: $env:STOREFRONT_USE_SESSION_STATE_TEMP_DATA_PROVIDER
+        events:
+          connectionString: "$env:EVENTS_INGRESS_CONN_STRING"
+          destination: "$env:EVENTS_INGRESS_DESTINATION" 
+    
+    gql-api-svc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:GQL_API_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestGqlApiSvcTag
+
+      deployment:
+        replicas: $env:GQL_API_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:GQL_API_SVC_NODE_SELECTOR_POOL"      
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:GQL_API_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:GQL_API_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:GQL_API_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:GQL_API_SVC_RESOURCE_REQUESTS_MEMORY
+
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:GQL_API_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:GQL_API_SVC_KONG_INGRESS_CLASS
+        path: /ecomm-gql-api-svc
+
+      config:
+        erpIntegrationSvc:
+          grpcUrl: $env:GQL_API_SVC_GRPC_URL_ERP_INTEGRATION
+        subsMgmt:
+          grpcUrl: "$env:GQL_API_SVC_SUBS_MGMT_GRPC_URL"
+          apiKey: "$env:GQL_API_SVC_SUBS_MGMT_API_KEY"
+          serviceId: "$env:GQL_API_SVC_SUBS_MGMT_SERVICE_ID"
+        nodejsEnv: "$env:GQL_API_SVC_NODE_JS_ENV"
+
+    erp-svc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:ERP_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestErpSvcTag
+
+      deployment:
+        replicas: $env:ERP_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:ERP_SVC_NODE_SELECTOR_POOL"      
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:ERP_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:ERP_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:ERP_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:ERP_SVC_RESOURCE_REQUESTS_MEMORY
+
+      config:
+        cosmos:
+          connectionString: "$env:COSMOSDB_CONN_STRING"
+          databaseName: "$env:COSMOSDB_DATABASE"
+          collectionName: "$env:ERP_SVC_COSMOSDB_COLLECTION_NAME"
+        events:
+          connectionString: "$env:EVENTS_INGRESS_CONN_STRING"
+          destination: "$env:EVENTS_INGRESS_DESTINATION"
+
+    lang-svc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:LANG_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestLangSvcTag
+
+      deployment:
+        replicas: $env:LANG_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:LANG_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:LANG_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:LANG_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:LANG_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:LANG_SVC_RESOURCE_REQUESTS_MEMORY
+
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:LANG_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:LANG_SVC_KONG_INGRESS_CLASS
+        path: /ecomm-lang-svc
+        
+      config: 
+        cacheRetainSeconds: $env:LANG_SVC_ECOMM_CACHE_RETAIN_SECONDS
+        cosmosMongo:
+          connectionString: "$env:COSMOSDB_CONN_STRING"
+          databaseName: "$env:COSMOSDB_DATABASE"
+          collectionName: "$env:LANG_SVC_COSMOSDB_COLLECTION_NAME"
+
     "@ | Out-File -FilePath ./deploy-values.yaml
+
+    # this line for debugging, will print yaml to console
+    # Get-Content -Path ./deploy-values.yaml
 
     Write-Host ""
     Write-Host "Helm deploy prep complete!"
@@ -211,66 +400,109 @@ steps:
     SP_SECRET: ${{ parameters.svcPrincipalSecret }}
     AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
     CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
-    IMAGE_REPOSITORY_NAME: ${{ parameters.imageRepositoryName }}
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
     ENV: ${{ parameters.env }}
-    REPLICAS: ${{ parameters.replicas }}
+    COSMOSDB_CONN_STRING: ${{ parameters.cosmosConnString }}
+    COSMOSDB_DATABASE: ${{ parameters.cosmosDatabaseName }}
+    EVENTS_INGRESS_CONN_STRING: ${{ parameters.eventsIngressConnString }}
+    EVENTS_INGRESS_DESTINATION: ${{ parameters.eventsIngressDestination }}
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
-    KONG_INGRESS_CLASS: ${{ parameters.kongIngressClass }}
-    KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.kongIngressUpstreamHostHeader }}
-    RESOURCE_LIMITS_CPU: ${{ parameters.resourceLimitsCpu }}
-    RESOURCE_LIMITS_MEMORY: ${{ parameters.resourceLimitsMemory }}
-    RESOURCE_REQUESTS_CPU: ${{ parameters.resourceRequestsCpu }}
-    RESOURCE_REQUESTS_MEMORY: ${{ parameters.resourceRequestsMemory }}
-    APTEAN_TENANT_ID: ${{ parameters.apteanTenantId }}
-    STORE_URL: ${{ parameters.storeUrl }}
-    ADMIN_EMAIL: ${{ parameters.adminEmail }}
-    ADMIN_PSW: ${{ parameters.adminPassword }}
-    SQL_CONN_STRING: ${{ parameters.sqlConnString }}
-    SQL_COMMAND_TIMEOUT: ${{ parameters.sqlCommandTimeout }}
-    B2C_CLIENT_ID: ${{ parameters.b2cClientId }}
-    B2C_TENANT_ID: ${{ parameters.b2cTenantId }}
-    B2C_DOMAIN_HOST: ${{ parameters.b2cDomainHost }}
-    B2C_POLICY_NAME: ${{ parameters.b2cPolicyName }}
-    B2C_REDIRECT_URI: ${{ parameters.b2cRedirectUri }}
-    B2C_DOMAIN_HINT: ${{ parameters.b2cDomainHint }}
-    FRIENDLY_NAME: ${{ parameters.friendlyName }}
-    APTEAN_PAY_API_URL: ${{ parameters.apteanPayApiUrl }}
-    APTEAN_LANGUAGE_PLUGIN_API_URL: ${{ parameters.apteanLanguagePluginApiUrl }}
-    MERCHANT_PORTAL_URL: ${{ parameters.merchantPortalUrl }}
     WEPAY_APP_ID: ${{ parameters.wepayAppId }}
     WEPAY_ENV: ${{ parameters.wepayEnv }}
     WEPAY_API_VERSION: ${{ parameters.wepayApiVersion }}
-    WEPAY_API_KEY: ${{ parameters.wepayApiKey }}
-    USE_HTTP_CLUSTER_HTTPS: ${{ parameters.useHttpClusterHttps }}
-    USE_HTTP_X_FORWARDED_PROTO: ${{ parameters.useHttpXForwardedProto }}
-    FORWARDED_HTTP_HEADER: ${{ parameters.forwardedHttpHeader }}
-    DISPLAY_FULL_ERROR_STACK: ${{ parameters.displayFullErrorStack }}
-    BLOB_STORAGE_CONN_STRING: ${{ parameters.blobStorageConnString }}
-    BLOB_STORAGE_CONTAINER_NAME: ${{ parameters.blobStorageContainerName }}
-    BLOB_STORAGE_ENDPOINT: ${{ parameters.blobStorageEndpoint }}
-    BLOB_STORAGE_APPEND_CONTAINER_NAME: ${{ parameters.blobStorageAppendContainerName }}
-    USE_BLOB_STORAGE_TO_STORE_KEYS: ${{ parameters.useBlobStorageToStoreKeys }}
-    BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS: ${{ parameters.blobStorageContainerNameForKeys }}
-    KEY_VAULT_ID_FOR_KEYS: ${{ parameters.keyVaultIdForKeys }}
-    ENABLE_REDIS: ${{ parameters.enableRedis }}
-    REDIS_DATABASE_ID: ${{ parameters.redisDatabaseId }}
-    REDIS_CONN_STRING: ${{ parameters.redisConnString }}
-    USE_REDIS_TO_STORE_KEYS: ${{ parameters.useRedisToStoreKeys }}
-    USE_REDIS_FOR_CACHING: ${{ parameters.useRedisForCaching }}
-    IGNORE_REDIS_TIMEOUT_EXCEPTION: ${{ parameters.ignoreRedisTimeoutException }}
-    USE_REDIS_TO_STORE_PLUGINS_INFO: ${{ parameters.useRedisToStorePluginsInfo }}
-    USER_AGENT_STRINGS_PATH: ${{ parameters.userAgentStringsPath }}
-    CRAWLER_ONLY_USER_AGENT_STRINGS_PATH: ${{ parameters.crawlerOnlyUserAgentStringsPath }}
-    DISABLE_SAMPLE_DATA_DURING_INSTALLATION: ${{ parameters.disableSampleDataDuringInstallation }}
-    PLUGINS_IGNORED_DURING_INSTALLATION: ${{ parameters.pluginsIgnoredDuringInstallation }}
-    CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP: ${{ parameters.clearPluginShadowDirOnStartup }}
-    COPY_LOCKED_PLUGIN_ASSEMBLIES: ${{ parameters.copyLockedPluginAssemblies }}
-    USE_PLUGIN_SHADOW_COPY: ${{ parameters.usePluginShadowCopy }}
-    USE_UNSAFE_LOAD_ASSEMBLY: ${{ parameters.useUnsafeLoadAssembly }}
-    USE_SESSION_STATE_TEMP_DATA_PROVIDER: ${{ parameters.useSessionStateTempDataProvider }}
-    IMAGE_TAG: ${{ parameters.imageTag }}
+    WEPAY_API_KEY: ${{ parameters.wepayApiKey }}    
+    # STOREFRONT Params
+    STOREFRONT_IMAGE_REPOSITORY_NAME: ${{ parameters.storefrontImageRepositoryName }}
+    STOREFRONT_REPLICAS: ${{ parameters.storefrontReplicas }}    
+    STOREFRONT_KONG_INGRESS_CLASS: ${{ parameters.storefrontKongIngressClass }}
+    STOREFRONT_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.storefrontKongIngressUpstreamHostHeader }}
+    STOREFRONT_RESOURCE_LIMITS_CPU: ${{ parameters.storefrontResourceLimitsCpu }}
+    STOREFRONT_RESOURCE_LIMITS_MEMORY: ${{ parameters.storefrontResourceLimitsMemory }}
+    STOREFRONT_RESOURCE_REQUESTS_CPU: ${{ parameters.storefrontResourceRequestsCpu }}
+    STOREFRONT_RESOURCE_REQUESTS_MEMORY: ${{ parameters.storefrontResourceRequestsMemory }}
+    STOREFRONT_APTEAN_TENANT_ID: ${{ parameters.storefrontApteanTenantId }}
+    STOREFRONT_STORE_URL: ${{ parameters.storefrontStoreUrl }}
+    STOREFRONT_ADMIN_EMAIL: ${{ parameters.storefrontAdminEmail }}
+    STOREFRONT_ADMIN_PSW: ${{ parameters.storefrontAdminPassword }}
+    STOREFRONT_SQL_CONN_STRING: ${{ parameters.storefrontSqlConnString }}
+    STOREFRONT_SQL_COMMAND_TIMEOUT: ${{ parameters.storefrontSqlCommandTimeout }}
+    STOREFRONT_B2C_CLIENT_ID: ${{ parameters.storefrontB2cClientId }}
+    STOREFRONT_B2C_TENANT_ID: ${{ parameters.storefrontB2cTenantId }}
+    STOREFRONT_B2C_DOMAIN_HOST: ${{ parameters.storefrontB2cDomainHost }}
+    STOREFRONT_B2C_POLICY_NAME: ${{ parameters.storefrontB2cPolicyName }}
+    STOREFRONT_B2C_REDIRECT_URI: ${{ parameters.storefrontB2cRedirectUri }}
+    STOREFRONT_B2C_DOMAIN_HINT: ${{ parameters.storefrontB2cDomainHint }}
+    STOREFRONT_FRIENDLY_NAME: ${{ parameters.storefrontFriendlyName }}
+    STOREFRONT_APTEAN_PAY_API_URL: ${{ parameters.storefrontApteanPayApiUrl }}
+    STOREFRONT_APTEAN_LANGUAGE_PLUGIN_API_URL: ${{ parameters.storefrontApteanLanguagePluginApiUrl }}
+    STOREFRONT_MERCHANT_PORTAL_URL: ${{ parameters.storefrontMerchantPortalUrl }}
+    STOREFRONT_USE_HTTP_CLUSTER_HTTPS: ${{ parameters.storefrontUseHttpClusterHttps }}
+    STOREFRONT_USE_HTTP_X_FORWARDED_PROTO: ${{ parameters.storefrontUseHttpXForwardedProto }}
+    STOREFRONT_FORWARDED_HTTP_HEADER: ${{ parameters.storefrontForwardedHttpHeader }}
+    STOREFRONT_DISPLAY_FULL_ERROR_STACK: ${{ parameters.storefrontDisplayFullErrorStack }}
+    STOREFRONT_BLOB_STORAGE_CONN_STRING: ${{ parameters.storefrontBlobStorageConnString }}
+    STOREFRONT_BLOB_STORAGE_CONTAINER_NAME: ${{ parameters.storefrontBlobStorageContainerName }}
+    STOREFRONT_BLOB_STORAGE_ENDPOINT: ${{ parameters.storefrontBlobStorageEndpoint }}
+    STOREFRONT_BLOB_STORAGE_APPEND_CONTAINER_NAME: ${{ parameters.storefrontBlobStorageAppendContainerName }}
+    STOREFRONT_USE_BLOB_STORAGE_TO_STORE_KEYS: ${{ parameters.storefrontUseBlobStorageToStoreKeys }}
+    STOREFRONT_BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS: ${{ parameters.storefrontBlobStorageContainerNameForKeys }}
+    STOREFRONT_KEY_VAULT_ID_FOR_KEYS: ${{ parameters.storefrontKeyVaultIdForKeys }}
+    STOREFRONT_ENABLE_REDIS: ${{ parameters.storefrontEnableRedis }}
+    STOREFRONT_REDIS_DATABASE_ID: ${{ parameters.storefrontRedisDatabaseId }}
+    STOREFRONT_REDIS_CONN_STRING: ${{ parameters.storefrontRedisConnString }}
+    STOREFRONT_USE_REDIS_TO_STORE_KEYS: ${{ parameters.storefrontUseRedisToStoreKeys }}
+    STOREFRONT_USE_REDIS_FOR_CACHING: ${{ parameters.storefrontUseRedisForCaching }}
+    STOREFRONT_IGNORE_REDIS_TIMEOUT_EXCEPTION: ${{ parameters.storefrontIgnoreRedisTimeoutException }}
+    STOREFRONT_USE_REDIS_TO_STORE_PLUGINS_INFO: ${{ parameters.storefrontUseRedisToStorePluginsInfo }}
+    STOREFRONT_USER_AGENT_STRINGS_PATH: ${{ parameters.storefrontUserAgentStringsPath }}
+    STOREFRONT_CRAWLER_ONLY_USER_AGENT_STRINGS_PATH: ${{ parameters.storefrontCrawlerOnlyUserAgentStringsPath }}
+    STOREFRONT_DISABLE_SAMPLE_DATA_DURING_INSTALLATION: ${{ parameters.storefrontDisableSampleDataDuringInstallation }}
+    STOREFRONT_PLUGINS_IGNORED_DURING_INSTALLATION: ${{ parameters.storefrontPluginsIgnoredDuringInstallation }}
+    STOREFRONT_CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP: ${{ parameters.storefrontClearPluginShadowDirOnStartup }}
+    STOREFRONT_COPY_LOCKED_PLUGIN_ASSEMBLIES: ${{ parameters.storefrontCopyLockedPluginAssemblies }}
+    STOREFRONT_USE_PLUGIN_SHADOW_COPY: ${{ parameters.storefrontUsePluginShadowCopy }}
+    STOREFRONT_USE_UNSAFE_LOAD_ASSEMBLY: ${{ parameters.storefrontUseUnsafeLoadAssembly }}
+    STOREFRONT_USE_SESSION_STATE_TEMP_DATA_PROVIDER: ${{ parameters.storefrontUseSessionStateTempDataProvider }}
+    # GQL API SVC Params
+    GQL_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.gqlAPISvcImageRepositoryName }}
+    GQL_API_SVC_REPLICAS: ${{ parameters.gqlAPISvcReplicas }}
+    GQL_API_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.gqlAPISvcResourceLimitsCpu }}
+    GQL_API_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.gqlAPISvcResourceLimitsMemory }}
+    GQL_API_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.gqlAPISvcResourceRequestsCpu }}
+    GQL_API_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.gqlAPISvcResourceRequestsMemory }}
+    GQL_API_SVC_KONG_INGRESS_CLASS: ${{ parameters.gqlAPISvcKongIngressClass }}
+    GQL_API_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.gqlAPISvcKongIngressUpstreamHostHeader }}    
+    GQL_API_SVC_GRPC_URL_ERP_INTEGRATION: ${{ parameters.gqlAPISvcGrpcUrlErpIntegration }}
+    GQL_API_SVC_NODE_SELECTOR_POOL: ${{ parameters.gqlAPISvcNodeSelectorPool }}
+    GQL_API_SVC_IMAGE_TAG: ${{ parameters.gqlAPISvcImageTag }}
+    GQL_API_SVC_SUBS_MGMT_GRPC_URL: ${{ parameters.gqlAPISvcSubsMgmtGrpcUrl }}
+    GQL_API_SVC_SUBS_MGMT_SERVICE_ID: ${{ parameters.gqlAPISvcSubsMgmtServiceId }}
+    GQL_API_SVC_SUBS_MGMT_API_KEY: ${{ parameters.gqlAPISvcSubsMgmtApiKey }}
+    GQL_API_SVC_NODE_JS_ENV: ${{ parameters.gqlAPISvcNodejsEnv }} 
+    # ERP SVC Params
+    ERP_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.erpSvcImageRepositoryName }}
+    ERP_SVC_REPLICAS: ${{ parameters.erpSvcReplicas }}
+    ERP_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.erpSvcResourceLimitsCpu }}
+    ERP_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.erpSvcResourceLimitsMemory }}
+    ERP_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.erpSvcResourceRequestsCpu }}
+    ERP_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.erpSvcResourceRequestsMemory }}
+    ERP_SVC_COSMOSDB_COLLECTION_NAME: ${{ parameters.erpSvcCosmosCollectionName }}
+    ERP_SVC_NODE_SELECTOR_POOL: ${{ parameters.erpSvcNodeSelectorPool }}
+    ERP_SVC_IMAGE_TAG: ${{ parameters.erpSvcImageTag }} 
+    # LANG SVC Params
+    LANG_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.langSvcImageRepositoryName }}
+    LANG_SVC_REPLICAS: ${{ parameters.langSvcReplicas }}
+    LANG_SVC_KONG_INGRESS_CLASS: ${{ parameters.langSvcKongIngressClass }}
+    LANG_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.langSvcKongIngressUpstreamHostHeader }}
+    LANG_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.langSvcResourceLimitsCpu }}
+    LANG_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.langSvcResourceLimitsMemory }}
+    LANG_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.langSvcResourceRequestsCpu }}
+    LANG_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.langSvcResourceRequestsMemory }}
+    LANG_SVC_ECOMM_CACHE_RETAIN_SECONDS: ${{ parameters.langSvcCacheRetainSeconds }}
+    LANG_SVC_COSMOSDB_COLLECTION_NAME: ${{ parameters.langSvcCosmosCollectionName }}
+    LANG_SVC_NODE_SELECTOR_POOL: ${{ parameters.langSvcNodeSelectorPool }}
+    LANG_SVC_IMAGE_TAG: ${{ parameters.langSvcImageTag }}          
 
 - task: Kubernetes@1
   displayName: Kubectl Version
