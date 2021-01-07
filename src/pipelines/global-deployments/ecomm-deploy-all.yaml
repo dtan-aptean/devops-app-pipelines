@@ -4,10 +4,9 @@ variables:
 - group: helm-chart-svc-principal-config
 
 stages:
-## ECOMM ERP SVC ##
-- stage: TST_Ecomm_Erp_Svc_Helm_Deploy
-  displayName: TST - ecomm-erp-svc Helm Deploy
-  dependsOn: []
+## ECOMM SVCS ##
+- stage: TST_Ecomm_Svcs_Helm_Deploy
+  displayName: TST - Ecomm Svcs Helm Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -18,14 +17,14 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ecomm-erp-svc-tst
-    - template: ../ecomm/erp-svc/helm-variables-tst.yaml
+    - group: ecomm-tst
+    - template: ../ecomm/helm-variables-tst.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../ecomm/erp-svc/helm-deploy-step.yaml
+          - template: ../ecomm/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -34,27 +33,112 @@ stages:
               aksName: $(AKS_NAME)
               aksResourceGroup: $(AKS_RESOURCE_GROUP)
               containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              cosmosDatabaseConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
-              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
-              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
+              configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
+              configWepayAppId: $(CONFIG_WEPAY_APP_ID)
+              configWepayEnv: $(CONFIG_WEPAY_ENV)
+              configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)
+              configWepayApiKey: $(CONFIG_WEPAY_APP_TOKEN) 
+              frontDoorId: $(FRONT_DOOR_ID) 
+              configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
+              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
+              # STOREFRONT Params        
+              storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
+              storefrontReplicas: $(STOREFRONT_REPLICAS)              
+              storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
+              storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
+              storefrontResourceLimitsCpu: $(STOREFRONT_RESOURCE_LIMITS_CPU)
+              storefrontResourceLimitsMemory: $(STOREFRONT_RESOURCE_LIMITS_MEMORY)
+              storefrontResourceRequestsCpu: $(STOREFRONT_RESOURCE_REQUESTS_CPU)
+              storefrontResourceRequestsMemory: $(STOREFRONT_RESOURCE_REQUESTS_MEMORY)
+              storefrontNodeSelectorPool: $(STOREFRONT_NODE_SELECTOR_POOL)            
+              storefrontConfigApteanTenantId: $(STOREFRONT_CONFIG_APTEAN_TENANT_ID)
+              storefrontConfigStoreUrl: $(STOREFRONT_CONFIG_STORE_URL)
+              storefrontConfigAdminEmail: $(STOREFRONT_CONFIG_ADMIN_EMAIL)
+              storefrontConfigAdminPassword: $(STOREFRONT_CONFIG_ADMIN_PASSWORD)
+              storefrontConfigSqlConnString: $(STOREFRONT_CONFIG_SQL_CONN_STRING)
+              storefrontConfigSqlCommandTimeout: $(STOREFRONT_CONFIG_SQL_COMMAND_TIMEOUT)
+              storefrontConfigB2cClientId: $(STOREFRONT_CONFIG_B2C_CLIENT_ID)
+              storefrontConfigB2cTenantId: $(STOREFRONT_CONFIG_B2C_TENANT_ID)
+              storefrontConfigB2cDomainHost: $(STOREFRONT_CONFIG_B2C_DOMAIN_HOST)
+              storefrontConfigB2cPolicyName: $(STOREFRONT_CONFIG_B2C_POLICY_NAME)
+              storefrontConfigB2cRedirectUri: $(STOREFRONT_CONFIG_B2C_REDIRECT_URI)
+              storefrontConfigB2cDomainHint: $(STOREFRONT_CONFIG_B2C_DOMAIN_HINT)
+              storefrontConfigFriendlyName: $(STOREFRONT_CONFIG_FRIENDLY_NAME)
+              storefrontConfigApteanPayApiUrl: $(STOREFRONT_CONFIG_APTEAN_PAY_API_URL)
+              storefrontConfigMerchantPortalUrl: $(STOREFRONT_CONFIG_MERCHANT_PORTAL_URL)
+              storefrontConfigUseHttpClusterHttps: $(STOREFRONT_CONFIG_USE_HTTP_CLUSTER_HTTPS)
+              storefrontConfigUseHttpXForwardedProto: $(STOREFRONT_CONFIG_USE_HTTP_X_FORWARDED_PROTO)
+              storefrontConfigForwardedHttpHeader: $(STOREFRONT_CONFIG_FORWARDED_HTTP_HEADER)
+              storefrontConfigDisplayFullErrorStack: $(STOREFRONT_CONFIG_DISPLAY_FULL_ERROR_STACK)
+              storefrontConfigBlobStorageConnString: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONN_STRING)
+              storefrontConfigBlobStorageContainerName: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME)
+              storefrontConfigBlobStorageEndpoint: $(STOREFRONT_CONFIG_BLOB_STORAGE_ENDPOINT)
+              storefrontConfigBlobStorageAppendContainerName: $(STOREFRONT_CONFIG_BLOB_STORAGE_APPEND_CONTAINER_NAME)
+              storefrontConfigUseBlobStorageToStoreKeys: $(STOREFRONT_CONFIG_USE_BLOB_STORAGE_TO_STORE_KEYS)
+              storefrontConfigBlobStorageContainerNameForKeys: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS)
+              storefrontConfigKeyVaultIdForKeys: $(STOREFRONT_CONFIG_KEY_VAULT_ID_FOR_KEYS)
+              storefrontConfigEnableRedis: $(STOREFRONT_CONFIG_ENABLE_REDIS)
+              storefrontConfigRedisDatabaseId: $(STOREFRONT_CONFIG_REDIS_DATABASE_ID)
+              storefrontConfigRedisConnString: $(STOREFRONT_CONFIG_REDIS_CONN_STRING)
+              storefrontConfigUseRedisToStoreKeys: $(STOREFRONT_CONFIG_USE_REDIS_TO_STORE_KEYS)
+              storefrontConfigUseRedisForCaching: $(STOREFRONT_CONFIG_USE_REDIS_FOR_CACHING)
+              storefrontConfigIgnoreRedisTimeoutException: $(STOREFRONT_CONFIG_IGNORE_REDIS_TIMEOUT_EXCEPTION)
+              storefrontConfigUseRedisToStorePluginsInfo: $(STOREFRONT_CONFIG_USE_REDIS_TO_STORE_PLUGINS_INFO)
+              storefrontConfigUserAgentStringsPath: $(STOREFRONT_CONFIG_USER_AGENT_STRINGS_PATH)
+              storefrontConfigCrawlerOnlyUserAgentStringsPath: $(STOREFRONT_CONFIG_CRAWLER_ONLY_USER_AGENT_STRINGS_PATH)
+              storefrontConfigDisableSampleDataDuringInstallation: $(STOREFRONT_CONFIG_DISABLE_SAMPLE_DATA_DURING_INSTALLATION)
+              storefrontConfigPluginsIgnoredDuringInstallation: $(STOREFRONT_CONFIG_PLUGINS_IGNORED_DURING_INSTALLATION)
+              storefrontConfigClearPluginShadowDirOnStartup: $(STOREFRONT_CONFIG_CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP)
+              storefrontConfigCopyLockedPluginAssemblies: $(STOREFRONT_CONFIG_COPY_LOCKED_PLUGIN_ASSEMBLIES)
+              storefrontConfigUsePluginShadowCopy: $(STOREFRONT_CONFIG_USE_PLUGIN_SHADOW_COPY)
+              storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
+              storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
+              storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
+              # GQL API SVC Params
+              gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
+              gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)
+              gqlAPISvcResourceLimitsCpu: $(GQL_API_SVC_RESOURCE_LIMITS_CPU)
+              gqlAPISvcResourceLimitsMemory: $(GQL_API_SVC_RESOURCE_LIMITS_MEMORY)
+              gqlAPISvcResourceRequestsCpu: $(GQL_API_SVC_RESOURCE_REQUESTS_CPU)
+              gqlAPISvcResourceRequestsMemory: $(GQL_API_SVC_RESOURCE_REQUESTS_MEMORY)
+              gqlAPISvcKongIngressClass: $(GQL_API_SVC_KONG_INGRESS_CLASS)
+              gqlAPISvcKongIngressUpstreamHostHeader: $(GQL_API_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              gqlAPISvcNodeSelectorPool: $(GQL_API_SVC_NODE_SELECTOR_POOL)
+              gqlAPISvcConfigGrpcUrlErpIntegration: $(GQL_API_SVC_CONFIG_GRPC_URL_ERP_INTEGRATION)
+              gqlAPISvcConfigSubsMgmtGrpcUrl: $(GQL_API_SVC_CONFIG_GRPC_URL_SUBS_MGMT)
+              gqlAPISvcConfigSubsMgmtServiceId: $(GQL_API_SVC_CONFIG_SUBS_MGMT_SERVICE_ID)
+              gqlAPISvcConfigSubsMgmtApiKey: $(GQL_API_SVC_CONFIG_SUBS_MGMT_API_KEY) 
+              # ERP SVC Params
+              erpSvcImageRepositoryName: $(ERP_SVC_IMAGE_REPOSITORY_NAME)
+              erpSvcReplicas: $(ERP_SVC_REPLICAS)
+              erpSvcResourceLimitsCpu: $(ERP_SVC_RESOURCE_LIMITS_CPU)
+              erpSvcResourceLimitsMemory: $(ERP_SVC_RESOURCE_LIMITS_MEMORY)
+              erpSvcResourceRequestsCpu: $(ERP_SVC_RESOURCE_REQUESTS_CPU)
+              erpSvcResourceRequestsMemory: $(ERP_SVC_RESOURCE_REQUESTS_MEMORY)
+              erpSvcNodeSelectorPool: $(ERP_SVC_NODE_SELECTOR_POOL)
+              erpSvcConfigCosmosCollectionName: $(ERP_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)                             
+              # LANG SVC Params
+              langSvcImageRepositoryName: $(LANG_SVC_IMAGE_REPOSITORY_NAME)
+              langSvcReplicas: $(LANG_SVC_REPLICAS)
+              langSvcKongIngressClass: $(LANG_SVC_KONG_INGRESS_CLASS)
+              langSvcKongIngressUpstreamHostHeader: $(LANG_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              langSvcResourceLimitsCpu: $(LANG_SVC_RESOURCE_LIMITS_CPU)
+              langSvcResourceLimitsMemory: $(LANG_SVC_RESOURCE_LIMITS_MEMORY)
+              langSvcResourceRequestsCpu: $(LANG_SVC_RESOURCE_REQUESTS_CPU)
+              langSvcResourceRequestsMemory: $(LANG_SVC_RESOURCE_REQUESTS_MEMORY)
+              langSvcNodeSelectorPool: $(LANG_SVC_NODE_SELECTOR_POOL)
+              langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
+              langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
 
-- stage: STG_Ecomm_Erp_Svc_Helm_Deploy
-  displayName: STG - ecomm-erp-svc Helm Deploy
-  dependsOn: TST_Ecomm_Erp_Svc_Helm_Deploy
+- stage: STG_Ecomm_Svcs_Helm_Deploy
+  displayName: STG - Ecomm Svcs Helm Deploy
+  dependsOn: TST_Ecomm_Svcs_Helm_Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -65,14 +149,14 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ecomm-erp-svc-stg
-    - template: ../ecomm/erp-svc/helm-variables-stg.yaml
+    - group: ecomm-stg
+    - template: ../ecomm/helm-variables-stg.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../ecomm/erp-svc/helm-deploy-step.yaml
+          - template: ../ecomm/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
@@ -81,27 +165,112 @@ stages:
               aksName: $(AKS_NAME)
               aksResourceGroup: $(AKS_RESOURCE_GROUP)
               containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              cosmosDatabaseConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
-              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
-              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
+              configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
+              configWepayAppId: $(CONFIG_WEPAY_APP_ID)
+              configWepayEnv: $(CONFIG_WEPAY_ENV)
+              configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)
+              configWepayApiKey: $(CONFIG_WEPAY_APP_TOKEN) 
+              frontDoorId: $(FRONT_DOOR_ID) 
+              configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
+              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
+              # STOREFRONT Params        
+              storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
+              storefrontReplicas: $(STOREFRONT_REPLICAS)              
+              storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
+              storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
+              storefrontResourceLimitsCpu: $(STOREFRONT_RESOURCE_LIMITS_CPU)
+              storefrontResourceLimitsMemory: $(STOREFRONT_RESOURCE_LIMITS_MEMORY)
+              storefrontResourceRequestsCpu: $(STOREFRONT_RESOURCE_REQUESTS_CPU)
+              storefrontResourceRequestsMemory: $(STOREFRONT_RESOURCE_REQUESTS_MEMORY)
+              storefrontNodeSelectorPool: $(STOREFRONT_NODE_SELECTOR_POOL)            
+              storefrontConfigApteanTenantId: $(STOREFRONT_CONFIG_APTEAN_TENANT_ID)
+              storefrontConfigStoreUrl: $(STOREFRONT_CONFIG_STORE_URL)
+              storefrontConfigAdminEmail: $(STOREFRONT_CONFIG_ADMIN_EMAIL)
+              storefrontConfigAdminPassword: $(STOREFRONT_CONFIG_ADMIN_PASSWORD)
+              storefrontConfigSqlConnString: $(STOREFRONT_CONFIG_SQL_CONN_STRING)
+              storefrontConfigSqlCommandTimeout: $(STOREFRONT_CONFIG_SQL_COMMAND_TIMEOUT)
+              storefrontConfigB2cClientId: $(STOREFRONT_CONFIG_B2C_CLIENT_ID)
+              storefrontConfigB2cTenantId: $(STOREFRONT_CONFIG_B2C_TENANT_ID)
+              storefrontConfigB2cDomainHost: $(STOREFRONT_CONFIG_B2C_DOMAIN_HOST)
+              storefrontConfigB2cPolicyName: $(STOREFRONT_CONFIG_B2C_POLICY_NAME)
+              storefrontConfigB2cRedirectUri: $(STOREFRONT_CONFIG_B2C_REDIRECT_URI)
+              storefrontConfigB2cDomainHint: $(STOREFRONT_CONFIG_B2C_DOMAIN_HINT)
+              storefrontConfigFriendlyName: $(STOREFRONT_CONFIG_FRIENDLY_NAME)
+              storefrontConfigApteanPayApiUrl: $(STOREFRONT_CONFIG_APTEAN_PAY_API_URL)
+              storefrontConfigMerchantPortalUrl: $(STOREFRONT_CONFIG_MERCHANT_PORTAL_URL)
+              storefrontConfigUseHttpClusterHttps: $(STOREFRONT_CONFIG_USE_HTTP_CLUSTER_HTTPS)
+              storefrontConfigUseHttpXForwardedProto: $(STOREFRONT_CONFIG_USE_HTTP_X_FORWARDED_PROTO)
+              storefrontConfigForwardedHttpHeader: $(STOREFRONT_CONFIG_FORWARDED_HTTP_HEADER)
+              storefrontConfigDisplayFullErrorStack: $(STOREFRONT_CONFIG_DISPLAY_FULL_ERROR_STACK)
+              storefrontConfigBlobStorageConnString: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONN_STRING)
+              storefrontConfigBlobStorageContainerName: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME)
+              storefrontConfigBlobStorageEndpoint: $(STOREFRONT_CONFIG_BLOB_STORAGE_ENDPOINT)
+              storefrontConfigBlobStorageAppendContainerName: $(STOREFRONT_CONFIG_BLOB_STORAGE_APPEND_CONTAINER_NAME)
+              storefrontConfigUseBlobStorageToStoreKeys: $(STOREFRONT_CONFIG_USE_BLOB_STORAGE_TO_STORE_KEYS)
+              storefrontConfigBlobStorageContainerNameForKeys: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS)
+              storefrontConfigKeyVaultIdForKeys: $(STOREFRONT_CONFIG_KEY_VAULT_ID_FOR_KEYS)
+              storefrontConfigEnableRedis: $(STOREFRONT_CONFIG_ENABLE_REDIS)
+              storefrontConfigRedisDatabaseId: $(STOREFRONT_CONFIG_REDIS_DATABASE_ID)
+              storefrontConfigRedisConnString: $(STOREFRONT_CONFIG_REDIS_CONN_STRING)
+              storefrontConfigUseRedisToStoreKeys: $(STOREFRONT_CONFIG_USE_REDIS_TO_STORE_KEYS)
+              storefrontConfigUseRedisForCaching: $(STOREFRONT_CONFIG_USE_REDIS_FOR_CACHING)
+              storefrontConfigIgnoreRedisTimeoutException: $(STOREFRONT_CONFIG_IGNORE_REDIS_TIMEOUT_EXCEPTION)
+              storefrontConfigUseRedisToStorePluginsInfo: $(STOREFRONT_CONFIG_USE_REDIS_TO_STORE_PLUGINS_INFO)
+              storefrontConfigUserAgentStringsPath: $(STOREFRONT_CONFIG_USER_AGENT_STRINGS_PATH)
+              storefrontConfigCrawlerOnlyUserAgentStringsPath: $(STOREFRONT_CONFIG_CRAWLER_ONLY_USER_AGENT_STRINGS_PATH)
+              storefrontConfigDisableSampleDataDuringInstallation: $(STOREFRONT_CONFIG_DISABLE_SAMPLE_DATA_DURING_INSTALLATION)
+              storefrontConfigPluginsIgnoredDuringInstallation: $(STOREFRONT_CONFIG_PLUGINS_IGNORED_DURING_INSTALLATION)
+              storefrontConfigClearPluginShadowDirOnStartup: $(STOREFRONT_CONFIG_CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP)
+              storefrontConfigCopyLockedPluginAssemblies: $(STOREFRONT_CONFIG_COPY_LOCKED_PLUGIN_ASSEMBLIES)
+              storefrontConfigUsePluginShadowCopy: $(STOREFRONT_CONFIG_USE_PLUGIN_SHADOW_COPY)
+              storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
+              storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
+              storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
+              # GQL API SVC Params
+              gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
+              gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)
+              gqlAPISvcResourceLimitsCpu: $(GQL_API_SVC_RESOURCE_LIMITS_CPU)
+              gqlAPISvcResourceLimitsMemory: $(GQL_API_SVC_RESOURCE_LIMITS_MEMORY)
+              gqlAPISvcResourceRequestsCpu: $(GQL_API_SVC_RESOURCE_REQUESTS_CPU)
+              gqlAPISvcResourceRequestsMemory: $(GQL_API_SVC_RESOURCE_REQUESTS_MEMORY)
+              gqlAPISvcKongIngressClass: $(GQL_API_SVC_KONG_INGRESS_CLASS)
+              gqlAPISvcKongIngressUpstreamHostHeader: $(GQL_API_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              gqlAPISvcNodeSelectorPool: $(GQL_API_SVC_NODE_SELECTOR_POOL)
+              gqlAPISvcConfigGrpcUrlErpIntegration: $(GQL_API_SVC_CONFIG_GRPC_URL_ERP_INTEGRATION)
+              gqlAPISvcConfigSubsMgmtGrpcUrl: $(GQL_API_SVC_CONFIG_GRPC_URL_SUBS_MGMT)
+              gqlAPISvcConfigSubsMgmtServiceId: $(GQL_API_SVC_CONFIG_SUBS_MGMT_SERVICE_ID)
+              gqlAPISvcConfigSubsMgmtApiKey: $(GQL_API_SVC_CONFIG_SUBS_MGMT_API_KEY) 
+              # ERP SVC Params
+              erpSvcImageRepositoryName: $(ERP_SVC_IMAGE_REPOSITORY_NAME)
+              erpSvcReplicas: $(ERP_SVC_REPLICAS)
+              erpSvcResourceLimitsCpu: $(ERP_SVC_RESOURCE_LIMITS_CPU)
+              erpSvcResourceLimitsMemory: $(ERP_SVC_RESOURCE_LIMITS_MEMORY)
+              erpSvcResourceRequestsCpu: $(ERP_SVC_RESOURCE_REQUESTS_CPU)
+              erpSvcResourceRequestsMemory: $(ERP_SVC_RESOURCE_REQUESTS_MEMORY)
+              erpSvcNodeSelectorPool: $(ERP_SVC_NODE_SELECTOR_POOL)
+              erpSvcConfigCosmosCollectionName: $(ERP_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)                             
+              # LANG SVC Params
+              langSvcImageRepositoryName: $(LANG_SVC_IMAGE_REPOSITORY_NAME)
+              langSvcReplicas: $(LANG_SVC_REPLICAS)
+              langSvcKongIngressClass: $(LANG_SVC_KONG_INGRESS_CLASS)
+              langSvcKongIngressUpstreamHostHeader: $(LANG_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              langSvcResourceLimitsCpu: $(LANG_SVC_RESOURCE_LIMITS_CPU)
+              langSvcResourceLimitsMemory: $(LANG_SVC_RESOURCE_LIMITS_MEMORY)
+              langSvcResourceRequestsCpu: $(LANG_SVC_RESOURCE_REQUESTS_CPU)
+              langSvcResourceRequestsMemory: $(LANG_SVC_RESOURCE_REQUESTS_MEMORY)
+              langSvcNodeSelectorPool: $(LANG_SVC_NODE_SELECTOR_POOL)
+              langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
+              langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)              
 
-- stage: PRD_Ecomm_Erp_Svc_Helm_Deploy
-  displayName: PRD - ecomm-erp-svc Helm Deploy
-  dependsOn: STG_Ecomm_Erp_Svc_Helm_Deploy
+- stage: PRD_Ecomm_Svcs_Helm_Deploy
+  displayName: PRD - Ecomm Svcs Helm Deploy
+  dependsOn: STG_Ecomm_Svcs_Helm_Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -112,14 +281,14 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ecomm-erp-svc-prd
-    - template: ../ecomm/erp-svc/helm-variables-prd.yaml
+    - group: ecomm-prd
+    - template: ../ecomm/helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../ecomm/erp-svc/helm-deploy-step.yaml
+          - template: ../ecomm/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
@@ -128,504 +297,106 @@ stages:
               aksName: $(AKS_NAME)
               aksResourceGroup: $(AKS_RESOURCE_GROUP)
               containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              cosmosDatabaseConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_DATABASE)
-              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)      
-              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
-              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              
-## ECOMM-GQL-API-SVC ##    
-- stage: TST_Ecomm_Grpc_Api_Svc_Helm_Deploy
-  displayName: TST - ecomm-gql-api-svc Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ecomm-tst
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ecomm-gql-api-svc-tst
-    - template: ../ecomm/gql-api-svc/helm-variables-tst.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ecomm/gql-api-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
-              grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
-              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
-              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)  
-
-- stage: STG_Ecomm_Grpc_Api_Svc_Helm_Deploy
-  displayName: STG - ecomm-gql-api-svc Helm Deploy
-  dependsOn: TST_Ecomm_Grpc_Api_Svc_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ecomm-stg
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ecomm-gql-api-svc-stg
-    - template: ../ecomm/gql-api-svc/helm-variables-stg.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ecomm/gql-api-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
-              grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
-              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
-              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)  
-
-- stage: PRD_Ecomm_Grpc_Api_Svc_Helm_Deploy
-  displayName: PRD - ecomm-gql-api-svc Helm Deploy
-  dependsOn: STG_Ecomm_Grpc_Api_Svc_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ecomm-prd
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ecomm-gql-api-svc-prd
-    - template: ../ecomm/gql-api-svc/helm-variables-prd.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ecomm/gql-api-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)              
-              grpcUrlErpIntegration: $(GRPC_URL_ERP_INTEGRATION)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
-              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
-              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)  
-              nodejsEnv: 'production'
-
-## ECOMM-LANG-SVC ##
-- stage: TST_Ecomm_Lang_Svc_Helm_Deploy
-  displayName: TST - Ecomm Language Svc Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ecomm-tst
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ecomm-lang-svc-tst
-    - template: ../ecomm/lang-svc/helm-variables-tst.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ecomm/lang-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              cacheRetainSeconds: $(ECOMM_CACHE_RETAIN_SECONDS)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
-              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)  
-
-- stage: STG_Ecomm_Lang_Svc_Helm_Deploy
-  displayName: STG - Ecomm Language Svc Helm Deploy
-  dependsOn: TST_Ecomm_Lang_Svc_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ecomm-stg
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ecomm-lang-svc-stg
-    - template: ../ecomm/lang-svc/helm-variables-stg.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ecomm/lang-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              cacheRetainSeconds: $(ECOMM_CACHE_RETAIN_SECONDS)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
-              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-
-- stage: PRD_Ecomm_Lang_Svc_Helm_Deploy
-  displayName: PRD - Ecomm Language Svc Helm Deploy
-  dependsOn: STG_Ecomm_Lang_Svc_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ecomm-prd
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ecomm-lang-svc-prd
-    - template: ../ecomm/lang-svc/helm-variables-prd.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ecomm/lang-svc/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              cacheRetainSeconds: $(ECOMM_CACHE_RETAIN_SECONDS)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabaseName: $(COSMOSDB_LANGUAGE_SVC_DATABASE)
-              cosmosCollectionName: $(COSMOSDB_COLLECTION_NAME)
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-
-## ECOMM-STORE-FRONT ##
-- stage: TST_Ecomm_SF_Helm_Deploy
-  displayName: TST - Ecomm Storefront Helm Deploy
-  dependsOn: []
-  
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ecomm-tst
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ecomm-sf-tst
-    - template: ../ecomm/store-front/helm-variables-tst.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ecomm/store-front/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              apteanTenantId: $(APTEAN_TENANT_ID)
-              storeUrl: $(STORE_URL)
-              adminEmail: $(ADMIN_EMAIL)
-              adminPassword: $(ADMIN_PASSWORD)
-              sqlConnString: $(SQL_CONN_STRING)
-              sqlCommandTimeout: $(SQL_COMMAND_TIMEOUT)
-              b2cClientId: $(B2C_CLIENT_ID)
-              b2cTenantId: $(B2C_TENANT_ID)
-              b2cDomainHost: $(B2C_DOMAIN_HOST)
-              b2cPolicyName: $(B2C_POLICY_NAME)
-              b2cRedirectUri: $(B2C_REDIRECT_URI)
-              b2cDomainHint: $(B2C_DOMAIN_HINT)
-              friendlyName: $(FRIENDLY_NAME)
-              apteanPayApiUrl: $(APTEAN_PAY_API_URL)
-              merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              wepayAppId: $(WEPAY_APP_ID)
-              wepayEnv: $(WEPAY_ENV)
-              wepayApiVersion: $(WEPAY_API_VERSION)
-              wepayApiKey: $(WEPAY_APP_TOKEN)
-              useHttpClusterHttps: $(USE_HTTP_CLUSTER_HTTPS)
-              useHttpXForwardedProto: $(USE_HTTP_X_FORWARDED_PROTO)
-              forwardedHttpHeader: $(FORWARDED_HTTP_HEADER)
-              displayFullErrorStack: $(DISPLAY_FULL_ERROR_STACK)
-              blobStorageConnString: $(BLOB_STORAGE_CONN_STRING)
-              blobStorageContainerName: $(BLOB_STORAGE_CONTAINER_NAME)
-              blobStorageEndpoint: $(BLOB_STORAGE_ENDPOINT)
-              blobStorageAppendContainerName: $(BLOB_STORAGE_APPEND_CONTAINER_NAME)
-              useBlobStorageToStoreKeys: $(USE_BLOB_STORAGE_TO_STORE_KEYS)
-              blobStorageContainerNameForKeys: $(BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS)
-              keyVaultIdForKeys: $(KEY_VAULT_ID_FOR_KEYS)
-              enableRedis: $(ENABLE_REDIS)
-              redisDatabaseId: $(REDIS_DATABASE_ID)
-              redisConnString: $(REDIS_CONN_STRING)
-              useRedisToStoreKeys: $(USE_REDIS_TO_STORE_KEYS)
-              useRedisForCaching: $(USE_REDIS_FOR_CACHING)
-              ignoreRedisTimeoutException: $(IGNORE_REDIS_TIMEOUT_EXCEPTION)
-              useRedisToStorePluginsInfo: $(USE_REDIS_TO_STORE_PLUGINS_INFO)
-              userAgentStringsPath: $(USER_AGENT_STRINGS_PATH)
-              crawlerOnlyUserAgentStringsPath: $(CRAWLER_ONLY_USER_AGENT_STRINGS_PATH)
-              disableSampleDataDuringInstallation: $(DISABLE_SAMPLE_DATA_DURING_INSTALLATION)
-              pluginsIgnoredDuringInstallation: $(PLUGINS_IGNORED_DURING_INSTALLATION)
-              clearPluginShadowDirOnStartup: $(CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP)
-              copyLockedPluginAssemblies: $(COPY_LOCKED_PLUGIN_ASSEMBLIES)
-              usePluginShadowCopy: $(USE_PLUGIN_SHADOW_COPY)
-              useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
-              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER)
-              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)
-              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
-              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)              
-
-- stage: STG_Ecomm_SF_Helm_Deploy
-  displayName: STG - Ecomm Storefront Helm Deploy
-  dependsOn: TST_Ecomm_SF_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: ecomm-stg
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: ecomm-sf-stg
-    - template: ../ecomm/store-front/helm-variables-stg.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../ecomm/store-front/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              replicas: $(REPLICAS)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              apteanTenantId: $(APTEAN_TENANT_ID)
-              storeUrl: $(STORE_URL)
-              adminEmail: $(ADMIN_EMAIL)
-              adminPassword: $(ADMIN_PASSWORD)
-              sqlConnString: $(SQL_CONN_STRING)
-              sqlCommandTimeout: $(SQL_COMMAND_TIMEOUT)
-              b2cClientId: $(B2C_CLIENT_ID)
-              b2cTenantId: $(B2C_TENANT_ID)
-              b2cDomainHost: $(B2C_DOMAIN_HOST)
-              b2cPolicyName: $(B2C_POLICY_NAME)
-              b2cRedirectUri: $(B2C_REDIRECT_URI)
-              b2cDomainHint: $(B2C_DOMAIN_HINT)
-              friendlyName: $(FRIENDLY_NAME)
-              apteanPayApiUrl: $(APTEAN_PAY_API_URL)
-              merchantPortalUrl: $(MERCHANT_PORTAL_URL)
-              wepayAppId: $(WEPAY_APP_ID)
-              wepayEnv: $(WEPAY_ENV)
-              wepayApiVersion: $(WEPAY_API_VERSION)
-              wepayApiKey: $(WEPAY_APP_TOKEN)
-              useHttpClusterHttps: $(USE_HTTP_CLUSTER_HTTPS)
-              useHttpXForwardedProto: $(USE_HTTP_X_FORWARDED_PROTO)
-              forwardedHttpHeader: $(FORWARDED_HTTP_HEADER)
-              displayFullErrorStack: $(DISPLAY_FULL_ERROR_STACK)
-              blobStorageConnString: $(BLOB_STORAGE_CONN_STRING)
-              blobStorageContainerName: $(BLOB_STORAGE_CONTAINER_NAME)
-              blobStorageEndpoint: $(BLOB_STORAGE_ENDPOINT)
-              blobStorageAppendContainerName: $(BLOB_STORAGE_APPEND_CONTAINER_NAME)
-              useBlobStorageToStoreKeys: $(USE_BLOB_STORAGE_TO_STORE_KEYS)
-              blobStorageContainerNameForKeys: $(BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS)
-              keyVaultIdForKeys: $(KEY_VAULT_ID_FOR_KEYS)
-              enableRedis: $(ENABLE_REDIS)
-              redisDatabaseId: $(REDIS_DATABASE_ID)
-              redisConnString: $(REDIS_CONN_STRING)
-              useRedisToStoreKeys: $(USE_REDIS_TO_STORE_KEYS)
-              useRedisForCaching: $(USE_REDIS_FOR_CACHING)
-              ignoreRedisTimeoutException: $(IGNORE_REDIS_TIMEOUT_EXCEPTION)
-              useRedisToStorePluginsInfo: $(USE_REDIS_TO_STORE_PLUGINS_INFO)
-              userAgentStringsPath: $(USER_AGENT_STRINGS_PATH)
-              crawlerOnlyUserAgentStringsPath: $(CRAWLER_ONLY_USER_AGENT_STRINGS_PATH)
-              disableSampleDataDuringInstallation: $(DISABLE_SAMPLE_DATA_DURING_INSTALLATION)
-              pluginsIgnoredDuringInstallation: $(PLUGINS_IGNORED_DURING_INSTALLATION)
-              clearPluginShadowDirOnStartup: $(CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP)
-              copyLockedPluginAssemblies: $(COPY_LOCKED_PLUGIN_ASSEMBLIES)
-              usePluginShadowCopy: $(USE_PLUGIN_SHADOW_COPY)
-              useUnsafeLoadAssembly: $(USE_UNSAFE_LOAD_ASSEMBLY)
-              useSessionStateTempDataProvider: $(USE_SESSION_STATE_TEMP_DATA_PROVIDER)
-              apteanLanguagePluginApiUrl: $(APTEAN_LANGUAGE_PLUGIN_API_URL)
-              eventsIngressConnString: $(EVENTS_INGRESS_CONN_STRING)
-              eventsIngressDestination: $(EVENTS_INGRESS_DESTINATION)   
+              configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
+              configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
+              configWepayAppId: $(CONFIG_WEPAY_APP_ID)
+              configWepayEnv: $(CONFIG_WEPAY_ENV)
+              configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)
+              configWepayApiKey: $(CONFIG_WEPAY_APP_TOKEN) 
+              frontDoorId: $(FRONT_DOOR_ID) 
+              configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
+              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
+              # STOREFRONT Params        
+              storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
+              storefrontReplicas: $(STOREFRONT_REPLICAS)              
+              storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
+              storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
+              storefrontResourceLimitsCpu: $(STOREFRONT_RESOURCE_LIMITS_CPU)
+              storefrontResourceLimitsMemory: $(STOREFRONT_RESOURCE_LIMITS_MEMORY)
+              storefrontResourceRequestsCpu: $(STOREFRONT_RESOURCE_REQUESTS_CPU)
+              storefrontResourceRequestsMemory: $(STOREFRONT_RESOURCE_REQUESTS_MEMORY)
+              storefrontNodeSelectorPool: $(STOREFRONT_NODE_SELECTOR_POOL)            
+              storefrontConfigApteanTenantId: $(STOREFRONT_CONFIG_APTEAN_TENANT_ID)
+              storefrontConfigStoreUrl: $(STOREFRONT_CONFIG_STORE_URL)
+              storefrontConfigAdminEmail: $(STOREFRONT_CONFIG_ADMIN_EMAIL)
+              storefrontConfigAdminPassword: $(STOREFRONT_CONFIG_ADMIN_PASSWORD)
+              storefrontConfigSqlConnString: $(STOREFRONT_CONFIG_SQL_CONN_STRING)
+              storefrontConfigSqlCommandTimeout: $(STOREFRONT_CONFIG_SQL_COMMAND_TIMEOUT)
+              storefrontConfigB2cClientId: $(STOREFRONT_CONFIG_B2C_CLIENT_ID)
+              storefrontConfigB2cTenantId: $(STOREFRONT_CONFIG_B2C_TENANT_ID)
+              storefrontConfigB2cDomainHost: $(STOREFRONT_CONFIG_B2C_DOMAIN_HOST)
+              storefrontConfigB2cPolicyName: $(STOREFRONT_CONFIG_B2C_POLICY_NAME)
+              storefrontConfigB2cRedirectUri: $(STOREFRONT_CONFIG_B2C_REDIRECT_URI)
+              storefrontConfigB2cDomainHint: $(STOREFRONT_CONFIG_B2C_DOMAIN_HINT)
+              storefrontConfigFriendlyName: $(STOREFRONT_CONFIG_FRIENDLY_NAME)
+              storefrontConfigApteanPayApiUrl: $(STOREFRONT_CONFIG_APTEAN_PAY_API_URL)
+              storefrontConfigMerchantPortalUrl: $(STOREFRONT_CONFIG_MERCHANT_PORTAL_URL)
+              storefrontConfigUseHttpClusterHttps: $(STOREFRONT_CONFIG_USE_HTTP_CLUSTER_HTTPS)
+              storefrontConfigUseHttpXForwardedProto: $(STOREFRONT_CONFIG_USE_HTTP_X_FORWARDED_PROTO)
+              storefrontConfigForwardedHttpHeader: $(STOREFRONT_CONFIG_FORWARDED_HTTP_HEADER)
+              storefrontConfigDisplayFullErrorStack: $(STOREFRONT_CONFIG_DISPLAY_FULL_ERROR_STACK)
+              storefrontConfigBlobStorageConnString: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONN_STRING)
+              storefrontConfigBlobStorageContainerName: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME)
+              storefrontConfigBlobStorageEndpoint: $(STOREFRONT_CONFIG_BLOB_STORAGE_ENDPOINT)
+              storefrontConfigBlobStorageAppendContainerName: $(STOREFRONT_CONFIG_BLOB_STORAGE_APPEND_CONTAINER_NAME)
+              storefrontConfigUseBlobStorageToStoreKeys: $(STOREFRONT_CONFIG_USE_BLOB_STORAGE_TO_STORE_KEYS)
+              storefrontConfigBlobStorageContainerNameForKeys: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS)
+              storefrontConfigKeyVaultIdForKeys: $(STOREFRONT_CONFIG_KEY_VAULT_ID_FOR_KEYS)
+              storefrontConfigEnableRedis: $(STOREFRONT_CONFIG_ENABLE_REDIS)
+              storefrontConfigRedisDatabaseId: $(STOREFRONT_CONFIG_REDIS_DATABASE_ID)
+              storefrontConfigRedisConnString: $(STOREFRONT_CONFIG_REDIS_CONN_STRING)
+              storefrontConfigUseRedisToStoreKeys: $(STOREFRONT_CONFIG_USE_REDIS_TO_STORE_KEYS)
+              storefrontConfigUseRedisForCaching: $(STOREFRONT_CONFIG_USE_REDIS_FOR_CACHING)
+              storefrontConfigIgnoreRedisTimeoutException: $(STOREFRONT_CONFIG_IGNORE_REDIS_TIMEOUT_EXCEPTION)
+              storefrontConfigUseRedisToStorePluginsInfo: $(STOREFRONT_CONFIG_USE_REDIS_TO_STORE_PLUGINS_INFO)
+              storefrontConfigUserAgentStringsPath: $(STOREFRONT_CONFIG_USER_AGENT_STRINGS_PATH)
+              storefrontConfigCrawlerOnlyUserAgentStringsPath: $(STOREFRONT_CONFIG_CRAWLER_ONLY_USER_AGENT_STRINGS_PATH)
+              storefrontConfigDisableSampleDataDuringInstallation: $(STOREFRONT_CONFIG_DISABLE_SAMPLE_DATA_DURING_INSTALLATION)
+              storefrontConfigPluginsIgnoredDuringInstallation: $(STOREFRONT_CONFIG_PLUGINS_IGNORED_DURING_INSTALLATION)
+              storefrontConfigClearPluginShadowDirOnStartup: $(STOREFRONT_CONFIG_CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP)
+              storefrontConfigCopyLockedPluginAssemblies: $(STOREFRONT_CONFIG_COPY_LOCKED_PLUGIN_ASSEMBLIES)
+              storefrontConfigUsePluginShadowCopy: $(STOREFRONT_CONFIG_USE_PLUGIN_SHADOW_COPY)
+              storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
+              storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
+              storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
+              # GQL API SVC Params
+              gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
+              gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)
+              gqlAPISvcResourceLimitsCpu: $(GQL_API_SVC_RESOURCE_LIMITS_CPU)
+              gqlAPISvcResourceLimitsMemory: $(GQL_API_SVC_RESOURCE_LIMITS_MEMORY)
+              gqlAPISvcResourceRequestsCpu: $(GQL_API_SVC_RESOURCE_REQUESTS_CPU)
+              gqlAPISvcResourceRequestsMemory: $(GQL_API_SVC_RESOURCE_REQUESTS_MEMORY)
+              gqlAPISvcKongIngressClass: $(GQL_API_SVC_KONG_INGRESS_CLASS)
+              gqlAPISvcKongIngressUpstreamHostHeader: $(GQL_API_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              gqlAPISvcNodeSelectorPool: $(GQL_API_SVC_NODE_SELECTOR_POOL)
+              gqlAPISvcConfigGrpcUrlErpIntegration: $(GQL_API_SVC_CONFIG_GRPC_URL_ERP_INTEGRATION)
+              gqlAPISvcConfigSubsMgmtGrpcUrl: $(GQL_API_SVC_CONFIG_GRPC_URL_SUBS_MGMT)
+              gqlAPISvcConfigSubsMgmtServiceId: $(GQL_API_SVC_CONFIG_SUBS_MGMT_SERVICE_ID)
+              gqlAPISvcConfigSubsMgmtApiKey: $(GQL_API_SVC_CONFIG_SUBS_MGMT_API_KEY)
+              gqlAPISvcConfigNodejsEnv: 'production'
+              # ERP SVC Params
+              erpSvcImageRepositoryName: $(ERP_SVC_IMAGE_REPOSITORY_NAME)
+              erpSvcReplicas: $(ERP_SVC_REPLICAS)
+              erpSvcResourceLimitsCpu: $(ERP_SVC_RESOURCE_LIMITS_CPU)
+              erpSvcResourceLimitsMemory: $(ERP_SVC_RESOURCE_LIMITS_MEMORY)
+              erpSvcResourceRequestsCpu: $(ERP_SVC_RESOURCE_REQUESTS_CPU)
+              erpSvcResourceRequestsMemory: $(ERP_SVC_RESOURCE_REQUESTS_MEMORY)
+              erpSvcNodeSelectorPool: $(ERP_SVC_NODE_SELECTOR_POOL)
+              erpSvcConfigCosmosCollectionName: $(ERP_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)                             
+              # LANG SVC Params
+              langSvcImageRepositoryName: $(LANG_SVC_IMAGE_REPOSITORY_NAME)
+              langSvcReplicas: $(LANG_SVC_REPLICAS)
+              langSvcKongIngressClass: $(LANG_SVC_KONG_INGRESS_CLASS)
+              langSvcKongIngressUpstreamHostHeader: $(LANG_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              langSvcResourceLimitsCpu: $(LANG_SVC_RESOURCE_LIMITS_CPU)
+              langSvcResourceLimitsMemory: $(LANG_SVC_RESOURCE_LIMITS_MEMORY)
+              langSvcResourceRequestsCpu: $(LANG_SVC_RESOURCE_REQUESTS_CPU)
+              langSvcResourceRequestsMemory: $(LANG_SVC_RESOURCE_REQUESTS_MEMORY)
+              langSvcNodeSelectorPool: $(LANG_SVC_NODE_SELECTOR_POOL)
+              langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
+              langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)              
