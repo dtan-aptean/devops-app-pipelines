@@ -419,6 +419,7 @@ stages:
 
 - stage: WorkWise_Ecomm_SF_Deploy
   displayName: Workwise - Ecomm Storefront App Service Deploy
+  dependsOn: []
 
   jobs:
   - deployment: App_Service_Deploy
