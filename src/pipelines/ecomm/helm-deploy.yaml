@@ -31,8 +31,8 @@ variables:
 - group: helm-chart-svc-principal-config
 
 stages:
-- stage: DEV_Ecomm_Svcs_Helm_Deploy
-  displayName: DEV - Ecomm Svcs Helm Deploy
+- stage: DEV_Ecomm_Helm_Deploy
+  displayName: DEV - Ecomm Helm Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -52,6 +52,7 @@ stages:
           steps:
           - template: helm-deploy-step.yaml
             parameters:
+              deployMode: 'all'
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
               svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)

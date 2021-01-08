@@ -1,4 +1,5 @@
 parameters:
+  deployMode: ''
   serviceConnection: ''
   svcPrincipalClientId: ''
   svcPrincipalSecret: ''
@@ -180,6 +181,8 @@ steps:
       $latestLangSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:LANG_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
     }  
     @"
+    deployMode: $env:DEPLOY_MODE
+
     commonLabels:
       env: $env:ENV
 
@@ -400,6 +403,7 @@ steps:
   workingDirectory: $(System.DefaultWorkingDirectory)
   failOnStderr: true
   env:
+    DEPLOY_MODE: ${{ parameters.deployMode }}
     SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
     SP_SECRET: ${{ parameters.svcPrincipalSecret }}
     AZURE_TENANT_ID: ${{ parameters.azureTenantId }}

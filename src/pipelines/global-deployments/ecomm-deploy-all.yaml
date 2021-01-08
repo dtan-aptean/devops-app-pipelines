@@ -5,8 +5,8 @@ variables:
 
 stages:
 ## ECOMM SVCS ##
-- stage: TST_Ecomm_Svcs_Helm_Deploy
-  displayName: TST - Ecomm Svcs Helm Deploy
+- stage: TST_Ecomm_Helm_Deploy
+  displayName: TST - Ecomm Helm Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -26,6 +26,7 @@ stages:
           steps:
           - template: ../ecomm/helm-deploy-step.yaml
             parameters:
+              deployMode: 'all'
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
               svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
@@ -136,9 +137,9 @@ stages:
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
               langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
 
-- stage: STG_Ecomm_Svcs_Helm_Deploy
-  displayName: STG - Ecomm Svcs Helm Deploy
-  dependsOn: TST_Ecomm_Svcs_Helm_Deploy
+- stage: STG_Ecomm_Helm_Deploy
+  displayName: STG - Ecomm Helm Deploy
+  dependsOn: TST_Ecomm_Helm_Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -158,6 +159,7 @@ stages:
           steps:
           - template: ../ecomm/helm-deploy-step.yaml
             parameters:
+              deployMode: 'all'
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
               svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
@@ -268,9 +270,9 @@ stages:
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
               langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)              
 
-- stage: PRD_Ecomm_Svcs_Helm_Deploy
-  displayName: PRD - Ecomm Svcs Helm Deploy
-  dependsOn: STG_Ecomm_Svcs_Helm_Deploy
+- stage: PRD_Ecomm_Helm_Deploy
+  displayName: PRD - Ecomm Helm Deploy
+  dependsOn: STG_Ecomm_Helm_Deploy
 
   jobs:
   - deployment: Helm_Deploy
@@ -290,6 +292,7 @@ stages:
           steps:
           - template: ../ecomm/helm-deploy-step.yaml
             parameters:
+              deployMode: 'service'
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
               svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
