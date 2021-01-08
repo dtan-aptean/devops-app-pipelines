@@ -186,7 +186,7 @@ steps:
     commonLabels:
       env: $env:ENV
 
-    storefront：
+    storefront:
       image:
         repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:STOREFRONT_IMAGE_REPOSITORY_NAME"
         tag: $latestStorefrontTag
@@ -280,7 +280,7 @@ steps:
           connectionString: "$env:CONFIG_EVENTS_INGRESS_CONN_STRING"
           destination: "$env:CONFIG_EVENTS_INGRESS_DESTINATION" 
     
-    gql-api-svc:
+    gqlApiService:
       image:
         repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:GQL_API_SVC_IMAGE_REPOSITORY_NAME"
         tag: $latestGqlApiSvcTag
@@ -322,7 +322,7 @@ steps:
           serviceId: "$env:GQL_API_SVC_CONFIG_SUBS_MGMT_SERVICE_ID"
         nodejsEnv: "$env:GQL_API_SVC_CONFIG_NODE_JS_ENV"
 
-    erp-svc:
+    erpService:
       image:
         repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:ERP_SVC_IMAGE_REPOSITORY_NAME"
         tag: $latestErpSvcTag
@@ -351,7 +351,7 @@ steps:
           connectionString: "$env:CONFIG_EVENTS_INGRESS_CONN_STRING"
           destination: "$env:CONFIG_EVENTS_INGRESS_DESTINATION"
 
-    lang-svc:
+    langService:
       image:
         repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:LANG_SVC_IMAGE_REPOSITORY_NAME"
         tag: $latestLangSvcTag
