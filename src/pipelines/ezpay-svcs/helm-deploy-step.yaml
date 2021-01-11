@@ -58,12 +58,12 @@ steps:
     # PAYMENT CANCEL RETRY JOB
     if ($env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG)
     {
-      Write-Host Using configured events-svc tag: $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG
+      Write-Host Using configured ezpay-payment-cancelation-retry-job tag: $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG
       $latestPaymentCancelRetryJobTag = $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG
     }
     else
     {
-      Write-Host Fetching latest events-svc tag.
+      Write-Host Fetching latest ezpay-payment-cancelation-retry-job tag.
       $latestPaymentCancelRetryJobTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
     }
 
