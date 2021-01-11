@@ -1,0 +1,128 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: ezpay-account-balance-updater-job-docker-build-push
+    source: ezpay-account-balance-updater-job-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+  - pipeline: ezpay-api-svc-docker-build-push
+    source: ezpay-api-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+  - pipeline: ezpay-email-notifications-docker-build-push
+    source: ezpay-email-notifications-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+  - pipeline: ezpay-erp-integration-svc-docker-build-push
+    source: ezpay-erp-integration-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+  - pipeline: ezpay-merchant-ops-svc-docker-build-push
+    source: ezpay-merchant-ops-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+  - pipeline: ezpay-payfac-notifications-docker-build-push
+    source: ezpay-payfac-notifications-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+  - pipeline: ezpay-payment-ops-svc-docker-build-push
+    source: ezpay-payment-ops-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+  - pipeline: ezpay-payments-svc-docker-build-push
+    source: ezpay-payments-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+  - pipeline: ezpay-transaction-records-svc-docker-build-push
+    source: ezpay-transaction-records-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+  - pipeline: wepay-integration-svc-docker-build-push
+    source: wepay-integration-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+
+variables:
+- group: helm-chart-svc-principal-config
+
+stages:
+- stage: DEV_Ezpay_Helm_Deploy
+  displayName: DEV - Ezpay Svcs Helm Deploy
+  dependsOn: []
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-dev
+    dependsOn: []
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ezpay-dev
+    - template: helm-variables-dev.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              env: $(ENV)
+              # EVENTS SVC PARAMS
+              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
+              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
+              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
+              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
+              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
+              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
+              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
+              eventsSvcConfigMongoDbConnString: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING)
+              eventsSvcConfigMongoDbName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE)
+              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
+              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
+              eventsSvcConfigServiceBusConnectionString: $(EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING)
+              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              # STATIC WEB FILES SVC PARAMS
+              staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
+              staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
+              staticWebFilesSvcResourceLimitsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU)
+              staticWebFilesSvcResourceLimitsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY)
+              staticWebFilesSvcResourceRequestsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU)
+              staticWebFilesSvcResourceRequestsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY)
+              staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
+              staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
+              staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)

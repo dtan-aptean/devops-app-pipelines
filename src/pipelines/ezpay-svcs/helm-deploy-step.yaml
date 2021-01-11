@@ -1,0 +1,933 @@
+    # ACCT_BALANCE_JOB
+    ACCT_BALANCE_JOB_IMAGE_TAG: ${{ parameters.acctBalanceJobImageTag }}
+    ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.acctBalanceSvcImageRepositoryName }}
+
+    # EZPAY_API_SVC
+    EZPAY_API_SVC_IMAGE_TAG: ${{ parameters.ezpayApiSvcImageTag }}
+    EZPAY_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.ezpayApiSvcImageRepositoryName }}
+
+    # APTEANPAY_JS_LIB
+    APTEANPAY_JS_LIB_IMAGE_TAG: ${{ parameters.apteanpayJsLibImageTab }}
+    APTEANPAY_JS_LIB_IMAGE_REPOSITORY_NAME: ${{ parameters.apteanpayJsLibImageRepositoryName }}
+
+    # EMAIL_NOTIFICATION_SVC
+    EMAIL_NOTIFICATION_SVC_IMAGE_TAG: ${{ parameters.emailNotificationSvcImageTag }}
+    EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.emailNotificationSvcImageRepositoryName }}
+
+    # ERP_INTEGRATION_SVC
+    ERP_INTEGRATION_SVC_IMAGE_TAG: ${{ parameters.erpIntegrationSvcImageTag }}
+    ERP_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.erpIntegrationSvcImageRepositoryName }}
+
+    # MERCHANT_OPS_SVC
+    MERCHANT_OPS_SVC_IMAGE_TAG: ${{ parameters.merchantOpsSvcImageTag }}
+    MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.merchantOpsSvcImageRepositoryName }}
+
+    # PAYFAC_NOTIFICATIONS_SVC
+    PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG: ${{ parameters.payfacNotificationsSvcImageTag }}
+    PAYFAC_NOTIFICATIONS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.payfacNotificationsSvcImageRepositoryName }}
+  
+    # PAYMENT_OPS_SVC
+    PAYMENT_OPS_SVC_IMAGE_TAG: ${{ parameters.paymentOpsSvcImageTag }}
+    PAYMENT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentOpsSvcImageRepositoryName }}
+
+    # PAYMENTS_SVC
+    PAYMENTS_SVC_IMAGE_TAG: ${{ parameters.paymentsSvcImageTag }}
+    PAYMENTS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentsSvcImageRepositoryName }}
+
+    # TXN_RECORDS_SVC
+    TXN_RECORDS_SVC_IMAGE_TAG: ${{ parameters.txnRecordsSvcImageTag }}
+    TXN_RECORDS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.txnRecordsSvcImageRepositoryName }}
+
+    # WEPAY_INTEGRATION_SVC
+    WEPAY_INTEGRATION_SVC_IMAGE_TAG: ${{ parameters.wepayIntegrationSvcImageTag }}
+    WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.wepayIntegrationSvcImageRepositoryName }}
+
+parameters:
+  serviceConnection: ''
+  svcPrincipalClientId: ''
+  svcPrincipalSecret: ''
+  azureTenantId: ''
+  aksName: ''
+  aksResourceGroup: ''
+  containerRegistryName: ''
+  chartRepositoryName: ''
+  chartName: ''
+  helmReleaseName: ''
+  k8sNamespace: ''
+  env: ''
+  # ACCOUNT BALANCE UPDATE JOB - acctBalanceSvc
+  acctBalanceJobImageRepositoryName: ''
+  acctBalanceJobImageTag: ''
+  # EZPAY API SVC - ezpayApiSvc
+  ezpayApiSvcImageRepositoryName: ''
+  ezpayApiSvcImageTag: ''
+  # APTEANPAY JS LIB - apteanpayJsLib
+  apteanpayJsLibImageRepositoryName: ''  
+  apteanpayJsLibImageTab: ''
+  # EMAIL NOTIFICATION SVC - emailNotificationSvc
+  emailNotificationSvcImageRepositoryName: ''
+  emailNotificationSvcImageTag: ''
+  # ERP INTEGRATION SVC- erpIntegrationSvc
+  erpIntegrationSvcImageRepositoryName: ''
+  erpIntegrationSvcImageTag: ''
+  # MERCHANT OPS SVC - merchantOpsSvc
+  merchantOpsSvcImageRepositoryName: ''
+  merchantOpsSvcImageTag: ''
+  # PAYFAC NOTIFICATIONS SVC - payfacNotificationsSvc
+  payfacNotificationsSvcImageRepositoryName: ''
+  payfacNotificationsSvcImageTag: ''
+  # PAYMENT OPS SVC - paymentOpsSvc
+  paymentOpsSvcImageRepositoryName: ''
+  paymentOpsSvcImageTag: ''
+  # PAYMENTS SVC - paymentsSvc
+  paymentsSvcImageRepositoryName: ''
+  paymentsSvcImageTag: ''
+  # PAYMENTS RETRY JOB
+  
+  # TRANSACTION RECORDS SVC - txnRecordsSvc
+  txnRecordsSvcImageRepositoryName: ''
+  txnRecordsSvcImageTag: ''
+  # TRANSACTION RECORDS RETRIEVE JOB
+
+  # TRANSACTION RECORDS STATEMENT JOB
+
+  # WEPAY INTEGRATION SVC - wepayIntegrationSvc
+  wepayIntegrationSvcImageRepositoryName: ''
+  wepayIntegrationSvcImageTag: ''
+
+# ACCT_BALANCE_JOB
+# EZPAY_API_SVC
+# APTEANPAY_JS_LIB
+# EMAIL_NOTIFICATION_SVC
+# ERP_INTEGRATION_SVC
+# MERCHANT_OPS_SVC
+# PAYFAC_NOTIFICATIONS_SVC
+# PAYMENT_OPS_SVC
+# PAYMENTS_SVC
+# TXN_RECORDS_SVC
+# WEPAY_INTEGRATION_SVC
+
+steps:
+- pwsh: |
+    $env:HELM_EXPERIMENTAL_OCI = 1
+
+    az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+
+    $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
+
+    $env:SP_SECRET | helm registry login $fullRegistryName `
+      --username $env:SP_CLIENT_ID `
+      --password-stdin
+
+    $latestHelmChart = az acr repository show-tags `
+      --name $env:CONTAINER_REGISTRY_NAME `
+      --repository $env:CHART_REPOSITORY_NAME `
+      --top 1 `
+      --orderby time_desc | ConvertFrom-Json
+
+    Write-Host ""
+    $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
+    Write-Host "fullChartName: $fullChartName"
+
+    helm chart pull $fullChartName
+
+    Write-Host ""
+    helm chart export $fullChartName --destination .
+
+    # ACCOUNT BALANCE UPDATER JOB SVC
+    if ($env:ACCT_BALANCE_JOB_IMAGE_TAG)
+    {
+      Write-Host Using configured events-svc tag: $env:ACCT_BALANCE_JOB_IMAGE_TAG
+      $latestEventsSvcTag = $env:ACCT_BALANCE_JOB_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest events-svc tag.
+      $latestEventsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # EZPAY API SVC
+    if ($env:EZPAY_API_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured static-web-files-svc tag: $env:EZPAY_API_SVC_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:EZPAY_API_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest static-web-files-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_API_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # APTEANPAY JS LIB
+    if ($env:APTEANPAY_JS_LIB_IMAGE_TAG)
+    {
+      Write-Host Using configured static-web-files-svc tag: $env:APTEANPAY_JS_LIB_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:APTEANPAY_JS_LIB_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest static-web-files-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:APTEANPAY_JS_LIB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # EMAIL NOTIFICATION SVC
+    if ($env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured static-web-files-svc tag: $env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest static-web-files-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # ERP INTEGRATION SVC
+    if ($env:ERP_INTEGRATION_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured static-web-files-svc tag: $env:ERP_INTEGRATION_SVC_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:ERP_INTEGRATION_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest static-web-files-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ERP_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # MERCHANT OPS SVC
+    if ($env:MERCHANT_OPS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured static-web-files-svc tag: $env:MERCHANT_OPS_SVC_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:MERCHANT_OPS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest static-web-files-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # PAYFAC NOTIFICATIONS SVC
+    if ($env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured static-web-files-svc tag: $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest static-web-files-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # PAYMENT OPS SVC
+    if ($env:PAYMENT_OPS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured static-web-files-svc tag: $env:PAYMENT_OPS_SVC_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:PAYMENT_OPS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest static-web-files-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENT_OPS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # PAYMENTS SVC
+    if ($env:PAYMENTS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured static-web-files-svc tag: $env:PAYMENTS_SVC_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:PAYMENTS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest static-web-files-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENTS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # TRANSACTION RECORDS SVC
+    if ($env:TXN_RECORDS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured static-web-files-svc tag: $env:TXN_RECORDS_SVC_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:TXN_RECORDS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest static-web-files-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:TXN_RECORDS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # EZPAY API SVC
+    if ($env:WEPAY_INTEGRATION_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured static-web-files-svc tag: $env:WEPAY_INTEGRATION_SVC_IMAGE_TAG
+      $latestStaticWebFilesSvcTag = $env:WEPAY_INTEGRATION_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest static-web-files-svc tag.
+      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }                                    
+
+    @"
+    commonLabels:
+      platformServiceType: value-add
+      platformService: payments
+      env: DEV
+
+    # Common Configurations
+    config:
+      serviceBus:
+        connectionString: ""
+        eventTopicConnectionString: ""
+        eventsTopic: "sbt-eastus-cmn-tech-platform-events"
+      wepay:
+        baseUrl: "https://stage-api.wepay.com"
+        # Dotnet services add protocol in templates.
+        grpcUrl: "trendy-toad-wepay-integration-svc:4100"
+        interNamespaceGrpcUrl: "trendy-toad-wepay-integration-svc.ezpay-dev.svc.cluster.local:4100"    
+        apiVersion: "3.0"
+        appID: "596464"
+        appToken: ""
+        uploadBaseUrl: "https://stage-uploads.wepay.com"
+      merchantPortalUrl: https://dev.merchant.apteanpay.com
+      payerPortalUrl: https://dev.payer.apteanpay.com
+
+    accountBalanceUpdatesJob:
+      name: ezpay-account-balance-updater-job
+      image:
+        repository: acreastusdevapteancr.azurecr.io/ezpay-account-balance-updater-job
+        tag: 202010.22
+        pullPolicy: IfNotPresent
+      deployment:
+        replicas: 1
+        labels: {}
+      nodeSelector: {}
+      pod:
+        resources: {}
+        labels: {}
+        annotations: {}
+      config:
+        cronSchedule: "42 * * * *"
+        successfulJobsHistoryLimit: 3
+        failedJobsHistoryLimit: 3
+
+    ezpayApiSvc:
+      name: ezpay-api-svc
+      image:
+        repository: acreastusdevapteancr.azurecr.io/ezpay-api-svc
+        tag: 202008.109
+        pullPolicy: IfNotPresent
+      service:
+        type: ClusterIP
+        port: 80
+        targetPort: 4000
+        annotations: {}
+        labels: {}
+        portName: ""
+      deployment:
+        replicas: 1
+        labels: {}
+      nodeSelector: {}
+      pod:
+        containerPort: 4000
+        resources: {}
+        labels: {}
+        annotations: {}
+        livenessProbe:
+          enabled: true
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          scheme: HTTP
+          grpcPort: 4191
+          grpcPath: /live
+          gqlPort: 4000
+          gqlPath: /.well-known/apollo/server-health
+      kongIngress:
+        name: ezpay-api-svc-do-not-preserve-host
+        route:
+          preserve_host: false
+          headers:
+            x-azure-fdid:
+            - ee747644-4fcd-4532-9270-2598f7e3fa5f
+        upstream:
+          host_header: ezpay-api-svc.ezpay-dev.svc
+      ingress:
+        annotations:
+          konghq.com/strip-path: "true"
+          kubernetes.io/ingress.class: kong-dev
+          plugins.konghq.com: whitelist-fd
+          configuration.konghq.com: ezpay-api-svc-do-not-preserve-host
+        path: /ezpay-api-svc
+        backendServicePort: 80
+      config:
+        cosmos:
+          connectionString: ""
+          databaseName: "ezpay-api-svc"
+          containerName: "data-projections"
+        serviceBus:
+          platformEventsSubscription: "ezpay-api-svc"
+        appInsights:
+          instrumentationKey: "3528384f-4687-44af-b36a-4530e1fef55f"
+        b2c:
+          clientId: "9a9663af-8a42-4d96-ba08-a3b3a44d4483"
+          domainHost: "apteaniddev.b2clogin.com"
+          tenantId: "a102b6c9-3b1d-486c-ae69-08147a9d76e5"
+          policyName: "B2C_1_su_si_2_1"
+        subsMgmt:
+          grpcUrl: "subs-mgmt-api-svc-grpc.subs-mgmt-dev.svc.cluster.local:80"
+          apiKey: ""
+          serviceId: "988afa34-0079-4a79-868c-44c9cca11931"
+        cosmosMongo:
+          connectionString: ""
+          databaseName: "ezpay-domain-svc"
+          idempotencyCollection: "ezpay-idempotency"
+        paymentsPlatformFromPhoneNumber: "(404) 383-9485"
+        paymentsPlatformFromEmail: "noreply@apteanpay.com"
+        processPlatformEvents: true
+        blobStorageUrl: "https://dev.merchant.apteanpay.com/"
+        encryptPayerUrlToken: true
+        encryptionKey: "5158cca196864b89a9a3505719882516"
+        ezpayTOSVersion: "1"
+        statementContainerName: "statements"
+        invoiceContainerName: "invoice-uploads"
+        invoiceBlobConnectionString: ""
+        urlShortenerUrl: "https://prod-51.eastus.logic.azure.com:443/workflows/1591229dd36845eebcb01480f5abffcd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CnBTUYbjpkyOwDzBERPQjLok5BqvVJoi5aWBlLnVOKQ"
+        productAPIsOnly: false
+        apiKind: ""
+        nodejsEnv: ""
+
+    apteanpayJsLib:
+      name: apteanpay-js-lib
+      image:
+        repository: acreastusshrapteancr.azurecr.io/aptean-pay-lib
+        tag: 202009.101.0-late.sep.2020
+        pullPolicy: IfNotPresent
+      service:
+        type: ClusterIP
+        port: 80
+        targetPort: 6000
+        annotations: {}
+        labels: {}
+        portName: ""
+      deployment:
+        replicas: 1
+        labels: {}
+      nodeSelector: {}
+      pod:
+        containerPort: 6000
+        resources: {}
+        labels: {}
+        annotations: {}
+      kongIngress:
+        name: apteanpay-js-lib-do-not-preserve-host
+        route:
+          preserve_host: false
+          strip_path: true
+          headers:
+            x-azure-fdid:
+            - ee747644-4fcd-4532-9270-2598f7e3fa5f
+        upstream:
+          host_header: apteanpay-js-lib.ezpay-dev.svc
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: kong-dev
+          plugins.konghq.com: whitelist-fd
+          configuration.konghq.com: apteanpay-js-lib-do-not-preserve-host
+        path: /apteanpay-js-lib
+        backendServicePort: 80
+
+    emailNotificationSvc:
+      name: ezpay-email-notification-svc
+      image:
+        repository: acreastusdevapteancr.azurecr.io/ezpay-email-notification-svc
+        tag: 202008.102
+        pullPolicy: IfNotPresent
+      deployment:
+        replicas: 1
+        labels: {}
+      nodeSelector: {} 
+      pod:
+        containerPort: 4120
+        resources: {}
+        labels: {}
+        annotations: {}
+        livenessProbe:
+          enabled: true
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          scheme: HTTP
+          port: 4120
+          path: /health/liveness  
+      config:
+        cosmos:
+          connectionString: ""
+          databaseName: "ezpay-domain-svc"
+          collectionName: "ezpay-email-notifications"
+        serviceBus:
+          platformEventsSubscription: "ezpay-email-notification-svc"
+        appInsights:
+          instrumentationKey: "7b1aca80-27bd-4bcb-841f-b21eef172fcb"
+        broadcastPlatformEvents: true
+        emailTemplateLogoUrl: "https://dev.payer.apteanpay.com/logo.png"
+        platformEmail: "noreply@apteanpay.com"
+        platformName: "Aptean Pay"
+        processPlatformEvents: true
+        nodejsEnv: ""
+
+    erpIntegrationSvc:
+      name: ezpay-erp-integration-svc
+      image:
+        repository: acreastusdevapteancr.azurecr.io/ezpay-erp-integration-svc
+        tag: 202010.100
+        pullPolicy: IfNotPresent
+      service:
+        type: ClusterIP
+        port: 80
+        targetPort: 4300
+        annotations: {}
+        labels: {}
+        portName: http
+
+      deployment:
+        replicas: 1
+        labels: {}
+
+      nodeSelector: {}  
+
+      pod:
+        containerPort: 4300
+        resources: {}
+        labels: {}
+        annotations: {}
+
+      kongIngress:
+        name: ezpay-erp-integration-svc-do-not-preserve-host
+        route:
+          preserve_host: false
+          strip_path: true
+          headers:
+            x-azure-fdid:
+            - ee747644-4fcd-4532-9270-2598f7e3fa5f
+        upstream:
+          host_header: ezpay-erp-integration-svc.ezpay-dev.svc
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: kong-dev
+          plugins.konghq.com: whitelist-fd
+          configuration.konghq.com: ezpay-erp-integration-svc-do-not-preserve-host
+        path: /ezpay-erp-integration-svc
+        backendServicePort: 80
+
+      config:
+        ezpay:
+          gqlUrl: "https://dev.api.apteanpay.com/"
+        syncTimeout: "200"
+        nodejsEnv: ""
+
+    merchantOpsSvc:
+      name: ezpay-merchant-ops-svc
+      image:
+        repository: acreastusdevapteancr.azurecr.io/ezpay-merchant-ops-svc
+        tag: 202008.106
+        pullPolicy: IfNotPresent
+      deployment:
+        replicas: 1
+        labels: {}
+      nodeSelector: {}  
+      pod:
+        containerPort: 5100
+        resources: {}
+          # limits:
+          #   cpu: 200m
+          #   memory: 256Mi
+          # requests:
+          #   cpu: 10m
+          #   memory: 10Mi
+        labels: {}
+        annotations: {}
+        livenessProbe:
+          enabled: true
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          path: /health/liveness
+        readinessProbe:
+          enabled: true
+          initialDelaySeconds: 15
+          periodSeconds: 30
+          path: /health/readiness
+
+      config:
+        cosmos:
+          connectionString: ""
+          databaseName: "ezpay-merchant-ops-svc"
+          containerName: "data-projections"
+        serviceBus:
+          platformEventsSubscription: "ezpay-merchant-operations-svc"
+        appInsights:
+          instrumentationKey: "8545662b-a19e-442b-91a0-eda0bb2d11b2"
+        enableAppInsights: true
+        enableK8sAppInsights: false    
+
+    payfacNotificationsSvc:
+      name: ezpay-payfac-notifications-svc
+      image:
+        repository: acreastusdevapteancr.azurecr.io/ezpay-payfac-notifications-svc
+        tag: 202008.104
+        pullPolicy: IfNotPresent
+
+      commonLabels:
+        platformServiceType: value-add
+        platformService: payments
+        env: DEV
+
+      deployment:
+        replicas: 1
+        labels: {}
+
+      nodeSelector: {}  
+
+      pod:
+        containerPort: 4110
+        resources: {}
+          # limits:
+          #   cpu: 200m
+          #   memory: 256Mi
+          # requests:
+          #   cpu: 10m
+          #   memory: 10Mi
+        labels: {}
+        annotations: {}
+        livenessProbe: 
+          enabled: true
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          path: /health/liveness
+        readinessProbe:
+          enabled: true
+          initialDelaySeconds: 15
+          periodSeconds: 30
+          path: /health/readiness 
+
+      config:
+        serviceBus:
+          payfacTopicConnectionString: ""
+          payfacNotificationSubscription: "ezpay-payfac-notifications-svc"
+          payfacNotificationTopic: "sbt-eastus-dev-wepay-notifications"
+        appInsights:
+          instrumentationKey: "b5b85e80-0689-4738-bddf-1ddfafd5fe34"
+        ezpayWebHookUrl: "https://dev.payfac-notifications.apteanpay.com/?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=o02Ai-_MbJInBxUVQKgCuV0Wb-4pUTvwXcNm1SDXrp4"
+        processPlatformEvents: true
+        processNotificationEvents: true
+        broadcastPlatformEvents: true
+        nodejsEnv: ""
+
+    paymentOpsSvc:
+      name: ezpay-payment-ops-svc
+      image:
+        repository: acreastusdevapteancr.azurecr.io/ezpay-payment-ops-svc
+        tag: 202008.107
+        pullPolicy: IfNotPresent
+
+      commonLabels:
+        platformServiceType: value-add
+        platformService: payments
+        env: DEV
+
+      deployment:
+        replicas: 1
+        labels: {}
+
+      nodeSelector: {}  
+
+      pod:
+        containerPort: 5110
+        resources: {}
+          # limits:
+          #   cpu: 200m
+          #   memory: 256Mi
+          # requests:
+          #   cpu: 10m
+          #   memory: 10Mi
+        labels: {}
+        annotations: {}
+        livenessProbe: 
+          enabled: true
+          initialDelaySeconds: 180
+          periodSeconds: 30
+          path: /health/liveness
+        readinessProbe:
+          enabled: true
+          initialDelaySeconds: 190
+          periodSeconds: 30
+          path: /health/readiness
+
+      config:
+        cosmos:
+          connectionString: ""
+          databaseName: "ezpay-domain-svc"
+          collectionName: "ezpay-payment-ops"
+        serviceBus:
+          emailReqsQueueConnString: ""
+          smsReqsQueueConnString: ""
+          platformEventsSubscription: "ezpay-payment-operations-svc"
+          emailReqsQueue: "sbq-eastus-dev-email-reqs"
+          smsReqsQueue: "sbq-eastus-dev-sms-reqs"
+        enableAppInsights: false
+        enableK8sAppInsights: false
+
+    paymentsSvc:
+      name: ezpay-payments-svc  
+      image:
+        repository: acreastusdevapteancr.azurecr.io/ezpay-payments-svc
+        tag: 202008.108
+        pullPolicy: IfNotPresent
+
+      commonLabels:
+        platformServiceType: value-add
+        platformService: payments
+        env: DEV
+
+      deployment:
+        replicas: 1
+        labels: {}
+
+      nodeSelector: {}  
+
+      pod:
+        containerPort: 5120
+        resources: {}
+          # limits:
+          #   cpu: 200m
+          #   memory: 256Mi
+          # requests:
+          #   cpu: 10m
+          #   memory: 10Mi
+        labels: {}
+        annotations: {}
+        livenessProbe: 
+          enabled: true
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          path: /health/liveness
+        readinessProbe:
+          enabled: true
+          initialDelaySeconds: 15
+          periodSeconds: 30
+          path: /health/readiness  
+
+      config:
+        # Valid values of execution mode:
+        #   service 
+        #   single-execution (retry job)
+        executionMode: "service"
+        cosmos:
+          connectionString: ""
+          databaseName: "ezpay-payments-svc"
+          containerName: "data-projections"
+        cosmosMongo:
+          connectionString: ""
+          databaseName: "ezpay-domain-svc"
+          collectionName: "ezpay-payments"
+        serviceBus:
+          platformEventsSubscription: "ezpay-payments-svc"
+        cronSchedule: "*/5 * * * *"
+        successfulJobsHistoryLimit: 3
+        failedJobsHistoryLimit: 3
+        enableAppInsights: false
+        enableK8sAppInsights: false
+      retryJob:
+        name: ezpay-payments-retry-job
+
+    transactionRecordsSvc:
+      name: ezpay-transaction-records-svc
+      image:
+        repository: acreastusdevapteancr.azurecr.io/ezpay-transaction-records-svc
+        tag: 202008.104
+        pullPolicy: IfNotPresent
+
+      commonLabels:
+        platformServiceType: value-add
+        platformService: payments
+        env: DEV
+
+      deployment:
+        replicas: 1
+        labels: {}
+
+      nodeSelector: {}  
+
+      pod:
+        containerPort: 4130
+        resources: {}
+          # limits:
+          #   cpu: 200m
+          #   memory: 256Mi
+          # requests:
+          #   cpu: 10m
+          #   memory: 10Mi
+        labels: {}
+        annotations: {}
+        livenessProbe:
+          enabled: true
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          scheme: HTTP
+          port: 4120
+          path: /health/liveness
+
+      transactionRetrieveJob:
+        name: ezpay-transaction-records-retrieve-job
+        versionName: EZPAY_TRANSACTION_RECORDS_RETRIEVE_JOB_VERSION
+        executionMode: retrieve-tx-records
+
+      statementsJob:
+        name: ezpay-transaction-records-stmts-job
+        versionName: EZPAY_TRANSACTION_RECORDS_STMTS_VERSION
+        executionMode: generate-statements
+      
+      config:
+        executionMode: "event-listener"
+        broadcastPlatformEvents: true
+        platformEmail: "noreply@apteanpay.com"
+        cosmos:
+          connectionString: ""
+          databaseName: "ezpay-domain-svc"
+          collectionName: "ezpay-transaction-records"
+        serviceBus:
+          platformEventsSubscription: "ezpay-transaction-records-svc"
+        appInsights:
+          instrumentationKey: "1bf392e6-c480-43ba-8e26-eab888c17f53"
+        processPlatformEvents: true
+        statement:
+          containerName: "statements"
+          period: "this-month"
+          blobConnectionString: ""
+        cronSchedule: "*/5 * * * *"
+        successfulJobsHistoryLimit: 3
+        failedJobsHistoryLimit: 3
+        nodejsEnv: ""
+
+    wepayIntegrationSvc:
+      name: wepay-integration-svc
+      image:
+        repository: acreastusdevapteancr.azurecr.io/wepay-integration-svc
+        tag: 202008.106
+        pullPolicy: IfNotPresent
+      service:
+        type: ClusterIP
+        port: 4100
+        targetPort: 4100
+        annotations: {}
+        labels: {}
+        portName: http2
+
+      deployment:
+        replicas: 1
+        labels: {}
+
+      nodeSelector: {}  
+
+      pod:
+        containerPort: 4100
+        resources: {}
+          # limits:
+          #   cpu: 200m
+          #   memory: 256Mi
+          # requests:
+          #   cpu: 10m
+          #   memory: 10Mi
+        labels: {}
+        annotations: {}
+
+      config:
+        nodejsEnv: ""
+
+    "@ | Out-File -FilePath ./deploy-values.yaml
+
+    # this line for debugging, will print yaml to console
+    # Get-Content -Path ./deploy-values.yaml
+
+    Write-Host ""
+    Write-Host "Helm deploy prep complete!"
+  displayName: Prep Helm Deploy
+  name: prepHelmDeploy
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  failOnStderr: true
+  env:
+    SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
+    SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+    AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
+    CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
+    CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
+    CHART_NAME: ${{ parameters.chartName }}
+    ENV: ${{ parameters.env }}
+    # ACCT_BALANCE_JOB
+    ACCT_BALANCE_JOB_IMAGE_TAG: ${{ parameters.acctBalanceJobImageTag }}
+    ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.acctBalanceSvcImageRepositoryName }}
+
+    # EZPAY_API_SVC
+    EZPAY_API_SVC_IMAGE_TAG: ${{ parameters. }}
+    EZPAY_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.ezpayApiSvcImageRepositoryName }}
+
+    # APTEANPAY_JS_LIB
+    APTEANPAY_JS_LIB_IMAGE_TAG: ${{ parameters. }}
+    APTEANPAY_JS_LIB_IMAGE_REPOSITORY_NAME: ${{ parameters.apteanpayJsLibImageRepositoryName }}
+
+    # EMAIL_NOTIFICATION_SVC
+    EMAIL_NOTIFICATION_SVC_IMAGE_TAG: ${{ parameters. }}
+    EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.emailNotificationSvcImageRepositoryName }}
+
+    # ERP_INTEGRATION_SVC
+    ERP_INTEGRATION_SVC_IMAGE_TAG: ${{ parameters. }}
+    ERP_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.erpIntegrationSvcImageRepositoryName }}
+
+    # MERCHANT_OPS_SVC
+    MERCHANT_OPS_SVC_IMAGE_TAG: ${{ parameters. }}
+    MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.merchantOpsSvcImageRepositoryName }}
+
+    # PAYFAC_NOTIFICATIONS_SVC
+    PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG: ${{ parameters. }}
+    PAYFAC_NOTIFICATIONS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.payfacNotificationsSvcImageRepositoryName }}
+
+    # PAYMENT_OPS_SVC
+    PAYMENT_OPS_SVC_IMAGE_TAG: ${{ parameters. }}
+    PAYMENT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentOpsSvcImageRepositoryName }}
+
+    # PAYMENTS_SVC
+    PAYMENTS_SVC_IMAGE_TAG: ${{ parameters. }}
+    PAYMENTS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentsSvcImageRepositoryName }}
+
+    # TXN_RECORDS_SVC
+    TXN_RECORDS_SVC_IMAGE_TAG: ${{ parameters. }}
+    TXN_RECORDS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.txnRecordsSvcImageRepositoryName }}
+
+    # WEPAY_INTEGRATION_SVC
+    WEPAY_INTEGRATION_SVC_IMAGE_TAG: ${{ parameters. }}
+    WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.wepayIntegrationSvcImageRepositoryName }}
+
+- task: Kubernetes@1
+  displayName: Kubectl Version
+  name: kubectlVersion
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'version'
+    arguments: '--short'
+
+- task: HelmInstaller@1
+  displayName: Helm Installer
+  name: helmInstaller
+  inputs:
+    helmVersionToInstall: latest
+
+- task: HelmDeploy@0
+  displayName: Helm Deploy
+  name: helmDeploy
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'upgrade'
+    chartType: 'FilePath'
+    chartPath: ./${{ parameters.chartName }}
+    releaseName: ${{ parameters.helmReleaseName }}
+    valueFile: ./deploy-values.yaml
+    install: true
+    waitForExecution: false
+    failOnStderr: false
