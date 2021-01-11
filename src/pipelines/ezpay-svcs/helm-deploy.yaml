@@ -2,62 +2,8 @@ trigger: none
 
 resources:
   pipelines:
-  - pipeline: ezpay-account-balance-updater-job-docker-build-push
-    source: ezpay-account-balance-updater-job-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
-  - pipeline: ezpay-api-svc-docker-build-push
-    source: ezpay-api-svc-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
-  - pipeline: ezpay-email-notifications-docker-build-push
-    source: ezpay-email-notifications-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
-  - pipeline: ezpay-erp-integration-svc-docker-build-push
-    source: ezpay-erp-integration-svc-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
-  - pipeline: ezpay-merchant-ops-svc-docker-build-push
-    source: ezpay-merchant-ops-svc-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
-  - pipeline: ezpay-payfac-notifications-docker-build-push
-    source: ezpay-payfac-notifications-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
-  - pipeline: ezpay-payment-ops-svc-docker-build-push
-    source: ezpay-payment-ops-svc-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
-  - pipeline: ezpay-payments-svc-docker-build-push
-    source: ezpay-payments-svc-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
-  - pipeline: ezpay-transaction-records-svc-docker-build-push
-    source: ezpay-transaction-records-svc-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
-  - pipeline: wepay-integration-svc-docker-build-push
-    source: wepay-integration-svc-docker-build-push
+  - pipeline: ezpay-payment-cancelation-retry-job-docker-build-push
+    source: ezpay-payment-cancelation-retry-job-docker-build-push
     trigger:
       branches:
         include:
@@ -101,28 +47,17 @@ stages:
               chartName: $(CHART_NAME)
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
+              k8sNamespaceJobs: $(K8S_NAMESPACE_JOBS)
               env: $(ENV)
-              # EVENTS SVC PARAMS
-              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
-              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
-              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
-              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
-              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
-              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
-              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
-              eventsSvcConfigMongoDbConnString: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING)
-              eventsSvcConfigMongoDbName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE)
-              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
-              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
-              eventsSvcConfigServiceBusConnectionString: $(EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING)
-              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
-              # STATIC WEB FILES SVC PARAMS
-              staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
-              staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
-              staticWebFilesSvcResourceLimitsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU)
-              staticWebFilesSvcResourceLimitsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY)
-              staticWebFilesSvcResourceRequestsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU)
-              staticWebFilesSvcResourceRequestsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY)
-              staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
-              staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
-              staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              # Common Configs
+              wepayGrpcUrl: $(WEPAY_GRPC_URL)
+              wepayGrpcUrlInternamespace: $(WEPAY_GRPC_URL_INTER_NAMESPACE)
+              # Cancel Payment Retry Job
+              paymentCancelRetryJobImageRepositoryName: $(PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME)
+              paymentCancelRetryJobConfigMongoDbConnString: $(PAYMENT_CANCEL_RETRY_JOB_MONGODB_CONN_STRING)
+              paymentCancelRetryJobConfigMongoDbDatabase: $(PAYMENT_CANCEL_RETRY_JOB_MONGODB_DATABASE)
+              paymentCancelRetryJobConfigMongoDbCollectionName: $(PAYMENT_CANCEL_RETRY_JOB_MONGODB_COLLECTION_NAME)
+              paymentCancelRetryJobConfigCronSchedule: $(PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE)
+              paymentCancelRetryJobConfigSuccessfulJobHistoryLimit: $(PAYMENT_CANCEL_RETRY_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT)
+              paymentCancelRetryJobConfigFailedJobHistoryLimit: $(PAYMENT_CANCEL_RETRY_JOB_FAILED_JOB_HISTORY_LIMIT)
+              paymentCancelRetryJobNodeSelectorPool: $(PAYMENT_CANCEL_RETRY_JOB_NODE_SELECTOR_POOL)

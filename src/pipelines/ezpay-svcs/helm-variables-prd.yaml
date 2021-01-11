@@ -1,14 +1,16 @@
 variables:
 - name: K8S_NAMESPACE
-  value: foundational-svcs-prd
+  value: ezpay-prd-live
+- name: K8S_NAMESPACE_JOBS
+  value: ezpay-jobs-prd-live
 - name: CHART_NAME
-  value: foundational-svcs
+  value: ezpay-svcs
 - name: CONTAINER_REGISTRY_NAME
   value: acreastusprdapteancr
 - name: CHART_REPOSITORY_NAME
-  value: "helm/foundational-svcs"
+  value: "helm/ezpay-svcs"
 - name: HELM_RELEASE_NAME
-  value: vetoed-blackbird
+  value: inspired-mockingbird
 - name: ENV
   value: PRD
 - name: FRONT_DOOR_ID
@@ -19,33 +21,14 @@ variables:
   value: aks-eastus-prd-apteank8s
 - name: AKS_RESOURCE_GROUP
   value: rg-eastus-prd-apteank8s
-# EVENTS SVC PARAMS
-- name: EVENTS_SVC_IMAGE_REPOSITORY_NAME
-  value: events-svc
-- name: EVENTS_SVC_RESOURCE_LIMITS_CPU
-  value: 1000m
-- name: EVENTS_SVC_RESOURCE_LIMITS_MEMORY
-  value: 512Mi
-- name: EVENTS_SVC_RESOURCE_REQUESTS_CPU
-  value: 10m
-- name: EVENTS_SVC_RESOURCE_REQUESTS_MEMORY
-  value: 10Mi
-- name: EVENTS_SVC_REPLICAS
-  value: 1
-- name: EVENTS_SVC_NODE_SELECTOR_POOL
-  value: sharedsvcs
-# STATIC WEB FILES SVC PARAMS
-- name: STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME
-  value: static-web-files-svc
-- name: STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU
-  value: 100m
-- name: STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY
-  value: 128Mi
-- name: STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU
-  value: 10m
-- name: STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY
-  value: 10Mi
-- name: STATIC_WEB_FILES_SVC_REPLICAS
-  value: 2
-- name: STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL
-  value: sharedsvcs
+# PAYMENT CANCEL RETRY JOB 
+- name: PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME
+  value: ezpay-payment-cancelation-retry-job
+- name: PAYMENT_CANCEL_RETRY_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT
+  value: 3
+- name: PAYMENT_CANCEL_RETRY_JOB_FAILED_JOB_HISTORY_LIMIT
+  value: 3
+- name: PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE
+  value: "38 * * * *"
+- name: PAYMENT_CANCEL_RETRY_JOB_NODE_SELECTOR_POOL
+  value: sharedsvc
