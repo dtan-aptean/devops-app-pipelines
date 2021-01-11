@@ -58,6 +58,13 @@ parameters:
   # ACCOUNT BALANCE UPDATE JOB - acctBalanceSvc
   acctBalanceJobImageRepositoryName: ''
   acctBalanceJobImageTag: ''
+  serviceBusConnectionString: ''
+  # acctBalanceJobSbEventsTopic: ''
+  # acctBalanceJobWepayGrpcUrl: ''
+  acctBalanceJobSuccessfulJobHistoryLimit: ''
+  acctBalanceJobFailedJobHistoryLimit: ''
+  acctBalanceJobCronSchedule: ''
+  acctBalanceJobNodeSelectorPool: ''  
   # EZPAY API SVC - ezpayApiSvc
   ezpayApiSvcImageRepositoryName: ''
   ezpayApiSvcImageTag: ''
@@ -265,124 +272,107 @@ steps:
     # Common Configurations
     config:
       serviceBus:
-        connectionString: ""
-        eventTopicConnectionString: ""
-        eventsTopic: "sbt-eastus-cmn-tech-platform-events"
+        connectionString: "$env:SB_CONN_STRING"
+        eventTopicConnectionString: "$env:SB_PLATFORM_EVENTS_TOPIC_CONN_STRING"
+        eventsTopic: "$env:SB_EVENTS_TOPIC"
+      wepay:
       wepay:
         baseUrl: "https://stage-api.wepay.com"
-        # Dotnet services add protocol in templates.
-        grpcUrl: "trendy-toad-wepay-integration-svc:4100"
-        interNamespaceGrpcUrl: "trendy-toad-wepay-integration-svc.ezpay-dev.svc.cluster.local:4100"    
-        apiVersion: "3.0"
-        appID: "596464"
-        appToken: ""
+        grpcUrl: "$env:WEPAY_GRPC_URL"
+        interNamespaceGrpcUrl: "trendy-toad-wepay-integration-svc.ezpay-dev.svc.cluster.local:4100"        
+        apiVersion: "$env:WEPAY_API_VERSION"
+        appID: "$env:WEPAY_APP_ID"
+        appToken: "$env:WEPAY_APP_TOKEN"
         uploadBaseUrl: "https://stage-uploads.wepay.com"
       merchantPortalUrl: https://dev.merchant.apteanpay.com
       payerPortalUrl: https://dev.payer.apteanpay.com
 
     accountBalanceUpdatesJob:
-      name: ezpay-account-balance-updater-job
       image:
-        repository: acreastusdevapteancr.azurecr.io/ezpay-account-balance-updater-job
-        tag: 202010.22
-        pullPolicy: IfNotPresent
-      deployment:
-        replicas: 1
-        labels: {}
-      nodeSelector: {}
-      pod:
-        resources: {}
-        labels: {}
-        annotations: {}
-      config:
-        cronSchedule: "42 * * * *"
-        successfulJobsHistoryLimit: 3
-        failedJobsHistoryLimit: 3
+        repository: $env:ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME
+        tag: $env:ACCT_BALANCE_JOB_IMAGE_TAG
+      nodeSelector:
+        pool: "$env:ACCT_BALANCE_JOB_NODE_SELECTOR_POOL"
+      config: 
+        cronSchedule: $env:ACCT_BALANCE_JOB_CRON_SCHEDULE
+        successfulJobsHistoryLimit: $env:ACCT_BALANCE_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT
+        failedJobsHistoryLimit: $env:ACCT_BALANCE_JOB_FAILED_JOB_HISTORY_LIMIT
 
     ezpayApiSvc:
-      name: ezpay-api-svc
       image:
-        repository: acreastusdevapteancr.azurecr.io/ezpay-api-svc
-        tag: 202008.109
-        pullPolicy: IfNotPresent
-      service:
-        type: ClusterIP
-        port: 80
-        targetPort: 4000
-        annotations: {}
-        labels: {}
-        portName: ""
+        repository: $env:EZPAY_API_SVC_IMAGE_REPOSITORY_NAME
+        tag: $env:EZPAY_API_SVC_IMAGE_TAG
+
       deployment:
-        replicas: 1
-        labels: {}
-      nodeSelector: {}
+        replicas: $env:REPLICAS
+
+      nodeSelector:
+        pool: "$env:NODE_SELECTOR_POOL"
+
       pod:
-        containerPort: 4000
-        resources: {}
-        labels: {}
-        annotations: {}
-        livenessProbe:
-          enabled: true
-          initialDelaySeconds: 10
-          periodSeconds: 30
-          scheme: HTTP
-          grpcPort: 4191
-          grpcPath: /live
-          gqlPort: 4000
-          gqlPath: /.well-known/apollo/server-health
+        resources:
+          limits:
+            cpu: $env:RESOURCE_LIMITS_CPU
+            memory: $env:RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:RESOURCE_REQUESTS_CPU
+            memory: $env:RESOURCE_REQUESTS_MEMORY
+
       kongIngress:
-        name: ezpay-api-svc-do-not-preserve-host
         route:
-          preserve_host: false
           headers:
             x-azure-fdid:
-            - ee747644-4fcd-4532-9270-2598f7e3fa5f
+            - $env:FRONT_DOOR_ID
         upstream:
-          host_header: ezpay-api-svc.ezpay-dev.svc
+          host_header: $env:KONG_INGRESS_UPSTREAM_HOST_HEADER
+
       ingress:
         annotations:
-          konghq.com/strip-path: "true"
-          kubernetes.io/ingress.class: kong-dev
-          plugins.konghq.com: whitelist-fd
-          configuration.konghq.com: ezpay-api-svc-do-not-preserve-host
-        path: /ezpay-api-svc
-        backendServicePort: 80
+          kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
+
       config:
         cosmos:
-          connectionString: ""
-          databaseName: "ezpay-api-svc"
-          containerName: "data-projections"
+          connectionString: "$env:COSMOS_CONN_STRING"
+          databaseName: "$env:COSMOS_DATABASE"
+          containerName: "$env:COSMOS_CONTAINER"
         serviceBus:
-          platformEventsSubscription: "ezpay-api-svc"
+          platformEventsSubscription: "$env:SB_PLATFORM_EVENTS_SUBSCRIPTION"
         appInsights:
-          instrumentationKey: "3528384f-4687-44af-b36a-4530e1fef55f"
+          instrumentationKey: "$env:APP_INSIGHTS_INSTRUMENTATION_KEY"
         b2c:
-          clientId: "9a9663af-8a42-4d96-ba08-a3b3a44d4483"
-          domainHost: "apteaniddev.b2clogin.com"
-          tenantId: "a102b6c9-3b1d-486c-ae69-08147a9d76e5"
-          policyName: "B2C_1_su_si_2_1"
+          clientId: "$env:B2C_CLIENT_ID"
+          domainHost: "$env:B2C_DOMAIN_HOST"
+          tenantId: "$env:B2C_TENANT_ID"
+          policyName: "$env:B2C_POLICY_NAME"
         subsMgmt:
-          grpcUrl: "subs-mgmt-api-svc-grpc.subs-mgmt-dev.svc.cluster.local:80"
-          apiKey: ""
-          serviceId: "988afa34-0079-4a79-868c-44c9cca11931"
+          grpcUrl: "$env:SUBS_MGMT_GRPC_URL"
+          apiKey: "$env:SUBS_MGMT_API_KEY"
+          serviceId: "$env:SUBS_MGMT_SERVICE_ID"
+        wepay:
+          grpcUrl: "$env:WEPAY_GRPC_URL"
+          apiVersion: "$env:WEPAY_API_VERSION"
+          appID: "$env:WEPAY_APP_ID"
+          appToken: "$env:WEPAY_APP_TOKEN"
         cosmosMongo:
-          connectionString: ""
-          databaseName: "ezpay-domain-svc"
-          idempotencyCollection: "ezpay-idempotency"
-        paymentsPlatformFromPhoneNumber: "(404) 383-9485"
-        paymentsPlatformFromEmail: "noreply@apteanpay.com"
-        processPlatformEvents: true
-        blobStorageUrl: "https://dev.merchant.apteanpay.com/"
-        encryptPayerUrlToken: true
-        encryptionKey: "5158cca196864b89a9a3505719882516"
-        ezpayTOSVersion: "1"
-        statementContainerName: "statements"
-        invoiceContainerName: "invoice-uploads"
-        invoiceBlobConnectionString: ""
-        urlShortenerUrl: "https://prod-51.eastus.logic.azure.com:443/workflows/1591229dd36845eebcb01480f5abffcd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CnBTUYbjpkyOwDzBERPQjLok5BqvVJoi5aWBlLnVOKQ"
-        productAPIsOnly: false
-        apiKind: ""
-        nodejsEnv: ""
+          connectionString: "$env:MONGODB_CONN_STRING"
+          databaseName: "$env:MONGODB_DATABASE"
+          idempotencyCollection: "$env:MONGODB_IDEMPOTENCY_COLLECTION"     
+        paymentsPlatformFromPhoneNumber: "$env:PAYMENTS_PLATFORM_FROM_PHONE_NUMBER"
+        paymentsPlatformFromEmail: "$env:PAYMENTS_PLATFORM_FROM_EMAIL"
+        processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
+        blobStorageUrl: "$env:BLOB_STORAGE_URL"
+        encryptPayerUrlToken: $env:ENCRYPT_PAYER_URL_TOKEN
+        encryptionKey: "$env:ENCRYPTION_KEY"
+        ezpayTOSVersion: "$env:EZPAY_TOS_VERSION"
+        statementContainerName: "$env:STATEMENTS_CONTAINER_NAME"
+        invoiceContainerName: "$env:INVOICE_CONTAINER_NAME"
+        invoiceBlobConnectionString: "$env:INVOICE_BLOB_CONNECTION_STRING"
+        urlShortenerUrl: "$env:LOGIC_APP_URL_SHORTENER_URL"
+        merchantPortalUrl: "$env:BLOB_STORAGE_URL"
+        payerPortalUrl: "$env:PAYER_PORTAL_BASE_URL"
+        productAPIsOnly: $env:PRODUCT_APIS_ONLY
+        apiKind: $env:API_KIND
+        nodejsEnv: "$env:NODE_JS_ENV"
 
     apteanpayJsLib:
       name: apteanpay-js-lib
