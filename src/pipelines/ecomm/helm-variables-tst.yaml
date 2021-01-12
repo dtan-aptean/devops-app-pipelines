@@ -25,7 +25,7 @@ variables:
 - name: STOREFRONT_RESOURCE_LIMITS_CPU
   value: 500m
 - name: STOREFRONT_RESOURCE_LIMITS_MEMORY
-  value: 750Mi
+  value: 768Mi
 - name: STOREFRONT_RESOURCE_REQUESTS_CPU
   value: 10m
 - name: STOREFRONT_RESOURCE_REQUESTS_MEMORY
@@ -34,6 +34,8 @@ variables:
   value: ecomm-sf.ecomm-tst.svc
 - name: STOREFRONT_KONG_INGRESS_CLASS
   value: kong-tst  
+- name: STOREFRONT_KONG_INGRESS_NAME
+  value: ecomm-sf-do-not-preserve-host  
 - name: STOREFRONT_REPLICAS
   value: 1  
 - name: STOREFRONT_NODE_SELECTOR_POOL

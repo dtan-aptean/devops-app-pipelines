@@ -26,6 +26,7 @@ parameters:
   storefrontReplicas: ''  
   storefrontKongIngressClass: ''
   storefrontKongIngressUpstreamHostHeader: ''
+  storefrontKongIngressName: ''
   storefrontResourceLimitsCpu: ''
   storefrontResourceLimitsMemory: ''
   storefrontResourceRequestsCpu: ''
@@ -207,6 +208,7 @@ steps:
             memory: $env:STOREFRONT_RESOURCE_REQUESTS_MEMORY
 
       kongIngress:
+        name: $env:STOREFRONT_KONG_INGRESS_NAME
         route:
           headers:
             x-azure-fdid:
@@ -425,6 +427,7 @@ steps:
     STOREFRONT_REPLICAS: ${{ parameters.storefrontReplicas }}    
     STOREFRONT_KONG_INGRESS_CLASS: ${{ parameters.storefrontKongIngressClass }}
     STOREFRONT_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.storefrontKongIngressUpstreamHostHeader }}
+    STOREFRONT_KONG_INGRESS_NAME: ${{ parameters.storefrontKongIngressName }}
     STOREFRONT_RESOURCE_LIMITS_CPU: ${{ parameters.storefrontResourceLimitsCpu }}
     STOREFRONT_RESOURCE_LIMITS_MEMORY: ${{ parameters.storefrontResourceLimitsMemory }}
     STOREFRONT_RESOURCE_REQUESTS_CPU: ${{ parameters.storefrontResourceRequestsCpu }}

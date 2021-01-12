@@ -23,9 +23,9 @@ variables:
 - name: STOREFRONT_IMAGE_REPOSITORY_NAME
   value: ecomm-sf
 - name: STOREFRONT_RESOURCE_LIMITS_CPU
-  value: 500m
+  value: 1000m
 - name: STOREFRONT_RESOURCE_LIMITS_MEMORY
-  value: 1Gi
+  value: 4Gi
 - name: STOREFRONT_RESOURCE_REQUESTS_CPU
   value: 10m
 - name: STOREFRONT_RESOURCE_REQUESTS_MEMORY
@@ -33,7 +33,9 @@ variables:
 - name: STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER
   value: ecomm-sf.ecomm-prf.svc
 - name: STOREFRONT_KONG_INGRESS_CLASS
-  value: kong-prf  
+  value: kong-prf
+- name: STOREFRONT_KONG_INGRESS_NAME
+  value: ecomm-sf-do-not-preserve-host    
 - name: STOREFRONT_REPLICAS
   value: 1  
 - name: STOREFRONT_NODE_SELECTOR_POOL
