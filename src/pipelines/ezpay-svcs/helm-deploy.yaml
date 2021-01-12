@@ -1,0 +1,62 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: ezpay-payment-cancelation-retry-job-docker-build-push
+    source: ezpay-payment-cancelation-retry-job-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+
+variables:
+- group: helm-chart-svc-principal-config
+
+stages:
+- stage: DEV_Ezpay_Helm_Deploy
+  displayName: DEV - Ezpay Svcs Helm Deploy
+  dependsOn: []
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ezpay-dev
+    dependsOn: []
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ezpay-dev
+    - template: helm-variables-dev.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              env: $(ENV)
+              # Common Configs
+              wepayGrpcUrl: $(WEPAY_GRPC_URL)
+              wepayGrpcUrlInternamespace: $(WEPAY_GRPC_URL_INTER_NAMESPACE)
+              # Cancel Payment Retry Job
+              paymentCancelRetryJobImageRepositoryName: $(PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME)
+              paymentCancelRetryJobConfigMongoDbConnString: $(PAYMENT_CANCEL_RETRY_JOB_MONGODB_CONN_STRING)
+              paymentCancelRetryJobConfigMongoDbDatabase: $(PAYMENT_CANCEL_RETRY_JOB_MONGODB_DATABASE)
+              paymentCancelRetryJobConfigMongoDbCollectionName: $(PAYMENT_CANCEL_RETRY_JOB_MONGODB_COLLECTION_NAME)
+              paymentCancelRetryJobConfigCronSchedule: $(PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE)
+              paymentCancelRetryJobConfigSuccessfulJobHistoryLimit: $(PAYMENT_CANCEL_RETRY_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT)
+              paymentCancelRetryJobConfigFailedJobHistoryLimit: $(PAYMENT_CANCEL_RETRY_JOB_FAILED_JOB_HISTORY_LIMIT)
+              paymentCancelRetryJobNodeSelectorPool: $(PAYMENT_CANCEL_RETRY_JOB_NODE_SELECTOR_POOL)

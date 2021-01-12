@@ -1,0 +1,32 @@
+variables:
+- name: K8S_NAMESPACE
+  value: ezpay-stg
+- name: CHART_NAME
+  value: ezpay-svcs
+- name: CONTAINER_REGISTRY_NAME
+  value: acreastusshrapteancr
+- name: CHART_REPOSITORY_NAME
+  value: "helm/ezpay-svcs"
+- name: HELM_RELEASE_NAME
+  value: inspired-mockingbird
+- name: ENV
+  value: STG
+- name: FRONT_DOOR_ID
+  value: "952cae20-d51b-4bd9-be49-bdc0900f9a6f"
+- name: AZURE_TENANT_ID
+  value: "560ec2b0-df0c-4e8c-9848-a15718863bb6"
+- name: AKS_NAME
+  value: aks-eastus-shr-apteank8s
+- name: AKS_RESOURCE_GROUP
+  value: rg-eastus-shr-apteank8s
+# PAYMENT CANCEL RETRY JOB 
+- name: PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME
+  value: ezpay-payment-cancelation-retry-job
+- name: PAYMENT_CANCEL_RETRY_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT
+  value: 3
+- name: PAYMENT_CANCEL_RETRY_JOB_FAILED_JOB_HISTORY_LIMIT
+  value: 3
+- name: PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE
+  value: "38 * * * *"
+- name: PAYMENT_CANCEL_RETRY_JOB_NODE_SELECTOR_POOL
+  value: sharedsvc

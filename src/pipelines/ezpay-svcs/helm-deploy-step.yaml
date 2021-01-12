@@ -1,0 +1,161 @@
+parameters:
+  serviceConnection: ''
+  svcPrincipalClientId: ''
+  svcPrincipalSecret: ''
+  azureTenantId: ''
+  aksName: ''
+  aksResourceGroup: ''
+  containerRegistryName: ''
+  chartRepositoryName: ''
+  chartName: ''
+  helmReleaseName: ''
+  k8sNamespace: ''
+  env: ''
+  # Common Configs
+  wepayGrpcUrl: ''
+  wepayGrpcUrlInternamespace: ''
+  # Cancel Payment Retry Job - paymentCancelRetryJob
+  paymentCancelRetryJobImageRepositoryName: ''
+  paymentCancelRetryJobImageTag: ''
+  paymentCancelRetryJobConfigMongoDbConnString: ''
+  paymentCancelRetryJobConfigMongoDbDatabase: ''
+  paymentCancelRetryJobConfigMongoDbCollectionName: ''
+  paymentCancelRetryJobConfigCronSchedule: ''
+  paymentCancelRetryJobConfigSuccessfulJobHistoryLimit: ''
+  paymentCancelRetryJobConfigFailedJobHistoryLimit: ''
+  paymentCancelRetryJobNodeSelectorPool: ''
+  
+# PAYMENT_CANCEL_RETRY_JOB
+
+steps:
+- pwsh: |
+    $env:HELM_EXPERIMENTAL_OCI = 1
+
+    az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+
+    $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
+
+    $env:SP_SECRET | helm registry login $fullRegistryName `
+      --username $env:SP_CLIENT_ID `
+      --password-stdin
+
+    $latestHelmChart = az acr repository show-tags `
+      --name $env:CONTAINER_REGISTRY_NAME `
+      --repository $env:CHART_REPOSITORY_NAME `
+      --top 1 `
+      --orderby time_desc | ConvertFrom-Json
+
+    Write-Host ""
+    $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
+    Write-Host "fullChartName: $fullChartName"
+
+    helm chart pull $fullChartName
+
+    Write-Host ""
+    helm chart export $fullChartName --destination .
+
+    # PAYMENT CANCEL RETRY JOB
+    if ($env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG)
+    {
+      Write-Host Using configured ezpay-payment-cancelation-retry-job tag: $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG
+      $latestPaymentCancelRetryJobTag = $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest ezpay-payment-cancelation-retry-job tag.
+      $latestPaymentCancelRetryJobTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+
+    @"
+    commonLabels:
+      env: $env:ENV
+
+    config:
+      wepay:
+        grpcUrl: "$env:WEPAY_GRPC_URL"
+        interNamespaceGrpcUrl: "$env:WEPAY_GRPC_URL_INTER_NAMESPACE"      
+
+    paymentCancelRetryJob:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME"
+        tag: $latestPaymentCancelRetryJobTag
+
+      config:
+        cosmosMongo:
+          connectionString: "env:PAYMENT_CANCEL_RETRY_JOB_MONGODB_CONN_STRING"
+          databaseName: "$env:PAYMENT_CANCEL_RETRY_JOB_MONGODB_DATABASE"
+          collectionName: "env:PAYMENT_CANCEL_RETRY_JOB_MONGODB_COLLECTION_NAME"
+        cronSchedule: $env:PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE
+        successfulJobsHistoryLimit: $env:PAYMENT_CANCEL_RETRY_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT
+        failedJobsHistoryLimit: $env:PAYMENT_CANCEL_RETRY_JOB_FAILED_JOB_HISTORY_LIMIT
+
+      nodeSelector:
+        pool: "$env:PAYMENT_CANCEL_RETRY_JOB_NODE_SELECTOR_POOL"
+
+    "@ | Out-File -FilePath ./deploy-values.yaml
+
+    Write-Host ""
+    Write-Host "Helm deploy prep complete!"
+  displayName: Prep Helm Deploy
+  name: prepHelmDeploy
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  failOnStderr: true
+  env:
+    SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
+    SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+    AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
+    CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
+    CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
+    CHART_NAME: ${{ parameters.chartName }}
+    ENV: ${{ parameters.env }}
+    # COMMON CONFIGS
+    WEPAY_GRPC_URL: ${{ parameters.wepayGrpcUrl }}
+    WEPAY_GRPC_URL_INTER_NAMESPACE: ${{ parameters.wepayGrpcUrlInternamespace }}
+    # PAYMENT_CANCEL_RETRY_JOB
+    PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG: ${{ parameters.paymentCancelRetryJobImageTag }}
+    PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentCancelRetryJobImageRepositoryName }}
+    PAYMENT_CANCEL_RETRY_JOB_MONGODB_CONN_STRING: ${{ parameters.paymentCancelRetryJobConfigMongoDbConnString }}
+    PAYMENT_CANCEL_RETRY_JOB_MONGODB_DATABASE: ${{ parameters.paymentCancelRetryJobConfigMongoDbDatabase }}
+    PAYMENT_CANCEL_RETRY_JOB_MONGODB_COLLECTION_NAME: ${{ parameters.paymentCancelRetryJobConfigMongoDbCollectionName }}
+    PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE: ${{ parameters.paymentCancelRetryJobConfigCronSchedule }}
+    PAYMENT_CANCEL_RETRY_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.paymentCancelRetryJobConfigSuccessfulJobHistoryLimit }}
+    PAYMENT_CANCEL_RETRY_JOB_FAILED_JOB_HISTORY_LIMIT: ${{ parameters.paymentCancelRetryJobConfigFailedJobHistoryLimit }}
+    PAYMENT_CANCEL_RETRY_JOB_NODE_SELECTOR_POOL: ${{ parameters.paymentCancelRetryJobNodeSelectorPool }}
+
+- task: Kubernetes@1
+  displayName: Kubectl Version
+  name: kubectlVersion
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'version'
+    arguments: '--short'
+
+- task: HelmInstaller@1
+  displayName: Helm Installer
+  name: helmInstaller
+  inputs:
+    helmVersionToInstall: latest
+
+- task: HelmDeploy@0
+  displayName: Helm Deploy
+  name: helmDeploy
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'upgrade'
+    chartType: 'FilePath'
+    chartPath: ./${{ parameters.chartName }}
+    releaseName: ${{ parameters.helmReleaseName }}
+    valueFile: ./deploy-values.yaml
+    install: true
+    waitForExecution: false
+    failOnStderr: false
