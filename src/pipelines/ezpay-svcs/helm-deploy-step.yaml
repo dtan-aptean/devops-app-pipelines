@@ -84,7 +84,7 @@ steps:
         cosmosMongo:
           connectionString: "$env:PAYMENT_CANCEL_RETRY_JOB_MONGODB_CONN_STRING"
           databaseName: "$env:PAYMENT_CANCEL_RETRY_JOB_MONGODB_DATABASE"
-          collectionName: "env:PAYMENT_CANCEL_RETRY_JOB_MONGODB_COLLECTION_NAME"
+          collectionName: "$env:PAYMENT_CANCEL_RETRY_JOB_MONGODB_COLLECTION_NAME"
         cronSchedule: $env:PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE
         successfulJobsHistoryLimit: $env:PAYMENT_CANCEL_RETRY_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT
         failedJobsHistoryLimit: $env:PAYMENT_CANCEL_RETRY_JOB_FAILED_JOB_HISTORY_LIMIT
