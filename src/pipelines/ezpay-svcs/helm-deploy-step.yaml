@@ -10,7 +10,6 @@ parameters:
   chartName: ''
   helmReleaseName: ''
   k8sNamespace: ''
-  k8sNamespaceJobs: ''
   env: ''
   # Common Configs
   wepayGrpcUrl: ''
@@ -72,7 +71,6 @@ steps:
       env: $env:ENV
 
     config:
-      k8sNamespaceJobs: $env:K8S_NAMESPACE_JOBS
       wepay:
         grpcUrl: "$env:WEPAY_GRPC_URL"
         interNamespaceGrpcUrl: "$env:WEPAY_GRPC_URL_INTER_NAMESPACE"      
@@ -110,7 +108,6 @@ steps:
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
     ENV: ${{ parameters.env }}
-    K8S_NAMESPACE_JOBS: ${{ parameters.k8sNamespaceJobs }}
     # COMMON CONFIGS
     WEPAY_GRPC_URL: ${{ parameters.wepayGrpcUrl }}
     WEPAY_GRPC_URL_INTER_NAMESPACE: ${{ parameters.wepayGrpcUrlInternamespace }}

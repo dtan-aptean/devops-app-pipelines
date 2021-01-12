@@ -47,7 +47,6 @@ stages:
               chartName: $(CHART_NAME)
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              k8sNamespaceJobs: $(K8S_NAMESPACE_JOBS)
               env: $(ENV)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)

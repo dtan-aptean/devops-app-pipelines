@@ -1,8 +1,6 @@
 variables:
 - name: K8S_NAMESPACE
   value: ezpay-stg
-- name: K8S_NAMESPACE_JOBS
-  value: ezpay-jobs-stg
 - name: CHART_NAME
   value: ezpay-svcs
 - name: CONTAINER_REGISTRY_NAME
