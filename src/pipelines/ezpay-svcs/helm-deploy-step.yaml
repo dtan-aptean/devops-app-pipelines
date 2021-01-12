@@ -13,7 +13,6 @@ parameters:
   env: ''
   # Common Configs
   wepayGrpcUrl: ''
-  wepayGrpcUrlInternamespace: ''
   # Cancel Payment Retry Job - paymentCancelRetryJob
   paymentCancelRetryJobImageRepositoryName: ''
   paymentCancelRetryJobImageTag: ''
@@ -73,7 +72,6 @@ steps:
     config:
       wepay:
         grpcUrl: "$env:WEPAY_GRPC_URL"
-        interNamespaceGrpcUrl: "$env:WEPAY_GRPC_URL_INTER_NAMESPACE"      
 
     paymentCancelRetryJob:
       image:
@@ -110,7 +108,6 @@ steps:
     ENV: ${{ parameters.env }}
     # COMMON CONFIGS
     WEPAY_GRPC_URL: ${{ parameters.wepayGrpcUrl }}
-    WEPAY_GRPC_URL_INTER_NAMESPACE: ${{ parameters.wepayGrpcUrlInternamespace }}
     # PAYMENT_CANCEL_RETRY_JOB
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG: ${{ parameters.paymentCancelRetryJobImageTag }}
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentCancelRetryJobImageRepositoryName }}

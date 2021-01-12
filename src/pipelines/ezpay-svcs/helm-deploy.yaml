@@ -50,7 +50,6 @@ stages:
               env: $(ENV)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
-              wepayGrpcUrlInternamespace: $(WEPAY_GRPC_URL_INTER_NAMESPACE)
               # Cancel Payment Retry Job
               paymentCancelRetryJobImageRepositoryName: $(PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME)
               paymentCancelRetryJobConfigMongoDbConnString: $(PAYMENT_CANCEL_RETRY_JOB_MONGODB_CONN_STRING)
