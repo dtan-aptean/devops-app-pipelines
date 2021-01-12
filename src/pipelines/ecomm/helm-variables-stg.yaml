@@ -34,6 +34,8 @@ variables:
   value: ecomm-sf.ecomm-stg.svc
 - name: STOREFRONT_KONG_INGRESS_CLASS
   value: kong-stg  
+- name: STOREFRONT_KONG_INGRESS_NAME
+  value: ecomm-sf-do-not-preserve-host  
 - name: STOREFRONT_REPLICAS
   value: 1  
 - name: STOREFRONT_NODE_SELECTOR_POOL

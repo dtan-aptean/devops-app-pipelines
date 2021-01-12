@@ -79,6 +79,7 @@ stages:
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
               storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
               storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
+              storefrontKongIngressName: $(STOREFRONT_KONG_INGRESS_NAME)
               storefrontResourceLimitsCpu: $(STOREFRONT_RESOURCE_LIMITS_CPU)
               storefrontResourceLimitsMemory: $(STOREFRONT_RESOURCE_LIMITS_MEMORY)
               storefrontResourceRequestsCpu: $(STOREFRONT_RESOURCE_REQUESTS_CPU)
