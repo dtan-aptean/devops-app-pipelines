@@ -29,4 +29,4 @@ variables:
 - name: PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE
   value: "38 * * * *"
 - name: PAYMENT_CANCEL_RETRY_JOB_NODE_SELECTOR_POOL
-  value: sharedsvc
+  value: sharedsvcs
