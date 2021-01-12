@@ -92,6 +92,7 @@ stages:
               mongoDbConnString: $(MONGODB_CONN_STRING)
               mongoDbName: $(MONGODB_DATABASE)
               idempotencyMongoDbCollection: $(MONGODB_IDEMPOTENCY_COLLECTION)
+              cancelRetriesMongoDbCollection: $(MONGODB_CANCEL_RETRIES_COLLECTION)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
 - stage: DEV_GRPC_API_Svc_Helm_Deploy
