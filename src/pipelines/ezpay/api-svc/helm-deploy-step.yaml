@@ -56,6 +56,7 @@ parameters:
   mongoDbConnString: ''
   mongoDbName: ''
   idempotencyMongoDbCollection: ''
+  cancelRetriesMongoDbCollection: ''
   nodeSelectorPool: ''
   imageTag: ''
   nodejsEnv: ''
@@ -164,6 +165,7 @@ steps:
         connectionString: "$env:MONGODB_CONN_STRING"
         databaseName: "$env:MONGODB_DATABASE"
         idempotencyCollection: "$env:MONGODB_IDEMPOTENCY_COLLECTION"     
+        cancelRetriesCollection: "$env:MONGODB_CANCEL_RETRIES_COLLECTION"
       paymentsPlatformFromPhoneNumber: "$env:PAYMENTS_PLATFORM_FROM_PHONE_NUMBER"
       paymentsPlatformFromEmail: "$env:PAYMENTS_PLATFORM_FROM_EMAIL"
       processPlatformEvents: $env:PROCESS_PLATFORM_EVENTS
@@ -240,6 +242,7 @@ steps:
     PRODUCT_APIS_ONLY: ${{ parameters.productApisOnly }}
     API_KIND: ${{ parameters.apiKind }}
     MONGODB_IDEMPOTENCY_COLLECTION: ${{ parameters.idempotencyMongoDbCollection }}
+    MONGODB_CANCEL_RETRIES_COLLECTION: ${{ parameters.cancelRetriesMongoDbCollection }}
     MONGODB_DATABASE: ${{ parameters.mongoDbName }}
     MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
