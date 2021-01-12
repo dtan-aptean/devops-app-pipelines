@@ -66,7 +66,9 @@ stages:
               sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)         
               cosmosConnString: $(COSMOSDB_CONN_STRING)
               cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
-              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                             
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              enableIntrospection: $(ENABLE_INTROSPECTION)
+              enableTracing: $(ENABLE_TRACING)
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
