@@ -61,7 +61,7 @@ stages:
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
               storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
-              storefrontKongIngressUpstreamHostHeader: 'apprise-playground-ecomm-sf.ecomm-stg.svc'
+              storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
               storefrontKongIngressName: 'apprise-playground-ecomm-sf-do-not-preserve-host'
               storefrontResourceLimitsCpu: $(STOREFRONT_RESOURCE_LIMITS_CPU)
               storefrontResourceLimitsMemory: $(STOREFRONT_RESOURCE_LIMITS_MEMORY)
