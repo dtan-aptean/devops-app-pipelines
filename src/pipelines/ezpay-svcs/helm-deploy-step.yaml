@@ -13,7 +13,18 @@ parameters:
   env: ''
   # Common Configs
   wepayGrpcUrl: ''
-  # Cancel Payment Retry Job - paymentCancelRetryJob
+  wepayBaseUrl: ''
+  wepayUploadBaseUrl: ''
+  wepayApiVersion: ''
+  wepayAppId: ''
+  wepayAppToken: ''
+  merchantPortalUrl: ''
+  payerPortalUrl: ''
+  serviceBusConnString: ''
+  serviceBusEventsTopic: ''
+  serviceBusPlatformEventsTopicConnString: ''
+  frontDoorId: ''
+  # Cancel Payment Retry Job
   paymentCancelRetryJobImageRepositoryName: ''
   paymentCancelRetryJobImageTag: ''
   paymentCancelRetryJobConfigMongoDbConnString: ''
@@ -22,9 +33,198 @@ parameters:
   paymentCancelRetryJobConfigCronSchedule: ''
   paymentCancelRetryJobConfigSuccessfulJobHistoryLimit: ''
   paymentCancelRetryJobConfigFailedJobHistoryLimit: ''
-  paymentCancelRetryJobNodeSelectorPool: ''
-  
-# PAYMENT_CANCEL_RETRY_JOB
+  paymentCancelRetryJobNodeSelectorPool: ''  
+  # ACCOUNT BALANCE UPDATE JOB
+  acctBalanceJobImageRepositoryName: ''
+  acctBalanceJobImageTag: ''
+  acctBalanceJobSuccessfulJobHistoryLimit: ''
+  acctBalanceJobFailedJobHistoryLimit: ''
+  acctBalanceJobCronSchedule: ''
+  acctBalanceJobNodeSelectorPool: ''  
+  # EZPAY API SVC
+  ezpayApiSvcImageTag: ''
+  ezpayApiSvcImageRepositoryName: ''
+  ezpayApiSvcReplicas: ''
+  ezpayApiSvcNodeSelectorPool: ''
+  ezpayApiSvcResourceLimitsCpu: ''
+  ezpayApiSvcResourceLimitsMemory: ''
+  ezpayApiSvcResourceRequestsCpu: ''
+  ezpayApiSvcResourceRequestsMemory: ''  
+  ezpayApiSvcKongIngressUpstreamHostHeader: ''
+  ezpayApiSvcKongIngressClass: ''
+  ezpayApiSvcCosdbConnString: ''
+  ezpayApiSvcCosdbDatabase: ''
+  ezpayApiSvcCosdbContainer: ''
+  ezpayApiSvcSbPlatformEventsSubscription: ''
+  ezpayApiSvcAppInsightsKey: ''
+  ezpayApiSvcB2cClientId: ''
+  ezpayApiSvcB2cDomainHost: ''
+  ezpayApiSvcB2cTenantId: ''
+  ezpayApiSvcB2cPolicyName: ''
+  ezpayApiSvcSubsMgmtGrpcUrl: ''
+  ezpayApiSvcSubsMgmtApiKey: ''
+  ezpayApiSvcSubsMgmtServiceId: ''
+  ezpayApiSvcMongodbConnString: ''
+  ezpayApiSvcMongodbDatabase: ''
+  ezpayApiSvcMongodbIdempotencyCollection: ''
+  ezpayApiSvcMongodbCancelRetriesCollection: ''
+  ezpayApiSvcPaymentPlatformFromPhoneNumber: ''
+  ezpayApiSvcPaymentPlatformFromEmail: ''
+  ezpayApiSvcProcessPlatformEvents: ''
+  ezpayApiSvcBlobStorageUrl: ''
+  ezpayApiSvcEncryptPayerUrlToken: ''
+  ezpayApiSvcEncryptKey: ''
+  ezpayApiSvcTosVersion: ''
+  ezpayApiSvcStatementsContainerName: ''
+  ezpayApiSvcInvoiceContainerName: ''
+  ezpayApiSvcInvoiceBlobConnString: ''
+  ezpayApiSvcLogicAppUrlShortenerUrl: ''
+  ezpayApiSvcProductApisOnly: ''
+  ezpayApiSvcNodeJsEnv: ''  
+  # EMAIL NOTIFICATION SVC
+  emailNotificationSvcImageTag: ''
+  emailNotificationSvcImageRepositoryName: ''
+  emailNotificationSvcReplicas: ''
+  emailNotificationSvcNodeSelectorPool: ''
+  emailNotificationSvcResourceLimitsCpu: ''
+  emailNotificationSvcResourceLimitsMemory: ''
+  emailNotificationSvcResourceRequestsCpu: ''
+  emailNotificationSvcResourceRequestsMemory: ''
+  emailNotificationSvcCosdbConnString: ''
+  emailNotificationSvcCosdbDatabase: ''
+  emailNotificationSvcCosdbCollectionName: ''
+  emailNotificationSvcDbPlatformEventsSubscription: ''
+  emailNotificationSvcAppInsightsKey: ''
+  emailNotificationSvcBroadcastPlatformEvents: ''
+  emailNotificationSvcEmailTemplateLogoUrl: ''
+  emailNotificationSvcPlatformEmail: ''
+  emailNotificationSvcPlatformName: ''
+  emailNotificationSvcProcessPlatformEvents: ''
+  emailNotificationSvcNodeJsEnv: ''
+  # ERP INTEGRATION SVC
+  erpIntegrationSvcImageRepositoryName: ''
+  erpIntegrationSvcImageTag: ''
+  erpIntegrationSvcReplicas: ''
+  erpIntegrationSvcNodeSelectorPool: ''
+  erpIntegrationSvcResourceLimitsCpu: ''
+  erpIntegrationSvcResourceLimitsMemory: ''
+  erpIntegrationSvcResourceRequestsCpu: ''
+  erpIntegrationSvcResourceRequestsMemory: ''
+  erpIntegrationSvcKongIngressUpstreamHostHeader: ''
+  erpIntegrationSvcKongIngressClass: ''
+  erpIntegrationSvcEzpayApiSvcGqlUrl: ''
+  erpIntegrationSvcSyncTimeout: ''
+  erpIntegrationSvcSyncMaxWaitTime: ''
+  erpIntegrationSvcNodeJsEnv: ''  
+  # MERCHANT OPS SVC
+  merchantOpsSvcImageRepositoryName: ''
+  merchantOpsSvcImageTag: ''
+  merchantOpsSvcReplicas: ''
+  merchantOpsSvcNodeSelectorPool: ''
+  merchantOpsSvcResourceLimitsCpu: ''
+  merchantOpsSvcResourceLimitsMemory: ''
+  merchantOpsSvcResourceRequestsCpu: ''
+  merchantOpsSvcResourceRequestsMemory: ''
+  merchantOpsSvcCosdbConnString: ''
+  merchantOpsSvcCosdbDatabase: ''
+  merchantOpsSvcCosdbContainer: ''
+  merchantOpsSvcPlatformEventsSubscription: ''
+  merchantOpsSvcAppInsightsKey: ''
+  merchantOpsSvcEnableAppInsights: ''
+  merchantOpsSvcEnableK8sAppInsights: ''  
+  # PAYFAC NOTIFICATIONS SVC
+  payfacNotificationsSvcImageRepositoryName: ''
+  payfacNotificationsSvcImageTag: ''
+  payfacNotificationsSvcReplicas: ''
+  payfacNotificationsSvcNodeSelectorPool: ''
+  payfacNotificationsSvcResourceLimitsCpu: ''
+  payfacNotificationsSvcResourceLimitsMemory: ''
+  payfacNotificationsSvcResourceRequestCpu: ''
+  payfacNotificationsSvcResourceRequestMemory: ''
+  payfacNotificationsSvcSbPayfacTopicConnString: ''
+  payfacNotificationsSvcSbPlatformEventsTopic: ''
+  payfacNotificationsSvcSbPayfacSubscription: ''
+  payfacNotificationsSvcSbPayfacTopic: ''
+  payfacNotificationsSvcAppInsightsKey: ''
+  payfacNotificationsSvcEzpayWebhookUrl: ''
+  payfacNotificationsSvcProcessPlatformEvents: ''
+  payfacNotificationsSvcProcessNotificationEvents: ''
+  payfacNotificationsSvcBroadcastPlatformEvents: ''
+  payfacNotificationsSvcNodeJsEnv: ''  
+  # PAYMENT OPS SVC
+  paymentOpsSvcImageRepositoryName: ''
+  paymentOpsSvcImageTag: ''
+  paymentOpsSvcReplicas: ''
+  paymentOpsSvcNodeSelectorPool: ''
+  paymentOpsSvcResourceLimitsCpu: ''
+  paymentOpsSvcResourceLimitsMemory: ''
+  paymentOpsSvcResourceRequestsCpu: ''
+  paymentOpsSvcResourceRequestsMemory: ''
+  paymentOpsSvcCosdbConnString: ''
+  paymentOpsSvcCosdbDatabase: ''
+  paymentOpsSvcCosdbCollectionName: ''
+  paymentOpsSvcSbPlatformEventsSubscription: ''
+  paymentOpsSvcSbEmailReqQueueConnString: ''
+  paymentOpsSvcSbEmailReqQueue: ''
+  paymentOpsSvcSbSmsReqQueueConnString: ''
+  paymentOpsSvcSbSmsReqQueue: ''
+  paymentOpsSvcEnableAppInsights: ''
+  paymentOpsSvcEnableK8sAppInsights: ''  
+  # PAYMENTS SVC & PAYMENTS RETRY JOB
+  paymentsSvcImageRepositoryName: ''
+  paymentsSvcImageTag: ''
+  paymentsSvcReplicas: ''
+  paymentsSvcNodeSelectorPool: ''
+  paymentsSvcResourceLimitsCpu: ''
+  paymentsSvcResourceLimitsMemory: ''
+  paymentsSvcResourceRequestsCpu: ''
+  paymentsSvcResourceRequestsMemory: ''
+  paymentsSvcCosdbConnString: ''
+  paymentsSvcCosdbDatabase: ''
+  paymentsSvcCosdbContainer: ''
+  paymentsSvcMongodbConnString: ''
+  paymentsSvcMongodbDatabase: ''
+  paymentsSvcMongodbCollection: ''
+  paymentsSvcPlatformEventsSubscription: ''
+  paymentsSvcCronSchedule: ''
+  paymentsSvcSuccessfulJobHistoryLimit: ''
+  paymentsSvcFailedJobHistoryLimit: ''
+  paymentsSvcEnableAppInsights: ''
+  paymentsSvcEnableK8sAppInsights: ''  
+  # TRANSACTION RECORDS SVC & TRANSACTION RECORDS RETRIEVE JOB & TRANSACTION RECORDS STATEMENT JOB
+  txnRecordsSvcImageRepositoryName: ''
+  txnRecordsSvcImageTag: ''
+  txnRecordsSvcReplicas: ''
+  txnRecordsSvcNodeSelectorPool: ''
+  txnRecordsSvcResourceLimitCpu: ''
+  txnRecordsSvcResourceLimitMemory: ''
+  txnRecordsSvcResourceRequestCpu: ''
+  txnRecordsSvcResourceRequestMemory: ''
+  txnRecordsSvcBroadcastPlatformEvents: ''
+  txnRecordsSvcPlatformEmail: ''
+  txnRecordsSvcCosdbConnString: ''
+  txnRecordsSvcCosdbDatabase: ''
+  txnRecordsSvcCosdbCollection: ''
+  txnRecordsSvcDbPlatformEventsSubscription: ''
+  txnRecordsSvcAppInsightsKey: ''
+  txnRecordsSvcProcessPlatformEvents: ''
+  txnRecordsSvcStatementsContainer: ''
+  txnRecordsSvcStatementPeriod: ''
+  txnRecordsSvcStatementsBlobConnString: ''
+  txnRecordsSvcCronSchedule: ''
+  txnRecordsSvcSuccessfulJobHistoryLimit: ''
+  txnRecordsSvcFailedJobHistoryLimit: ''
+  txnRecordsSvcNodeJsEnv: ''  
+  # WEPAY INTEGRATION SVC
+  wepayIntegrationSvcImageRepositoryName: ''
+  wepayIntegrationSvcImageTag: ''
+  wepayIntegrationSvcReplicas: ''
+  wepayIntegrationSvcNodeSelectorPool: ''
+  wepayIntegrationSvcResourceLimitsCpu: ''
+  wepayIntegrationSvcResourceLimitsMemory: ''
+  wepayIntegrationSvcResourceRequestCpu: ''
+  wepayIntegrationSvcResourceRequestMemory: ''
+  wepayIntegrationSvcNodeJsEnv: ''  
 
 steps:
 - pwsh: |
@@ -64,14 +264,135 @@ steps:
       Write-Host Fetching latest ezpay-payment-cancelation-retry-job tag.
       $latestPaymentCancelRetryJobTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
     }
+    # ACCOUNT BALANCE UPDATER JOB SVC
+    if ($env:ACCT_BALANCE_JOB_IMAGE_TAG)
+    {
+      Write-Host Using configured account-balance-job tag: $env:ACCT_BALANCE_JOB_IMAGE_TAG
+      $latestAccountBalanceJobTag = $env:ACCT_BALANCE_JOB_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest account-balance-job tag.
+      $latestAccountBalanceJobTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # EZPAY API SVC
+    if ($env:EZPAY_API_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured ezpay-api-svc tag: $env:EZPAY_API_SVC_IMAGE_TAG
+      $latestEzpayApiSvcTag = $env:EZPAY_API_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest ezpay-api-svc tag.
+      $latestEzpayApiSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_API_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # EMAIL NOTIFICATION SVC
+    if ($env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured email-notification-svc-svc tag: $env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG
+      $latestEmailNotificationSvcTag = $env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest email-notification-svc-svc tag.
+      $latestEmailNotificationSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # ERP INTEGRATION SVC
+    if ($env:ERP_INTEGRATION_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured erp-integration-svc tag: $env:ERP_INTEGRATION_SVC_IMAGE_TAG
+      $latestErpIntegrationSvcTag = $env:ERP_INTEGRATION_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest erp-integration-svc tag.
+      $latestErpIntegrationSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ERP_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # MERCHANT OPS SVC
+    if ($env:MERCHANT_OPS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured merchant-ops-svc tag: $env:MERCHANT_OPS_SVC_IMAGE_TAG
+      $latestMerchantOpsSvcTag = $env:MERCHANT_OPS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest merchant-ops-svc tag.
+      $latestMerchantOpsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # PAYFAC NOTIFICATIONS SVC
+    if ($env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured payfac-notifications-svc tag: $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG
+      $latestPayfacNotificationsSvcTag = $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest payfac-notifications-svc tag.
+      $latestPayfacNotificationsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # PAYMENT OPS SVC
+    if ($env:PAYMENT_OPS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured payment-ops-svc tag: $env:PAYMENT_OPS_SVC_IMAGE_TAG
+      $latestPaymentOpsSvcTag = $env:PAYMENT_OPS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest payment-ops-svc tag.
+      $latestPaymentOpsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENT_OPS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # PAYMENTS SVC
+    if ($env:PAYMENTS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured payments-svc tag: $env:PAYMENTS_SVC_IMAGE_TAG
+      $latestPaymentsSvcTag = $env:PAYMENTS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest payments-svc tag.
+      $latestPaymentsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENTS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # TRANSACTION RECORDS SVC
+    if ($env:TXN_RECORDS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured transaction-records-svc tag: $env:TXN_RECORDS_SVC_IMAGE_TAG
+      $latestTxnRecordsSvcTag = $env:TXN_RECORDS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest transaction-records-svc tag.
+      $latestTxnRecordsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:TXN_RECORDS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    # EZPAY API SVC
+    if ($env:WEPAY_INTEGRATION_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured wepay-integration-svc tag: $env:WEPAY_INTEGRATION_SVC_IMAGE_TAG
+      $latestWepayIntegrationSvcTag = $env:WEPAY_INTEGRATION_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest wepay-integration-svc tag.
+      $latestWepayIntegrationSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }                                    
 
     @"
     commonLabels:
       env: $env:ENV
 
     config:
+      serviceBus:
+        connectionString: "$env:SB_CONN_STRING"
+        eventTopicConnectionString: "$env:SB_PLATFORM_EVENTS_TOPIC_CONN_STRING"
+        eventsTopic: "$env:SB_EVENTS_TOPIC"
       wepay:
+        baseUrl: "$env:WEPAY_BASE_URL"
         grpcUrl: "$env:WEPAY_GRPC_URL"
+        apiVersion: "$env:WEPAY_API_VERSION"
+        appID: "$env:WEPAY_APP_ID"
+        appToken: "$env:WEPAY_APP_TOKEN"
+        uploadBaseUrl: "$env:WEPAY_UPLOAD_BASE_URL"
+      merchantPortalUrl: "$env:MERCHANT_PORTAL_URL"
+      payerPortalUrl: "$env:PAYER_PORTAL_URL"
 
     paymentCancelRetryJob:
       image:
@@ -90,7 +411,367 @@ steps:
       nodeSelector:
         pool: "$env:PAYMENT_CANCEL_RETRY_JOB_NODE_SELECTOR_POOL"
 
+    accountBalanceUpdatesJob:
+      image:
+        repository: $env:ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME
+        tag: $latestAccountBalanceJobTag
+
+      nodeSelector:
+        pool: "$env:ACCT_BALANCE_JOB_NODE_SELECTOR_POOL"
+
+      config: 
+        cronSchedule: $env:ACCT_BALANCE_JOB_CRON_SCHEDULE
+        successfulJobsHistoryLimit: $env:ACCT_BALANCE_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT
+        failedJobsHistoryLimit: $env:ACCT_BALANCE_JOB_FAILED_JOB_HISTORY_LIMIT
+
+    ezpayApiSvc:
+      image:      
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:EZPAY_API_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestEzpayApiSvcTag
+
+      deployment:
+        replicas: $env:EZPAY_API_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:EZPAY_API_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:EZPAY_API_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:EZPAY_API_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:EZPAY_API_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:EZPAY_API_SVC_RESOURCE_REQUESTS_MEMORY
+
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:EZPAY_API_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:EZPAY_API_SVC_KONG_INGRESS_CLASS
+
+      config:
+        cosmos:
+          connectionString: "$env:EZPAY_API_SVC_COSMOS_CONN_STRING"
+          databaseName: "$env:EZPAY_API_SVC_COSMOS_DATABASE"
+          containerName: "$env:EZPAY_API_SVC_COSMOS_CONTAINER"
+        serviceBus:
+          platformEventsSubscription: "$env:EZPAY_API_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION"
+        appInsights:
+          instrumentationKey: "$env:EZPAY_API_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY"
+        b2c:
+          clientId: "$env:EZPAY_API_SVC_B2C_CLIENT_ID"
+          domainHost: "$env:EZPAY_API_SVC_B2C_DOMAIN_HOST"
+          tenantId: "$env:EZPAY_API_SVC_B2C_TENANT_ID"
+          policyName: "$env:EZPAY_API_SVC_B2C_POLICY_NAME"
+        subsMgmt:
+          grpcUrl: "$env:EZPAY_API_SVC_SUBS_MGMT_GRPC_URL"
+          apiKey: "$env:EZPAY_API_SVC_SUBS_MGMT_API_KEY"
+          serviceId: "$env:EZPAY_API_SVC_SUBS_MGMT_SERVICE_ID"
+        cosmosMongo:
+          connectionString: "$env:EZPAY_API_SVC_MONGODB_CONN_STRING"
+          databaseName: "$env:EZPAY_API_SVC_MONGODB_DATABASE"
+          idempotencyCollection: "$env:EZPAY_API_SVC_MONGODB_IDEMPOTENCY_COLLECTION"
+          cancelRetriesCollection: "$env:EZPAY_API_SVC_MONGODB_CANCEL_RETRIES_COLLECTION"
+        paymentsPlatformFromPhoneNumber: "$env:EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_PHONE_NUMBER"
+        paymentsPlatformFromEmail: "$env:EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_EMAIL"
+        processPlatformEvents: $env:EZPAY_API_SVC_PROCESS_PLATFORM_EVENTS
+        blobStorageUrl: "$env:EZPAY_API_SVC_BLOB_STORAGE_URL"
+        encryptPayerUrlToken: $env:EZPAY_API_SVC_ENCRYPT_PAYER_URL_TOKEN
+        encryptionKey: "$env:EZPAY_API_SVC_ENCRYPTION_KEY"
+        ezpayTOSVersion: "$env:EZPAY_API_SVC_EZPAY_TOS_VERSION"
+        statementContainerName: "$env:EZPAY_API_SVC_STATEMENTS_CONTAINER_NAME"
+        invoiceContainerName: "$env:EZPAY_API_SVC_INVOICE_CONTAINER_NAME"
+        invoiceBlobConnectionString: "$env:EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING"
+        urlShortenerUrl: "$env:EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL"
+        productAPIsOnly: $env:EZPAY_API_SVC_PRODUCT_APIS_ONLY
+        nodejsEnv: "$env:EZPAY_API_SVC_NODE_JS_ENV"
+
+    emailNotificationSvc:
+      image:      
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestEmailNotificationSvcTag
+
+      deployment:
+        replicas: $env:EMAIL_NOTIFICATION_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:EMAIL_NOTIFICATION_SVC_NODE_SELECTOR_POOL"      
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:EMAIL_NOTIFICATION_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:EMAIL_NOTIFICATION_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:EMAIL_NOTIFICATION_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:EMAIL_NOTIFICATION_SVC_RESOURCE_REQUESTS_MEMORY
+
+      config:
+        cosmos:
+          connectionString: "$env:EMAIL_NOTIFICATION_SVC_COSMOS_CONN_STRING"
+          databaseName: "$env:EMAIL_NOTIFICATION_SVC_COSMOSDB_DATABASE"
+          collectionName: "$env:EMAIL_NOTIFICATION_SVC_COSMOSDB_COLLECTION_NAME"
+        serviceBus:
+          platformEventsSubscription: "$env:EMAIL_NOTIFICATION_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION"        
+        appInsights:
+          instrumentationKey: "$env:EMAIL_NOTIFICATION_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY"
+        broadcastPlatformEvents: "$env:EMAIL_NOTIFICATION_SVC_BROADCAST_PLATFORM_EVENTS"
+        emailTemplateLogoUrl: "$env:EMAIL_NOTIFICATION_SVC_EMAIL_TEMPLATE_LOGO_URL"
+        platformEmail: "$env:EMAIL_NOTIFICATION_SVC_PLATFORM_EMAIL"
+        platformName: "$env:EMAIL_NOTIFICATION_SVC_PLATFORM_NAME"
+        processPlatformEvents: $env:EMAIL_NOTIFICATION_SVC_PROCESS_PLATFORM_EVENTS
+        nodejsEnv: "$env:EMAIL_NOTIFICATION_SVC_NODE_JS_ENV"    
+      
+    erpIntegrationSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:ERP_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestErpIntegrationSvcTag
+
+      deployment:
+        replicas: $env:ERP_INTEGRATION_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:ERP_INTEGRATION_SVC_NODE_SELECTOR_POOL"      
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:ERP_INTEGRATION_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:ERP_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:ERP_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:ERP_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY
+
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:ERP_INTEGRATION_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:ERP_INTEGRATION_SVC_KONG_INGRESS_CLASS
+
+      config:
+        ezpay:
+          gqlUrl: "$env:ERP_INTEGRATION_SVC_GQL_URL_EZPAY_API_SVC"
+        syncTimeout: "$env:ERP_INTEGRATION_SVC_SYNC_TIMEOUT"
+        syncMaxWaitTime: "$env:ERP_INTEGRATION_SVC_SYNC_MAX_WAIT_TIME"
+        nodejsEnv: "$env:ERP_INTEGRATION_SVC_NODE_JS_ENV"
+
+    merchantOpsSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestMerchantOpsSvcTag
+
+      deployment:
+        replicas: $env:MERCHANT_OPS_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:MERCHANT_OPS_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:MERCHANT_OPS_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:MERCHANT_OPS_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:MERCHANT_OPS_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:MERCHANT_OPS_SVC_RESOURCE_REQUESTS_MEMORY
+
+      config:
+        cosmos:
+          connectionString: "$env:MERCHANT_OPS_SVC_COSMOSDB_CONN_STRING"
+          databaseName: "$env:MERCHANT_OPS_SVC_COSMOSDB_DB_NAME"
+          containerName: "$env:MERCHANT_OPS_SVC_COSMOSDB_CONTAINER_NAME"
+        serviceBus:
+          platformEventsSubscription: "$env:MERCHANT_OPS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION"           
+        appInsights:
+          instrumentationKey: "$env:MERCHANT_OPS_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY"
+        enableAppInsights: $env:MERCHANT_OPS_SVC_ENABLE_APP_INSIGHTS
+        enableK8sAppInsights: $env:MERCHANT_OPS_SVC_ENABLE_K8S_APP_INSIGHTS    
+
+    payfacNotificationsSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestPayfacNotificationsSvcTag
+
+      deployment:
+        replicas: $env:PAYFAC_NOTIFICATIONS_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:PAYFAC_NOTIFICATIONS_SVC_NODE_SELECTOR_POOL"      
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:PAYFAC_NOTIFICATIONS_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:PAYFAC_NOTIFICATIONS_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:PAYFAC_NOTIFICATIONS_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:PAYFAC_NOTIFICATIONS_SVC_RESOURCE_REQUESTS_MEMORY
+
+      config:
+        serviceBus:
+          payfacTopicConnectionString: "$env:PAYFAC_NOTIFICATIONS_SVC_SB_PAYFAC_NOTIFICATIONS_TOPIC_CONN_STRING"
+          payfacNotificationSubscription: "$env:PAYFAC_NOTIFICATIONS_SVC_SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION"
+          payfacNotificationTopic: "$env:PAYFAC_NOTIFICATIONS_SVC_SB_PAYFAC_NOTIFICATIONS_TOPIC"
+        appInsights:
+          instrumentationKey: "$env:PAYFAC_NOTIFICATIONS_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY"
+        ezpayWebHookUrl: "$env:PAYFAC_NOTIFICATIONS_SVC_EZPAY_WEBHOOK_URL"
+        processPlatformEvents: $env:PAYFAC_NOTIFICATIONS_SVC_PROCESS_PLATFORM_EVENTS
+        processNotificationEvents: $env:PAYFAC_NOTIFICATIONS_SVC_PROCESS_NOTIFICATION_EVENTS
+        broadcastPlatformEvents: "$env:PAYFAC_NOTIFICATIONS_SVC_BROADCAST_PLATFORM_EVENTS"
+        nodejsEnv: "$env:PAYFAC_NOTIFICATIONS_SVC_NODE_JS_ENV"
+
+    paymentOpsSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:PAYMENT_OPS_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestPaymentOpsSvcTag
+
+      deployment:
+        replicas: $env:PAYMENT_OPS_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:PAYMENT_OPS_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:PAYMENT_OPS_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:PAYMENT_OPS_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:PAYMENT_OPS_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:PAYMENT_OPS_SVC_RESOURCE_REQUESTS_MEMORY
+
+      config:
+        cosmos:
+          connectionString: "$env:PAYMENT_OPS_SVC_COSMOSDB_CONN_STRING"
+          databaseName: "$env:PAYMENT_OPS_SVC_COSMOSDB_DATABASE"
+          collectionName: "$env:PAYMENT_OPS_SVC_COSMOSDB_COLLECTION_NAME"
+        serviceBus:
+          platformEventsSubscription: "$env:PAYMENT_OPS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION"   
+          emailReqsQueueConnString: "$env:PAYMENT_OPS_SVC_SB_EMAIL_REQS_QUEUE_CONN_STRING"
+          emailReqsQueue: "$env:PAYMENT_OPS_SVC_SB_EMAIL_REQS_QUEUE"
+          smsReqsQueueConnString: "$env:PAYMENT_OPS_SVC_SB_SMS_REQS_QUEUE_CONN_STRING"
+          smsReqsQueue: "$env:PAYMENT_OPS_SVC_SB_SMS_REQS_QUEUE"
+        enableAppInsights: $env:PAYMENT_OPS_SVC_ENABLE_APP_INSIGHTS
+        enableK8sAppInsights: $env:PAYMENT_OPS_SVC_ENABLE_K8S_APP_INSIGHTS
+
+    paymentsSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:PAYMENTS_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestPaymentsSvcTag
+
+      deployment:
+        replicas: $env:PAYMENTS_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:PAYMENTS_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:PAYMENTS_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:PAYMENTS_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:PAYMENTS_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:PAYMENTS_SVC_RESOURCE_REQUESTS_MEMORY
+
+      config:
+        cosmos:
+          connectionString: "$env:PAYMENTS_SVC_COSMOSDB_CONN_STRING"
+          databaseName: "$env:PAYMENTS_SVC_COSMOSDB_DB_NAME"
+          containerName: "$env:PAYMENTS_SVC_COSMOSDB_CONTAINER_NAME"
+        cosmosMongo:
+          connectionString: "$env:PAYMENTS_SVC_MONGODB_CONN_STRING"
+          databaseName: "$env:PAYMENTS_SVC_MONGODB_DB_NAME"
+          collectionName: "$env:PAYMENTS_SVC_MONGODB_COLLECTION_NAME"
+        serviceBus:
+          platformEventsSubscription: "$env:PAYMENTS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION"        
+        cronSchedule: "$env:PAYMENTS_SVC_CRON_SCHEDULE"
+        successfulJobsHistoryLimit: $env:PAYMENTS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT
+        failedJobsHistoryLimit: $env:PAYMENTS_SVC_FAILED_JOB_HISTORY_LIMIT
+        enableAppInsights: $env:PAYMENTS_SVC_ENABLE_APP_INSIGHTS
+        enableK8sAppInsights: $env:PAYMENTS_SVC_ENABLE_K8S_APP_INSIGHTS        
+
+    transactionRecordsSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:TXN_RECORDS_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestTxnRecordsSvcTag
+
+      deployment:
+        replicas: $env:TXN_RECORDS_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:TXN_RECORDS_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:TXN_RECORDS_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:TXN_RECORDS_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:TXN_RECORDS_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:TXN_RECORDS_SVC_RESOURCE_REQUESTS_MEMORY
+
+      config:
+        broadcastPlatformEvents: $env:TXN_RECORDS_SVC_BROADCAST_PLATFORM_EVENTS
+        platformEmail: "$env:TXN_RECORDS_SVC_PLATFORM_EMAIL"
+        cosmos:
+          connectionString: "$env:TXN_RECORDS_SVC_COSMOSDB_CONN_STRING"
+          databaseName: "$env:TXN_RECORDS_SVC_COSMOSDB_DATABASE"
+          collectionName: "$env:TXN_RECORDS_SVC_COSMOSDB_COLLECTION_NAME"
+        serviceBus:
+          platformEventsSubscription: "$env:TXN_RECORDS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION"        
+        appInsights:
+          instrumentationKey: "$env:TXN_RECORDS_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY"
+        processPlatformEvents: $env:TXN_RECORDS_SVC_PROCESS_PLATFORM_EVENTS
+        statement:
+          containerName: "$env:TXN_RECORDS_SVC_STATEMENTS_CONTAINER_NAME"
+          period: "$env:TXN_RECORDS_SVC_STATEMENT_PERIOD"
+          blobConnectionString: "$env:TXN_RECORDS_SVC_STATEMENTS_BLOB_CONNECTION_STRING"
+        cronSchedule: "$env:TXN_RECORDS_SVC_CRON_SCHEDULE"
+        successfulJobsHistoryLimit: $env:TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT
+        failedJobsHistoryLimit: $env:TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT
+        nodejsEnv: "$env:TXN_RECORDS_SVC_NODE_JS_ENV"    
+
+    wepayIntegrationSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestWepayIntegrationSvcTag
+
+      deployment:
+        replicas: $env:WEPAY_INTEGRATION_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:WEPAY_INTEGRATION_SVC_NODE_SELECTOR_POOL"      
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY
+
+      config:
+        nodejsEnv: "$env:WEPAY_INTEGRATION_SVC_NODE_JS_ENV"
+
     "@ | Out-File -FilePath ./deploy-values.yaml
+
+    # Uncomment for debugging values.
+    # Get-Content -Path ./deploy-values.yaml
 
     Write-Host ""
     Write-Host "Helm deploy prep complete!"
@@ -99,15 +780,26 @@ steps:
   workingDirectory: $(System.DefaultWorkingDirectory)
   failOnStderr: true
   env:
+    # COMMON CONFIGS
     SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
     SP_SECRET: ${{ parameters.svcPrincipalSecret }}
     AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
     CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
-    ENV: ${{ parameters.env }}
-    # COMMON CONFIGS
+    ENV: ${{ parameters.env }}    
     WEPAY_GRPC_URL: ${{ parameters.wepayGrpcUrl }}
+    WEPAY_BASE_URL: ${{ parameters.wepayBaseUrl }}
+    WEPAY_UPLOAD_BASE_URL: ${{ parameters.wepayUploadBaseUrl }}
+    WEPAY_API_VERSION: ${{ parameters.wepayApiVersion }}
+    WEPAY_APP_ID: ${{ parameters.wepayAppId }}
+    WEPAY_APP_TOKEN: ${{ parameters.wepayAppToken }}
+    MERCHANT_PORTAL_URL: ${{ parameters.merchantPortalUrl }}
+    PAYER_PORTAL_URL: ${{ parameters.payerPortalUrl }}
+    SB_CONN_STRING: ${{ parameters.serviceBusConnString }}    
+    SB_EVENTS_TOPIC: ${{ parameters.serviceBusEventsTopic }}
+    SB_PLATFORM_EVENTS_TOPIC_CONN_STRING: ${{ parameters.serviceBusPlatformEventsTopicConnString }}
+    FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
     # PAYMENT_CANCEL_RETRY_JOB
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG: ${{ parameters.paymentCancelRetryJobImageTag }}
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentCancelRetryJobImageRepositoryName }}
@@ -117,7 +809,197 @@ steps:
     PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE: ${{ parameters.paymentCancelRetryJobConfigCronSchedule }}
     PAYMENT_CANCEL_RETRY_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.paymentCancelRetryJobConfigSuccessfulJobHistoryLimit }}
     PAYMENT_CANCEL_RETRY_JOB_FAILED_JOB_HISTORY_LIMIT: ${{ parameters.paymentCancelRetryJobConfigFailedJobHistoryLimit }}
-    PAYMENT_CANCEL_RETRY_JOB_NODE_SELECTOR_POOL: ${{ parameters.paymentCancelRetryJobNodeSelectorPool }}
+    PAYMENT_CANCEL_RETRY_JOB_NODE_SELECTOR_POOL: ${{ parameters.paymentCancelRetryJobNodeSelectorPool }}    
+    # ACCT_BALANCE_JOB
+    ACCT_BALANCE_JOB_IMAGE_TAG: ${{ parameters.acctBalanceJobImageTag }}
+    ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.acctBalanceJobImageRepositoryName }}
+    ACCT_BALANCE_JOB_NODE_SELECTOR_POOL: ${{ parameters.acctBalanceJobNodeSelectorPool }}
+    ACCT_BALANCE_JOB_CRON_SCHEDULE: ${{ parameters.acctBalanceJobCronSchedule }}
+    ACCT_BALANCE_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.acctBalanceJobSuccessfulJobHistoryLimit }}
+    ACCT_BALANCE_JOB_FAILED_JOB_HISTORY_LIMIT: ${{ parameters.acctBalanceJobFailedJobHistoryLimit }}      
+    # EZPAY_API_SVC
+    EZPAY_API_SVC_IMAGE_TAG: ${{ parameters.ezpayApiSvcImageTag }}
+    EZPAY_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.ezpayApiSvcImageRepositoryName }}
+    EZPAY_API_SVC_REPLICAS: ${{ parameters.ezpayApiSvcReplicas }}
+    EZPAY_API_SVC_NODE_SELECTOR_POOL: ${{ parameters.ezpayApiSvcNodeSelectorPool }}
+    EZPAY_API_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.ezpayApiSvcResourceLimitsCpu }}
+    EZPAY_API_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.ezpayApiSvcResourceLimitsMemory }}
+    EZPAY_API_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.ezpayApiSvcResourceRequestsCpu }}
+    EZPAY_API_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.ezpayApiSvcResourceRequestsMemory }}
+    EZPAY_API_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.ezpayApiSvcKongIngressUpstreamHostHeader }}
+    EZPAY_API_SVC_KONG_INGRESS_CLASS: ${{ parameters.ezpayApiSvcKongIngressClass }}
+    EZPAY_API_SVC_COSMOS_CONN_STRING: ${{ parameters.ezpayApiSvcCosdbConnString }}
+    EZPAY_API_SVC_COSMOS_DATABASE: ${{ parameters.ezpayApiSvcCosdbDatabase }}
+    EZPAY_API_SVC_COSMOS_CONTAINER: ${{ parameters.ezpayApiSvcCosdbContainer }}
+    EZPAY_API_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.ezpayApiSvcSbPlatformEventsSubscription }}
+    EZPAY_API_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.ezpayApiSvcAppInsightsKey }}
+    EZPAY_API_SVC_B2C_CLIENT_ID: ${{ parameters.ezpayApiSvcB2cClientId }}
+    EZPAY_API_SVC_B2C_DOMAIN_HOST: ${{ parameters.ezpayApiSvcB2cDomainHost }}
+    EZPAY_API_SVC_B2C_TENANT_ID: ${{ parameters.ezpayApiSvcB2cTenantId }}
+    EZPAY_API_SVC_B2C_POLICY_NAME: ${{ parameters.ezpayApiSvcB2cPolicyName }}
+    EZPAY_API_SVC_SUBS_MGMT_GRPC_URL: ${{ parameters.ezpayApiSvcSubsMgmtGrpcUrl }}
+    EZPAY_API_SVC_SUBS_MGMT_API_KEY: ${{ parameters.ezpayApiSvcSubsMgmtApiKey }}
+    EZPAY_API_SVC_SUBS_MGMT_SERVICE_ID: ${{ parameters.ezpayApiSvcSubsMgmtServiceId }}
+    EZPAY_API_SVC_MONGODB_CONN_STRING: ${{ parameters.ezpayApiSvcMongodbConnString }}
+    EZPAY_API_SVC_MONGODB_DATABASE: ${{ parameters.ezpayApiSvcMongodbDatabase }}
+    EZPAY_API_SVC_MONGODB_IDEMPOTENCY_COLLECTION: ${{ parameters.ezpayApiSvcMongodbIdempotencyCollection }}
+    EZPAY_API_SVC_MONGODB_CANCEL_RETRIES_COLLECTION: ${{ parameters.ezpayApiSvcMongodbCancelRetriesCollection }}
+    EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_PHONE_NUMBER: ${{ parameters.ezpayApiSvcPaymentPlatformFromPhoneNumber }}
+    EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_EMAIL: ${{ parameters.ezpayApiSvcPaymentPlatformFromEmail }}
+    EZPAY_API_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.ezpayApiSvcProcessPlatformEvents }}
+    EZPAY_API_SVC_BLOB_STORAGE_URL: ${{ parameters.ezpayApiSvcBlobStorageUrl }}
+    EZPAY_API_SVC_ENCRYPT_PAYER_URL_TOKEN: ${{ parameters.ezpayApiSvcEncryptPayerUrlToken }}
+    EZPAY_API_SVC_ENCRYPTION_KEY: ${{ parameters.ezpayApiSvcEncryptKey }}
+    EZPAY_API_SVC_EZPAY_TOS_VERSION: ${{ parameters.ezpayApiSvcTosVersion }}
+    EZPAY_API_SVC_STATEMENTS_CONTAINER_NAME: ${{ parameters.ezpayApiSvcStatementsContainerName }}
+    EZPAY_API_SVC_INVOICE_CONTAINER_NAME: ${{ parameters.ezpayApiSvcInvoiceContainerName }}
+    EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING: ${{ parameters.ezpayApiSvcInvoiceBlobConnString }}
+    EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL: ${{ parameters.ezpayApiSvcLogicAppUrlShortenerUrl }}
+    EZPAY_API_SVC_PRODUCT_APIS_ONLY: ${{ parameters.ezpayApiSvcProductApisOnly }}
+    EZPAY_API_SVC_NODE_JS_ENV: ${{ parameters.ezpayApiSvcNodeJsEnv }}
+    # EMAIL_NOTIFICATION_SVC
+    EMAIL_NOTIFICATION_SVC_IMAGE_TAG: ${{ parameters.emailNotificationSvcImageTag }}
+    EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.emailNotificationSvcImageRepositoryName }}
+    EMAIL_NOTIFICATION_SVC_REPLICAS: ${{ parameters.emailNotificationSvcReplicas }}
+    EMAIL_NOTIFICATION_SVC_NODE_SELECTOR_POOL: ${{ parameters.emailNotificationSvcNodeSelectorPool }}
+    EMAIL_NOTIFICATION_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.emailNotificationSvcResourceLimitsCpu }}
+    EMAIL_NOTIFICATION_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.emailNotificationSvcResourceLimitsMemory }}
+    EMAIL_NOTIFICATION_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.emailNotificationSvcResourceRequestsCpu }}
+    EMAIL_NOTIFICATION_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.emailNotificationSvcResourceRequestsMemory }}
+    EMAIL_NOTIFICATION_SVC_COSMOS_CONN_STRING: ${{ parameters.emailNotificationSvcCosdbConnString }}
+    EMAIL_NOTIFICATION_SVC_COSMOSDB_DATABASE: ${{ parameters.emailNotificationSvcCosdbDatabase }}
+    EMAIL_NOTIFICATION_SVC_COSMOSDB_COLLECTION_NAME: ${{ parameters.emailNotificationSvcCosdbCollectionName }}
+    EMAIL_NOTIFICATION_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.emailNotificationSvcDbPlatformEventsSubscription }}
+    EMAIL_NOTIFICATION_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.emailNotificationSvcAppInsightsKey }}
+    EMAIL_NOTIFICATION_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.emailNotificationSvcBroadcastPlatformEvents }}
+    EMAIL_NOTIFICATION_SVC_EMAIL_TEMPLATE_LOGO_URL: ${{ parameters.emailNotificationSvcEmailTemplateLogoUrl }}
+    EMAIL_NOTIFICATION_SVC_PLATFORM_EMAIL: ${{ parameters.emailNotificationSvcPlatformEmail }}
+    EMAIL_NOTIFICATION_SVC_PLATFORM_NAME: ${{ parameters.emailNotificationSvcPlatformName }}
+    EMAIL_NOTIFICATION_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.emailNotificationSvcProcessPlatformEvents }}
+    EMAIL_NOTIFICATION_SVC_NODE_JS_ENV: ${{ parameters.emailNotificationSvcNodeJsEnv }}   
+    # ERP_INTEGRATION_SVC
+    ERP_INTEGRATION_SVC_IMAGE_TAG: ${{ parameters.erpIntegrationSvcImageTag }}
+    ERP_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.erpIntegrationSvcImageRepositoryName }}
+    ERP_INTEGRATION_SVC_REPLICAS: ${{ parameters.erpIntegrationSvcReplicas }}
+    ERP_INTEGRATION_SVC_NODE_SELECTOR_POOL: ${{ parameters.erpIntegrationSvcNodeSelectorPool }}
+    ERP_INTEGRATION_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.erpIntegrationSvcResourceLimitsCpu }}
+    ERP_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.erpIntegrationSvcResourceLimitsMemory }}
+    ERP_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.erpIntegrationSvcResourceRequestsCpu }}
+    ERP_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.erpIntegrationSvcResourceRequestsMemory }}
+    ERP_INTEGRATION_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.erpIntegrationSvcKongIngressUpstreamHostHeader }}
+    ERP_INTEGRATION_SVC_KONG_INGRESS_CLASS: ${{ parameters.erpIntegrationSvcKongIngressClass }}
+    ERP_INTEGRATION_SVC_GQL_URL_EZPAY_API_SVC: ${{ parameters.erpIntegrationSvcEzpayApiSvcGqlUrl }}
+    ERP_INTEGRATION_SVC_SYNC_TIMEOUT: ${{ parameters.erpIntegrationSvcSyncTimeout }}
+    ERP_INTEGRATION_SVC_SYNC_MAX_WAIT_TIME: ${{ parameters.erpIntegrationSvcSyncMaxWaitTime }}
+    ERP_INTEGRATION_SVC_NODE_JS_ENV: ${{ parameters.erpIntegrationSvcNodeJsEnv }}    
+    # MERCHANT_OPS_SVC
+    MERCHANT_OPS_SVC_IMAGE_TAG: ${{ parameters.merchantOpsSvcImageTag }}
+    MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.merchantOpsSvcImageRepositoryName }}
+    MERCHANT_OPS_SVC_REPLICAS: ${{ parameters.merchantOpsSvcReplicas }}
+    MERCHANT_OPS_SVC_NODE_SELECTOR_POOL: ${{ parameters.merchantOpsSvcNodeSelectorPool }}
+    MERCHANT_OPS_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.merchantOpsSvcResourceLimitsCpu }}
+    MERCHANT_OPS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.merchantOpsSvcResourceLimitsMemory }}
+    MERCHANT_OPS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.merchantOpsSvcResourceRequestsCpu }}
+    MERCHANT_OPS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.merchantOpsSvcResourceRequestsMemory }}
+    MERCHANT_OPS_SVC_COSMOSDB_CONN_STRING: ${{ parameters.merchantOpsSvcCosdbConnString }}
+    MERCHANT_OPS_SVC_COSMOSDB_DB_NAME: ${{ parameters.merchantOpsSvcCosdbDatabase }}
+    MERCHANT_OPS_SVC_COSMOSDB_CONTAINER_NAME: ${{ parameters.merchantOpsSvcCosdbContainer }}
+    MERCHANT_OPS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION : ${{ parameters.merchantOpsSvcPlatformEventsSubscription }}
+    MERCHANT_OPS_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.merchantOpsSvcAppInsightsKey }}
+    MERCHANT_OPS_SVC_ENABLE_APP_INSIGHTS: ${{ parameters.merchantOpsSvcEnableAppInsights }}
+    MERCHANT_OPS_SVC_ENABLE_K8S_APP_INSIGHTS: ${{ parameters.merchantOpsSvcEnableK8sAppInsights }}
+    # PAYFAC_NOTIFICATIONS_SVC
+    PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG: ${{ parameters.payfacNotificationsSvcImageTag }}
+    PAYFAC_NOTIFICATIONS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.payfacNotificationsSvcImageRepositoryName }}
+    PAYFAC_NOTIFICATIONS_SVC_REPLICAS: ${{ parameters.payfacNotificationsSvcReplicas }}
+    PAYFAC_NOTIFICATIONS_SVC_NODE_SELECTOR_POOL: ${{ parameters.payfacNotificationsSvcNodeSelectorPool }}
+    PAYFAC_NOTIFICATIONS_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.payfacNotificationsSvcResourceLimitsCpu }}
+    PAYFAC_NOTIFICATIONS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.payfacNotificationsSvcResourceLimitsMemory }}
+    PAYFAC_NOTIFICATIONS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.payfacNotificationsSvcResourceRequestCpu }}
+    PAYFAC_NOTIFICATIONS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.payfacNotificationsSvcResourceRequestMemory }}
+    PAYFAC_NOTIFICATIONS_SVC_SB_PAYFAC_NOTIFICATIONS_TOPIC_CONN_STRING: ${{ parameters.payfacNotificationsSvcSbPayfacTopicConnString }}
+    PAYFAC_NOTIFICATIONS_SVC_SB_PAYFAC_NOTIFICATIONS_SUBSCRIPTION: ${{ parameters.payfacNotificationsSvcSbPayfacSubscription }}
+    PAYFAC_NOTIFICATIONS_SVC_SB_PAYFAC_NOTIFICATIONS_TOPIC: ${{ parameters.payfacNotificationsSvcSbPayfacTopic }}
+    PAYFAC_NOTIFICATIONS_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.payfacNotificationsSvcAppInsightsKey }}
+    PAYFAC_NOTIFICATIONS_SVC_EZPAY_WEBHOOK_URL: ${{ parameters.payfacNotificationsSvcEzpayWebhookUrl }}
+    PAYFAC_NOTIFICATIONS_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.payfacNotificationsSvcProcessPlatformEvents }}
+    PAYFAC_NOTIFICATIONS_SVC_PROCESS_NOTIFICATION_EVENTS: ${{ parameters.payfacNotificationsSvcProcessNotificationEvents }}
+    PAYFAC_NOTIFICATIONS_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.payfacNotificationsSvcBroadcastPlatformEvents }}
+    PAYFAC_NOTIFICATIONS_SVC_NODE_JS_ENV: ${{ parameters.payfacNotificationsSvcNodeJsEnv }}    
+    # PAYMENT_OPS_SVC
+    PAYMENT_OPS_SVC_IMAGE_TAG: ${{ parameters.paymentOpsSvcImageTag }}
+    PAYMENT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentOpsSvcImageRepositoryName }}
+    PAYMENT_OPS_SVC_REPLICAS: ${{ parameters.paymentOpsSvcReplicas }}
+    PAYMENT_OPS_SVC_NODE_SELECTOR_POOL: ${{ parameters.paymentOpsSvcNodeSelectorPool }}
+    PAYMENT_OPS_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.paymentOpsSvcResourceLimitsCpu }}
+    PAYMENT_OPS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.paymentOpsSvcResourceLimitsMemory }}
+    PAYMENT_OPS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.paymentOpsSvcResourceRequestsCpu }}
+    PAYMENT_OPS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.paymentOpsSvcResourceRequestsMemory }}
+    PAYMENT_OPS_SVC_COSMOSDB_CONN_STRING: ${{ parameters.paymentOpsSvcCosdbConnString }}
+    PAYMENT_OPS_SVC_COSMOSDB_DATABASE: ${{ parameters.paymentOpsSvcCosdbDatabase }}
+    PAYMENT_OPS_SVC_COSMOSDB_COLLECTION_NAME: ${{ parameters.paymentOpsSvcCosdbCollectionName }}
+    PAYMENT_OPS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.paymentOpsSvcSbPlatformEventsSubscription }}
+    PAYMENT_OPS_SVC_SB_EMAIL_REQS_QUEUE_CONN_STRING: ${{ parameters.paymentOpsSvcSbEmailReqQueueConnString }}
+    PAYMENT_OPS_SVC_SB_EMAIL_REQS_QUEUE: ${{ parameters.paymentOpsSvcSbEmailReqQueue }}
+    PAYMENT_OPS_SVC_SB_SMS_REQS_QUEUE_CONN_STRING: ${{ parameters.paymentOpsSvcSbSmsReqQueueConnString }}
+    PAYMENT_OPS_SVC_SB_SMS_REQS_QUEUE: ${{ parameters.paymentOpsSvcSbSmsReqQueue }}
+    PAYMENT_OPS_SVC_ENABLE_APP_INSIGHTS: ${{ parameters.paymentOpsSvcEnableAppInsights }}
+    PAYMENT_OPS_SVC_ENABLE_K8S_APP_INSIGHTS: ${{ parameters.paymentOpsSvcEnableK8sAppInsights }}    
+    # PAYMENTS_SVC
+    PAYMENTS_SVC_IMAGE_TAG: ${{ parameters.paymentsSvcImageTag }}
+    PAYMENTS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentsSvcImageRepositoryName }}
+    PAYMENTS_SVC_REPLICAS: ${{ parameters.paymentsSvcReplicas }}
+    PAYMENTS_SVC_NODE_SELECTOR_POOL: ${{ parameters.paymentsSvcNodeSelectorPool }}
+    PAYMENTS_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.paymentsSvcResourceLimitsCpu }}
+    PAYMENTS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.paymentsSvcResourceLimitsMemory }}
+    PAYMENTS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.paymentsSvcResourceRequestsCpu }}
+    PAYMENTS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.paymentsSvcResourceRequestsMemory }}
+    PAYMENTS_SVC_COSMOSDB_CONN_STRING: ${{ parameters.paymentsSvcCosdbConnString }}
+    PAYMENTS_SVC_COSMOSDB_DB_NAME: ${{ parameters.paymentsSvcCosdbDatabase }}
+    PAYMENTS_SVC_COSMOSDB_CONTAINER_NAME: ${{ parameters.paymentsSvcCosdbContainer }}
+    PAYMENTS_SVC_MONGODB_CONN_STRING: ${{ parameters.paymentsSvcMongodbConnString }}
+    PAYMENTS_SVC_MONGODB_DB_NAME: ${{ parameters.paymentsSvcMongodbDatabase }}
+    PAYMENTS_SVC_MONGODB_COLLECTION_NAME: ${{ parameters.paymentsSvcMongodbCollection }}
+    PAYMENTS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.paymentsSvcPlatformEventsSubscription }}
+    PAYMENTS_SVC_CRON_SCHEDULE: ${{ parameters.paymentsSvcCronSchedule }}
+    PAYMENTS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.paymentsSvcSuccessfulJobHistoryLimit }}
+    PAYMENTS_SVC_FAILED_JOB_HISTORY_LIMIT: ${{ parameters.paymentsSvcFailedJobHistoryLimit }}
+    PAYMENTS_SVC_ENABLE_APP_INSIGHTS: ${{ parameters.paymentsSvcEnableAppInsights }}
+    PAYMENTS_SVC_ENABLE_K8S_APP_INSIGHTS: ${{ parameters.paymentsSvcEnableK8sAppInsights }}    
+    # TXN_RECORDS_SVC
+    TXN_RECORDS_SVC_IMAGE_TAG: ${{ parameters.txnRecordsSvcImageTag }}
+    TXN_RECORDS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.txnRecordsSvcImageRepositoryName }}
+    TXN_RECORDS_SVC_REPLICAS: ${{ parameters.txnRecordsSvcReplicas }}
+    TXN_RECORDS_SVC_NODE_SELECTOR_POOL: ${{ parameters.txnRecordsSvcNodeSelectorPool }}
+    TXN_RECORDS_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.txnRecordsSvcResourceLimitCpu }}
+    TXN_RECORDS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.txnRecordsSvcResourceLimitMemory }}
+    TXN_RECORDS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.txnRecordsSvcResourceRequestCpu }}
+    TXN_RECORDS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.txnRecordsSvcResourceRequestMemory }}
+    TXN_RECORDS_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.txnRecordsSvcBroadcastPlatformEvents }}
+    TXN_RECORDS_SVC_PLATFORM_EMAIL: ${{ parameters.txnRecordsSvcPlatformEmail }}
+    TXN_RECORDS_SVC_COSMOSDB_CONN_STRING: ${{ parameters.txnRecordsSvcCosdbConnString }}
+    TXN_RECORDS_SVC_COSMOSDB_DATABASE: ${{ parameters.txnRecordsSvcCosdbDatabase }}
+    TXN_RECORDS_SVC_COSMOSDB_COLLECTION_NAME: ${{ parameters.txnRecordsSvcCosdbCollection }}
+    TXN_RECORDS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.txnRecordsSvcDbPlatformEventsSubscription }}
+    TXN_RECORDS_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.txnRecordsSvcAppInsightsKey }}
+    TXN_RECORDS_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.txnRecordsSvcProcessPlatformEvents }}
+    TXN_RECORDS_SVC_STATEMENTS_CONTAINER_NAME: ${{ parameters.txnRecordsSvcStatementsContainer }}
+    TXN_RECORDS_SVC_STATEMENT_PERIOD: ${{ parameters.txnRecordsSvcStatementPeriod }}
+    TXN_RECORDS_SVC_STATEMENTS_BLOB_CONNECTION_STRING: ${{ parameters.txnRecordsSvcStatementsBlobConnString }}
+    TXN_RECORDS_SVC_CRON_SCHEDULE: ${{ parameters.txnRecordsSvcCronSchedule }}
+    TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.txnRecordsSvcSuccessfulJobHistoryLimit }}
+    TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT: ${{ parameters.txnRecordsSvcFailedJobHistoryLimit }}
+    TXN_RECORDS_SVC_NODE_JS_ENV: ${{ parameters.txnRecordsSvcNodeJsEnv }}
+    # WEPAY_INTEGRATION_SVC
+    WEPAY_INTEGRATION_SVC_IMAGE_TAG: ${{ parameters.wepayIntegrationSvcImageTag }}
+    WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.wepayIntegrationSvcImageRepositoryName }}
+    WEPAY_INTEGRATION_SVC_REPLICAS: ${{ parameters.wepayIntegrationSvcReplicas }}
+    WEPAY_INTEGRATION_SVC_NODE_SELECTOR_POOL: ${{ parameters.wepayIntegrationSvcNodeSelectorPool }}
+    WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.wepayIntegrationSvcResourceLimitsCpu }}
+    WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.wepayIntegrationSvcResourceLimitsMemory }}
+    WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.wepayIntegrationSvcResourceRequestCpu }}
+    WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.wepayIntegrationSvcResourceRequestMemory }}
+    WEPAY_INTEGRATION_SVC_NODE_JS_ENV: ${{ parameters.wepayIntegrationSvcNodeJsEnv }}    
 
 - task: Kubernetes@1
   displayName: Kubectl Version
