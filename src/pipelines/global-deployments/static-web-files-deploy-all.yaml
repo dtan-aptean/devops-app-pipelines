@@ -14,7 +14,7 @@ resources:
 stages:
 - stage: TST_ECOMM_DOCS_DEPLOY
   displayName: TST - Ecommerce DocFX Deployment
-  dependsOn: DEV_ECOMM_DOCS_DEPLOY
+  dependsOn: []
   
   jobs:
   - deployment: azcopy_to_fileshare
