@@ -34,7 +34,7 @@ variables:
   value: ecomm-sf.ecomm-dev.svc
 - name: STOREFRONT_KONG_INGRESS_CLASS
   value: kong-dev  
-- name: STOREFRONT_KONG_INGRESS_NAME
+- name: STOREFRONT_KONG_INGRESS_NM
   value: ecomm-sf-do-not-preserve-host
 - name: STOREFRONT_REPLICAS
   value: 1  
