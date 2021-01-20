@@ -8,7 +8,7 @@ steps:
   - pwsh: |
       az login --service-principal -u $(SERVICE_PRINCIPAL_CLIENT_ID_SHR) -p $(SERVICE_PRINCIPAL_SECRET_SHR) --tenant $(TENANT_ID)
       $fullRegistryName = "$(ACR_FULL_NAME_SHR)"
-      $latestTag = 20211.103.1-mid.jan.2021
+      $latestTag = '20211.103.1-mid.jan.2021'
       az logout
       $env:ACR_SECRET_SHR | docker login $(ACR_FULL_NAME_SHR) --username $(ACR_USER_NAME_SHR) --password-stdin
       docker pull $(ACR_FULL_NAME_SHR)/${{ parameters.serviceName }}:$latestTag
