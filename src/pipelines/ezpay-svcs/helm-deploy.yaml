@@ -20,12 +20,12 @@ resources:
   #     branches:
   #       include:
   #       - master
-  # - pipeline: ezpay-email-notifications-docker-build-push
-  #   source: ezpay-email-notifications-docker-build-push
-  #   trigger:
-  #     branches:
-  #       include:
-  #       - master
+  - pipeline: ezpay-email-notifications-docker-build-push
+    source: ezpay-email-notifications-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
   # - pipeline: ezpay-erp-integration-svc-docker-build-push
   #   source: ezpay-erp-integration-svc-docker-build-push
   #   trigger:
