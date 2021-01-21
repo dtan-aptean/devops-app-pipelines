@@ -1,12 +1,6 @@
 trigger: none
 
 resources:
-  repositories:
-  - repository: ecommerce-services
-    type: git
-    name: ecommerce-services
-    ref: refs/heads/master  
-
   pipelines:
   - pipeline: ecomm_static_files
     source: ecommerce-static-web-files-master-build
