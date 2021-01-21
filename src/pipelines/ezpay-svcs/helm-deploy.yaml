@@ -32,12 +32,12 @@ resources:
   #     branches:
   #       include:
   #       - master
-  # - pipeline: ezpay-merchant-ops-svc-docker-build-push
-  #   source: ezpay-merchant-ops-svc-docker-build-push
-  #   trigger:
-  #     branches:
-  #       include:
-  #       - master
+  - pipeline: ezpay-merchant-ops-svc-docker-build-push
+    source: ezpay-merchant-ops-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
   # - pipeline: ezpay-payfac-notifications-docker-build-push
   #   source: ezpay-payfac-notifications-docker-build-push
   #   trigger:
