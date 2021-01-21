@@ -20,14 +20,14 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ecomm-stg
+    environment: ecomm-prd
 
     pool:
       vmImage: 'ubuntu-latest'
 
     variables:
     - group: ecomm-sf-springscreative
-    - template: ../../helm-variables-stg.yaml
+    - template: ../../helm-variables-prd.yaml
 
     strategy:
       runOnce:
@@ -36,9 +36,9 @@ stages:
           - template: ../../helm-deploy-step.yaml
             parameters:
               deployMode: 'storefront'
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
               azureTenantId: $(AZURE_TENANT_ID)
               aksName: $(AKS_NAME)
               aksResourceGroup: $(AKS_RESOURCE_GROUP)
