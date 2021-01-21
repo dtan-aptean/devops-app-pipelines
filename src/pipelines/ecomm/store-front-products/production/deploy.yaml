@@ -20,14 +20,14 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ecomm-dev
+    environment: ecomm-stg
 
     pool:
       vmImage: 'ubuntu-latest'
 
     variables:
     - group: ecomm-sf-springscreative
-    - template: ../../helm-variables-dev.yaml
+    - template: ../../helm-variables-stg.yaml
 
     strategy:
       runOnce:
