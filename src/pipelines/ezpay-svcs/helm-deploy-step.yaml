@@ -409,7 +409,7 @@ steps:
 
     accountBalanceUpdatesJob:
       image:
-        repository: $env:ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME"
         tag: $latestAccountBalanceJobTag
 
       nodeSelector:
