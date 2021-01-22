@@ -24,6 +24,7 @@ parameters:
   serviceBusEventsTopic: ''
   serviceBusPlatformEventsTopicConnString: ''
   frontDoorId: ''
+  nodeJsEnv: ''
   # Cancel Payment Retry Job
   paymentCancelRetryJobImageRepositoryName: ''
   paymentCancelRetryJobImageTag: ''
@@ -80,7 +81,6 @@ parameters:
   ezpayApiSvcInvoiceBlobConnString: ''
   ezpayApiSvcLogicAppUrlShortenerUrl: ''
   ezpayApiSvcProductApisOnly: ''
-  ezpayApiSvcNodeJsEnv: ''  
   # EMAIL NOTIFICATION SVC
   emailNotificationSvcImageTag: ''
   emailNotificationSvcImageRepositoryName: ''
@@ -100,7 +100,6 @@ parameters:
   emailNotificationSvcPlatformEmail: ''
   emailNotificationSvcPlatformName: ''
   emailNotificationSvcProcessPlatformEvents: ''
-  emailNotificationSvcNodeJsEnv: ''
   # ERP INTEGRATION SVC
   erpIntegrationSvcImageRepositoryName: ''
   erpIntegrationSvcImageTag: ''
@@ -115,7 +114,6 @@ parameters:
   erpIntegrationSvcEzpayApiSvcGqlUrl: ''
   erpIntegrationSvcSyncTimeout: ''
   erpIntegrationSvcSyncMaxWaitTime: ''
-  erpIntegrationSvcNodeJsEnv: ''  
   # MERCHANT OPS SVC
   merchantOpsSvcImageRepositoryName: ''
   merchantOpsSvcImageTag: ''
@@ -150,7 +148,6 @@ parameters:
   payfacNotificationsSvcProcessPlatformEvents: ''
   payfacNotificationsSvcProcessNotificationEvents: ''
   payfacNotificationsSvcBroadcastPlatformEvents: ''
-  payfacNotificationsSvcNodeJsEnv: ''  
   # PAYMENT OPS SVC
   paymentOpsSvcImageRepositoryName: ''
   paymentOpsSvcImageTag: ''
@@ -214,7 +211,6 @@ parameters:
   txnRecordsSvcCronSchedule: ''
   txnRecordsSvcSuccessfulJobHistoryLimit: ''
   txnRecordsSvcFailedJobHistoryLimit: ''
-  txnRecordsSvcNodeJsEnv: ''  
   # WEPAY INTEGRATION SVC
   wepayIntegrationSvcImageRepositoryName: ''
   wepayIntegrationSvcImageTag: ''
@@ -224,7 +220,6 @@ parameters:
   wepayIntegrationSvcResourceLimitsMemory: ''
   wepayIntegrationSvcResourceRequestCpu: ''
   wepayIntegrationSvcResourceRequestMemory: ''
-  wepayIntegrationSvcNodeJsEnv: ''  
 
 steps:
 - pwsh: |
@@ -393,6 +388,7 @@ steps:
         uploadBaseUrl: "$env:WEPAY_UPLOAD_BASE_URL"
       merchantPortalUrl: "$env:MERCHANT_PORTAL_URL"
       payerPortalUrl: "$env:PAYER_PORTAL_URL"
+      nodejsEnv: "$env:NODE_JS_ENV"
 
     paymentCancelRetryJob:
       image:
@@ -491,7 +487,6 @@ steps:
         invoiceBlobConnectionString: "$env:EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING"
         urlShortenerUrl: "$env:EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL"
         productAPIsOnly: $env:EZPAY_API_SVC_PRODUCT_APIS_ONLY
-        nodejsEnv: "$env:EZPAY_API_SVC_NODE_JS_ENV"
 
     emailNotificationSvc:
       image:      
@@ -527,7 +522,6 @@ steps:
         platformEmail: "$env:EMAIL_NOTIFICATION_SVC_PLATFORM_EMAIL"
         platformName: "$env:EMAIL_NOTIFICATION_SVC_PLATFORM_NAME"
         processPlatformEvents: $env:EMAIL_NOTIFICATION_SVC_PROCESS_PLATFORM_EVENTS
-        nodejsEnv: "$env:EMAIL_NOTIFICATION_SVC_NODE_JS_ENV"    
       
     erpIntegrationSvc:
       image:
@@ -566,7 +560,6 @@ steps:
           gqlUrl: "$env:ERP_INTEGRATION_SVC_GQL_URL_EZPAY_API_SVC"
         syncTimeout: "$env:ERP_INTEGRATION_SVC_SYNC_TIMEOUT"
         syncMaxWaitTime: "$env:ERP_INTEGRATION_SVC_SYNC_MAX_WAIT_TIME"
-        nodejsEnv: "$env:ERP_INTEGRATION_SVC_NODE_JS_ENV"
 
     merchantOpsSvc:
       image:
@@ -631,7 +624,6 @@ steps:
         processPlatformEvents: $env:PAYFAC_NOTIFICATIONS_SVC_PROCESS_PLATFORM_EVENTS
         processNotificationEvents: $env:PAYFAC_NOTIFICATIONS_SVC_PROCESS_NOTIFICATION_EVENTS
         broadcastPlatformEvents: "$env:PAYFAC_NOTIFICATIONS_SVC_BROADCAST_PLATFORM_EVENTS"
-        nodejsEnv: "$env:PAYFAC_NOTIFICATIONS_SVC_NODE_JS_ENV"
 
     paymentOpsSvc:
       image:
@@ -743,7 +735,6 @@ steps:
         cronSchedule: "$env:TXN_RECORDS_SVC_CRON_SCHEDULE"
         successfulJobsHistoryLimit: $env:TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT
         failedJobsHistoryLimit: $env:TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT
-        nodejsEnv: "$env:TXN_RECORDS_SVC_NODE_JS_ENV"    
 
     wepayIntegrationSvc:
       image:
@@ -764,9 +755,6 @@ steps:
           requests:
             cpu: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY
-
-      config:
-        nodejsEnv: "$env:WEPAY_INTEGRATION_SVC_NODE_JS_ENV"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -800,6 +788,7 @@ steps:
     SB_EVENTS_TOPIC: ${{ parameters.serviceBusEventsTopic }}
     SB_PLATFORM_EVENTS_TOPIC_CONN_STRING: ${{ parameters.serviceBusPlatformEventsTopicConnString }}
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
+    NODE_JS_ENV: ${{ parameters.nodeJsEnv }}
     # PAYMENT_CANCEL_RETRY_JOB
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG: ${{ parameters.paymentCancelRetryJobImageTag }}
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentCancelRetryJobImageRepositoryName }}
@@ -856,7 +845,6 @@ steps:
     EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING: ${{ parameters.ezpayApiSvcInvoiceBlobConnString }}
     EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL: ${{ parameters.ezpayApiSvcLogicAppUrlShortenerUrl }}
     EZPAY_API_SVC_PRODUCT_APIS_ONLY: ${{ parameters.ezpayApiSvcProductApisOnly }}
-    EZPAY_API_SVC_NODE_JS_ENV: ${{ parameters.ezpayApiSvcNodeJsEnv }}
     # EMAIL_NOTIFICATION_SVC
     EMAIL_NOTIFICATION_SVC_IMAGE_TAG: ${{ parameters.emailNotificationSvcImageTag }}
     EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.emailNotificationSvcImageRepositoryName }}
@@ -876,7 +864,6 @@ steps:
     EMAIL_NOTIFICATION_SVC_PLATFORM_EMAIL: ${{ parameters.emailNotificationSvcPlatformEmail }}
     EMAIL_NOTIFICATION_SVC_PLATFORM_NAME: ${{ parameters.emailNotificationSvcPlatformName }}
     EMAIL_NOTIFICATION_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.emailNotificationSvcProcessPlatformEvents }}
-    EMAIL_NOTIFICATION_SVC_NODE_JS_ENV: ${{ parameters.emailNotificationSvcNodeJsEnv }}   
     # ERP_INTEGRATION_SVC
     ERP_INTEGRATION_SVC_IMAGE_TAG: ${{ parameters.erpIntegrationSvcImageTag }}
     ERP_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.erpIntegrationSvcImageRepositoryName }}
@@ -891,7 +878,6 @@ steps:
     ERP_INTEGRATION_SVC_GQL_URL_EZPAY_API_SVC: ${{ parameters.erpIntegrationSvcEzpayApiSvcGqlUrl }}
     ERP_INTEGRATION_SVC_SYNC_TIMEOUT: ${{ parameters.erpIntegrationSvcSyncTimeout }}
     ERP_INTEGRATION_SVC_SYNC_MAX_WAIT_TIME: ${{ parameters.erpIntegrationSvcSyncMaxWaitTime }}
-    ERP_INTEGRATION_SVC_NODE_JS_ENV: ${{ parameters.erpIntegrationSvcNodeJsEnv }}    
     # MERCHANT_OPS_SVC
     MERCHANT_OPS_SVC_IMAGE_TAG: ${{ parameters.merchantOpsSvcImageTag }}
     MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.merchantOpsSvcImageRepositoryName }}
@@ -925,7 +911,6 @@ steps:
     PAYFAC_NOTIFICATIONS_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.payfacNotificationsSvcProcessPlatformEvents }}
     PAYFAC_NOTIFICATIONS_SVC_PROCESS_NOTIFICATION_EVENTS: ${{ parameters.payfacNotificationsSvcProcessNotificationEvents }}
     PAYFAC_NOTIFICATIONS_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.payfacNotificationsSvcBroadcastPlatformEvents }}
-    PAYFAC_NOTIFICATIONS_SVC_NODE_JS_ENV: ${{ parameters.payfacNotificationsSvcNodeJsEnv }}    
     # PAYMENT_OPS_SVC
     PAYMENT_OPS_SVC_IMAGE_TAG: ${{ parameters.paymentOpsSvcImageTag }}
     PAYMENT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentOpsSvcImageRepositoryName }}
@@ -989,7 +974,6 @@ steps:
     TXN_RECORDS_SVC_CRON_SCHEDULE: ${{ parameters.txnRecordsSvcCronSchedule }}
     TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.txnRecordsSvcSuccessfulJobHistoryLimit }}
     TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT: ${{ parameters.txnRecordsSvcFailedJobHistoryLimit }}
-    TXN_RECORDS_SVC_NODE_JS_ENV: ${{ parameters.txnRecordsSvcNodeJsEnv }}
     # WEPAY_INTEGRATION_SVC
     WEPAY_INTEGRATION_SVC_IMAGE_TAG: ${{ parameters.wepayIntegrationSvcImageTag }}
     WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.wepayIntegrationSvcImageRepositoryName }}
@@ -999,7 +983,6 @@ steps:
     WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.wepayIntegrationSvcResourceLimitsMemory }}
     WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.wepayIntegrationSvcResourceRequestCpu }}
     WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.wepayIntegrationSvcResourceRequestMemory }}
-    WEPAY_INTEGRATION_SVC_NODE_JS_ENV: ${{ parameters.wepayIntegrationSvcNodeJsEnv }}    
 
 - task: Kubernetes@1
   displayName: Kubectl Version
