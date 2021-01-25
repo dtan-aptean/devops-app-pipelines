@@ -105,7 +105,6 @@ stages:
               ezpayApiSvcInvoiceBlobConnString: $(EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING)
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
-              #ezpayApiSvcNodeJsEnv: $(EZPAY_API_SVC_)  
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -337,7 +336,6 @@ stages:
               ezpayApiSvcInvoiceBlobConnString: $(EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING)
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
-              #ezpayApiSvcNodeJsEnv: $(EZPAY_API_SVC_)  
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -503,6 +501,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
+              nodeJsEnv: 'production'
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -569,7 +568,6 @@ stages:
               ezpayApiSvcInvoiceBlobConnString: $(EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING)
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
-              #ezpayApiSvcNodeJsEnv: $(EZPAY_API_SVC_)  
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
