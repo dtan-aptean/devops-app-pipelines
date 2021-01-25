@@ -18,13 +18,13 @@ stages:
 
     variables:
     - group: ecomm-prf
-    - template: ../ecomm/helm-variables-prf.yaml
+    - template: ../../ecomm/helm-variables-prf.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../ecomm/helm-deploy-step.yaml
+          - template: ../../ecomm/helm-deploy-step.yaml
             parameters:
               deployMode: 'all'
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
