@@ -6,6 +6,9 @@ resources:
   - pipeline: merchant_portal_static_files
     source: ezpay-merchant-portal-master-build
 
+  - pipeline: payer_portal_static_files
+    source: ezpay-payer-portal-master-build
+
 stages:
 
 ### MERCHANT PORTAL ###
