@@ -76,7 +76,7 @@ stages:
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
-              storefrontReplicas: $(STOREFRONT_REPLICAS)              
+              storefrontReplicas: $(STOREFRONT_REPLICAS)                            
               storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
               storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
               storefrontKongIngressName: $(STOREFRONT_KONG_INGRESS_NM)
@@ -85,6 +85,7 @@ stages:
               storefrontResourceRequestsCpu: $(STOREFRONT_RESOURCE_REQUESTS_CPU)
               storefrontResourceRequestsMemory: $(STOREFRONT_RESOURCE_REQUESTS_MEMORY)
               storefrontNodeSelectorPool: $(STOREFRONT_NODE_SELECTOR_POOL)            
+              storefrontConfigImageTag: $(STOREFRONT_CONFIG_IMAGE_TAG)
               storefrontConfigApteanTenantId: $(STOREFRONT_CONFIG_APTEAN_TENANT_ID)
               storefrontConfigStoreUrl: $(STOREFRONT_CONFIG_STORE_URL)
               storefrontConfigAdminEmail: $(STOREFRONT_CONFIG_ADMIN_EMAIL)
