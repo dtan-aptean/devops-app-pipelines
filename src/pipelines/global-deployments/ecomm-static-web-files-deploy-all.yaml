@@ -25,7 +25,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: DOCKER_BUILDKIT=1 docker build --target deploy --build-arg STORAGE_ACCOUNT="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)" --build-arg SAS_TOKEN="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_SAS_TOKEN)" -t ecomm-docs:$(Build.BuildId) .
+          - script: DOCKER_BUILDKIT=1 docker build --target deploy --build-arg STORAGE_ACCOUNT_NAME="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)" --build-arg STORAGE_ACCOUNT_KEY="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCOUNT_KEY)" --build-arg STORAGE_ACCOUNT_CONN_STRING="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_CONN_STRING)" -t ecomm-docs:$(Build.BuildId) .
             displayName: Build Docker Image
             name: buildDockerImage
             workingDirectory: $(Pipeline.Workspace)/ecomm_static_files/drop
@@ -49,7 +49,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: DOCKER_BUILDKIT=1 docker build --target deploy --build-arg STORAGE_ACCOUNT="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)" --build-arg SAS_TOKEN="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_SAS_TOKEN)" -t ecomm-docs:$(Build.BuildId) .
+          - script: DOCKER_BUILDKIT=1 docker build --target deploy --build-arg STORAGE_ACCOUNT_NAME="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)" --build-arg STORAGE_ACCOUNT_KEY="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCOUNT_KEY)" --build-arg STORAGE_ACCOUNT_CONN_STRING="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_CONN_STRING)" -t ecomm-docs:$(Build.BuildId) .
             displayName: Build Docker Image
             name: buildDockerImage
             workingDirectory: $(Pipeline.Workspace)/ecomm_static_files/drop
@@ -73,7 +73,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: DOCKER_BUILDKIT=1 docker build --target deploy --build-arg STORAGE_ACCOUNT="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)" --build-arg SAS_TOKEN="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_SAS_TOKEN)" -t ecomm-docs:$(Build.BuildId) .
+          - script: DOCKER_BUILDKIT=1 docker build --target deploy --build-arg STORAGE_ACCOUNT_NAME="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)" --build-arg STORAGE_ACCOUNT_KEY="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCOUNT_KEY)" --build-arg STORAGE_ACCOUNT_CONN_STRING="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_CONN_STRING)" -t ecomm-docs:$(Build.BuildId) .
             displayName: Build Docker Image
             name: buildDockerImage
             workingDirectory: $(Pipeline.Workspace)/ecomm_static_files/drop

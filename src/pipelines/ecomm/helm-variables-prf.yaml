@@ -37,7 +37,7 @@ variables:
 - name: STOREFRONT_KONG_INGRESS_NM
   value: ecomm-sf-do-not-preserve-host    
 - name: STOREFRONT_REPLICAS
-  value: 1  
+  value: 2  
 - name: STOREFRONT_NODE_SELECTOR_POOL
   value: ecommsfs  
 # GQL API SVC
@@ -56,7 +56,7 @@ variables:
 - name: GQL_API_SVC_KONG_INGRESS_CLASS
   value: kong-prf 
 - name: GQL_API_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: GQL_API_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs     
 # ERP SVC
@@ -71,7 +71,7 @@ variables:
 - name: ERP_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi  
 - name: ERP_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: ERP_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs   
 # LANG SVC
