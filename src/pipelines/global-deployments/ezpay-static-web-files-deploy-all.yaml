@@ -51,7 +51,7 @@ stages:
   dependsOn: []
 
   jobs:
-    - template: ../templates/deploy-static.yaml
+    - template: ../templates/deploy-ezpay-static.yaml
       parameters:
         variableGroup: ezpay-payer-tst
         targetEnvironment: ezpay-payer-portal-tst
@@ -64,7 +64,7 @@ stages:
   dependsOn: TST_PAYER_PORTAL_DEPLOY
 
   jobs:
-    - template: ../templates/deploy-static.yaml
+    - template: ../templates/deploy-ezpay-static.yaml
       parameters:
         variableGroup: ezpay-payer-stg
         targetEnvironment: ezpay-payer-portal-stg
@@ -76,7 +76,7 @@ stages:
   dependsOn: STG_PAYER_PORTAL_DEPLOY
 
   jobs:
-    - template: ../templates/deploy-static.yaml
+    - template: ../templates/deploy-ezpay-static.yaml
       parameters:
         variableGroup: ezpay-payer-prd
         targetEnvironment: ezpay-payer-portal-prd
