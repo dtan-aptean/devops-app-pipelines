@@ -130,6 +130,7 @@ stages:
 
 - stage: DEV_Ezpay_Transaction_Records_Stmts_Job_Helm_Deploy
   displayName: DEV - ezpay-transaction-records-stmts-job Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy

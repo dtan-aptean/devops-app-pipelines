@@ -2,12 +2,12 @@ variables:
 - name: MAJOR_VERSION_YEAR
   value: 2021
 - name: MAJOR_VERSION_MONTH
-  value: 1
+  value: 2
 - name: MINOR_VERSION
   value: $[counter(variables['MAJOR_VERSION_MONTH'], 100)]
 - name: FULL_VERSION
   value: $(MAJOR_VERSION_YEAR)$(MAJOR_VERSION_MONTH).$(MINOR_VERSION)
 - name: FRIENDLY_NAME
-  value: 'Late Jan 2021'
+  value: 'Mid Feb 2021'
 - name: FULL_VERSION_FRIENDLY
-  value: $(MAJOR_VERSION_YEAR)$(MAJOR_VERSION_MONTH).$(MINOR_VERSION).1-late.jan.2021
+  value: $(MAJOR_VERSION_YEAR)$(MAJOR_VERSION_MONTH).$(MINOR_VERSION).1-mid.feb.2021
