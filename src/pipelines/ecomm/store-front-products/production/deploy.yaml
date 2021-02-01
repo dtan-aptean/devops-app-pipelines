@@ -7,62 +7,45 @@ resources:
     trigger:
       branches:
         include:
-        - master
-  - pipeline: ecomm-erp-svc-docker-build-push
-    source: ecomm-erp-svc-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
-  - pipeline: ecomm-gql-api-svc-docker-build-push
-    source: ecomm-gql-api-svc-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master  
-  - pipeline: ecomm-lang-svc-docker-build-push
-    source: ecomm-lang-svc-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master                      
+        - master                     
 
 variables:
 - group: helm-chart-svc-principal-config
 
 stages:
-- stage: DEV_Ecomm_Helm_Deploy
-  displayName: DEV - Ecomm Helm Deploy
+- stage: SpringsCreative_Ecomm_SF_Deploy
+  displayName: SpringsCreative - Ecomm Helm Deploy
+  dependsOn: []
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ecomm-dev
+    environment: ecomm-prd
 
     pool:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ecomm-dev
-    - template: helm-variables-dev.yaml
+    - group: ecomm-sf-springscreative
+    - template: ../../helm-variables-prd.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yaml
+          - template: ../../helm-deploy-step.yaml
             parameters:
-              deployMode: 'all'
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              deployMode: 'storefront'
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
               azureTenantId: $(AZURE_TENANT_ID)
               aksName: $(AKS_NAME)
               aksResourceGroup: $(AKS_RESOURCE_GROUP)
               containerRegistryName: $(CONTAINER_REGISTRY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: springscreative
               chartName: $(CHART_NAME)
               env: $(ENV)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
@@ -76,16 +59,15 @@ stages:
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
-              storefrontReplicas: $(STOREFRONT_REPLICAS)                            
+              storefrontReplicas: $(STOREFRONT_REPLICAS)              
               storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
               storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
-              storefrontKongIngressName: $(STOREFRONT_KONG_INGRESS_NM)
+              storefrontKongIngressName: 'springscreative-ecomm-sf-do-not-preserve-host'
               storefrontResourceLimitsCpu: $(STOREFRONT_RESOURCE_LIMITS_CPU)
               storefrontResourceLimitsMemory: $(STOREFRONT_RESOURCE_LIMITS_MEMORY)
               storefrontResourceRequestsCpu: $(STOREFRONT_RESOURCE_REQUESTS_CPU)
               storefrontResourceRequestsMemory: $(STOREFRONT_RESOURCE_REQUESTS_MEMORY)
               storefrontNodeSelectorPool: $(STOREFRONT_NODE_SELECTOR_POOL)            
-              storefrontConfigImageTag: $(STOREFRONT_CONFIG_IMAGE_TAG)
               storefrontConfigApteanTenantId: $(STOREFRONT_CONFIG_APTEAN_TENANT_ID)
               storefrontConfigStoreUrl: $(STOREFRONT_CONFIG_STORE_URL)
               storefrontConfigAdminEmail: $(STOREFRONT_CONFIG_ADMIN_EMAIL)
@@ -164,6 +146,3 @@ stages:
               langSvcNodeSelectorPool: $(LANG_SVC_NODE_SELECTOR_POOL)
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
               langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
-                                                       
-           
-

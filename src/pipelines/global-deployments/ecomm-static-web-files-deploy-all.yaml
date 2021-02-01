@@ -1,0 +1,79 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: ecomm_static_files
+    source: ecommerce-static-web-files-master-build
+    
+stages:
+- stage: TST_ECOMM_DOCS_DEPLOY
+  displayName: TST - Ecommerce DocFX Deployment
+  dependsOn: []
+  
+  jobs:
+  - deployment: azcopy_to_fileshare
+    displayName: Deploy to Azure
+    environment: ecomm-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-tst
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: DOCKER_BUILDKIT=1 docker build --target deploy --build-arg STORAGE_ACCOUNT_NAME="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)" --build-arg STORAGE_ACCOUNT_KEY="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCOUNT_KEY)" --build-arg STORAGE_ACCOUNT_CONN_STRING="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_CONN_STRING)" -t ecomm-docs:$(Build.BuildId) .
+            displayName: Build Docker Image
+            name: buildDockerImage
+            workingDirectory: $(Pipeline.Workspace)/ecomm_static_files/drop
+
+- stage: STG_ECOMM_DOCS_DEPLOY
+  displayName: STG - Ecommerce DocFX Deployment
+  dependsOn: TST_ECOMM_DOCS_DEPLOY
+  
+  jobs:
+  - deployment: azcopy_to_fileshare
+    displayName: Deploy to Azure
+    environment: ecomm-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-stg
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: DOCKER_BUILDKIT=1 docker build --target deploy --build-arg STORAGE_ACCOUNT_NAME="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)" --build-arg STORAGE_ACCOUNT_KEY="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCOUNT_KEY)" --build-arg STORAGE_ACCOUNT_CONN_STRING="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_CONN_STRING)" -t ecomm-docs:$(Build.BuildId) .
+            displayName: Build Docker Image
+            name: buildDockerImage
+            workingDirectory: $(Pipeline.Workspace)/ecomm_static_files/drop
+
+- stage: PRD_ECOMM_DOCS_DEPLOY
+  displayName: PRD - Ecommerce DocFX Deployment
+  dependsOn: STG_ECOMM_DOCS_DEPLOY
+  
+  jobs:
+  - deployment: azcopy_to_fileshare
+    displayName: Deploy to Azure
+    environment: ecomm-prd
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-prd
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: DOCKER_BUILDKIT=1 docker build --target deploy --build-arg STORAGE_ACCOUNT_NAME="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)" --build-arg STORAGE_ACCOUNT_KEY="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCOUNT_KEY)" --build-arg STORAGE_ACCOUNT_CONN_STRING="$(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_CONN_STRING)" -t ecomm-docs:$(Build.BuildId) .
+            displayName: Build Docker Image
+            name: buildDockerImage
+            workingDirectory: $(Pipeline.Workspace)/ecomm_static_files/drop
