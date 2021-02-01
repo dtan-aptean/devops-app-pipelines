@@ -14,12 +14,12 @@ resources:
       branches:
         include:
         - master
-  # - pipeline: ezpay-api-svc-docker-build-push
-  #   source: ezpay-api-svc-docker-build-push
-  #   trigger:
-  #     branches:
-  #       include:
-  #       - master
+  - pipeline: ezpay-api-svc-docker-build-push
+    source: ezpay-api-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
   - pipeline: ezpay-email-notifications-docker-build-push
     source: ezpay-email-notifications-docker-build-push
     trigger:
@@ -62,12 +62,12 @@ resources:
       branches:
         include:
         - master
-  # - pipeline: wepay-integration-svc-docker-build-push
-  #   source: wepay-integration-svc-docker-build-push
-  #   trigger:
-  #     branches:
-  #       include:
-  #       - master
+  - pipeline: wepay-integration-svc-docker-build-push
+    source: wepay-integration-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
 
 variables:
 - group: helm-chart-svc-principal-config
