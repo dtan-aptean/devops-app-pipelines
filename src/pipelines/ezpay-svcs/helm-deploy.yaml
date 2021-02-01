@@ -56,12 +56,12 @@ resources:
       branches:
         include:
         - master
-  # - pipeline: ezpay-transaction-records-svc-docker-build-push
-  #   source: ezpay-transaction-records-svc-docker-build-push
-  #   trigger:
-  #     branches:
-  #       include:
-  #       - master
+  - pipeline: ezpay-transaction-records-svc-docker-build-push
+    source: ezpay-transaction-records-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
   # - pipeline: wepay-integration-svc-docker-build-push
   #   source: wepay-integration-svc-docker-build-push
   #   trigger:
