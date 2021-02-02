@@ -39,7 +39,9 @@ variables:
 - name: STOREFRONT_REPLICAS
   value: 1  
 - name: STOREFRONT_NODE_SELECTOR_POOL
-  value: ecommsfs  
+  value: ecommsfs 
+- name: STOREFRONT_STORAGE_CLASS
+  value: azurefile-retain
 # GQL API SVC
 - name: GQL_API_SVC_IMAGE_REPOSITORY_NAME
   value: ecomm-gql-api-svc
