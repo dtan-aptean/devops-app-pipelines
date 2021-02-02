@@ -17,7 +17,7 @@ parameters:
   wepayUploadBaseUrl: ''
   wepayApiVersion: ''
   wepayAppId: ''
-  wepayAppToken: ''
+  wepayAppToken: ''  
   merchantPortalUrl: ''
   payerPortalUrl: ''
   serviceBusConnString: ''
@@ -81,6 +81,7 @@ parameters:
   ezpayApiSvcInvoiceBlobConnString: ''
   ezpayApiSvcLogicAppUrlShortenerUrl: ''
   ezpayApiSvcProductApisOnly: ''
+  ezpayApiSvcGrpcUrl: ''
   # EMAIL NOTIFICATION SVC
   emailNotificationSvcImageTag: ''
   emailNotificationSvcImageRepositoryName: ''
@@ -475,6 +476,7 @@ steps:
           databaseName: "$env:EZPAY_API_SVC_MONGODB_DATABASE"
           idempotencyCollection: "$env:EZPAY_API_SVC_MONGODB_IDEMPOTENCY_COLLECTION"
           cancelRetriesCollection: "$env:EZPAY_API_SVC_MONGODB_CANCEL_RETRIES_COLLECTION"
+        grpcUrl: "$env:EZPAY_API_SVC_GRPC_URL"
         paymentsPlatformFromPhoneNumber: "$env:EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_PHONE_NUMBER"
         paymentsPlatformFromEmail: "$env:EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_EMAIL"
         processPlatformEvents: $env:EZPAY_API_SVC_PROCESS_PLATFORM_EVENTS
@@ -782,6 +784,7 @@ steps:
     WEPAY_API_VERSION: ${{ parameters.wepayApiVersion }}
     WEPAY_APP_ID: ${{ parameters.wepayAppId }}
     WEPAY_APP_TOKEN: ${{ parameters.wepayAppToken }}
+    EZPAY_API_SVC_GRPC_URL: $ {{ parameters.ezpayApiSvcGrpcUrl }}
     MERCHANT_PORTAL_URL: ${{ parameters.merchantPortalUrl }}
     PAYER_PORTAL_URL: ${{ parameters.payerPortalUrl }}
     SB_CONN_STRING: ${{ parameters.serviceBusConnString }}    
