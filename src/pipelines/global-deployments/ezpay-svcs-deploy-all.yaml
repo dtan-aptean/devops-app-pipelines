@@ -3,6 +3,17 @@ trigger: none
 variables:
 - group: helm-chart-svc-principal-config
 
+resources:
+  repositories:
+  - repository: ezpay-backend-services
+    type: git
+    name: ezpay-backend-services
+    ref: refs/heads/master 
+
+  pipelines:
+  - pipeline: ezpay-static-assets-master-build
+    source: ezpay-static-assets-master-build
+
 stages:
 - stage: TST_Ezpay_Helm_Deploy
   displayName: TST - Ezpay Svcs Helm Deploy
