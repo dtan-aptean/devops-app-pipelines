@@ -105,6 +105,7 @@ stages:
               ezpayApiSvcInvoiceBlobConnString: $(EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING)
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
+              ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -336,6 +337,7 @@ stages:
               ezpayApiSvcInvoiceBlobConnString: $(EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING)
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
+              ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -567,6 +569,7 @@ stages:
               ezpayApiSvcInvoiceBlobConnString: $(EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING)
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
+              ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -799,6 +802,7 @@ stages:
               ezpayApiSvcInvoiceBlobConnString: $(EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING)
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
+              ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -928,3 +932,75 @@ stages:
               wepayIntegrationSvcResourceLimitsMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY)
               wepayIntegrationSvcResourceRequestCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU)
               wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)                          
+
+## Static Assets ##
+- stage: TST_Static_Assets_Deploy
+  displayName: TST Static Assets Deploy
+  dependsOn: []
+
+  jobs:
+  - template: static-assets/azp-yaml/templates/ezpay-static-assets-deployment-job.yaml@ezpay-backend-services
+    parameters:
+      environment: ezpay-static-assets-tst
+      serviceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+      storageAccount: stezpaytenantfilestst001
+
+- stage: STG_Static_Assets_Deploy
+  displayName: STG Static Assets Deploy
+  dependsOn: TST_Static_Assets_Deploy
+
+  jobs:
+  - template: static-assets/azp-yaml/templates/ezpay-static-assets-deployment-job.yaml@ezpay-backend-services
+    parameters:
+      environment: ezpay-static-assets-stg
+      serviceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+      storageAccount: stezpaytenantfilesstg001
+
+- stage: PRD_Static_Assets_Deploy
+  displayName: PRD Static Assets Deploy
+  dependsOn: STG_Static_Assets_Deploy
+
+  jobs:
+  - template: static-assets/azp-yaml/templates/ezpay-static-assets-deployment-job.yaml@ezpay-backend-services
+    parameters:
+      environment: ezpay-static-assets-prd
+      serviceConnection: AzDevOps-Pipeline-Principal-PRD
+      storageAccount: stezpaytenantfilesprd001
+
+## ApteanPay Js Library
+
+- stage: TST_Apteanpay_Js_Lib_Deploy
+  displayName: TST ApteanPay JS Lib Deploy
+  dependsOn: []
+
+  jobs:
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-tst
+        targetEnvironment: apteanpay-js-lib-tst
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/tst.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: STG_Apteanpay_Js_Lib_Deploy
+  displayName: STG ApteanPay JS Lib Deploy
+  dependsOn: TST_Apteanpay_Js_Lib_Deploy
+
+  jobs:
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-stg
+        targetEnvironment: apteanpay-js-lib-stg
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/stg.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRD_Apteanpay_Js_Lib_Deploy
+  displayName: PRD ApteanPay JS Lib Deploy
+  dependsOn: STG_Apteanpay_Js_Lib_Deploy
+
+  jobs:
+    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-prd
+        targetEnvironment: apteanpay-js-lib-prd
+        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/prd.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-PRD
