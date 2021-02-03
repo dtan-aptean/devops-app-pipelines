@@ -32,7 +32,7 @@ parameters:
   storefrontResourceRequestsCpu: ''
   storefrontResourceRequestsMemory: ''
   storefrontNodeSelectorPool: ''
-  storefrontStorageClass: ''
+  storefrontImagesStorageClass: ''
   storefrontConfigImageTag: ''
   storefrontConfigApteanTenantId: ''
   storefrontConfigStoreUrl: ''
@@ -231,13 +231,9 @@ steps:
           kubernetes.io/ingress.class: $env:STOREFRONT_KONG_INGRESS_CLASS
         path: /ecomm-sf-$env:STOREFRONT_CONFIG_APTEAN_TENANT_ID
 
-      persistence:
-        appdata:
-          storageClass: $env:STOREFRONT_STORAGE_CLASS
-        themes:
-          storageClass: $env:STOREFRONT_STORAGE_CLASS          
-        thumbs:
-          storageClass: $env:STOREFRONT_STORAGE_CLASS
+      persistence:         
+        images:
+          storageClass: $env:STOREFRONT_IMAGES_STORAGE_CLASS
 
       config: 
         tenantId: "$env:STOREFRONT_CONFIG_APTEAN_TENANT_ID"
@@ -451,7 +447,7 @@ steps:
     STOREFRONT_RESOURCE_REQUESTS_CPU: ${{ parameters.storefrontResourceRequestsCpu }}
     STOREFRONT_RESOURCE_REQUESTS_MEMORY: ${{ parameters.storefrontResourceRequestsMemory }}
     STOREFRONT_NODE_SELECTOR_POOL: ${{ parameters.storefrontNodeSelectorPool }}
-    STOREFRONT_STORAGE_CLASS: ${{ parameters.storefrontStorageClass }}
+    STOREFRONT_IMAGES_STORAGE_CLASS: ${{ parameters.storefrontImagesStorageClass }}
     STOREFRONT_CONFIG_IMAGE_TAG: ${{ parameters.storefrontConfigImageTag }}
     STOREFRONT_CONFIG_APTEAN_TENANT_ID: ${{ parameters.storefrontConfigApteanTenantId }}
     STOREFRONT_CONFIG_STORE_URL: ${{ parameters.storefrontConfigStoreUrl }}
