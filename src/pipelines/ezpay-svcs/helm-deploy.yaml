@@ -162,6 +162,7 @@ stages:
               ezpayApiSvcMongodbDatabase: $(EZPAY_API_SVC_MONGODB_DATABASE)
               ezpayApiSvcMongodbIdempotencyCollection: $(EZPAY_API_SVC_MONGODB_IDEMPOTENCY_COLLECTION)
               ezpayApiSvcMongodbCancelRetriesCollection: $(EZPAY_API_SVC_MONGODB_CANCEL_RETRIES_COLLECTION)
+              ezpayApiSvcMongodbEzpayApiSvcCollection: $(EZPAY_API_SVC_MONGODB_EZPAY_API_SVC_COLLECTION)
               ezpayApiSvcPaymentPlatformFromPhoneNumber: $(PAYMENTS_PLATFORM_FROM_PHONE_NUMBER)
               ezpayApiSvcPaymentPlatformFromEmail: $(EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_EMAIL)
               ezpayApiSvcProcessPlatformEvents: $(EZPAY_API_SVC_PROCESS_PLATFORM_EVENTS)
