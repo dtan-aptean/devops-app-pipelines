@@ -838,7 +838,7 @@ steps:
     EZPAY_API_SVC_MONGODB_DATABASE: ${{ parameters.ezpayApiSvcMongodbDatabase }}
     EZPAY_API_SVC_MONGODB_IDEMPOTENCY_COLLECTION: ${{ parameters.ezpayApiSvcMongodbIdempotencyCollection }}
     EZPAY_API_SVC_MONGODB_CANCEL_RETRIES_COLLECTION: ${{ parameters.ezpayApiSvcMongodbCancelRetriesCollection }}
-    EZPAY_API_SVC_MONGODB_EZPAY_API_SVC_COLLECTION: ${{ ezpayApiSvcMongodbEzpayApiSvcCollection }}
+    EZPAY_API_SVC_MONGODB_EZPAY_API_SVC_COLLECTION: ${{ parameters.ezpayApiSvcMongodbEzpayApiSvcCollection }}
     EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_PHONE_NUMBER: ${{ parameters.ezpayApiSvcPaymentPlatformFromPhoneNumber }}
     EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_EMAIL: ${{ parameters.ezpayApiSvcPaymentPlatformFromEmail }}
     EZPAY_API_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.ezpayApiSvcProcessPlatformEvents }}
