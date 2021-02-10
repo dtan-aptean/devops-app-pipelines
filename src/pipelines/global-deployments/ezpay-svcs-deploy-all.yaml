@@ -16,6 +16,9 @@ resources:
 
   - pipeline: payer_portal_static_files
     source: ezpay-payer-portal-master-build
+
+  - pipeline: aptean_pay_js_static_files
+    source: aptean-pay-js-master-build  
     
   - pipeline: ezpay-static-assets-master-build
     source: ezpay-static-assets-master-build
@@ -1064,40 +1067,40 @@ stages:
       serviceConnection: AzDevOps-Pipeline-Principal-PRD
       storageAccount: stezpaytenantfilesprd001
 
-## ApteanPay Js Library
+## APTEANPAY JS LIBRARY ##
 
-- stage: TST_Apteanpay_Js_Lib_Deploy
-  displayName: TST ApteanPay JS Lib Deploy
+- stage: TST_APTEAN_PAY_JS_LIBRARY_DEPLOY
+  displayName: TST - Aptean Pay JS Library Deployment
   dependsOn: []
 
   jobs:
-    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+    - template: ../templates/deploy-ezpay-static.yaml
       parameters:
         variableGroup: apteanpay-js-lib-tst
         targetEnvironment: apteanpay-js-lib-tst
-        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/tst.zip
+        dropArtifactPath: $(Pipeline.Workspace)/aptean_pay_js_static_files/drop/tst.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
-- stage: STG_Apteanpay_Js_Lib_Deploy
-  displayName: STG ApteanPay JS Lib Deploy
-  dependsOn: TST_Apteanpay_Js_Lib_Deploy
+- stage: STG_APTEAN_PAY_JS_LIBRARY_DEPLOY
+  displayName: STG - Aptean Pay JS Library Deployment
+  dependsOn: TST_APTEAN_PAY_JS_LIBRARY_DEPLOY
 
   jobs:
-    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+    - template: ../templates/deploy-ezpay-static.yaml
       parameters:
         variableGroup: apteanpay-js-lib-stg
         targetEnvironment: apteanpay-js-lib-stg
-        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/stg.zip
+        dropArtifactPath: $(Pipeline.Workspace)/aptean_pay_js_static_files/drop/stg.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
-- stage: PRD_Apteanpay_Js_Lib_Deploy
-  displayName: PRD ApteanPay JS Lib Deploy
-  dependsOn: STG_Apteanpay_Js_Lib_Deploy
+- stage: PRD_APTEAN_PAY_JS_LIBRARY_DEPLOY
+  displayName: PRD - Aptean Pay JS Library Deployment
+  dependsOn: STG_APTEAN_PAY_JS_LIBRARY_DEPLOY
 
   jobs:
-    - template: ../ezpay/apteanpay-js-lib/storage-account-deploy-step.yaml
+    - template: ../templates/deploy-ezpay-static.yaml
       parameters:
         variableGroup: apteanpay-js-lib-prd
         targetEnvironment: apteanpay-js-lib-prd
-        dropArtifactPath: $(Pipeline.Workspace)/aptean-pay-js-master-build/drop/prd.zip
+        dropArtifactPath: $(Pipeline.Workspace)/aptean_pay_js_static_files/drop/prd.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-PRD
