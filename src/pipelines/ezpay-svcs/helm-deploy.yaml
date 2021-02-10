@@ -294,6 +294,7 @@ stages:
               txnRecordsSvcStatementsContainer: $(TXN_RECORDS_SVC_STATEMENTS_CONTAINER_NAME)
               txnRecordsSvcStatementPeriod: $(TXN_RECORDS_SVC_STATEMENT_PERIOD)
               txnRecordsSvcStatementsBlobConnString: $(TXN_RECORDS_SVC_STATEMENTS_BLOB_CONNECTION_STRING)
+              txnRecordsSvcGeneratePdfStatement: $(TXN_RECORDS_SVC_GENERATE_PDF_STATEMENT)
               txnRecordsSvcCronSchedule: $(TXN_RECORDS_SVC_CRON_SCHEDULE)
               txnRecordsSvcSuccessfulJobHistoryLimit: $(TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT)
               txnRecordsSvcFailedJobHistoryLimit: $(TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT)

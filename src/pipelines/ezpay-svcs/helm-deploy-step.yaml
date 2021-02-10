@@ -210,6 +210,7 @@ parameters:
   txnRecordsSvcStatementsContainer: ''
   txnRecordsSvcStatementPeriod: ''
   txnRecordsSvcStatementsBlobConnString: ''
+  txnRecordsSvcGeneratePdfStatement: ''
   txnRecordsSvcCronSchedule: ''
   txnRecordsSvcSuccessfulJobHistoryLimit: ''
   txnRecordsSvcFailedJobHistoryLimit: ''
@@ -736,6 +737,7 @@ steps:
           containerName: "$env:TXN_RECORDS_SVC_STATEMENTS_CONTAINER_NAME"
           period: "$env:TXN_RECORDS_SVC_STATEMENT_PERIOD"
           blobConnectionString: "$env:TXN_RECORDS_SVC_STATEMENTS_BLOB_CONNECTION_STRING"
+          generatePDFStatement: "$env:TXN_RECORDS_SVC_GENERATE_PDF_STATEMENT"
         cronSchedule: "$env:TXN_RECORDS_SVC_CRON_SCHEDULE"
         successfulJobsHistoryLimit: $env:TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT
         failedJobsHistoryLimit: $env:TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT
@@ -977,6 +979,7 @@ steps:
     TXN_RECORDS_SVC_STATEMENTS_CONTAINER_NAME: ${{ parameters.txnRecordsSvcStatementsContainer }}
     TXN_RECORDS_SVC_STATEMENT_PERIOD: ${{ parameters.txnRecordsSvcStatementPeriod }}
     TXN_RECORDS_SVC_STATEMENTS_BLOB_CONNECTION_STRING: ${{ parameters.txnRecordsSvcStatementsBlobConnString }}
+    TXN_RECORDS_SVC_GENERATE_PDF_STATEMENT: ${{ parameters.txnRecordsSvcGeneratePdfStatement }}
     TXN_RECORDS_SVC_CRON_SCHEDULE: ${{ parameters.txnRecordsSvcCronSchedule }}
     TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.txnRecordsSvcSuccessfulJobHistoryLimit }}
     TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT: ${{ parameters.txnRecordsSvcFailedJobHistoryLimit }}
