@@ -116,6 +116,13 @@ parameters:
   langSvcNodeSelectorPool: ''
   langSvcConfigCacheRetainSeconds: ''
   langSvcConfigCosmosCollectionName: ''
+  # PRODUCT RECS SVC Params
+  productRecsSvcConfigEventHubConnString: ''
+  productRecsSvcConfigEventHubConsumerGroup: ''
+  productRecsSvcConfigStorageConnString: ''
+  productRecsSvcConfigStorageBlobContainerName: ''
+  productRecsSvcConfigEventsCollectionName: ''
+  productRecsSvcConfigRecommendationsCollectionName: ''
 
 steps:
 - pwsh: |
@@ -190,7 +197,19 @@ steps:
     {
       Write-Host Fetching latest lang-svc tag.
       $latestLangSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:LANG_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
-    }  
+    }
+
+    # PRODUCT RECS SVC
+    if ($env:PRODUCT_RECS_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured product-recs-svc tag: $env:PRODUCT_RECS_SVC_IMAGE_TAG
+      $latestProductRecsSvcTag = $env:PRODUCT_RECS_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest product-recs-svc tag.
+      $latestProductRecsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PRODUCT_RECS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }    
     @"
     deployMode: $env:DEPLOY_MODE
 
@@ -407,6 +426,38 @@ steps:
           databaseName: "$env:CONFIG_COSMOSDB_DATABASE"
           collectionName: "$env:LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME"
 
+    productRecsService:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:PRODUCT_RECS_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestProductRecsSvcTag
+
+      deployment:
+        replicas: $env:PRODUCT_RECS_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:PRODUCT_RECS_SVC_NODE_SELECTOR_POOL"      
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:PRODUCT_RECS_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:PRODUCT_RECS_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:PRODUCT_RECS_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:PRODUCT_RECS_SVC_RESOURCE_REQUESTS_MEMORY
+
+      config:
+        cosmos:
+          connectionString: "$env:CONFIG_COSMOSDB_CONN_STRING"
+          databaseName: "$env:CONFIG_COSMOSDB_DATABASE"
+          eventsCollectionName: "$env:PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME"
+          recommendationsCollectionName: "$env:PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME"
+        events:
+          eventHubConnectionString: "$env:PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING"
+          eventHubConsumerGroup: "$env:PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP"
+          storageConnectionString: "$env:PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING"
+          storageBlobContainerName: "$env:PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME"
+
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     # this line for debugging, will print yaml to console
@@ -531,6 +582,13 @@ steps:
     LANG_SVC_NODE_SELECTOR_POOL: ${{ parameters.langSvcNodeSelectorPool }}
     LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS: ${{ parameters.langSvcConfigCacheRetainSeconds }}
     LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME: ${{ parameters.langSvcConfigCosmosCollectionName }}
+    # PRODUCT RECS SVC Params
+    PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME: ${{ parameters.productRecsSvcConfigEventsCollectionName }}
+    PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME: ${{ parameters.productRecsSvcConfigRecommendationsCollectionName }}
+    PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING: ${{ parameters.productRecsSvcConfigEventHubConnString }}
+    PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP: ${{ parameters.productRecsSvcConfigEventHubConsumerGroup }}
+    PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING: ${{ parameters.productRecsSvcConfigStorageConnString }}
+    PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME: ${{ parameters.productRecsSvcConfigStorageBlobContainerName }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

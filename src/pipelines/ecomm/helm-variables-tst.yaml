@@ -95,3 +95,18 @@ variables:
   value: 1
 - name: LANG_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs  
+# PRODUCT RECS SVC
+- name: PRODUCT_RECS_SVC_IMAGE_REPOSITORY_NAME
+  value: product-recs-svc
+- name: PRODUCT_RECS_SVC_RESOURCE_LIMITS_CPU
+  value: 50m
+- name: PRODUCT_RECS_SVC_RESOURCE_LIMITS_MEMORY
+  value: 256Mi
+- name: PRODUCT_RECS_SVC_RESOURCE_REQUESTS_CPU
+  value: 10m
+- name: PRODUCT_RECS_SVC_RESOURCE_REQUESTS_MEMORY
+  value: 10Mi  
+- name: PRODUCT_RECS_SVC_REPLICAS
+  value: 1
+- name: PRODUCT_RECS_SVC_NODE_SELECTOR_POOL
+  value: sharedsvcs 

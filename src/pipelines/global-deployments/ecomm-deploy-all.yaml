@@ -144,6 +144,13 @@ stages:
               langSvcNodeSelectorPool: $(LANG_SVC_NODE_SELECTOR_POOL)
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
               langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
+              # PRODUCT RECS SVC Params
+              productRecsSvcConfigEventHubConnString: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              productRecsSvcConfigEventHubConsumerGroup: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP)
+              productRecsSvcConfigStorageConnString: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING)
+              productRecsSvcConfigStorageBlobContainerName: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME)
+              productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
+              productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)
 
 - stage: PRF_Ecomm_Helm_Deploy
   displayName: PRF - Ecomm Helm Deploy
@@ -279,7 +286,14 @@ stages:
               langSvcResourceRequestsMemory: $(LANG_SVC_RESOURCE_REQUESTS_MEMORY)
               langSvcNodeSelectorPool: $(LANG_SVC_NODE_SELECTOR_POOL)
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
-              langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)           
+              langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
+              # PRODUCT RECS SVC Params
+              productRecsSvcConfigEventHubConnString: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              productRecsSvcConfigEventHubConsumerGroup: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP)
+              productRecsSvcConfigStorageConnString: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING)
+              productRecsSvcConfigStorageBlobContainerName: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME)
+              productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
+              productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)                           
 
 - stage: STG_Ecomm_Helm_Deploy
   displayName: STG - Ecomm Helm Deploy
@@ -415,7 +429,14 @@ stages:
               langSvcResourceRequestsMemory: $(LANG_SVC_RESOURCE_REQUESTS_MEMORY)
               langSvcNodeSelectorPool: $(LANG_SVC_NODE_SELECTOR_POOL)
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
-              langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)              
+              langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
+              # PRODUCT RECS SVC Params
+              productRecsSvcConfigEventHubConnString: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              productRecsSvcConfigEventHubConsumerGroup: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP)
+              productRecsSvcConfigStorageConnString: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING)
+              productRecsSvcConfigStorageBlobContainerName: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME)
+              productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
+              productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)                              
 
 - stage: PRD_Ecomm_Helm_Deploy
   displayName: PRD - Ecomm Helm Deploy
@@ -552,7 +573,14 @@ stages:
               langSvcResourceRequestsMemory: $(LANG_SVC_RESOURCE_REQUESTS_MEMORY)
               langSvcNodeSelectorPool: $(LANG_SVC_NODE_SELECTOR_POOL)
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
-              langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)              
+              langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
+              # PRODUCT RECS SVC Params
+              productRecsSvcConfigEventHubConnString: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              productRecsSvcConfigEventHubConsumerGroup: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP)
+              productRecsSvcConfigStorageConnString: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING)
+              productRecsSvcConfigStorageBlobContainerName: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME)
+              productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
+              productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)                              
 
 ## ECOMM DOCS ##
 - stage: TST_ECOMM_DOCS_DEPLOY
