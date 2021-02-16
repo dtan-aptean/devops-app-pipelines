@@ -37,7 +37,7 @@ variables:
 - name: STOREFRONT_KONG_INGRESS_NM
   value: ecomm-sf-do-not-preserve-host  
 - name: STOREFRONT_REPLICAS
-  value: 1  
+  value: 2
 - name: STOREFRONT_NODE_SELECTOR_POOL
   value: ecommsfs  
 - name: STOREFRONT_IMAGES_STORAGE_CLASS
