@@ -16,142 +16,142 @@ stages:
 ## FOUNDATIONAL IMAGES
 
     steps:
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: comms-api-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: comms-api-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: subs-mgmt-api-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: subs-mgmt-api-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: events-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: events-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: static-web-files-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: static-web-files-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-# ## EZPAY IMAGES
+## EZPAY IMAGES
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ezpay-api-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-api-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ezpay-email-notification-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-email-notification-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ezpay-payfac-notifications-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-payfac-notifications-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ezpay-merchant-ops-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-merchant-ops-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ezpay-payment-ops-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-payment-ops-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ezpay-payments-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-payments-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ezpay-transaction-records-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-transaction-records-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ezpay-erp-integration-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-erp-integration-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: wepay-integration-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: wepay-integration-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ezpay-account-balance-updater-job
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-account-balance-updater-job
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ezpay-payment-cancelation-retry-job
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)          
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ezpay-payment-cancelation-retry-job
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)          
 
-# ## ECOMMERCE IMAGES
+## ECOMMERCE IMAGES
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ecomm-erp-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ecomm-erp-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ecomm-gql-api-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ecomm-gql-api-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ecomm-lang-svc
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ecomm-lang-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
-#       - template: templates\docker-copy-image-to-prod.yaml
-#         parameters:
-#           serviceName: ecomm-sf
-#           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
-#           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
-#           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: ecomm-sf
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
 
       - template: templates\docker-copy-image-to-prod.yaml
         parameters:
