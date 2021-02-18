@@ -211,6 +211,7 @@ parameters:
   txnRecordsSvcStatementPeriod: ''
   txnRecordsSvcStatementsBlobConnString: ''
   txnRecordsSvcGeneratePdfStatement: ''
+  txnRecordsSvcGenerateStatementChunkSize: ''  
   txnRecordsSvcCronSchedule: ''
   txnRecordsSvcSuccessfulJobHistoryLimit: ''
   txnRecordsSvcFailedJobHistoryLimit: ''
@@ -738,6 +739,7 @@ steps:
           period: "$env:TXN_RECORDS_SVC_STATEMENT_PERIOD"
           blobConnectionString: "$env:TXN_RECORDS_SVC_STATEMENTS_BLOB_CONNECTION_STRING"
           generatePDFStatement: "$env:TXN_RECORDS_SVC_GENERATE_PDF_STATEMENT"
+          generateStatmentChunkSize: "$env:TXN_RECORDS_SVC_GENERATE_STATEMENT_CHUNK_SIZE"
         cronSchedule: "$env:TXN_RECORDS_SVC_CRON_SCHEDULE"
         successfulJobsHistoryLimit: $env:TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT
         failedJobsHistoryLimit: $env:TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT
@@ -980,6 +982,7 @@ steps:
     TXN_RECORDS_SVC_STATEMENT_PERIOD: ${{ parameters.txnRecordsSvcStatementPeriod }}
     TXN_RECORDS_SVC_STATEMENTS_BLOB_CONNECTION_STRING: ${{ parameters.txnRecordsSvcStatementsBlobConnString }}
     TXN_RECORDS_SVC_GENERATE_PDF_STATEMENT: ${{ parameters.txnRecordsSvcGeneratePdfStatement }}
+    TXN_RECORDS_SVC_GENERATE_STATEMENT_CHUNK_SIZE: ${{ parameters.txnRecordsSvcGenerateStatementChunkSize }}
     TXN_RECORDS_SVC_CRON_SCHEDULE: ${{ parameters.txnRecordsSvcCronSchedule }}
     TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.txnRecordsSvcSuccessfulJobHistoryLimit }}
     TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT: ${{ parameters.txnRecordsSvcFailedJobHistoryLimit }}
