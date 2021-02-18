@@ -152,3 +152,10 @@ stages:
           svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
           acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
           acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
+
+      - template: templates\docker-copy-image-to-prod.yaml
+        parameters:
+          serviceName: product-recs-svc
+          svcPrincipalSecret: $(SERVICE_PRINCIPAL_SECRET_SHR)
+          acrSecretShr: $(ACR_USER_PASSWORD_SECRET_SHR)
+          acrSecretPrd: $(ACR_USER_PASSWORD_SECRET_PRD)
