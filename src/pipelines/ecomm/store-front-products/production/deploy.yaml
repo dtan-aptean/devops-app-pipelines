@@ -55,7 +55,9 @@ stages:
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
-              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
+              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME) 
+              configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -112,6 +114,8 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
+              storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)             
 
 - stage: ReedRubberProducts_Ecomm_SF_Deploy
   displayName: ReedRubberProducts - Ecomm Helm Deploy
@@ -155,7 +159,9 @@ stages:
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
-              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
+              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME) 
+              configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -211,4 +217,6 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
+              storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)              
 
