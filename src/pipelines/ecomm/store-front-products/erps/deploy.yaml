@@ -56,8 +56,8 @@ stages:
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME) 
-              configEventHubConnString: $(CONFIG_EVENT_HUB_CONN_STRING)
-              configStorageConnString: $(CONFIG_STORAGE_CONN_STRING)               
+              configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)               
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -113,8 +113,8 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
-              storefrontConfigEventHubConsumerGroup: $(STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP)
-              storefrontConfigStorageBlobContainerName: $(STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME)              
+              storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)              
 
 - stage: Apprise_Ecomm_SF_Deploy
   displayName: Apprise - Ecomm Helm Deploy
@@ -159,8 +159,8 @@ stages:
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)
-              configEventHubConnString: $(CONFIG_EVENT_HUB_CONN_STRING)
-              configStorageConnString: $(CONFIG_STORAGE_CONN_STRING)                
+              configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -216,8 +216,8 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL) 
-              storefrontConfigEventHubConsumerGroup: $(STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP)
-              storefrontConfigStorageBlobContainerName: $(STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME)                         
+              storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)                         
 
 - stage: M2M_Ecomm_SF_Deploy
   displayName: M2M - Ecomm Helm Deploy
@@ -262,8 +262,8 @@ stages:
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME) 
-              configEventHubConnString: $(CONFIG_EVENT_HUB_CONN_STRING)
-              configStorageConnString: $(CONFIG_STORAGE_CONN_STRING)               
+              configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -319,8 +319,8 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
-              storefrontConfigEventHubConsumerGroup: $(STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP)
-              storefrontConfigStorageBlobContainerName: $(STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME)              
+              storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)             
 
 - stage: Workwise_Ecomm_SF_Deploy
   displayName: Workwise - Ecomm Helm Deploy
@@ -365,8 +365,8 @@ stages:
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)
-              configEventHubConnString: $(CONFIG_EVENT_HUB_CONN_STRING)
-              configStorageConnString: $(CONFIG_STORAGE_CONN_STRING)                
+              configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -422,8 +422,8 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
-              storefrontConfigEventHubConsumerGroup: $(STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP)
-              storefrontConfigStorageBlobContainerName: $(STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME)                                         
+              storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)                                         
 
 - stage: Justfood_Ecomm_SF_Deploy
   displayName: Justfood - Ecomm Helm Deploy
@@ -468,8 +468,8 @@ stages:
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME) 
-              configEventHubConnString: $(CONFIG_EVENT_HUB_CONN_STRING)
-              configStorageConnString: $(CONFIG_STORAGE_CONN_STRING)               
+              configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -525,8 +525,8 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
-              storefrontConfigEventHubConsumerGroup: $(STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP)
-              storefrontConfigStorageBlobContainerName: $(STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME)              
+              storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)            
                            
 - stage: Apprise_CNF_Ecomm_SF_Deploy
   displayName: Apprise_CNF - Ecomm Helm Deploy
@@ -571,8 +571,8 @@ stages:
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME) 
-              configEventHubConnString: $(CONFIG_EVENT_HUB_CONN_STRING)
-              configStorageConnString: $(CONFIG_STORAGE_CONN_STRING)               
+              configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -629,5 +629,5 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
-              storefrontConfigEventHubConsumerGroup: $(STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP)
-              storefrontConfigStorageBlobContainerName: $(STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME)                            
+              storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)                           
