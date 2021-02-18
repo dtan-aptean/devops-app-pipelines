@@ -1,0 +1,64 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: crm-api-svc-docker-build-push
+    source: crm-api-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
+
+variables:
+- group: helm-chart-svc-principal-config
+
+stages:
+- stage: DEV_CRM_Helm_Deploy
+  displayName: DEV - CRM Svcs Helm Deploy
+  dependsOn: []
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: crm-dev
+    dependsOn: []
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: crm-dev
+    - template: helm-variables-dev.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              env: $(ENV)
+              frontDoorId: $(FRONT_DOOR_ID)
+              # CRM GQL API SVC         
+              crmApiSvcImageRepositoryName: $(CRM_API_SVC_IMAGE_REPOSITORY_NAME)
+              crmApiSvcReplicas: $(CRM_API_SVC_REPLICAS)
+              crmApiSvcNodeSelectorPool: $(CRM_API_SVC_NODE_SELECTOR_POOL)
+              crmApiSvcResourceLimitsCpu: $(CRM_API_SVC_RESOURCE_LIMITS_CPU)
+              crmApiSvcResourceLimitsMemory: $(CRM_API_SVC_RESOURCE_LIMITS_MEMORY)
+              crmApiSvcResourceRequestsCpu: $(CRM_API_SVC_RESOURCE_REQUESTS_CPU)
+              crmApiSvcResourceRequestsMemory: $(CRM_API_SVC_RESOURCE_REQUESTS_MEMORY)
+              crmApiSvcKongIngressUpstreamHostHeader: $(CRM_API_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              crmApiSvcKongIngressClass: $(CRM_API_SVC_KONG_INGRESS_CLASS)
+              crmApiSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
+              crmApiSvcSubsMgmtApiKey: $(CRM_API_SVC_SUBS_MGMT_API_KEY)
+              crmApiSvcSubsMgmtServiceId: $(CRM_API_SVC_SUBS_MGMT_SERVICE_ID)

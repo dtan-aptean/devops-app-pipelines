@@ -1,0 +1,182 @@
+parameters:
+  serviceConnection: ''
+  svcPrincipalClientId: ''
+  svcPrincipalSecret: ''
+  azureTenantId: ''
+  aksName: ''
+  aksResourceGroup: ''
+  containerRegistryName: ''
+  chartRepositoryName: ''
+  chartName: ''
+  helmReleaseName: ''
+  k8sNamespace: ''
+  env: ''
+  frontDoorId: ''  
+  # CRM API SVC
+  crmApiSvcImageTag: ''
+  crmApiSvcImageRepositoryName: ''
+  crmApiSvcReplicas: ''
+  crmApiSvcNodeSelectorPool: ''
+  crmApiSvcResourceLimitsCpu: ''
+  crmApiSvcResourceLimitsMemory: ''
+  crmApiSvcResourceRequestsCpu: ''
+  crmApiSvcResourceRequestsMemory: ''  
+  crmApiSvcKongIngressUpstreamHostHeader: ''
+  crmApiSvcKongIngressClass: ''
+  crmApiSvcSubsMgmtGrpcUrl: ''
+  crmApiSvcSubsMgmtApiKey: ''
+  crmApiSvcSubsMgmtServiceId: ''
+  
+steps:
+- pwsh: |
+    $env:HELM_EXPERIMENTAL_OCI = 1
+
+    az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+
+    $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
+
+    $env:SP_SECRET | helm registry login $fullRegistryName `
+      --username $env:SP_CLIENT_ID `
+      --password-stdin
+
+    $latestHelmChart = az acr repository show-tags `
+      --name $env:CONTAINER_REGISTRY_NAME `
+      --repository $env:CHART_REPOSITORY_NAME `
+      --top 1 `
+      --orderby time_desc | ConvertFrom-Json
+
+    Write-Host ""
+    $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
+    Write-Host "fullChartName: $fullChartName"
+
+    helm chart pull $fullChartName
+
+    Write-Host ""
+    helm chart export $fullChartName --destination .
+
+    # CRM API SVC
+    if ($env:CRM_API_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured crm-api-svc tag: $env:CRM_API_SVC_IMAGE_TAG
+      $latestCrmApiSvcTag = $env:CRM_API_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest crm-api-svc tag.
+      $latestCrmApiSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:CRM_API_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    @"
+    commonLabels:
+      env: $env:ENV
+
+    crmApiSvc:
+      image:      
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CRM_API_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestCrmApiSvcTag
+
+      deployment:
+        replicas: $env:CRM_API_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:CRM_API_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:CRM_API_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:CRM_API_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:CRM_API_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:CRM_API_SVC_RESOURCE_REQUESTS_MEMORY
+
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:CRM_API_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:CRM_API_SVC_KONG_INGRESS_CLASS
+
+      config:
+        subsMgmt:
+          grpcUrl: "$env:CRM_API_SVC_SUBS_MGMT_GRPC_URL"
+          apiKey: "$env:CRM_API_SVC_SUBS_MGMT_API_KEY"
+          serviceId: "$env:CRM_API_SVC_SUBS_MGMT_SERVICE_ID"
+
+    "@ | Out-File -FilePath ./deploy-values.yaml
+
+    # Uncomment for debugging values.
+    # Get-Content -Path ./deploy-values.yaml
+
+    Write-Host ""
+    Write-Host "Helm deploy prep complete!"
+  displayName: Prep Helm Deploy
+  name: prepHelmDeploy
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  failOnStderr: true
+  env:
+    # COMMON CONFIGS
+    SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
+    SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+    AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
+    CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
+    CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
+    CHART_NAME: ${{ parameters.chartName }}
+    ENV: ${{ parameters.env }}    
+    FRONT_DOOR_ID: ${{ parameters.frontDoorId }}     
+    # CRM_API_SVC
+    CRM_API_SVC_IMAGE_TAG: ${{ parameters.crmApiSvcImageTag }}
+    CRM_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.crmApiSvcImageRepositoryName }}
+    CRM_API_SVC_REPLICAS: ${{ parameters.crmApiSvcReplicas }}
+    CRM_API_SVC_NODE_SELECTOR_POOL: ${{ parameters.crmApiSvcNodeSelectorPool }}
+    CRM_API_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.crmApiSvcResourceLimitsCpu }}
+    CRM_API_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.crmApiSvcResourceLimitsMemory }}
+    CRM_API_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.crmApiSvcResourceRequestsCpu }}
+    CRM_API_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.crmApiSvcResourceRequestsMemory }}
+    CRM_API_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.crmApiSvcKongIngressUpstreamHostHeader }}
+    CRM_API_SVC_KONG_INGRESS_CLASS: ${{ parameters.crmApiSvcKongIngressClass }}
+    CRM_API_SVC_SUBS_MGMT_GRPC_URL: ${{ parameters.crmApiSvcSubsMgmtGrpcUrl }}
+    CRM_API_SVC_SUBS_MGMT_API_KEY: ${{ parameters.crmApiSvcSubsMgmtApiKey }}
+    CRM_API_SVC_SUBS_MGMT_SERVICE_ID: ${{ parameters.crmApiSvcSubsMgmtServiceId }}
+
+- task: Kubernetes@1
+  displayName: Kubectl Version
+  name: kubectlVersion
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'version'
+    arguments: '--short'
+
+- task: HelmInstaller@1
+  displayName: Helm Installer
+  name: helmInstaller
+  inputs:
+    helmVersionToInstall: latest
+
+- task: HelmDeploy@0
+  displayName: Helm Deploy
+  name: helmDeploy
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'upgrade'
+    chartType: 'FilePath'
+    chartPath: ./${{ parameters.chartName }}
+    releaseName: ${{ parameters.helmReleaseName }}
+    valueFile: ./deploy-values.yaml
+    install: true
+    waitForExecution: false
+    failOnStderr: false
