@@ -310,8 +310,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
-- stage: PRF_Comms_API_Svc_Helm_Deploy
-  displayName: PRF - comms-api-svc Helm Deploy
+- stage: STG_Comms_API_Svc_Helm_Deploy
+  displayName: STG - comms-api-svc Helm Deploy
   dependsOn: TST_Comms_API_Svc_Helm_Deploy
 
   jobs:
@@ -323,7 +323,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: comms-api-svc-prf
+    - group: comms-api-svc-stg
     - template: ../comms/helm-variables-stg.yaml
 
     strategy:
@@ -376,8 +376,8 @@ stages:
               executionMode: $(EXECUTION_MODE)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
-- stage: STG_Comms_API_Svc_Helm_Deploy
-  displayName: STG - comms-api-svc Helm Deploy
+- stage: PRF_Comms_API_Svc_Helm_Deploy
+  displayName: PRF - comms-api-svc Helm Deploy
   dependsOn: TST_Comms_API_Svc_Helm_Deploy
 
   jobs:
@@ -389,8 +389,8 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: comms-api-svc-stg
-    - template: ../comms/helm-variables-stg.yaml
+    - group: comms-api-svc-prf
+    - template: ../comms/helm-variables-prf.yaml
 
     strategy:
       runOnce:
