@@ -20,6 +20,8 @@ parameters:
   frontDoorId: '' 
   configCosmosConnString: ''
   configCosmosDatabaseName: ''
+  configEventHubConnString: ''
+  configStorageConnString: ''
   # STOREFRONT Params
   storefrontImageRepositoryName: ''
   storefrontReplicas: ''  
@@ -77,6 +79,8 @@ parameters:
   storefrontConfigUseUnsafeLoadAssembly: ''
   storefrontConfigUseSessionStateTempDataProvider: ''
   storefrontConfigApteanLanguagePluginApiUrl: ''
+  storefrontConfigEventHubConsumerGroup: ''
+  storefrontConfigStorageBlobContainerName: ''
   # GQL API SVC Params
   gqlAPISvcImageRepositoryName: ''
   gqlAPISvcImageTag: ''
@@ -117,9 +121,7 @@ parameters:
   langSvcConfigCacheRetainSeconds: ''
   langSvcConfigCosmosCollectionName: ''
   # PRODUCT RECS SVC Params
-  productRecsSvcConfigEventHubConnString: ''
   productRecsSvcConfigEventHubConsumerGroup: ''
-  productRecsSvcConfigStorageConnString: ''
   productRecsSvcConfigStorageBlobContainerName: ''
   productRecsSvcConfigEventsCollectionName: ''
   productRecsSvcConfigRecommendationsCollectionName: ''
@@ -313,7 +315,12 @@ steps:
           useSessionStateTempDataProvider: $env:STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER
         events:
           connectionString: "$env:CONFIG_EVENTS_INGRESS_CONN_STRING"
-          destination: "$env:CONFIG_EVENTS_INGRESS_DESTINATION" 
+          destination: "$env:CONFIG_EVENTS_INGRESS_DESTINATION"
+        eventHub:
+          connectionString: "$env:CONFIG_EVENT_HUB_CONN_STRING"
+          consumerGroup: "$env:STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP"
+          storageConnectionString: "$env:CONFIG_STORAGE_CONN_STRING"
+          storageBlobContainerName: "$env:STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME" 
     
     gqlApiService:
       image:
@@ -453,9 +460,9 @@ steps:
           eventsCollectionName: "$env:PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME"
           recommendationsCollectionName: "$env:PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME"
         events:
-          eventHubConnectionString: "$env:PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING"
+          eventHubConnectionString: "$env:CONFIG_EVENT_HUB_CONN_STRING"
           eventHubConsumerGroup: "$env:PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP"
-          storageConnectionString: "$env:PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING"
+          storageConnectionString: "$env:CONFIG_STORAGE_CONN_STRING"
           storageBlobContainerName: "$env:PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
@@ -482,6 +489,8 @@ steps:
     CONFIG_COSMOSDB_DATABASE: ${{ parameters.configCosmosDatabaseName }}
     CONFIG_EVENTS_INGRESS_CONN_STRING: ${{ parameters.configEventsIngressConnString }}
     CONFIG_EVENTS_INGRESS_DESTINATION: ${{ parameters.configEventsIngressDestination }}
+    CONFIG_EVENT_HUB_CONN_STRING: ${{ parameters.configEventHubConnString }}
+    CONFIG_STORAGE_CONN_STRING: ${{ parameters.configStorageConnString }}
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
     CONFIG_WEPAY_APP_ID: ${{ parameters.configWepayAppId }}
     CONFIG_WEPAY_ENV: ${{ parameters.configWepayEnv }}
@@ -543,6 +552,8 @@ steps:
     STOREFRONT_CONFIG_USE_PLUGIN_SHADOW_COPY: ${{ parameters.storefrontConfigUsePluginShadowCopy }}
     STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY: ${{ parameters.storefrontConfigUseUnsafeLoadAssembly }}
     STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER: ${{ parameters.storefrontConfigUseSessionStateTempDataProvider }}
+    STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP: ${{ parameters.storefrontConfigEventHubConsumerGroup }}
+    STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME: ${{ parameters.storefrontConfigStorageBlobContainerName }}    
     # GQL API SVC Params
     GQL_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.gqlAPISvcImageRepositoryName }}
     GQL_API_SVC_IMAGE_TAG: ${{ parameters.gqlAPISvcImageTag }}
@@ -585,9 +596,7 @@ steps:
     # PRODUCT RECS SVC Params
     PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME: ${{ parameters.productRecsSvcConfigEventsCollectionName }}
     PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME: ${{ parameters.productRecsSvcConfigRecommendationsCollectionName }}
-    PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING: ${{ parameters.productRecsSvcConfigEventHubConnString }}
     PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP: ${{ parameters.productRecsSvcConfigEventHubConsumerGroup }}
-    PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING: ${{ parameters.productRecsSvcConfigStorageConnString }}
     PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME: ${{ parameters.productRecsSvcConfigStorageBlobContainerName }}
 
 - task: Kubernetes@1

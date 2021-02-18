@@ -51,7 +51,9 @@ stages:
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)               
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
-              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
+              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)
+              configEventHubConnString: $(CONFIG_EVENT_HUB_CONN_STRING)
+              configStorageConnString: $(CONFIG_STORAGE_CONN_STRING)                
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -109,6 +111,8 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
+              storefrontConfigEventHubConsumerGroup: $(STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP)
+              storefrontConfigStorageBlobContainerName: $(STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME)
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)
@@ -145,9 +149,7 @@ stages:
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
               langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
               # PRODUCT RECS SVC Params
-              productRecsSvcConfigEventHubConnString: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
               productRecsSvcConfigEventHubConsumerGroup: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP)
-              productRecsSvcConfigStorageConnString: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING)
               productRecsSvcConfigStorageBlobContainerName: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME)
               productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
               productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)
@@ -194,7 +196,9 @@ stages:
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION) 
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
-              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
+              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME) 
+              configEventHubConnString: $(CONFIG_EVENT_HUB_CONN_STRING)
+              configStorageConnString: $(CONFIG_STORAGE_CONN_STRING)               
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -252,6 +256,8 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
+              storefrontConfigEventHubConsumerGroup: $(STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP)
+              storefrontConfigStorageBlobContainerName: $(STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME)              
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)
@@ -288,9 +294,7 @@ stages:
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
               langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
               # PRODUCT RECS SVC Params
-              productRecsSvcConfigEventHubConnString: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
               productRecsSvcConfigEventHubConsumerGroup: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP)
-              productRecsSvcConfigStorageConnString: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING)
               productRecsSvcConfigStorageBlobContainerName: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME)
               productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
               productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)                           
@@ -337,7 +341,9 @@ stages:
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)              
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
-              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
+              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)
+              configEventHubConnString: $(CONFIG_EVENT_HUB_CONN_STRING)
+              configStorageConnString: $(CONFIG_STORAGE_CONN_STRING)               
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -395,6 +401,8 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
+              storefrontConfigEventHubConsumerGroup: $(STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP)
+              storefrontConfigStorageBlobContainerName: $(STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME)              
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)
@@ -431,9 +439,7 @@ stages:
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
               langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
               # PRODUCT RECS SVC Params
-              productRecsSvcConfigEventHubConnString: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
               productRecsSvcConfigEventHubConsumerGroup: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP)
-              productRecsSvcConfigStorageConnString: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING)
               productRecsSvcConfigStorageBlobContainerName: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME)
               productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
               productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)                              
@@ -481,6 +487,8 @@ stages:
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
+              configEventHubConnString: $(CONFIG_EVENT_HUB_CONN_STRING)
+              configStorageConnString: $(CONFIG_STORAGE_CONN_STRING)              
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -538,6 +546,8 @@ stages:
               storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
+              storefrontConfigEventHubConsumerGroup: $(STOREFRONT_CONFIG_EVENT_HUB_CONSUMER_GROUP)
+              storefrontConfigStorageBlobContainerName: $(STOREFRONT_CONFIG_STORAGE_BLOB_CONTAINER_NAME)
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)
@@ -575,9 +585,7 @@ stages:
               langSvcConfigCacheRetainSeconds: $(LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS)
               langSvcConfigCosmosCollectionName: $(LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME)
               # PRODUCT RECS SVC Params
-              productRecsSvcConfigEventHubConnString: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
               productRecsSvcConfigEventHubConsumerGroup: $(PRODUCT_RECS_SVC_CONFIG_EVENT_HUB_CONSUMER_GROUP)
-              productRecsSvcConfigStorageConnString: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_CONN_STRING)
               productRecsSvcConfigStorageBlobContainerName: $(PRODUCT_RECS_SVC_CONFIG_STORAGE_BLOB_CONTAINER_NAME)
               productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
               productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)                              
