@@ -81,6 +81,8 @@ parameters:
   storefrontConfigApteanLanguagePluginApiUrl: ''
   storefrontConfigEventsEgressConsumerGroup: ''
   storefrontConfigEventsCheckpointsBlobContainerName: ''
+  storefrontConfigHelpUrlTemplate: ''
+  storefrontConfigHelpUrlLocale: ''
   # GQL API SVC Params
   gqlAPISvcImageRepositoryName: ''
   gqlAPISvcImageTag: ''
@@ -321,7 +323,9 @@ steps:
             connectionString: "$env:CONFIG_EVENTS_EGRESS_CONN_STRING"
             consumerGroup: "$env:STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP"
             checkpointsStorageConnectionString: "$env:CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING"
-            checkpointsBlobContainerName: "$env:STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME" 
+            checkpointsBlobContainerName: "$env:STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME"
+        helpUrlLocale: "$env:STOREFRONT_CONFIG_HELP_URL_LOCALE"
+        helpUrlTemplate: "$env:STOREFRONT_CONFIG_HELP_URL_TEMPLATE"
     
     gqlApiService:
       image:
@@ -555,7 +559,9 @@ steps:
     STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY: ${{ parameters.storefrontConfigUseUnsafeLoadAssembly }}
     STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER: ${{ parameters.storefrontConfigUseSessionStateTempDataProvider }}
     STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP: ${{ parameters.storefrontConfigEventsEgressConsumerGroup }}
-    STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME: ${{ parameters.storefrontConfigEventsCheckpointsBlobContainerName }}    
+    STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME: ${{ parameters.storefrontConfigEventsCheckpointsBlobContainerName }}
+    STOREFRONT_CONFIG_HELP_URL_TEMPLATE: ${{ parameters.storefrontConfigHelpUrlTemplate }}
+    STOREFRONT_CONFIG_HELP_URL_LOCALE: ${{ parameters.storefrontConfigHelpUrlLocale }}
     # GQL API SVC Params
     GQL_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.gqlAPISvcImageRepositoryName }}
     GQL_API_SVC_IMAGE_TAG: ${{ parameters.gqlAPISvcImageTag }}

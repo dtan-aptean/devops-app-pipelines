@@ -115,6 +115,8 @@ stages:
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)
+              storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)              
                                                                                                                                      
 - stage: BakedGoods_Ecomm_SF_Deploy
   displayName: BakedGoods - Ecomm Helm Deploy
@@ -217,7 +219,9 @@ stages:
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
-              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)              
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
+              storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                           
               
 - stage: FreshlyProduce_Ecomm_SF_Deploy
   displayName: FreshlyProduce - Ecomm Helm Deploy
@@ -321,6 +325,8 @@ stages:
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)
+              storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)              
 
 - stage: Homefurnishings_Ecomm_SF_Deploy
   displayName: Homefurnishings - Ecomm Helm Deploy
@@ -423,7 +429,9 @@ stages:
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
-              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)             
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
+              storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                          
 
 - stage: Trial02_Ecomm_SF_Deploy
   displayName: Trial02 - Ecomm Helm Deploy
@@ -527,5 +535,7 @@ stages:
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
-              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)            
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
+              storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                         
               
