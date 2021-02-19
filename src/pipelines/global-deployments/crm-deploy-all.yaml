@@ -49,6 +49,11 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               frontDoorId: $(FRONT_DOOR_ID)
+              # COMMON CRM CONFIGS
+              crmClientId: $(CRM_CLIENT_ID)
+              crmClientSecret: $(CRM_CLIENT_SECRET)
+              crmBackendBaseUrl: $(CRM_BACKEND_BASE_URL)
+              crmNotificationsWebhookUrl: $(CRM_NOTIFICATIONS_WEBHOOK_URL)
               # CRM GQL API SVC         
               crmApiSvcImageRepositoryName: $(CRM_API_SVC_IMAGE_REPOSITORY_NAME)
               crmApiSvcReplicas: $(CRM_API_SVC_REPLICAS)
@@ -99,6 +104,11 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               frontDoorId: $(FRONT_DOOR_ID)
+              # COMMON CRM CONFIGS
+              crmClientId: $(CRM_CLIENT_ID)
+              crmClientSecret: $(CRM_CLIENT_SECRET)
+              crmBackendBaseUrl: $(CRM_BACKEND_BASE_URL)
+              crmNotificationsWebhookUrl: $(CRM_NOTIFICATIONS_WEBHOOK_URL)
               # CRM GQL API SVC         
               crmApiSvcImageRepositoryName: $(CRM_API_SVC_IMAGE_REPOSITORY_NAME)
               crmApiSvcReplicas: $(CRM_API_SVC_REPLICAS)
@@ -149,6 +159,11 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               frontDoorId: $(FRONT_DOOR_ID)
+              # COMMON CRM CONFIGS
+              crmClientId: $(CRM_CLIENT_ID)
+              crmClientSecret: $(CRM_CLIENT_SECRET)
+              crmBackendBaseUrl: $(CRM_BACKEND_BASE_URL)
+              crmNotificationsWebhookUrl: $(CRM_NOTIFICATIONS_WEBHOOK_URL)
               # CRM GQL API SVC         
               crmApiSvcImageRepositoryName: $(CRM_API_SVC_IMAGE_REPOSITORY_NAME)
               crmApiSvcReplicas: $(CRM_API_SVC_REPLICAS)

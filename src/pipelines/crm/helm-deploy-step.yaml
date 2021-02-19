@@ -11,7 +11,12 @@ parameters:
   helmReleaseName: ''
   k8sNamespace: ''
   env: ''
-  frontDoorId: ''  
+  frontDoorId: ''
+  # COMMON CRM CONFIGS
+  crmClientId: ''
+  crmClientSecret: ''
+  crmBackendBaseUrl: ''
+  crmNotificationsWebhookUrl: ''
   # CRM API SVC
   crmApiSvcImageTag: ''
   crmApiSvcImageRepositoryName: ''
@@ -106,6 +111,12 @@ steps:
           grpcUrl: "$env:CRM_API_SVC_SUBS_MGMT_GRPC_URL"
           apiKey: "$env:CRM_API_SVC_SUBS_MGMT_API_KEY"
           serviceId: "$env:CRM_API_SVC_SUBS_MGMT_SERVICE_ID"
+        backend:
+          clientId: "$env:CRM_CLIENT_ID"
+          clientSecret: "$env:CRM_CLIENT_SECRET"
+          baseUrl: "$env:CRM_BACKEND_BASE_URL"
+        notifications:
+          webhookUrl: "$env:CRM_NOTIFICATIONS_WEBHOOK_URL"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -127,8 +138,13 @@ steps:
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
     ENV: ${{ parameters.env }}    
-    FRONT_DOOR_ID: ${{ parameters.frontDoorId }}     
-    # CRM_API_SVC
+    FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
+    # COMMON CRM CONFIGS
+    CRM_CLIENT_ID: ${{ parameters.crmClientId }}
+    CRM_CLIENT_SECRET: ${{ parameters.crmClientSecret }}
+    CRM_BACKEND_BASE_URL: ${{ parameters.crmBackendBaseUrl }}
+    CRM_NOTIFICATIONS_WEBHOOK_URL: ${{ parameters.crmNotificationsWebhookUrl}}
+    # CRM GQL API SVC
     CRM_API_SVC_IMAGE_TAG: ${{ parameters.crmApiSvcImageTag }}
     CRM_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.crmApiSvcImageRepositoryName }}
     CRM_API_SVC_REPLICAS: ${{ parameters.crmApiSvcReplicas }}
