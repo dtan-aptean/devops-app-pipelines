@@ -7,10 +7,6 @@ resources:
   pipelines:
   - pipeline: crm-api-svc-docker-build-push
     source: crm-api-svc-docker-build-push
-    trigger:
-      branches:
-        include:
-        - master
 
 stages:
 - stage: TST_CRM_Helm_Deploy
