@@ -199,6 +199,10 @@ parameters:
   txnRecordsSvcResourceLimitMemory: ''
   txnRecordsSvcResourceRequestCpu: ''
   txnRecordsSvcResourceRequestMemory: ''
+  txnRecordsStmtsResourceLimitCpu: ''
+  txnRecordsStmtsResourceLimitMemory: ''
+  txnRecordsStmtsResourceRequestCpu: ''
+  txnRecordsStmtsResourceRequestMemory: ''  
   txnRecordsSvcBroadcastPlatformEvents: ''
   txnRecordsSvcPlatformEmail: ''
   txnRecordsSvcCosdbConnString: ''
@@ -721,6 +725,15 @@ steps:
           requests:
             cpu: $env:TXN_RECORDS_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:TXN_RECORDS_SVC_RESOURCE_REQUESTS_MEMORY
+      
+      statementsJob:
+        resources:
+          limits:
+            cpu: $env:TXN_RECORDS_STMTS_RESOURCE_LIMITS_CPU
+            memory: $env:TXN_RECORDS_STMTS_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:TXN_RECORDS_STMTS_RESOURCE_REQUESTS_CPU
+            memory: $env:TXN_RECORDS_STMTS_RESOURCE_REQUESTS_MEMORY        
 
       config:
         broadcastPlatformEvents: $env:TXN_RECORDS_SVC_BROADCAST_PLATFORM_EVENTS
@@ -970,6 +983,10 @@ steps:
     TXN_RECORDS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.txnRecordsSvcResourceLimitMemory }}
     TXN_RECORDS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.txnRecordsSvcResourceRequestCpu }}
     TXN_RECORDS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.txnRecordsSvcResourceRequestMemory }}
+    TXN_RECORDS_STMTS_RESOURCE_LIMITS_CPU: ${{ parameters.txnRecordsStmtsResourceLimitCpu }}
+    TXN_RECORDS_STMTS_RESOURCE_LIMITS_MEMORY: ${{ parameters.txnRecordsStmtsResourceLimitMemory }}
+    TXN_RECORDS_STMTS_RESOURCE_REQUESTS_CPU: ${{ parameters.txnRecordsStmtsResourceRequestCpu }} 
+    TXN_RECORDS_STMTS_RESOURCE_REQUESTS_MEMORY: ${{ parameters.txnRecordsStmtsResourceRequestMemory }}    
     TXN_RECORDS_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.txnRecordsSvcBroadcastPlatformEvents }}
     TXN_RECORDS_SVC_PLATFORM_EMAIL: ${{ parameters.txnRecordsSvcPlatformEmail }}
     TXN_RECORDS_SVC_COSMOSDB_CONN_STRING: ${{ parameters.txnRecordsSvcCosdbConnString }}
