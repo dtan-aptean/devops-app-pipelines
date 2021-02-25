@@ -7,13 +7,13 @@ resources:
     trigger:
       branches:
         include:
-        - master
+        - release-2021-03-mid
   - pipeline: static-web-files-svc-docker-build-push
     source: static-web-files-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-2021-03-mid
 
 variables:
 - group: helm-chart-svc-principal-config

@@ -7,25 +7,25 @@ resources:
     trigger:
       branches:
         include:
-        - master
+        - release-2021-03-mid
   - pipeline: ecomm-erp-svc-docker-build-push
     source: ecomm-erp-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-2021-03-mid
   - pipeline: ecomm-gql-api-svc-docker-build-push
     source: ecomm-gql-api-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master  
+        - release-2021-03-mid  
   - pipeline: ecomm-lang-svc-docker-build-push
     source: ecomm-lang-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master                      
+        - release-2021-03-mid                      
 
 variables:
 - group: helm-chart-svc-principal-config
