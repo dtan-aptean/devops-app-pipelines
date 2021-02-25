@@ -23,14 +23,19 @@ parameters:
   serviceBusConnString: ''
   serviceBusEventsTopic: ''
   serviceBusPlatformEventsTopicConnString: ''
+  mongoDbConnString: ''
+  mongoDbName: ''
+  mongoDbPaymentCancelRetriesCollectionName: ''
+  mongoDbIdempotencyCollectionName: ''
+  mongoDbEzpayApiSvcCollectionName: ''
+  mongoDbEmailNotificationSvcCollectionName: ''
+  mongoDbPaymentsSvcCollectionName: ''
+  mongoDbTxnRecordsSvcCollectionName: ''
   frontDoorId: ''
   nodeJsEnv: ''
   # Cancel Payment Retry Job
   paymentCancelRetryJobImageRepositoryName: ''
   paymentCancelRetryJobImageTag: ''
-  paymentCancelRetryJobConfigMongoDbConnString: ''
-  paymentCancelRetryJobConfigMongoDbDatabase: ''
-  paymentCancelRetryJobConfigMongoDbCollectionName: ''
   paymentCancelRetryJobConfigCronSchedule: ''
   paymentCancelRetryJobConfigSuccessfulJobHistoryLimit: ''
   paymentCancelRetryJobConfigFailedJobHistoryLimit: ''
@@ -65,11 +70,6 @@ parameters:
   ezpayApiSvcSubsMgmtGrpcUrl: ''
   ezpayApiSvcSubsMgmtApiKey: ''
   ezpayApiSvcSubsMgmtServiceId: ''
-  ezpayApiSvcMongodbConnString: ''
-  ezpayApiSvcMongodbDatabase: ''
-  ezpayApiSvcMongodbIdempotencyCollection: ''
-  ezpayApiSvcMongodbCancelRetriesCollection: ''
-  ezpayApiSvcMongodbEzpayApiSvcCollection: ''
   ezpayApiSvcPaymentPlatformFromPhoneNumber: ''
   ezpayApiSvcPaymentPlatformFromEmail: ''
   ezpayApiSvcProcessPlatformEvents: ''
@@ -92,9 +92,6 @@ parameters:
   emailNotificationSvcResourceLimitsMemory: ''
   emailNotificationSvcResourceRequestsCpu: ''
   emailNotificationSvcResourceRequestsMemory: ''
-  emailNotificationSvcCosdbConnString: ''
-  emailNotificationSvcCosdbDatabase: ''
-  emailNotificationSvcCosdbCollectionName: ''
   emailNotificationSvcDbPlatformEventsSubscription: ''
   emailNotificationSvcAppInsightsKey: ''
   emailNotificationSvcBroadcastPlatformEvents: ''
@@ -125,9 +122,6 @@ parameters:
   merchantOpsSvcResourceLimitsMemory: ''
   merchantOpsSvcResourceRequestsCpu: ''
   merchantOpsSvcResourceRequestsMemory: ''
-  merchantOpsSvcCosdbConnString: ''
-  merchantOpsSvcCosdbDatabase: ''
-  merchantOpsSvcCosdbContainer: ''
   merchantOpsSvcPlatformEventsSubscription: ''
   merchantOpsSvcAppInsightsKey: ''
   merchantOpsSvcEnableAppInsights: ''
@@ -159,9 +153,6 @@ parameters:
   paymentOpsSvcResourceLimitsMemory: ''
   paymentOpsSvcResourceRequestsCpu: ''
   paymentOpsSvcResourceRequestsMemory: ''
-  paymentOpsSvcCosdbConnString: ''
-  paymentOpsSvcCosdbDatabase: ''
-  paymentOpsSvcCosdbCollectionName: ''
   paymentOpsSvcSbPlatformEventsSubscription: ''
   paymentOpsSvcSbEmailReqQueueConnString: ''
   paymentOpsSvcSbEmailReqQueue: ''
@@ -178,12 +169,6 @@ parameters:
   paymentsSvcResourceLimitsMemory: ''
   paymentsSvcResourceRequestsCpu: ''
   paymentsSvcResourceRequestsMemory: ''
-  paymentsSvcCosdbConnString: ''
-  paymentsSvcCosdbDatabase: ''
-  paymentsSvcCosdbContainer: ''
-  paymentsSvcMongodbConnString: ''
-  paymentsSvcMongodbDatabase: ''
-  paymentsSvcMongodbCollection: ''
   paymentsSvcPlatformEventsSubscription: ''
   paymentsSvcCronSchedule: ''
   paymentsSvcSuccessfulJobHistoryLimit: ''
@@ -201,9 +186,6 @@ parameters:
   txnRecordsSvcResourceRequestMemory: ''
   txnRecordsSvcBroadcastPlatformEvents: ''
   txnRecordsSvcPlatformEmail: ''
-  txnRecordsSvcCosdbConnString: ''
-  txnRecordsSvcCosdbDatabase: ''
-  txnRecordsSvcCosdbCollection: ''
   txnRecordsSvcDbPlatformEventsSubscription: ''
   txnRecordsSvcAppInsightsKey: ''
   txnRecordsSvcProcessPlatformEvents: ''
@@ -588,10 +570,6 @@ steps:
             memory: $env:MERCHANT_OPS_SVC_RESOURCE_REQUESTS_MEMORY
 
       config:
-        cosmos:
-          connectionString: "$env:MERCHANT_OPS_SVC_COSMOSDB_CONN_STRING"
-          databaseName: "$env:MERCHANT_OPS_SVC_COSMOSDB_DB_NAME"
-          containerName: "$env:MERCHANT_OPS_SVC_COSMOSDB_CONTAINER_NAME"
         serviceBus:
           platformEventsSubscription: "$env:MERCHANT_OPS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION"           
         appInsights:
@@ -652,10 +630,6 @@ steps:
             memory: $env:PAYMENT_OPS_SVC_RESOURCE_REQUESTS_MEMORY
 
       config:
-        cosmos:
-          connectionString: "$env:PAYMENT_OPS_SVC_COSMOSDB_CONN_STRING"
-          databaseName: "$env:PAYMENT_OPS_SVC_COSMOSDB_DATABASE"
-          collectionName: "$env:PAYMENT_OPS_SVC_COSMOSDB_COLLECTION_NAME"
         serviceBus:
           platformEventsSubscription: "$env:PAYMENT_OPS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION"   
           emailReqsQueueConnString: "$env:PAYMENT_OPS_SVC_SB_EMAIL_REQS_QUEUE_CONN_STRING"
@@ -686,10 +660,6 @@ steps:
             memory: $env:PAYMENTS_SVC_RESOURCE_REQUESTS_MEMORY
 
       config:
-        cosmos:
-          connectionString: "$env:PAYMENTS_SVC_COSMOSDB_CONN_STRING"
-          databaseName: "$env:PAYMENTS_SVC_COSMOSDB_DB_NAME"
-          containerName: "$env:PAYMENTS_SVC_COSMOSDB_CONTAINER_NAME"
         cosmosMongo:
           connectionString: "$env:PAYMENTS_SVC_MONGODB_CONN_STRING"
           databaseName: "$env:PAYMENTS_SVC_MONGODB_DB_NAME"
@@ -801,9 +771,9 @@ steps:
     # PAYMENT_CANCEL_RETRY_JOB
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG: ${{ parameters.paymentCancelRetryJobImageTag }}
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentCancelRetryJobImageRepositoryName }}
-    PAYMENT_CANCEL_RETRY_JOB_MONGODB_CONN_STRING: ${{ parameters.paymentCancelRetryJobConfigMongoDbConnString }}
-    PAYMENT_CANCEL_RETRY_JOB_MONGODB_DATABASE: ${{ parameters.paymentCancelRetryJobConfigMongoDbDatabase }}
-    PAYMENT_CANCEL_RETRY_JOB_MONGODB_COLLECTION_NAME: ${{ parameters.paymentCancelRetryJobConfigMongoDbCollectionName }}
+    PAYMENT_CANCEL_RETRY_JOB_MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    PAYMENT_CANCEL_RETRY_JOB_MONGODB_DATABASE: ${{ parameters.mongoDbName }}
+    PAYMENT_CANCEL_RETRY_JOB_MONGODB_COLLECTION_NAME: ${{ parameters.mongoDbPaymentCancelRetriesCollectionName }}
     PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE: ${{ parameters.paymentCancelRetryJobConfigCronSchedule }}
     PAYMENT_CANCEL_RETRY_JOB_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.paymentCancelRetryJobConfigSuccessfulJobHistoryLimit }}
     PAYMENT_CANCEL_RETRY_JOB_FAILED_JOB_HISTORY_LIMIT: ${{ parameters.paymentCancelRetryJobConfigFailedJobHistoryLimit }}
@@ -838,11 +808,11 @@ steps:
     EZPAY_API_SVC_SUBS_MGMT_GRPC_URL: ${{ parameters.ezpayApiSvcSubsMgmtGrpcUrl }}
     EZPAY_API_SVC_SUBS_MGMT_API_KEY: ${{ parameters.ezpayApiSvcSubsMgmtApiKey }}
     EZPAY_API_SVC_SUBS_MGMT_SERVICE_ID: ${{ parameters.ezpayApiSvcSubsMgmtServiceId }}
-    EZPAY_API_SVC_MONGODB_CONN_STRING: ${{ parameters.ezpayApiSvcMongodbConnString }}
-    EZPAY_API_SVC_MONGODB_DATABASE: ${{ parameters.ezpayApiSvcMongodbDatabase }}
-    EZPAY_API_SVC_MONGODB_IDEMPOTENCY_COLLECTION: ${{ parameters.ezpayApiSvcMongodbIdempotencyCollection }}
-    EZPAY_API_SVC_MONGODB_CANCEL_RETRIES_COLLECTION: ${{ parameters.ezpayApiSvcMongodbCancelRetriesCollection }}
-    EZPAY_API_SVC_MONGODB_EZPAY_API_SVC_COLLECTION: ${{ parameters.ezpayApiSvcMongodbEzpayApiSvcCollection }}
+    EZPAY_API_SVC_MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    EZPAY_API_SVC_MONGODB_DATABASE: ${{ parameters.mongoDbName }}
+    EZPAY_API_SVC_MONGODB_IDEMPOTENCY_COLLECTION: ${{ parameters.mongoDbIdempotencyCollectionName }}
+    EZPAY_API_SVC_MONGODB_CANCEL_RETRIES_COLLECTION: ${{ parameters.mongoDbPaymentCancelRetriesCollectionName }}
+    EZPAY_API_SVC_MONGODB_EZPAY_API_SVC_COLLECTION: ${{ parameters.mongoDbEzpayApiSvcCollectionName }}
     EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_PHONE_NUMBER: ${{ parameters.ezpayApiSvcPaymentPlatformFromPhoneNumber }}
     EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_EMAIL: ${{ parameters.ezpayApiSvcPaymentPlatformFromEmail }}
     EZPAY_API_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.ezpayApiSvcProcessPlatformEvents }}
@@ -864,9 +834,9 @@ steps:
     EMAIL_NOTIFICATION_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.emailNotificationSvcResourceLimitsMemory }}
     EMAIL_NOTIFICATION_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.emailNotificationSvcResourceRequestsCpu }}
     EMAIL_NOTIFICATION_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.emailNotificationSvcResourceRequestsMemory }}
-    EMAIL_NOTIFICATION_SVC_COSMOS_CONN_STRING: ${{ parameters.emailNotificationSvcCosdbConnString }}
-    EMAIL_NOTIFICATION_SVC_COSMOSDB_DATABASE: ${{ parameters.emailNotificationSvcCosdbDatabase }}
-    EMAIL_NOTIFICATION_SVC_COSMOSDB_COLLECTION_NAME: ${{ parameters.emailNotificationSvcCosdbCollectionName }}
+    EMAIL_NOTIFICATION_SVC_COSMOS_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    EMAIL_NOTIFICATION_SVC_COSMOSDB_DATABASE: ${{ parameters.mongoDbName }}
+    EMAIL_NOTIFICATION_SVC_COSMOSDB_COLLECTION_NAME: ${{ parameters.mongoDbEmailNotificationSvcCollectionName }}
     EMAIL_NOTIFICATION_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.emailNotificationSvcDbPlatformEventsSubscription }}
     EMAIL_NOTIFICATION_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.emailNotificationSvcAppInsightsKey }}
     EMAIL_NOTIFICATION_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.emailNotificationSvcBroadcastPlatformEvents }}
@@ -897,9 +867,6 @@ steps:
     MERCHANT_OPS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.merchantOpsSvcResourceLimitsMemory }}
     MERCHANT_OPS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.merchantOpsSvcResourceRequestsCpu }}
     MERCHANT_OPS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.merchantOpsSvcResourceRequestsMemory }}
-    MERCHANT_OPS_SVC_COSMOSDB_CONN_STRING: ${{ parameters.merchantOpsSvcCosdbConnString }}
-    MERCHANT_OPS_SVC_COSMOSDB_DB_NAME: ${{ parameters.merchantOpsSvcCosdbDatabase }}
-    MERCHANT_OPS_SVC_COSMOSDB_CONTAINER_NAME: ${{ parameters.merchantOpsSvcCosdbContainer }}
     MERCHANT_OPS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION : ${{ parameters.merchantOpsSvcPlatformEventsSubscription }}
     MERCHANT_OPS_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.merchantOpsSvcAppInsightsKey }}
     MERCHANT_OPS_SVC_ENABLE_APP_INSIGHTS: ${{ parameters.merchantOpsSvcEnableAppInsights }}
@@ -930,9 +897,6 @@ steps:
     PAYMENT_OPS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.paymentOpsSvcResourceLimitsMemory }}
     PAYMENT_OPS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.paymentOpsSvcResourceRequestsCpu }}
     PAYMENT_OPS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.paymentOpsSvcResourceRequestsMemory }}
-    PAYMENT_OPS_SVC_COSMOSDB_CONN_STRING: ${{ parameters.paymentOpsSvcCosdbConnString }}
-    PAYMENT_OPS_SVC_COSMOSDB_DATABASE: ${{ parameters.paymentOpsSvcCosdbDatabase }}
-    PAYMENT_OPS_SVC_COSMOSDB_COLLECTION_NAME: ${{ parameters.paymentOpsSvcCosdbCollectionName }}
     PAYMENT_OPS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.paymentOpsSvcSbPlatformEventsSubscription }}
     PAYMENT_OPS_SVC_SB_EMAIL_REQS_QUEUE_CONN_STRING: ${{ parameters.paymentOpsSvcSbEmailReqQueueConnString }}
     PAYMENT_OPS_SVC_SB_EMAIL_REQS_QUEUE: ${{ parameters.paymentOpsSvcSbEmailReqQueue }}
@@ -948,13 +912,10 @@ steps:
     PAYMENTS_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.paymentsSvcResourceLimitsCpu }}
     PAYMENTS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.paymentsSvcResourceLimitsMemory }}
     PAYMENTS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.paymentsSvcResourceRequestsCpu }}
-    PAYMENTS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.paymentsSvcResourceRequestsMemory }}
-    PAYMENTS_SVC_COSMOSDB_CONN_STRING: ${{ parameters.paymentsSvcCosdbConnString }}
-    PAYMENTS_SVC_COSMOSDB_DB_NAME: ${{ parameters.paymentsSvcCosdbDatabase }}
-    PAYMENTS_SVC_COSMOSDB_CONTAINER_NAME: ${{ parameters.paymentsSvcCosdbContainer }}
-    PAYMENTS_SVC_MONGODB_CONN_STRING: ${{ parameters.paymentsSvcMongodbConnString }}
-    PAYMENTS_SVC_MONGODB_DB_NAME: ${{ parameters.paymentsSvcMongodbDatabase }}
-    PAYMENTS_SVC_MONGODB_COLLECTION_NAME: ${{ parameters.paymentsSvcMongodbCollection }}
+    PAYMENTS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.paymentsSvcResourceRequestsMemory }}ß
+    PAYMENTS_SVC_MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    PAYMENTS_SVC_MONGODB_DB_NAME: ${{ parameters.mongoDbName }}
+    PAYMENTS_SVC_MONGODB_COLLECTION_NAME: ${{ parameters.mongoDbPaymentsSvcCollectionName }}
     PAYMENTS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.paymentsSvcPlatformEventsSubscription }}
     PAYMENTS_SVC_CRON_SCHEDULE: ${{ parameters.paymentsSvcCronSchedule }}
     PAYMENTS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.paymentsSvcSuccessfulJobHistoryLimit }}
@@ -972,9 +933,9 @@ steps:
     TXN_RECORDS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.txnRecordsSvcResourceRequestMemory }}
     TXN_RECORDS_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.txnRecordsSvcBroadcastPlatformEvents }}
     TXN_RECORDS_SVC_PLATFORM_EMAIL: ${{ parameters.txnRecordsSvcPlatformEmail }}
-    TXN_RECORDS_SVC_COSMOSDB_CONN_STRING: ${{ parameters.txnRecordsSvcCosdbConnString }}
-    TXN_RECORDS_SVC_COSMOSDB_DATABASE: ${{ parameters.txnRecordsSvcCosdbDatabase }}
-    TXN_RECORDS_SVC_COSMOSDB_COLLECTION_NAME: ${{ parameters.txnRecordsSvcCosdbCollection }}
+    TXN_RECORDS_SVC_COSMOSDB_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    TXN_RECORDS_SVC_COSMOSDB_DATABASE: ${{ parameters.mongoDbName }}
+    TXN_RECORDS_SVC_COSMOSDB_COLLECTION_NAME: ${{ parameters.mongoDbTxnRecordsSvcCollectionName }}
     TXN_RECORDS_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.txnRecordsSvcDbPlatformEventsSubscription }}
     TXN_RECORDS_SVC_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.txnRecordsSvcAppInsightsKey }}
     TXN_RECORDS_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.txnRecordsSvcProcessPlatformEvents }}
