@@ -40,6 +40,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
+              sentryDsn: $(SENTRY_DSN)
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
@@ -99,6 +100,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
+              sentryDsn: $(SENTRY_DSN)
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
@@ -158,6 +160,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
+              sentryDsn: $(SENTRY_DSN)
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
@@ -217,6 +220,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
+              sentryDsn: $(SENTRY_DSN)
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)

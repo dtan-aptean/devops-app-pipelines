@@ -80,6 +80,7 @@ stages:
               mongoDbPaymentsSvcCollectionName: $(MONGODB_PAYMENTS_SVC_COLLECTION)
               mongoDbTxnRecordsSvcCollectionName: $(MONGODB_TXN_RECORDS_SVC_COLLECTION)  
               frontDoorId: $(FRONT_DOOR_ID)
+              sentryDsn: $(SENTRY_DSN)
               # Cancel Payment Retry Job
               paymentCancelRetryJobImageRepositoryName: $(PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME)
               paymentCancelRetryJobConfigCronSchedule: $(PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE)
@@ -297,6 +298,7 @@ stages:
               mongoDbPaymentsSvcCollectionName: $(MONGODB_PAYMENTS_SVC_COLLECTION)
               mongoDbTxnRecordsSvcCollectionName: $(MONGODB_TXN_RECORDS_SVC_COLLECTION)  
               frontDoorId: $(FRONT_DOOR_ID)
+              sentryDsn: $(SENTRY_DSN)
               # Cancel Payment Retry Job
               paymentCancelRetryJobImageRepositoryName: $(PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME)
               paymentCancelRetryJobConfigCronSchedule: $(PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE)
@@ -514,6 +516,7 @@ stages:
               mongoDbPaymentsSvcCollectionName: $(MONGODB_PAYMENTS_SVC_COLLECTION)
               mongoDbTxnRecordsSvcCollectionName: $(MONGODB_TXN_RECORDS_SVC_COLLECTION)  
               frontDoorId: $(FRONT_DOOR_ID)
+              sentryDsn: $(SENTRY_DSN)
               # Cancel Payment Retry Job
               paymentCancelRetryJobImageRepositoryName: $(PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME)
               paymentCancelRetryJobConfigCronSchedule: $(PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE)
@@ -732,6 +735,7 @@ stages:
               mongoDbPaymentsSvcCollectionName: $(MONGODB_PAYMENTS_SVC_COLLECTION)
               mongoDbTxnRecordsSvcCollectionName: $(MONGODB_TXN_RECORDS_SVC_COLLECTION)  
               frontDoorId: $(FRONT_DOOR_ID)
+              sentryDsn: $(SENTRY_DSN)
               # Cancel Payment Retry Job
               paymentCancelRetryJobImageRepositoryName: $(PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME)
               paymentCancelRetryJobConfigCronSchedule: $(PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE)

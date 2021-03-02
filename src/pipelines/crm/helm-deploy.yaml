@@ -54,6 +54,7 @@ stages:
               crmClientSecret: $(CRM_CLIENT_SECRET)
               crmBackendBaseUrl: $(CRM_BACKEND_BASE_URL)
               crmNotificationsWebhookUrl: $(CRM_NOTIFICATIONS_WEBHOOK_URL)
+              sentryDsn: $(SENTRY_DSN)
               # CRM GQL API SVC         
               crmApiSvcImageRepositoryName: $(CRM_API_SVC_IMAGE_REPOSITORY_NAME)
               crmApiSvcReplicas: $(CRM_API_SVC_REPLICAS)

@@ -17,6 +17,7 @@ parameters:
   crmClientSecret: ''
   crmBackendBaseUrl: ''
   crmNotificationsWebhookUrl: ''
+  sentryDsn: ''
   # CRM API SVC
   crmApiSvcImageTag: ''
   crmApiSvcImageRepositoryName: ''
@@ -73,6 +74,10 @@ steps:
     @"
     commonLabels:
       env: $env:ENV
+
+    config:
+      sentry:
+        dsn: "$env:SENTRY_DSN"
 
     crmApiSvc:
       image:      
@@ -139,6 +144,7 @@ steps:
     CHART_NAME: ${{ parameters.chartName }}
     ENV: ${{ parameters.env }}    
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
+    SENTRY_DSN: ${{ parameters.sentryDsn }}
     # COMMON CRM CONFIGS
     CRM_CLIENT_ID: ${{ parameters.crmClientId }}
     CRM_CLIENT_SECRET: ${{ parameters.crmClientSecret }}

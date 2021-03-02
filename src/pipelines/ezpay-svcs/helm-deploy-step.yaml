@@ -33,6 +33,7 @@ parameters:
   mongoDbTxnRecordsSvcCollectionName: ''
   frontDoorId: ''
   nodeJsEnv: ''
+  sentryDsn: ''
   # Cancel Payment Retry Job
   paymentCancelRetryJobImageRepositoryName: ''
   paymentCancelRetryJobImageTag: ''
@@ -375,6 +376,8 @@ steps:
       merchantPortalUrl: "$env:MERCHANT_PORTAL_URL"
       payerPortalUrl: "$env:PAYER_PORTAL_URL"
       nodejsEnv: "$env:NODE_JS_ENV"
+      sentry:
+        dsn: "$env:SENTRY_DSN"
 
     paymentCancelRetryJob:
       image:
@@ -768,6 +771,7 @@ steps:
     SB_PLATFORM_EVENTS_TOPIC_CONN_STRING: ${{ parameters.serviceBusPlatformEventsTopicConnString }}
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
     NODE_JS_ENV: ${{ parameters.nodeJsEnv }}
+    SENTRY_DSN: ${{ parameters.sentryDsn }}
     # PAYMENT_CANCEL_RETRY_JOB
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG: ${{ parameters.paymentCancelRetryJobImageTag }}
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentCancelRetryJobImageRepositoryName }}

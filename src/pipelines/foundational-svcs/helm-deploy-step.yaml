@@ -11,6 +11,7 @@ parameters:
   helmReleaseName: ''
   k8sNamespace: ''
   env: ''
+  sentryDsn: ''
   # EVENTS SVC PARAMS
   eventsSvcImageRepositoryName: ''
   eventsSvcReplicas: ''
@@ -94,6 +95,10 @@ steps:
     @"
     commonLabels:
       env: $env:ENV
+
+    config:
+      sentry:
+        dsn: "$env:SENTRY_DSN"
 
     eventsService:
       image:
@@ -182,6 +187,7 @@ steps:
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
     ENV: ${{ parameters.env }}
+    SENTRY_DSN: ${{ parameters.sentryDsn }}
     # EVENTS SVC PARAMS
     EVENTS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.eventsSvcImageRepositoryName }}
     EVENTS_SVC_IMAGE_TAG: ${{ parameters.eventsSvcImageTag }}
