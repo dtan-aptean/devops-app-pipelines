@@ -54,6 +54,7 @@ stages:
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
+              sentryDsn: $(SENTRY_DSN)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -200,7 +201,8 @@ stages:
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME) 
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
-              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)                             
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
+              sentryDsn: $(SENTRY_DSN)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -348,6 +350,7 @@ stages:
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
+              sentryDsn: $(SENTRY_DSN)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -494,7 +497,8 @@ stages:
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
-              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)             
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
+              sentryDsn: $(SENTRY_DSN)             
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)

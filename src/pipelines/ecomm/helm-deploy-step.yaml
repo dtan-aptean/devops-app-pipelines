@@ -22,6 +22,7 @@ parameters:
   configCosmosDatabaseName: ''
   configEventsEgressConnString: ''
   configEventsCheckpointsStorageConnString: ''
+  sentryDsn: ''
   # STOREFRONT Params
   storefrontImageRepositoryName: ''
   storefrontReplicas: ''  
@@ -219,6 +220,10 @@ steps:
 
     commonLabels:
       env: $env:ENV
+
+    config:
+      sentry:
+        dsn: "$env:SENTRY_DSN"
 
     storefront:
       image:
@@ -500,7 +505,8 @@ steps:
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
     CONFIG_WEPAY_APP_ID: ${{ parameters.configWepayAppId }}
     CONFIG_WEPAY_ENV: ${{ parameters.configWepayEnv }}
-    CONFIG_WEPAY_API_VERSION: ${{ parameters.configWepayApiVersion }} 
+    CONFIG_WEPAY_API_VERSION: ${{ parameters.configWepayApiVersion }}
+    SENTRY_DSN: ${{ parameters.sentryDsn }}
     # STOREFRONT Params
     STOREFRONT_IMAGE_REPOSITORY_NAME: ${{ parameters.storefrontImageRepositoryName }}
     STOREFRONT_REPLICAS: ${{ parameters.storefrontReplicas }}    
