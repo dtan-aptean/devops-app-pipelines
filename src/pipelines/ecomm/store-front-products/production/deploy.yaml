@@ -118,6 +118,9 @@ stages:
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                          
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)               
 
 - stage: ReedRubberProducts_Ecomm_SF_Deploy
   displayName: ReedRubberProducts - Ecomm Helm Deploy
@@ -222,5 +225,8 @@ stages:
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
-              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                            
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)  
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                         
 

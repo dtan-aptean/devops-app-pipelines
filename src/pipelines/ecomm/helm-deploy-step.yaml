@@ -84,6 +84,9 @@ parameters:
   storefrontConfigEventsCheckpointsBlobContainerName: ''
   storefrontConfigHelpUrlTemplate: ''
   storefrontConfigHelpUrlLocale: ''
+  storefrontConfigEnableAppInsights: ''
+  storefrontConfigAppInsightsInstrumentationKey: ''
+  storefrontConfigEnableSQLServerCache: ''
   # GQL API SVC Params
   gqlAPISvcImageRepositoryName: ''
   gqlAPISvcImageTag: ''
@@ -331,6 +334,10 @@ steps:
             checkpointsBlobContainerName: "$env:STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME"
         helpUrlLocale: "$env:STOREFRONT_CONFIG_HELP_URL_LOCALE"
         helpUrlTemplate: "$env:STOREFRONT_CONFIG_HELP_URL_TEMPLATE"
+        enableAppInsights: "$env:STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS"
+        enableSQLServerCache: "$env:STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE"
+        appInsights:
+          instrumentationKey: "$env:STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY"        
     
     gqlApiService:
       image:
@@ -568,6 +575,9 @@ steps:
     STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME: ${{ parameters.storefrontConfigEventsCheckpointsBlobContainerName }}
     STOREFRONT_CONFIG_HELP_URL_TEMPLATE: ${{ parameters.storefrontConfigHelpUrlTemplate }}
     STOREFRONT_CONFIG_HELP_URL_LOCALE: ${{ parameters.storefrontConfigHelpUrlLocale }}
+    STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS: ${{ parameters.storefrontConfigEnableAppInsights }}
+    STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.storefrontConfigAppInsightsInstrumentationKey }}
+    STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE: ${{ parameters.storefrontConfigEnableSQLServerCache }}    
     # GQL API SVC Params
     GQL_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.gqlAPISvcImageRepositoryName }}
     GQL_API_SVC_IMAGE_TAG: ${{ parameters.gqlAPISvcImageTag }}
