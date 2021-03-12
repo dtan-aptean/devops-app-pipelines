@@ -137,6 +137,9 @@ stages:
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)              
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)

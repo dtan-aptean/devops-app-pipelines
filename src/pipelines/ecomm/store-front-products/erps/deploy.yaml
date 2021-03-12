@@ -116,7 +116,10 @@ stages:
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
-              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                           
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE) 
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                         
 
 - stage: Apprise_Ecomm_SF_Deploy
   displayName: Apprise - Ecomm Helm Deploy
@@ -221,7 +224,10 @@ stages:
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
-              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                                      
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)   
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                                  
 
 - stage: M2M_Ecomm_SF_Deploy
   displayName: M2M - Ecomm Helm Deploy
@@ -326,7 +332,10 @@ stages:
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
-              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                          
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)  
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                       
 
 - stage: Workwise_Ecomm_SF_Deploy
   displayName: Workwise - Ecomm Helm Deploy
@@ -431,7 +440,10 @@ stages:
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
-              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                                                       
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)  
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                                                    
 
 - stage: Justfood_Ecomm_SF_Deploy
   displayName: Justfood - Ecomm Helm Deploy
@@ -536,7 +548,10 @@ stages:
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
-              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                          
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE) 
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                        
                            
 - stage: Apprise_CNF_Ecomm_SF_Deploy
   displayName: Apprise_CNF - Ecomm Helm Deploy
@@ -642,7 +657,10 @@ stages:
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
-              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                               
 
 - stage: RossPlayground_Ecomm_SF_Deploy
   displayName: RossPlayground - Ecomm Helm Deploy
@@ -748,4 +766,7 @@ stages:
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
               storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
-              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                                                 
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE) 
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                                               
