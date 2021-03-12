@@ -26,12 +26,12 @@ resources:
       branches:
         include:
         - master
-  # - pipeline: ezpay-erp-integration-svc-docker-build-push
-  #   source: ezpay-erp-integration-svc-docker-build-push
-  #   trigger:
-  #     branches:
-  #       include:
-  #       - master
+  - pipeline: ezpay-erp-integration-svc-docker-build-push
+    source: ezpay-erp-integration-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - master
   - pipeline: ezpay-merchant-ops-svc-docker-build-push
     source: ezpay-merchant-ops-svc-docker-build-push
     trigger:
