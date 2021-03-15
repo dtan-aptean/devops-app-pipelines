@@ -51,6 +51,7 @@ parameters:
   storefrontConfigB2cDomainHint: ''
   storefrontConfigFriendlyName: ''
   storefrontConfigApteanPayApiUrl: ''
+  storefrontConfigApteanPayApiUrlGrpc: ''
   storefrontConfigMerchantPortalUrl: ''
   storefrontConfigUseHttpClusterHttps: ''
   storefrontConfigUseHttpXForwardedProto: ''
@@ -286,6 +287,7 @@ steps:
             friendlyName: "$env:STOREFRONT_CONFIG_FRIENDLY_NAME"
         apteanPayPlugin:
           apiUrl: "$env:STOREFRONT_CONFIG_APTEAN_PAY_API_URL"
+          apiUrlGrpc: "$env:STOREFRONT_CONFIG_APTEAN_PAY_API_URL_GRPC"
           merchantPortalUrl: "$env:STOREFRONT_CONFIG_MERCHANT_PORTAL_URL"
           apiKey: "$env:STOREFRONT_CONFIG_APTEAN_TENANT_APIM"
           wepay:
@@ -542,6 +544,7 @@ steps:
     STOREFRONT_CONFIG_B2C_DOMAIN_HINT: ${{ parameters.storefrontConfigB2cDomainHint }}
     STOREFRONT_CONFIG_FRIENDLY_NAME: ${{ parameters.storefrontConfigFriendlyName }}
     STOREFRONT_CONFIG_APTEAN_PAY_API_URL: ${{ parameters.storefrontConfigApteanPayApiUrl }}
+    STOREFRONT_CONFIG_APTEAN_PAY_API_URL_GRPC: ${{ parameters.storefrontConfigApteanPayApiUrlGrpc }}
     STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL: ${{ parameters.storefrontConfigApteanLanguagePluginApiUrl }}
     STOREFRONT_CONFIG_MERCHANT_PORTAL_URL: ${{ parameters.storefrontConfigMerchantPortalUrl }}
     STOREFRONT_CONFIG_USE_HTTP_CLUSTER_HTTPS: ${{ parameters.storefrontConfigUseHttpClusterHttps }}

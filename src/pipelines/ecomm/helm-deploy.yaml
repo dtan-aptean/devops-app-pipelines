@@ -104,6 +104,7 @@ stages:
               storefrontConfigB2cDomainHint: $(STOREFRONT_CONFIG_B2C_DOMAIN_HINT)
               storefrontConfigFriendlyName: $(STOREFRONT_CONFIG_FRIENDLY_NAME)
               storefrontConfigApteanPayApiUrl: $(STOREFRONT_CONFIG_APTEAN_PAY_API_URL)
+              storefrontConfigApteanPayApiUrlGrpc: $(STOREFRONT_CONFIG_APTEAN_PAY_API_URL_GRPC)
               storefrontConfigMerchantPortalUrl: $(STOREFRONT_CONFIG_MERCHANT_PORTAL_URL)
               storefrontConfigUseHttpClusterHttps: $(STOREFRONT_CONFIG_USE_HTTP_CLUSTER_HTTPS)
               storefrontConfigUseHttpXForwardedProto: $(STOREFRONT_CONFIG_USE_HTTP_X_FORWARDED_PROTO)
