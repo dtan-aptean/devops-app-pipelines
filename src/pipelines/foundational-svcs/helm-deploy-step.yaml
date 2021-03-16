@@ -26,10 +26,6 @@ parameters:
   eventsSvcConfigMongoDbCollectionName: ''
   eventsSvcConfigMongoDbCollectionNameExceptions: ''
   eventsSvcConfigServiceBusConnectionString: ''
-  eventsSvcConfigEventHubConnectionString: ''
-  eventsSvcConfigStreamName: ''
-  eventsSvcConfigIngressName: ''
-  eventsSvcConfigEgressName: ''
   # STATIC WEB FILES SVC PARAMS
   staticWebFilesSvcImageRepositoryName: ''
   staticWebFilesSvcReplicas: ''
@@ -202,7 +198,6 @@ steps:
     EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS: ${{ parameters.eventsSvcConfigMongoDbCollectionName }}
     EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS: ${{ parameters.eventsSvcConfigMongoDbCollectionNameExceptions }}
     EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING: ${{ parameters.eventsSvcConfigServiceBusConnectionString }}
-    EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING: ${{ parameters.eventsSvcConfigEventHubConnectionString}}
     # STATIC WEB FILES SVC PARAMS
     STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.staticWebFilesSvcImageRepositoryName }}
     STATIC_WEB_FILES_SVC_REPLICAS: ${{ parameters.staticWebFilesSvcReplicas }}
