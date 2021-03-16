@@ -57,7 +57,7 @@ variables:
 - name: EZPAY_API_SVC_KONG_INGRESS_CLASS
   value: kong-prd
 - name: EZPAY_API_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: EZPAY_API_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs
 # EMAIL NOTIFICATION SVC
@@ -106,7 +106,7 @@ variables:
 - name: MERCHANT_OPS_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: MERCHANT_OPS_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: MERCHANT_OPS_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs
 # PAYFAC NOTIFICATIONS SVC
@@ -121,7 +121,7 @@ variables:
 - name: PAYFAC_NOTIFICATIONS_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: PAYFAC_NOTIFICATIONS_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: PAYFAC_NOTIFICATIONS_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs
 # PAYMENT OPS SVC
@@ -136,7 +136,7 @@ variables:
 - name: PAYMENT_OPS_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: PAYMENT_OPS_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: PAYMENT_OPS_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs
 # PAYMENTS SVC & PAYMENTS RETRY JOB
@@ -151,7 +151,7 @@ variables:
 - name: PAYMENTS_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: PAYMENTS_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: PAYMENTS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT
   value: 3
 - name: PAYMENTS_SVC_FAILED_JOB_HISTORY_LIMIT
@@ -180,7 +180,7 @@ variables:
 - name: TXN_RECORDS_STMTS_RESOURCE_REQUESTS_MEMORY
   value: 10Mi   
 - name: TXN_RECORDS_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT
   value: 3
 - name: TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT
@@ -201,6 +201,6 @@ variables:
 - name: WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: WEPAY_INTEGRATION_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: WEPAY_INTEGRATION_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs
