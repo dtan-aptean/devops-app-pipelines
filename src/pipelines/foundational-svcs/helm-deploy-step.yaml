@@ -26,10 +26,6 @@ parameters:
   eventsSvcConfigMongoDbCollectionName: ''
   eventsSvcConfigMongoDbCollectionNameExceptions: ''
   eventsSvcConfigServiceBusConnectionString: ''
-  eventsSvcConfigEventHubConnectionString: ''
-  eventsSvcConfigStreamName: ''
-  eventsSvcConfigIngressName: ''
-  eventsSvcConfigEgressName: ''
   # STATIC WEB FILES SVC PARAMS
   staticWebFilesSvcImageRepositoryName: ''
   staticWebFilesSvcReplicas: ''
