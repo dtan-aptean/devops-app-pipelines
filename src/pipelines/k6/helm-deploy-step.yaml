@@ -1,0 +1,184 @@
+parameters:
+  serviceConnection: ''
+  svcPrincipalClientId: ''
+  svcPrincipalSecret: ''
+  azureTenantId: ''
+  aksName: ''
+  aksResourceGroup: ''
+  containerRegistryName: ''
+  chartRepositoryName: ''
+  chartName: ''
+  helmReleaseName: ''
+  k8sNamespace: ''
+  env: ''
+  # k6
+  k6ScriptsImageTag: ''
+  k6ScriptsImageRepositoryName: ''
+  k6ScriptsNodeSelectorPool: ''
+  k6ScriptsResourceLimitsCpu: ''
+  k6ScriptsResourceLimitsMemory: ''
+  k6ScriptsResourceRequestsCpu: ''
+  k6ScriptsResourceRequestsMemory: ''
+  
+steps:
+- pwsh: |
+    $env:HELM_EXPERIMENTAL_OCI = 1
+
+    az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+
+    $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
+
+    $env:SP_SECRET | helm registry login $fullRegistryName `
+      --username $env:SP_CLIENT_ID `
+      --password-stdin
+
+    $latestHelmChart = az acr repository show-tags `
+      --name $env:CONTAINER_REGISTRY_NAME `
+      --repository $env:CHART_REPOSITORY_NAME `
+      --top 1 `
+      --orderby time_desc | ConvertFrom-Json
+
+    Write-Host ""
+    $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
+    Write-Host "fullChartName: $fullChartName"
+
+    helm chart pull $fullChartName
+
+    Write-Host ""
+    helm chart export $fullChartName --destination .
+
+    # k6 scripts
+    if ($env:K6_SCRIPTS_IMAGE_TAG)
+    {
+      Write-Host Using configured k6-scripts tag: $env:K6_SCRIPTS_IMAGE_TAG
+      $latestK6ScriptsTag = $env:K6_SCRIPTS_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest k6-scripts tag.
+      $latestK6ScriptsTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:K6_SCRIPTS_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    @"
+    commonLabels:
+      env: $env:ENV
+
+    config:
+      image:      
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:K6_SCRIPTS_IMAGE_REPOSITORY_NAME"
+        tag: $latestK6ScriptsTag
+
+    ecomm:
+      nodeSelector:
+        pool: "$env:K6_SCRIPTS_NODE_SELECTOR_POOL"
+      pod:
+        resources:
+          limits:
+            cpu: $env:K6_SCRIPTS_RESOURCE_LIMITS_CPU
+            memory: $env:K6_SCRIPTS_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:K6_SCRIPTS_RESOURCE_REQUESTS_CPU
+            memory: $env:K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY
+
+    ezpay:
+      nodeSelector:
+        pool: "$env:K6_SCRIPTS_NODE_SELECTOR_POOL"
+      pod:
+        resources:
+          limits:
+            cpu: $env:K6_SCRIPTS_RESOURCE_LIMITS_CPU
+            memory: $env:K6_SCRIPTS_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:K6_SCRIPTS_RESOURCE_REQUESTS_CPU
+            memory: $env:K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY
+
+    crm:
+      nodeSelector:
+        pool: "$env:K6_SCRIPTS_NODE_SELECTOR_POOL"
+      pod:
+        resources:
+          limits:
+            cpu: $env:K6_SCRIPTS_RESOURCE_LIMITS_CPU
+            memory: $env:K6_SCRIPTS_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:K6_SCRIPTS_RESOURCE_REQUESTS_CPU
+            memory: $env:K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY
+
+    foundational:
+      nodeSelector:
+        pool: "$env:K6_SCRIPTS_NODE_SELECTOR_POOL"
+      pod:
+        resources:
+          limits:
+            cpu: $env:K6_SCRIPTS_RESOURCE_LIMITS_CPU
+            memory: $env:K6_SCRIPTS_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:K6_SCRIPTS_RESOURCE_REQUESTS_CPU
+            memory: $env:K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY
+
+    "@ | Out-File -FilePath ./deploy-values.yaml
+
+    # Uncomment for debugging values.
+    # Get-Content -Path ./deploy-values.yaml
+
+    Write-Host ""
+    Write-Host "Helm deploy prep complete!"
+  displayName: Prep Helm Deploy
+  name: prepHelmDeploy
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  failOnStderr: true
+  env:
+    # COMMON CONFIGS
+    SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
+    SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+    AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
+    CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
+    CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
+    CHART_NAME: ${{ parameters.chartName }}
+    ENV: ${{ parameters.env }}    
+    # k6
+    K6_SCRIPTS_IMAGE_TAG: ${{ parameters.k6ScriptsImageTag }}
+    K6_SCRIPTS_IMAGE_REPOSITORY_NAME: ${{ parameters.k6ScriptsImageRepositoryName }} }}
+    K6_SCRIPTS_NODE_SELECTOR_POOL: ${{ parameters.k6ScriptsNodeSelectorPool }}
+    K6_SCRIPTS_RESOURCE_LIMITS_CPU: ${{ parameters.k6ScriptsResourceLimitsCpu }}
+    K6_SCRIPTS_RESOURCE_LIMITS_MEMORY: ${{ parameters.k6ScriptsResourceLimitsMemory }}
+    K6_SCRIPTS_RESOURCE_REQUESTS_CPU: ${{ parameters.k6ScriptsResourceRequestsCpu }}
+    K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY: ${{ parameters.k6ScriptsResourceRequestsMemory }}
+
+
+- task: Kubernetes@1
+  displayName: Kubectl Version
+  name: kubectlVersion
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'version'
+    arguments: '--short'
+
+- task: HelmInstaller@1
+  displayName: Helm Installer
+  name: helmInstaller
+  inputs:
+    helmVersionToInstall: latest
+
+- task: HelmDeploy@0
+  displayName: Helm Deploy
+  name: helmDeploy
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'upgrade'
+    chartType: 'FilePath'
+    chartPath: ./${{ parameters.chartName }}
+    releaseName: ${{ parameters.helmReleaseName }}
+    valueFile: ./deploy-values.yaml
+    install: true
+    waitForExecution: false
+    failOnStderr: false
