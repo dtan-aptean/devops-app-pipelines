@@ -1,7 +1,5 @@
 parameters:
   packageName: ''
-  updateMerchantPortalContentType: false
-  updatePayerPortalContentType: false
   screenshotsFolderExist: false  
   azureServiceConnection: ''
 
@@ -12,28 +10,6 @@ jobs:
   - checkout: self
 
   - checkout: testing-e2e  
-
-  - task: AzureCLI@2
-    condition: eq('${{ parameters.updateMerchantPortalContentType }}', true)
-    displayName: Update Merchant Portal Content Type
-    inputs:
-      azureSubscription: ${{ parameters.azureServiceConnection }}
-      scriptType: 'pscore'
-      scriptLocation: 'inlineScript'
-      inlineScript: |
-        az storage blob update --container-name `$web --name index.html --content-type text/html --connection-string '$(MERCHANT_PORTAL_CONN_STRING)'
-      workingDirectory: '$(System.DefaultWorkingDirectory)'
-
-  - task: AzureCLI@2
-    condition: eq('${{ parameters.updatePayerPortalContentType }}', true)
-    displayName: Update Payer Portal Content Type
-    inputs:
-      azureSubscription: ${{ parameters.azureServiceConnection }}
-      scriptType: 'pscore'
-      scriptLocation: 'inlineScript'
-      inlineScript: |
-        az storage blob update --container-name `$web --name index.html --content-type text/html --connection-string '$(PAYER_PORTAL_CONN_STRING)'
-      workingDirectory: '$(System.DefaultWorkingDirectory)'      
 
   - task: replacetokens@3
     displayName: Replace tokens in ad-token-config.json
