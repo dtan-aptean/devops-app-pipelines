@@ -204,3 +204,18 @@ variables:
   value: 3
 - name: WEPAY_INTEGRATION_SVC_NODE_SELECTOR_POOL
   value: prftesting
+# EZPAY CLAIM SVC
+- name: EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME
+  value: ezpay-claim-svc
+- name: EZPAY_CLAIM_SVC_RESOURCE_LIMITS_CPU
+  value: 200m
+- name: EZPAY_CLAIM_SVC_RESOURCE_LIMITS_MEMORY
+  value: 256Mi
+- name: EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_CPU
+  value: 10m
+- name: EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_MEMORY
+  value: 10Mi
+- name: EZPAY_CLAIM_SVC_REPLICAS
+  value: 1
+- name: EZPAY_CLAIM_SVC_NODE_SELECTOR_POOL
+  value: prftesting

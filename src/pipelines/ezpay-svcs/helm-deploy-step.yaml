@@ -31,6 +31,7 @@ parameters:
   mongoDbEmailNotificationSvcCollectionName: ''
   mongoDbPaymentsSvcCollectionName: ''
   mongoDbTxnRecordsSvcCollectionName: ''
+  mongoDbEzpayClaimSvcCollectionName: ''
   frontDoorId: ''
   nodeJsEnv: ''
   sentryDsn: ''
@@ -211,6 +212,15 @@ parameters:
   wepayIntegrationSvcResourceLimitsMemory: ''
   wepayIntegrationSvcResourceRequestCpu: ''
   wepayIntegrationSvcResourceRequestMemory: ''
+  # EZPAY CLAIM SVC
+  ezpayClaimSvcImageRepositoryName: ''
+  ezpayClaimSvcImageTag: ''
+  ezpayClaimSvcReplicas: ''
+  ezpayClaimSvcNodeSelectorPool: ''
+  ezpayClaimSvcResourceLimitsCpu: ''
+  ezpayClaimSvcResourceLimitsMemory: ''
+  ezpayClaimSvcResourceRequestCpu: ''
+  ezpayClaimSvcResourceRequestMemory: ''
 
 steps:
 - pwsh: |
@@ -349,7 +359,7 @@ steps:
       Write-Host Fetching latest transaction-records-svc tag.
       $latestTxnRecordsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:TXN_RECORDS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
     }
-    # EZPAY API SVC
+    # WEPAY INTEGRATION SVC
     if ($env:WEPAY_INTEGRATION_SVC_IMAGE_TAG)
     {
       Write-Host Using configured wepay-integration-svc tag: $env:WEPAY_INTEGRATION_SVC_IMAGE_TAG
@@ -359,7 +369,18 @@ steps:
     {
       Write-Host Fetching latest wepay-integration-svc tag.
       $latestWepayIntegrationSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
-    }                                    
+    }
+    # EZPAY CLAIM SVC
+    if ($env:EZPAY_CLAIM_SVC_IMAGE_TAG)
+    {
+      Write-Host Using configured ezpay-claim-svc tag: $env:EZPAY_CLAIM_SVC_IMAGE_TAG
+      $latestEzpayClaimSvcTag = $env:EZPAY_CLAIM_SVC_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest ezpay-claim-svc tag.
+      $latestEzpayClaimSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
 
     @"
     commonLabels:
@@ -750,6 +771,32 @@ steps:
             cpu: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY
 
+    ezpayClaimSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestEzpayClaimSvcTag
+
+      deployment:
+        replicas: $env:EZPAY_CLAIM_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:EZPAY_CLAIM_SVC_NODE_SELECTOR_POOL"      
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:EZPAY_CLAIM_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:EZPAY_CLAIM_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_MEMORY
+      
+      config:
+        cosmosMongo:
+          connectionString: "$env:EZPAY_CLAIM_SVC_MONGODB_CONN_STRING"
+          databaseName: "$env:EZPAY_CLAIM_SVC_MONGODB_DATABASE"
+          ezpayClaimSvcCollection: "$env:EZPAY_CLAIM_SVC_MONGODB_COLLECTION"
+
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     # Uncomment for debugging values.
@@ -977,6 +1024,18 @@ steps:
     WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.wepayIntegrationSvcResourceLimitsMemory }}
     WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.wepayIntegrationSvcResourceRequestCpu }}
     WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.wepayIntegrationSvcResourceRequestMemory }}
+    # EZPAY CLAIM SVC
+    EZPAY_CLAIM_SVC_IMAGE_TAG: ${{ parameters.ezpayClaimSvcImageTag }}
+    EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.ezpayClaimSvcImageRepositoryName }}
+    EZPAY_CLAIM_SVC_MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    EZPAY_CLAIM_SVC_MONGODB_DATABASE: ${{ parameters.mongoDbName }}
+    EZPAY_CLAIM_SVC_MONGODB_COLLECTION: ${{ parameters.mongoDbEzpayClaimSvcCollectionName }}
+    EZPAY_CLAIM_SVC_REPLICAS: ${{ parameters.ezpayClaimSvcReplicas }}
+    EZPAY_CLAIM_SVC_NODE_SELECTOR_POOL: ${{ parameters.ezpayClaimSvcNodeSelectorPool }}
+    EZPAY_CLAIM_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.ezpayClaimSvcResourceLimitsCpu }}
+    EZPAY_CLAIM_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.ezpayClaimSvcResourceLimitsMemory }}
+    EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.ezpayClaimSvcResourceRequestCpu }}
+    EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.ezpayClaimSvcResourceRequestMemory }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

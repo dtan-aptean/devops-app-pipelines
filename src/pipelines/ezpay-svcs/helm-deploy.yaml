@@ -127,7 +127,8 @@ stages:
               mongoDbEzpayApiSvcCollectionName: $(MONGODB_EZPAY_API_SVC_COLLECTION)
               mongoDbEmailNotificationSvcCollectionName: $(MONGODB_EMAIL_NOTIFICATIONS_SVC_COLLECTION)
               mongoDbPaymentsSvcCollectionName: $(MONGODB_PAYMENTS_SVC_COLLECTION)
-              mongoDbTxnRecordsSvcCollectionName: $(MONGODB_TXN_RECORDS_SVC_COLLECTION)              
+              mongoDbTxnRecordsSvcCollectionName: $(MONGODB_TXN_RECORDS_SVC_COLLECTION)
+              mongoDbEzpayClaimSvcCollectionName: $(MONGODB_EZPAY_CLAIM_SVC_COLLECTION)
               frontDoorId: $(FRONT_DOOR_ID)
               sentryDsn: $(SENTRY_DSN)
               # Cancel Payment Retry Job
@@ -293,4 +294,13 @@ stages:
               wepayIntegrationSvcResourceLimitsCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_CPU)
               wepayIntegrationSvcResourceLimitsMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY)
               wepayIntegrationSvcResourceRequestCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU)
-              wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)                            
+              wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)
+              # EZPAY CLAIM SVC
+              ezpayClaimSvcImageRepositoryName: $(EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME)
+              ezpayClaimSvcReplicas: $(EZPAY_CLAIM_SVC_REPLICAS)
+              ezpayClaimSvcNodeSelectorPool: $(EZPAY_CLAIM_SVC_NODE_SELECTOR_POOL)
+              ezpayClaimSvcResourceLimitsCpu: $(EZPAY_CLAIM_SVC_RESOURCE_LIMITS_CPU)
+              ezpayClaimSvcResourceLimitsMemory: $(EZPAY_CLAIM_SVC_RESOURCE_LIMITS_MEMORY)
+              ezpayClaimSvcResourceRequestCpu: $(EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_CPU)
+              ezpayClaimSvcResourceRequestMemory: $(EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_MEMORY)
+              
