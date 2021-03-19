@@ -65,6 +65,62 @@ stages:
               crmApiSvcSubsMgmtApiKey: $(CRM_API_SVC_SUBS_MGMT_API_KEY)
               crmApiSvcSubsMgmtServiceId: $(CRM_API_SVC_SUBS_MGMT_SERVICE_ID)
 
+- stage: PRF_CRM_Helm_Deploy
+  displayName: PRF - CRM Svcs Helm Deploy
+  dependsOn: TST_CRM_Helm_Deploy
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: crm-prf
+    dependsOn: []
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: crm-prf
+    - template: ../crm/helm-variables-prf.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../crm/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              env: $(ENV)
+              frontDoorId: $(FRONT_DOOR_ID)
+              # COMMON CRM CONFIGS
+              crmClientId: $(CRM_CLIENT_ID)
+              crmClientSecret: $(CRM_CLIENT_SECRET)
+              crmBackendBaseUrl: $(CRM_BACKEND_BASE_URL)
+              crmNotificationsWebhookUrl: $(CRM_NOTIFICATIONS_WEBHOOK_URL)
+              sentryDsn: $(SENTRY_DSN)
+              # CRM GQL API SVC         
+              crmApiSvcImageRepositoryName: $(CRM_API_SVC_IMAGE_REPOSITORY_NAME)
+              crmApiSvcReplicas: $(CRM_API_SVC_REPLICAS)
+              crmApiSvcNodeSelectorPool: $(CRM_API_SVC_NODE_SELECTOR_POOL)
+              crmApiSvcResourceLimitsCpu: $(CRM_API_SVC_RESOURCE_LIMITS_CPU)
+              crmApiSvcResourceLimitsMemory: $(CRM_API_SVC_RESOURCE_LIMITS_MEMORY)
+              crmApiSvcResourceRequestsCpu: $(CRM_API_SVC_RESOURCE_REQUESTS_CPU)
+              crmApiSvcResourceRequestsMemory: $(CRM_API_SVC_RESOURCE_REQUESTS_MEMORY)
+              crmApiSvcKongIngressUpstreamHostHeader: $(CRM_API_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              crmApiSvcKongIngressClass: $(CRM_API_SVC_KONG_INGRESS_CLASS)
+              crmApiSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
+              crmApiSvcSubsMgmtApiKey: $(CRM_API_SVC_SUBS_MGMT_API_KEY)
+              crmApiSvcSubsMgmtServiceId: $(CRM_API_SVC_SUBS_MGMT_SERVICE_ID)
+
 - stage: STG_CRM_Helm_Deploy
   displayName: STG - CRM Svcs Helm Deploy
   dependsOn: TST_CRM_Helm_Deploy
