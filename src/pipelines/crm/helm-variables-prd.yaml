@@ -35,6 +35,6 @@ variables:
 - name: CRM_API_SVC_KONG_INGRESS_CLASS
   value: kong-prd
 - name: CRM_API_SVC_REPLICAS
-  value: 1
+  value: 3
 - name: CRM_API_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs
