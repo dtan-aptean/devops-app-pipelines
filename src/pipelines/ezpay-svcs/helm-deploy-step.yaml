@@ -70,6 +70,7 @@ parameters:
   ezpayApiSvcB2cTenantId: ''
   ezpayApiSvcB2cPolicyName: ''
   ezpayApiSvcSubsMgmtGrpcUrl: ''
+  ezpayApiSvcEzpayClaimSvcGrpcUrl: ''
   ezpayApiSvcSubsMgmtApiKey: ''
   ezpayApiSvcSubsMgmtServiceId: ''
   ezpayApiSvcPaymentPlatformFromPhoneNumber: ''
@@ -491,6 +492,8 @@ steps:
           idempotencyCollection: "$env:EZPAY_API_SVC_MONGODB_IDEMPOTENCY_COLLECTION"
           cancelRetriesCollection: "$env:EZPAY_API_SVC_MONGODB_CANCEL_RETRIES_COLLECTION"
           ezpayApiSvcCollection: "$env:EZPAY_API_SVC_MONGODB_EZPAY_API_SVC_COLLECTION"
+        claimSvc:
+          grpcUrl: "$env:EZPAY_API_SVC_EZPAY_CLAIM_SVC_GRPC_URL"
         grpcUrl: "$env:EZPAY_API_SVC_GRPC_URL"
         paymentsPlatformFromPhoneNumber: "$env:EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_PHONE_NUMBER"
         paymentsPlatformFromEmail: "$env:EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_EMAIL"
@@ -872,6 +875,7 @@ steps:
     EZPAY_API_SVC_B2C_TENANT_ID: ${{ parameters.ezpayApiSvcB2cTenantId }}
     EZPAY_API_SVC_B2C_POLICY_NAME: ${{ parameters.ezpayApiSvcB2cPolicyName }}
     EZPAY_API_SVC_SUBS_MGMT_GRPC_URL: ${{ parameters.ezpayApiSvcSubsMgmtGrpcUrl }}
+    EZPAY_API_SVC_EZPAY_CLAIM_SVC_GRPC_URL: ${{ parameters.ezpayApiSvcEzpayClaimSvcGrpcUrl }}
     EZPAY_API_SVC_SUBS_MGMT_API_KEY: ${{ parameters.ezpayApiSvcSubsMgmtApiKey }}
     EZPAY_API_SVC_SUBS_MGMT_SERVICE_ID: ${{ parameters.ezpayApiSvcSubsMgmtServiceId }}
     EZPAY_API_SVC_MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
