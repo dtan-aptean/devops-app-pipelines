@@ -776,4 +776,115 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE) 
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                              
+
+- stage: Ross02_Ecomm_SF_Deploy
+  displayName: Ross02 - Ecomm Helm Deploy
+  dependsOn: []
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: ecomm-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: ecomm-sf-ross02
+    - template: ../../helm-variables-stg.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../../helm-deploy-step.yaml
+            parameters:
+              deployMode: 'storefront'
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: ross02
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
+              configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
+              configWepayAppId: $(CONFIG_WEPAY_APP_ID)
+              configWepayEnv: $(CONFIG_WEPAY_ENV)
+              configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)
+              frontDoorId: $(FRONT_DOOR_ID) 
+              configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
+              configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME) 
+              configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
+              # STOREFRONT Params        
+              storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
+              storefrontReplicas: $(STOREFRONT_REPLICAS)              
+              storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
+              storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
+              storefrontKongIngressName: 'ross02-ecomm-sf-do-not-preserve-host'
+              storefrontResourceLimitsCpu: $(STOREFRONT_RESOURCE_LIMITS_CPU)
+              storefrontResourceLimitsMemory: $(STOREFRONT_RESOURCE_LIMITS_MEMORY)
+              storefrontResourceRequestsCpu: $(STOREFRONT_RESOURCE_REQUESTS_CPU)
+              storefrontResourceRequestsMemory: $(STOREFRONT_RESOURCE_REQUESTS_MEMORY)
+              storefrontNodeSelectorPool: $(STOREFRONT_NODE_SELECTOR_POOL)      
+              storefrontImagesStorageClass: $(STOREFRONT_IMAGES_STORAGE_CLASS)      
+              storefrontConfigApteanTenantId: $(STOREFRONT_CONFIG_APTEAN_TENANT_ID)
+              storefrontConfigApteanTenantApim: $(STOREFRONT_CONFIG_APTEAN_TENANT_APIM)
+              storefrontConfigStoreUrl: $(STOREFRONT_CONFIG_STORE_URL)
+              storefrontConfigAdminEmail: $(STOREFRONT_CONFIG_ADMIN_EMAIL)
+              storefrontConfigAdminPassword: $(STOREFRONT_CONFIG_ADMIN_PASSWORD)
+              storefrontConfigSqlConnString: $(STOREFRONT_CONFIG_SQL_CONN_STRING)
+              storefrontConfigSqlCommandTimeout: $(STOREFRONT_CONFIG_SQL_COMMAND_TIMEOUT)
+              storefrontConfigB2cClientId: $(STOREFRONT_CONFIG_B2C_CLIENT_ID)
+              storefrontConfigB2cTenantId: $(STOREFRONT_CONFIG_B2C_TENANT_ID)
+              storefrontConfigB2cDomainHost: $(STOREFRONT_CONFIG_B2C_DOMAIN_HOST)
+              storefrontConfigB2cPolicyName: $(STOREFRONT_CONFIG_B2C_POLICY_NAME)
+              storefrontConfigB2cRedirectUri: $(STOREFRONT_CONFIG_B2C_REDIRECT_URI)
+              storefrontConfigB2cDomainHint: $(STOREFRONT_CONFIG_B2C_DOMAIN_HINT)
+              storefrontConfigFriendlyName: $(STOREFRONT_CONFIG_FRIENDLY_NAME)
+              storefrontConfigApteanPayApiUrl: $(STOREFRONT_CONFIG_APTEAN_PAY_API_URL)
+              storefrontConfigApteanPayApiUrlGrpc: $(STOREFRONT_CONFIG_APTEAN_PAY_API_URL_GRPC)
+              storefrontConfigMerchantPortalUrl: $(STOREFRONT_CONFIG_MERCHANT_PORTAL_URL)
+              storefrontConfigUseHttpClusterHttps: $(STOREFRONT_CONFIG_USE_HTTP_CLUSTER_HTTPS)
+              storefrontConfigUseHttpXForwardedProto: $(STOREFRONT_CONFIG_USE_HTTP_X_FORWARDED_PROTO)
+              storefrontConfigForwardedHttpHeader: $(STOREFRONT_CONFIG_FORWARDED_HTTP_HEADER)
+              storefrontConfigDisplayFullErrorStack: $(STOREFRONT_CONFIG_DISPLAY_FULL_ERROR_STACK)
+              storefrontConfigBlobStorageConnString: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONN_STRING)
+              storefrontConfigBlobStorageContainerName: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME)
+              storefrontConfigBlobStorageEndpoint: $(STOREFRONT_CONFIG_BLOB_STORAGE_ENDPOINT)
+              storefrontConfigBlobStorageAppendContainerName: $(STOREFRONT_CONFIG_BLOB_STORAGE_APPEND_CONTAINER_NAME)
+              storefrontConfigUseBlobStorageToStoreKeys: $(STOREFRONT_CONFIG_USE_BLOB_STORAGE_TO_STORE_KEYS)
+              storefrontConfigBlobStorageContainerNameForKeys: $(STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS)
+              storefrontConfigKeyVaultIdForKeys: $(STOREFRONT_CONFIG_KEY_VAULT_ID_FOR_KEYS)
+              storefrontConfigEnableRedis: $(STOREFRONT_CONFIG_ENABLE_REDIS)
+              storefrontConfigRedisDatabaseId: $(STOREFRONT_CONFIG_REDIS_DATABASE_ID)
+              storefrontConfigRedisConnString: $(STOREFRONT_CONFIG_REDIS_CONN_STRING)
+              storefrontConfigUseRedisToStoreKeys: $(STOREFRONT_CONFIG_USE_REDIS_TO_STORE_KEYS)
+              storefrontConfigUseRedisForCaching: $(STOREFRONT_CONFIG_USE_REDIS_FOR_CACHING)
+              storefrontConfigIgnoreRedisTimeoutException: $(STOREFRONT_CONFIG_IGNORE_REDIS_TIMEOUT_EXCEPTION)
+              storefrontConfigUseRedisToStorePluginsInfo: $(STOREFRONT_CONFIG_USE_REDIS_TO_STORE_PLUGINS_INFO)
+              storefrontConfigUserAgentStringsPath: $(STOREFRONT_CONFIG_USER_AGENT_STRINGS_PATH)
+              storefrontConfigCrawlerOnlyUserAgentStringsPath: $(STOREFRONT_CONFIG_CRAWLER_ONLY_USER_AGENT_STRINGS_PATH)
+              storefrontConfigDisableSampleDataDuringInstallation: $(STOREFRONT_CONFIG_DISABLE_SAMPLE_DATA_DURING_INSTALLATION)
+              storefrontConfigPluginsIgnoredDuringInstallation: $(STOREFRONT_CONFIG_PLUGINS_IGNORED_DURING_INSTALLATION)
+              storefrontConfigClearPluginShadowDirOnStartup: $(STOREFRONT_CONFIG_CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP)
+              storefrontConfigCopyLockedPluginAssemblies: $(STOREFRONT_CONFIG_COPY_LOCKED_PLUGIN_ASSEMBLIES)
+              storefrontConfigUsePluginShadowCopy: $(STOREFRONT_CONFIG_USE_PLUGIN_SHADOW_COPY)
+              storefrontConfigUseUnsafeLoadAssembly: $(STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY)
+              storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
+              storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
+              storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
+              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
+              storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
+              storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE) 
+              storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
+              storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
               storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                                               
+
