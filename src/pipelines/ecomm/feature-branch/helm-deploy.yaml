@@ -2,8 +2,8 @@ trigger: none
 
 resources:
   pipelines:
-  - pipeline: ecomm-sf-docker-build-push
-    source: ecomm-sf-docker-build-push
+  - pipeline: ecommerce-nop-44-build
+    source: ecommerce-nop-44-build
     trigger:
       branches:
         include:
