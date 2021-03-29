@@ -1,0 +1,385 @@
+parameters:
+  deployMode: ''
+  serviceConnection: ''
+  svcPrincipalClientId: ''
+  svcPrincipalSecret: ''
+  azureTenantId: ''
+  aksName: ''
+  aksResourceGroup: ''
+  containerRegistryName: ''  
+  chartRepositoryName: ''
+  k8sNamespace: ''
+  helmReleaseName: ''
+  chartName: ''
+  env: ''
+  configEventsIngressConnString: ''
+  configEventsIngressDestination: '' 
+  configWepayAppId: ''
+  configWepayEnv: ''
+  configWepayApiVersion: ''
+  frontDoorId: '' 
+  configCosmosConnString: ''
+  configCosmosDatabaseName: ''
+  configEventsEgressConnString: ''
+  configEventsCheckpointsStorageConnString: ''
+  sentryDsn: ''
+  # STOREFRONT Params
+  storefrontImageRepositoryName: ''
+  storefrontReplicas: ''  
+  storefrontKongIngressClass: ''
+  storefrontKongIngressUpstreamHostHeader: ''
+  storefrontKongIngressName: ''
+  storefrontResourceLimitsCpu: ''
+  storefrontResourceLimitsMemory: ''
+  storefrontResourceRequestsCpu: ''
+  storefrontResourceRequestsMemory: ''
+  storefrontNodeSelectorPool: ''
+  storefrontImagesStorageClass: ''
+  storefrontConfigImageTag: ''
+  storefrontConfigApteanTenantId: ''
+  storefrontConfigApteanTenantApim: ''
+  storefrontConfigStoreUrl: ''
+  storefrontConfigAdminEmail: ''
+  storefrontConfigAdminPassword: 
+  storefrontConfigSqlConnString: ''
+  storefrontConfigSqlCommandTimeout: ''
+  storefrontConfigB2cClientId: ''
+  storefrontConfigB2cTenantId: ''
+  storefrontConfigB2cDomainHost: ''
+  storefrontConfigB2cPolicyName: ''
+  storefrontConfigB2cRedirectUri: ''
+  storefrontConfigB2cDomainHint: ''
+  storefrontConfigFriendlyName: ''
+  storefrontConfigApteanPayApiUrl: ''
+  storefrontConfigApteanPayApiUrlGrpc: ''
+  storefrontConfigMerchantPortalUrl: ''
+  storefrontConfigUseHttpClusterHttps: ''
+  storefrontConfigUseHttpXForwardedProto: ''
+  storefrontConfigForwardedHttpHeader: ''
+  storefrontConfigDisplayFullErrorStack: ''
+  storefrontConfigBlobStorageConnString: ''
+  storefrontConfigBlobStorageContainerName: ''
+  storefrontConfigBlobStorageEndpoint: ''
+  storefrontConfigBlobStorageAppendContainerName: ''
+  storefrontConfigUseBlobStorageToStoreKeys: ''
+  storefrontConfigBlobStorageContainerNameForKeys: ''
+  storefrontConfigKeyVaultIdForKeys: ''
+  storefrontConfigEnableRedis: ''
+  storefrontConfigRedisDatabaseId: ''
+  storefrontConfigRedisConnString: ''
+  storefrontConfigUseRedisToStoreKeys: ''
+  storefrontConfigUseRedisForCaching: ''
+  storefrontConfigIgnoreRedisTimeoutException: ''
+  storefrontConfigUseRedisToStorePluginsInfo: ''
+  storefrontConfigUserAgentStringsPath: ''
+  storefrontConfigCrawlerOnlyUserAgentStringsPath: ''
+  storefrontConfigDisableSampleDataDuringInstallation: ''
+  storefrontConfigPluginsIgnoredDuringInstallation: ''
+  storefrontConfigClearPluginShadowDirOnStartup: ''
+  storefrontConfigCopyLockedPluginAssemblies: ''
+  storefrontConfigUsePluginShadowCopy: ''
+  storefrontConfigUseUnsafeLoadAssembly: ''
+  storefrontConfigUseSessionStateTempDataProvider: ''
+  storefrontConfigApteanLanguagePluginApiUrl: ''
+  storefrontConfigEventsEgressConsumerGroup: ''
+  storefrontConfigEventsCheckpointsBlobContainerName: ''
+  storefrontConfigHelpUrlTemplate: ''
+  storefrontConfigHelpUrlLocale: ''
+  storefrontConfigEnableAppInsights: ''
+  storefrontConfigAppInsightsInstrumentationKey: ''
+  storefrontConfigEnableSQLServerCache: ''
+
+steps:
+- pwsh: |
+    $env:HELM_EXPERIMENTAL_OCI = 1
+
+    az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+
+    $fullRegistryName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io"
+
+    $env:SP_SECRET | helm registry login $fullRegistryName `
+      --username $env:SP_CLIENT_ID `
+      --password-stdin
+
+    $latestHelmChart = az acr repository show-tags `
+      --name $env:CONTAINER_REGISTRY_NAME `
+      --repository $env:CHART_REPOSITORY_NAME `
+      --top 1 `
+      --orderby time_desc | ConvertFrom-Json
+
+    Write-Host ""
+    $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
+    Write-Host "fullChartName: $fullChartName"
+
+    helm chart pull $fullChartName
+
+    Write-Host ""
+    helm chart export $fullChartName --destination .
+
+    # ECOMM SF 
+    if ($env:STOREFRONT_CONFIG_IMAGE_TAG)
+    {
+      Write-Host Using configured ecomm-sf tag: $env:STOREFRONT_CONFIG_IMAGE_TAG
+      $latestStorefrontTag = $env:STOREFRONT_CONFIG_IMAGE_TAG
+    }
+    else
+    {
+      Write-Host Fetching latest ecomm-sf-nop-44 tag.
+      $latestStorefrontTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:STOREFRONT_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    }
+    @"
+    deployMode: $env:DEPLOY_MODE
+
+    commonLabels:
+      env: $env:ENV
+
+    config:
+      sentry:
+        dsn: "$env:SENTRY_DSN"
+
+    storefront:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:STOREFRONT_IMAGE_REPOSITORY_NAME"
+        tag: $latestStorefrontTag
+
+      deployment:
+        replicas: $env:STOREFRONT_REPLICAS
+
+      nodeSelector:
+        pool: "$env:STOREFRONT_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:STOREFRONT_RESOURCE_LIMITS_CPU
+            memory: $env:STOREFRONT_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:STOREFRONT_RESOURCE_REQUESTS_CPU
+            memory: $env:STOREFRONT_RESOURCE_REQUESTS_MEMORY
+
+      kongIngress:
+        name: $env:STOREFRONT_KONG_INGRESS_NAME
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:STOREFRONT_KONG_INGRESS_UPSTREAM_HOST_HEADER 
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:STOREFRONT_KONG_INGRESS_CLASS
+        path: /ecomm-sf-$env:STOREFRONT_CONFIG_APTEAN_TENANT_ID
+
+      persistence:         
+        images:
+          storageClass: $env:STOREFRONT_IMAGES_STORAGE_CLASS
+
+      config: 
+        tenantId: "$env:STOREFRONT_CONFIG_APTEAN_TENANT_ID"
+        storeUrl: "$env:STOREFRONT_CONFIG_STORE_URL"
+        admin:
+          emailAddress: "$env:STOREFRONT_CONFIG_ADMIN_EMAIL"
+          password: "$env:STOREFRONT_CONFIG_ADMIN_PSW"
+        sql:
+          connectionString: "$env:STOREFRONT_CONFIG_SQL_CONN_STRING"
+          commandTimeout: "$env:STOREFRONT_CONFIG_SQL_COMMAND_TIMEOUT"
+        apteanIdentityPlugin:
+          b2c:
+            clientId: "$env:STOREFRONT_CONFIG_B2C_CLIENT_ID"
+            domainHost: "$env:STOREFRONT_CONFIG_B2C_DOMAIN_HOST"
+            tenantId: "$env:STOREFRONT_CONFIG_B2C_TENANT_ID"
+            policyName: "$env:STOREFRONT_CONFIG_B2C_POLICY_NAME"
+            redirectUri: "$env:STOREFRONT_CONFIG_B2C_REDIRECT_URI"
+            domainHint: "$env:STOREFRONT_CONFIG_B2C_DOMAIN_HINT"
+            friendlyName: "$env:STOREFRONT_CONFIG_FRIENDLY_NAME"
+        apteanPayPlugin:
+          apiUrl: "$env:STOREFRONT_CONFIG_APTEAN_PAY_API_URL"
+          apiUrlGrpc: "$env:STOREFRONT_CONFIG_APTEAN_PAY_API_URL_GRPC"
+          merchantPortalUrl: "$env:STOREFRONT_CONFIG_MERCHANT_PORTAL_URL"
+          apiKey: "$env:STOREFRONT_CONFIG_APTEAN_TENANT_APIM"
+          wepay:
+            appId: "$env:CONFIG_WEPAY_APP_ID"
+            environment: "$env:CONFIG_WEPAY_ENV"
+            apiVersion: "$env:CONFIG_WEPAY_API_VERSION"
+        apteanLanguagePlugin:
+          apiUrl: "$env:STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL"
+        hosting:
+          useHttpClusterHttps: $env:STOREFRONT_CONFIG_USE_HTTP_CLUSTER_HTTPS
+          useHttpXForwardedProto: $env:STOREFRONT_CONFIG_USE_HTTP_X_FORWARDED_PROTO
+          forwardedHttpHeader: $env:STOREFRONT_CONFIG_FORWARDED_HTTP_HEADER
+        nop:
+          displayFullErrorStack: $env:STOREFRONT_CONFIG_DISPLAY_FULL_ERROR_STACK
+          azureBlobStorageConnectionString: "$env:STOREFRONT_CONFIG_BLOB_STORAGE_CONN_STRING"
+          azureBlobStorageContainerName: "$env:STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME"
+          azureBlobStorageEndPoint: "$env:STOREFRONT_CONFIG_BLOB_STORAGE_ENDPOINT"
+          azureBlobStorageAppendContainerName: $env:STOREFRONT_CONFIG_BLOB_STORAGE_APPEND_CONTAINER_NAME
+          useAzureBlobStorageToStoreDataProtectionKeys: $env:STOREFRONT_CONFIG_USE_BLOB_STORAGE_TO_STORE_KEYS
+          azureBlobStorageContainerNameForDataProtectionKeys: "$env:STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS"
+          azureKeyVaultIdForDataProtectionKeys: "$env:STOREFRONT_CONFIG_KEY_VAULT_ID_FOR_KEYS"
+          redisEnabled: $env:STOREFRONT_CONFIG_ENABLE_REDIS
+          redisDatabaseId: "$env:STOREFRONT_CONFIG_REDIS_DATABASE_ID"
+          redisConnectionString: "$env:STOREFRONT_CONFIG_REDIS_CONN_STRING"
+          useRedisToStoreDataProtectionKeys: $env:STOREFRONT_CONFIG_USE_REDIS_TO_STORE_KEYS
+          useRedisForCaching: $env:STOREFRONT_CONFIG_USE_REDIS_FOR_CACHING
+          ignoreRedisTimeoutException: $env:STOREFRONT_CONFIG_IGNORE_REDIS_TIMEOUT_EXCEPTION
+          useRedisToStorePluginsInfo: $env:STOREFRONT_CONFIG_USE_REDIS_TO_STORE_PLUGINS_INFO
+          userAgentStringsPath: "$env:STOREFRONT_CONFIG_USER_AGENT_STRINGS_PATH"
+          crawlerOnlyUserAgentStringsPath: "$env:STOREFRONT_CONFIG_CRAWLER_ONLY_USER_AGENT_STRINGS_PATH"
+          disableSampleDataDuringInstallation: $env:STOREFRONT_CONFIG_DISABLE_SAMPLE_DATA_DURING_INSTALLATION
+          pluginsIgnoredDuringInstallation: "$env:STOREFRONT_CONFIG_PLUGINS_IGNORED_DURING_INSTALLATION"
+          clearPluginShadowDirectoryOnStartup: $env:STOREFRONT_CONFIG_CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP
+          copyLockedPluginAssembilesToSubdirectoriesOnStartup: $env:STOREFRONT_CONFIG_COPY_LOCKED_PLUGIN_ASSEMBLIES
+          usePluginsShadowCopy: $env:STOREFRONT_CONFIG_USE_PLUGIN_SHADOW_COPY
+          useUnsafeLoadAssembly: $env:STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY
+          useSessionStateTempDataProvider: $env:STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER
+        events:
+          ingress:
+            connectionString: "$env:CONFIG_EVENTS_INGRESS_CONN_STRING"
+            destination: "$env:CONFIG_EVENTS_INGRESS_DESTINATION"
+          egress:
+            connectionString: "$env:CONFIG_EVENTS_EGRESS_CONN_STRING"
+            consumerGroup: "$env:STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP"
+            checkpointsStorageConnectionString: "$env:CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING"
+            checkpointsBlobContainerName: "$env:STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME"
+        helpUrlLocale: "$env:STOREFRONT_CONFIG_HELP_URL_LOCALE"
+        helpUrlTemplate: "$env:STOREFRONT_CONFIG_HELP_URL_TEMPLATE"
+        enableAppInsights: "$env:STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS"
+        enableSQLServerCache: "$env:STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE"
+        appInsights:
+          instrumentationKey: "$env:STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY"        
+    
+    "@ | Out-File -FilePath ./deploy-values.yaml
+
+    # this line for debugging, will print yaml to console
+    # Get-Content -Path ./deploy-values.yaml
+
+    Write-Host ""
+    Write-Host "Helm deploy prep complete!"
+  displayName: Prep Helm Deploy
+  name: prepHelmDeploy
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  failOnStderr: true
+  env:
+    DEPLOY_MODE: ${{ parameters.deployMode }}
+    SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
+    SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+    AZURE_TENANT_ID: ${{ parameters.azureTenantId }}
+    CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
+    CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
+    CHART_NAME: ${{ parameters.chartName }}
+    ENV: ${{ parameters.env }}
+    CONFIG_COSMOSDB_CONN_STRING: ${{ parameters.configCosmosConnString }}
+    CONFIG_COSMOSDB_DATABASE: ${{ parameters.configCosmosDatabaseName }}
+    CONFIG_EVENTS_INGRESS_CONN_STRING: ${{ parameters.configEventsIngressConnString }}
+    CONFIG_EVENTS_INGRESS_DESTINATION: ${{ parameters.configEventsIngressDestination }}
+    CONFIG_EVENTS_EGRESS_CONN_STRING: ${{ parameters.configEventsEgressConnString }}
+    CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING: ${{ parameters.configEventsCheckpointsStorageConnString }}
+    FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
+    CONFIG_WEPAY_APP_ID: ${{ parameters.configWepayAppId }}
+    CONFIG_WEPAY_ENV: ${{ parameters.configWepayEnv }}
+    CONFIG_WEPAY_API_VERSION: ${{ parameters.configWepayApiVersion }}
+    SENTRY_DSN: ${{ parameters.sentryDsn }}
+    # STOREFRONT Params
+    STOREFRONT_IMAGE_REPOSITORY_NAME: ${{ parameters.storefrontImageRepositoryName }}
+    STOREFRONT_REPLICAS: ${{ parameters.storefrontReplicas }}    
+    STOREFRONT_KONG_INGRESS_CLASS: ${{ parameters.storefrontKongIngressClass }}
+    STOREFRONT_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.storefrontKongIngressUpstreamHostHeader }}
+    STOREFRONT_KONG_INGRESS_NAME: ${{ parameters.storefrontKongIngressName }}
+    STOREFRONT_RESOURCE_LIMITS_CPU: ${{ parameters.storefrontResourceLimitsCpu }}
+    STOREFRONT_RESOURCE_LIMITS_MEMORY: ${{ parameters.storefrontResourceLimitsMemory }}
+    STOREFRONT_RESOURCE_REQUESTS_CPU: ${{ parameters.storefrontResourceRequestsCpu }}
+    STOREFRONT_RESOURCE_REQUESTS_MEMORY: ${{ parameters.storefrontResourceRequestsMemory }}
+    STOREFRONT_NODE_SELECTOR_POOL: ${{ parameters.storefrontNodeSelectorPool }}
+    STOREFRONT_IMAGES_STORAGE_CLASS: ${{ parameters.storefrontImagesStorageClass }}
+    STOREFRONT_CONFIG_IMAGE_TAG: ${{ parameters.storefrontConfigImageTag }}
+    STOREFRONT_CONFIG_APTEAN_TENANT_ID: ${{ parameters.storefrontConfigApteanTenantId }}
+    STOREFRONT_CONFIG_APTEAN_TENANT_APIM: ${{ parameters.storefrontConfigApteanTenantApim }}
+    STOREFRONT_CONFIG_STORE_URL: ${{ parameters.storefrontConfigStoreUrl }}
+    STOREFRONT_CONFIG_ADMIN_EMAIL: ${{ parameters.storefrontConfigAdminEmail }}
+    STOREFRONT_CONFIG_ADMIN_PSW: ${{ parameters.storefrontConfigAdminPassword }}
+    STOREFRONT_CONFIG_SQL_CONN_STRING: ${{ parameters.storefrontConfigSqlConnString }}
+    STOREFRONT_CONFIG_SQL_COMMAND_TIMEOUT: ${{ parameters.storefrontConfigSqlCommandTimeout }}
+    STOREFRONT_CONFIG_B2C_CLIENT_ID: ${{ parameters.storefrontConfigB2cClientId }}
+    STOREFRONT_CONFIG_B2C_TENANT_ID: ${{ parameters.storefrontConfigB2cTenantId }}
+    STOREFRONT_CONFIG_B2C_DOMAIN_HOST: ${{ parameters.storefrontConfigB2cDomainHost }}
+    STOREFRONT_CONFIG_B2C_POLICY_NAME: ${{ parameters.storefrontConfigB2cPolicyName }}
+    STOREFRONT_CONFIG_B2C_REDIRECT_URI: ${{ parameters.storefrontConfigB2cRedirectUri }}
+    STOREFRONT_CONFIG_B2C_DOMAIN_HINT: ${{ parameters.storefrontConfigB2cDomainHint }}
+    STOREFRONT_CONFIG_FRIENDLY_NAME: ${{ parameters.storefrontConfigFriendlyName }}
+    STOREFRONT_CONFIG_APTEAN_PAY_API_URL: ${{ parameters.storefrontConfigApteanPayApiUrl }}
+    STOREFRONT_CONFIG_APTEAN_PAY_API_URL_GRPC: ${{ parameters.storefrontConfigApteanPayApiUrlGrpc }}
+    STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL: ${{ parameters.storefrontConfigApteanLanguagePluginApiUrl }}
+    STOREFRONT_CONFIG_MERCHANT_PORTAL_URL: ${{ parameters.storefrontConfigMerchantPortalUrl }}
+    STOREFRONT_CONFIG_USE_HTTP_CLUSTER_HTTPS: ${{ parameters.storefrontConfigUseHttpClusterHttps }}
+    STOREFRONT_CONFIG_USE_HTTP_X_FORWARDED_PROTO: ${{ parameters.storefrontConfigUseHttpXForwardedProto }}
+    STOREFRONT_CONFIG_FORWARDED_HTTP_HEADER: ${{ parameters.storefrontConfigForwardedHttpHeader }}
+    STOREFRONT_CONFIG_DISPLAY_FULL_ERROR_STACK: ${{ parameters.storefrontConfigDisplayFullErrorStack }}
+    STOREFRONT_CONFIG_BLOB_STORAGE_CONN_STRING: ${{ parameters.storefrontConfigBlobStorageConnString }}
+    STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME: ${{ parameters.storefrontConfigBlobStorageContainerName }}
+    STOREFRONT_CONFIG_BLOB_STORAGE_ENDPOINT: ${{ parameters.storefrontConfigBlobStorageEndpoint }}
+    STOREFRONT_CONFIG_BLOB_STORAGE_APPEND_CONTAINER_NAME: ${{ parameters.storefrontConfigBlobStorageAppendContainerName }}
+    STOREFRONT_CONFIG_USE_BLOB_STORAGE_TO_STORE_KEYS: ${{ parameters.storefrontConfigUseBlobStorageToStoreKeys }}
+    STOREFRONT_CONFIG_BLOB_STORAGE_CONTAINER_NAME_FOR_KEYS: ${{ parameters.storefrontConfigBlobStorageContainerNameForKeys }}
+    STOREFRONT_CONFIG_KEY_VAULT_ID_FOR_KEYS: ${{ parameters.storefrontConfigKeyVaultIdForKeys }}
+    STOREFRONT_CONFIG_ENABLE_REDIS: ${{ parameters.storefrontConfigEnableRedis }}
+    STOREFRONT_CONFIG_REDIS_DATABASE_ID: ${{ parameters.storefrontConfigRedisDatabaseId }}
+    STOREFRONT_CONFIG_REDIS_CONN_STRING: ${{ parameters.storefrontConfigRedisConnString }}
+    STOREFRONT_CONFIG_USE_REDIS_TO_STORE_KEYS: ${{ parameters.storefrontConfigUseRedisToStoreKeys }}
+    STOREFRONT_CONFIG_USE_REDIS_FOR_CACHING: ${{ parameters.storefrontConfigUseRedisForCaching }}
+    STOREFRONT_CONFIG_IGNORE_REDIS_TIMEOUT_EXCEPTION: ${{ parameters.storefrontConfigIgnoreRedisTimeoutException }}
+    STOREFRONT_CONFIG_USE_REDIS_TO_STORE_PLUGINS_INFO: ${{ parameters.storefrontConfigUseRedisToStorePluginsInfo }}
+    STOREFRONT_CONFIG_USER_AGENT_STRINGS_PATH: ${{ parameters.storefrontConfigUserAgentStringsPath }}
+    STOREFRONT_CONFIG_CRAWLER_ONLY_USER_AGENT_STRINGS_PATH: ${{ parameters.storefrontConfigCrawlerOnlyUserAgentStringsPath }}
+    STOREFRONT_CONFIG_DISABLE_SAMPLE_DATA_DURING_INSTALLATION: ${{ parameters.storefrontConfigDisableSampleDataDuringInstallation }}
+    STOREFRONT_CONFIG_PLUGINS_IGNORED_DURING_INSTALLATION: ${{ parameters.storefrontConfigPluginsIgnoredDuringInstallation }}
+    STOREFRONT_CONFIG_CLEAR_PLUGIN_SHADOW_DIR_ON_STARTUP: ${{ parameters.storefrontConfigClearPluginShadowDirOnStartup }}
+    STOREFRONT_CONFIG_COPY_LOCKED_PLUGIN_ASSEMBLIES: ${{ parameters.storefrontConfigCopyLockedPluginAssemblies }}
+    STOREFRONT_CONFIG_USE_PLUGIN_SHADOW_COPY: ${{ parameters.storefrontConfigUsePluginShadowCopy }}
+    STOREFRONT_CONFIG_USE_UNSAFE_LOAD_ASSEMBLY: ${{ parameters.storefrontConfigUseUnsafeLoadAssembly }}
+    STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER: ${{ parameters.storefrontConfigUseSessionStateTempDataProvider }}
+    STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP: ${{ parameters.storefrontConfigEventsEgressConsumerGroup }}
+    STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME: ${{ parameters.storefrontConfigEventsCheckpointsBlobContainerName }}
+    STOREFRONT_CONFIG_HELP_URL_TEMPLATE: ${{ parameters.storefrontConfigHelpUrlTemplate }}
+    STOREFRONT_CONFIG_HELP_URL_LOCALE: ${{ parameters.storefrontConfigHelpUrlLocale }}
+    STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS: ${{ parameters.storefrontConfigEnableAppInsights }}
+    STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.storefrontConfigAppInsightsInstrumentationKey }}
+    STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE: ${{ parameters.storefrontConfigEnableSQLServerCache }}    
+
+- task: Kubernetes@1
+  displayName: Kubectl Version
+  name: kubectlVersion
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'version'
+    arguments: '--short'
+
+- task: HelmInstaller@1
+  displayName: Helm Installer
+  name: helmInstaller
+  inputs:
+    helmVersionToInstall: latest
+
+- task: HelmDeploy@0
+  displayName: Helm Deploy
+  name: helmDeploy
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup }}
+    kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'upgrade'
+    chartType: 'FilePath'
+    chartPath: ./${{ parameters.chartName }}
+    releaseName: ${{ parameters.helmReleaseName }}
+    valueFile: ./deploy-values.yaml
+    install: true
+    waitForExecution: false
+    failOnStderr: false
