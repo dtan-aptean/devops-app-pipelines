@@ -239,7 +239,7 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ecomm-prf
+    environment: ecomm-tst
 
     pool:
       vmImage: 'ubuntu-latest'
