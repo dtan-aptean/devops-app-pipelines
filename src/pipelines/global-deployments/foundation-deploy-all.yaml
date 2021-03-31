@@ -3,6 +3,15 @@ trigger: none
 variables:
 - group: helm-chart-svc-principal-config
 
+resources:
+  pipelines:
+  - pipeline: foundational-svcs-helm-deploy
+    source: foundational-svcs-helm-deploy
+    trigger:
+      branches:
+        include:
+        - master
+
 stages:
 
 ## Foundational Svcs

@@ -5,8 +5,12 @@ variables:
 
 resources:
   pipelines:
-  - pipeline: crm-api-svc-docker-build-push
-    source: crm-api-svc-docker-build-push
+  - pipeline: helm-deploy-all-crm-svcs-dev
+    source: helm-deploy-all-crm-svcs-dev
+    trigger:
+      branches:
+        include:
+        - master
 
 stages:
 - stage: TST_CRM_Helm_Deploy

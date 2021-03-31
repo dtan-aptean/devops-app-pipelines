@@ -4,6 +4,12 @@ resources:
   pipelines:
   - pipeline: ecomm_static_files
     source: ecommerce-static-web-files-master-build
+  - pipeline: helm-deploy-all-ezpay-svcs-dev
+    source: helm-deploy-all-ezpay-svcs-dev
+    trigger:
+      branches:
+        include:
+        - master
 
 variables:
 - group: helm-chart-svc-principal-config
@@ -465,7 +471,6 @@ stages:
               productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
               productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)                           
                              
-
 - stage: PRD_Ecomm_Helm_Deploy
   displayName: PRD - Ecomm Helm Deploy
   dependsOn: STG_Ecomm_Helm_Deploy

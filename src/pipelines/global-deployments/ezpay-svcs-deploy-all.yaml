@@ -23,6 +23,13 @@ resources:
   - pipeline: ezpay-static-assets-master-build
     source: ezpay-static-assets-master-build
 
+  - pipeline: helm-deploy-all-ezpay-svcs-dev
+    source: helm-deploy-all-ezpay-svcs-dev
+    trigger:
+      branches:
+        include:
+        - master
+
 stages:
 - stage: TST_Ezpay_Helm_Deploy
   displayName: TST - Ezpay Svcs Helm Deploy
