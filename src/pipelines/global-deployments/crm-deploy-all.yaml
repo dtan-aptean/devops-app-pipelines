@@ -3,15 +3,6 @@ trigger: none
 variables:
 - group: helm-chart-svc-principal-config
 
-resources:
-  pipelines:
-  - pipeline: helm-deploy-all-crm-svcs-dev
-    source: helm-deploy-all-crm-svcs-dev
-    trigger:
-      branches:
-        include:
-        - master
-
 stages:
 - stage: TST_CRM_Helm_Deploy
   displayName: TST - CRM Svcs Helm Deploy

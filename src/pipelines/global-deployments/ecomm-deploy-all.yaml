@@ -4,12 +4,6 @@ resources:
   pipelines:
   - pipeline: ecomm_static_files
     source: ecommerce-static-web-files-master-build
-  - pipeline: helm-deploy-all-ezpay-svcs-dev
-    source: helm-deploy-all-ezpay-svcs-dev
-    trigger:
-      branches:
-        include:
-        - master
 
 variables:
 - group: helm-chart-svc-principal-config
