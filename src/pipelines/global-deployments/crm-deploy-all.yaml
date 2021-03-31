@@ -3,6 +3,11 @@ trigger: none
 variables:
 - group: helm-chart-svc-principal-config
 
+resources:
+  pipelines:
+  - pipeline: crm-api-svc-docker-build-push
+    source: crm-api-svc-docker-build-push
+
 stages:
 - stage: TST_CRM_Helm_Deploy
   displayName: TST - CRM Svcs Helm Deploy

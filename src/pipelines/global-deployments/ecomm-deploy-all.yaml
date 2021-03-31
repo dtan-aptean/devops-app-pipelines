@@ -464,7 +464,8 @@ stages:
               productRecsSvcConfigEventsCheckpointsBlobContainerName: $(PRODUCT_RECS_SVC_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME)
               productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
               productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)                           
-                             
+
+                           
 - stage: PRD_Ecomm_Helm_Deploy
   displayName: PRD - Ecomm Helm Deploy
   dependsOn: STG_Ecomm_Helm_Deploy
