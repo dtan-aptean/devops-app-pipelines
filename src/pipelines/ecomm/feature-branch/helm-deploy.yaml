@@ -25,7 +25,7 @@ stages:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: ecomm-dev
+    - group: ecomm-dev-feature-branch
     - template: helm-variables-dev.yaml
 
     strategy:
@@ -44,7 +44,7 @@ stages:
               containerRegistryName: $(CONTAINER_REGISTRY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: ecomm-nop44
               chartName: $(CHART_NAME)
               env: $(ENV)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
@@ -61,7 +61,7 @@ stages:
               storefrontReplicas: $(STOREFRONT_REPLICAS)                            
               storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
               storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
-              storefrontKongIngressName: $(STOREFRONT_KONG_INGRESS_NM)
+              storefrontKongIngressName: nop44-ecomm-sf-do-not-preserve-host
               storefrontResourceLimitsCpu: $(STOREFRONT_RESOURCE_LIMITS_CPU)
               storefrontResourceLimitsMemory: $(STOREFRONT_RESOURCE_LIMITS_MEMORY)
               storefrontResourceRequestsCpu: $(STOREFRONT_RESOURCE_REQUESTS_CPU)
@@ -154,7 +154,7 @@ stages:
               containerRegistryName: $(CONTAINER_REGISTRY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: ecomm-nop44
               chartName: $(CHART_NAME)
               env: $(ENV)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
@@ -171,7 +171,7 @@ stages:
               storefrontReplicas: $(STOREFRONT_REPLICAS)                            
               storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
               storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
-              storefrontKongIngressName: $(STOREFRONT_KONG_INGRESS_NM)
+              storefrontKongIngressName: nop44-ecomm-sf-do-not-preserve-host
               storefrontResourceLimitsCpu: $(STOREFRONT_RESOURCE_LIMITS_CPU)
               storefrontResourceLimitsMemory: $(STOREFRONT_RESOURCE_LIMITS_MEMORY)
               storefrontResourceRequestsCpu: $(STOREFRONT_RESOURCE_REQUESTS_CPU)
@@ -264,7 +264,7 @@ stages:
               containerRegistryName: $(CONTAINER_REGISTRY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)
+              helmReleaseName: ecomm-nop44
               chartName: $(CHART_NAME)
               env: $(ENV)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
@@ -281,7 +281,7 @@ stages:
               storefrontReplicas: $(STOREFRONT_REPLICAS)                            
               storefrontKongIngressClass: $(STOREFRONT_KONG_INGRESS_CLASS)
               storefrontKongIngressUpstreamHostHeader: $(STOREFRONT_KONG_INGRESS_UPSTREAM_HEADER)
-              storefrontKongIngressName: $(STOREFRONT_KONG_INGRESS_NM)
+              storefrontKongIngressName: nop44-ecomm-sf-do-not-preserve-host
               storefrontResourceLimitsCpu: $(STOREFRONT_RESOURCE_LIMITS_CPU)
               storefrontResourceLimitsMemory: $(STOREFRONT_RESOURCE_LIMITS_MEMORY)
               storefrontResourceRequestsCpu: $(STOREFRONT_RESOURCE_REQUESTS_CPU)
