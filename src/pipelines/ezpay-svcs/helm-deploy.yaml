@@ -162,6 +162,7 @@ stages:
               ezpayApiSvcB2cDomainHost: $(EZPAY_API_SVC_B2C_DOMAIN_HOST)
               ezpayApiSvcB2cTenantId: $(EZPAY_API_SVC_B2C_TENANT_ID)
               ezpayApiSvcB2cPolicyName: $(EZPAY_API_SVC_B2C_POLICY_NAME)
+              ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               ezpayApiSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
               ezpayApiSvcEzpayClaimSvcGrpcUrl: $(EZPAY_CLAIM_SVC_GRPC_URL)
               ezpayApiSvcSubsMgmtApiKey: $(EZPAY_API_SVC_SUBS_MGMT_API_KEY)
