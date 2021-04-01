@@ -64,30 +64,45 @@ steps:
     Write-Host ""
     helm chart export $fullChartName --destination .
 
-    # EVENTS SVC
-    if ($env:EVENTS_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured events-svc tag: $env:EVENTS_SVC_IMAGE_TAG
-      $latestEventsSvcTag = $env:EVENTS_SVC_IMAGE_TAG
+    if ($env:DOCKER_IMAGE_TAGS) {
+      $tags = $env:DOCKER_IMAGE_TAGS.Split(',')
+      $latestEventsSvcTag = $tags[0].Split(':')[1]
+      $latestStaticWebFilesSvcTag = $tags[1].Split(':')[1]
+      Write-Host events-svc tag: $latestEventsSvcTag
+      Write-Host static-web-files-svc tag: $latestStaticWebFilesSvcTag
     }
-    else
-    {
-      Write-Host Fetching latest events-svc tag.
-      $latestEventsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EVENTS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    
+    # EVENTS SVC
+    if (!$latestEventsSvcTag) {
+      if ($env:EVENTS_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured events-svc tag: $env:EVENTS_SVC_IMAGE_TAG
+        $latestEventsSvcTag = $env:EVENTS_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest events-svc tag.
+        $latestEventsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EVENTS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
 
     # STATIC WEB FILES SVC
-    if ($env:STATIC_WEB_FILES_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured static-web-files-svc tag: $env:STATIC_WEB_FILES_SVC_IMAGE_TAG
-      $latestStaticWebFilesSvcTag = $env:STATIC_WEB_FILES_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest static-web-files-svc tag.
-      $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestStaticWebFilesSvcTag) {
+      if ($env:STATIC_WEB_FILES_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured static-web-files-svc tag: $env:STATIC_WEB_FILES_SVC_IMAGE_TAG
+        $latestStaticWebFilesSvcTag = $env:STATIC_WEB_FILES_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest static-web-files-svc tag.
+        $latestStaticWebFilesSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
 
+    $allTags = "events-svc:{0},static-web-files-svc:{1}" `
+               -f $latestEventsSvcTag, $latestStaticWebFilesSvcTag
+    Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags"  
     @"
     commonLabels:
       env: $env:ENV

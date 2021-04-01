@@ -11,6 +11,8 @@ resources:
 
 variables:
 - group: helm-chart-svc-principal-config
+- name: docker_image_tags
+  value: ''
 
 stages:
 - stage: DEV_GQL_API_Svc_Helm_Deploy

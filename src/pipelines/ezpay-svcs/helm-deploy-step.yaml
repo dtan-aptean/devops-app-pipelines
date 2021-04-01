@@ -251,6 +251,34 @@ steps:
     Write-Host ""
     helm chart export $fullChartName --destination .
 
+    if ($env:DOCKER_IMAGE_TAGS) {
+      $tags = $env:DOCKER_IMAGE_TAGS.Split(',')
+      $latestPaymentCancelRetryJobTag = $tags[0].Split(':')[1]
+      $latestAccountBalanceJobTag = $tags[1].Split(':')[1]
+      $latestEzpayApiSvcTag = $tags[2].Split(':')[1]
+      $latestEmailNotificationSvcTag = $tags[3].Split(':')[1]
+      $latestErpIntegrationSvcTag = $tags[4].Split(':')[1]
+      $latestMerchantOpsSvcTag = $tags[5].Split(':')[1]
+      $latestPayfacNotificationsSvcTag = $tags[6].Split(':')[1]
+      $latestPaymentOpsSvcTag = $tags[7].Split(':')[1]
+      $latestPaymentsSvcTag = $tags[8].Split(':')[1]
+      $latestTxnRecordsSvcTag = $tags[9].Split(':')[1]
+      $latestWepayIntegrationSvcTag = $tags[10].Split(':')[1]
+      $latestEzpayClaimSvcTag = $tags[11].Split(':')[1]
+      Write-Host ezpay-payment-cancelation-retry-job tag: $latestPaymentCancelRetryJobTag
+      Write-Host account-balance-job tag: $latestAccountBalanceJobTag
+      Write-Host ezpay-api-svc tag: $latestEzpayApiSvcTag
+      Write-Host email-notification-svc-svc tag: $latestEmailNotificationSvcTag
+      Write-Host erp-integration-svc tag: $latestErpIntegrationSvcTag
+      Write-Host merchant-ops-svc tag: $latestMerchantOpsSvcTag
+      Write-Host payfac-notifications-svc tag: $latestPayfacNotificationsSvcTag
+      Write-Host payment-ops-svc tag: $latestPaymentOpsSvcTag
+      Write-Host payments-svc tag: $latestPaymentsSvcTag
+      Write-Host transaction-records-svc tag: $latestTxnRecordsSvcTag
+      Write-Host wepay-integration-svc tag: $latestWepayIntegrationSvcTag
+      Write-Host ezpay-claim-svc tag: $latestEzpayClaimSvcTag
+    }
+
     # PAYMENT CANCEL RETRY JOB
     if ($env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG)
     {
@@ -384,6 +412,31 @@ steps:
       $latestEzpayClaimSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
     }
 
+    $allTags = "ezpay-payment-cancelation-retry-job:{0}, `
+                account-balance-job:{1}, `
+                ezpay-api-svc:{2}, `
+                email-notification-svc-svc:{3}, `
+                erp-integration-svc:{4}, `
+                merchant-ops-svc:{5}, `
+                payfac-notifications-svc:{6}, `
+                payment-ops-svc:{7}, `
+                payments-svc:{8}, `
+                transaction-records-svc:{9}, `
+                wepay-integration-svc:{10}, `
+                ezpay-claim-svc:{11}" `
+               -f $latestPaymentCancelRetryJobTag, `
+                  $latestAccountBalanceJobTag, `
+                  $latestEzpayApiSvcTag, `
+                  $latestEmailNotificationSvcTag, `
+                  $latestErpIntegrationSvcTag, `
+                  $latestMerchantOpsSvcTag, `
+                  $latestPayfacNotificationsSvcTag, `
+                  $latestPaymentOpsSvcTag, `
+                  $latestPaymentsSvcTag, `
+                  $latestTxnRecordsSvcTag, `
+                  $latestWepayIntegrationSvcTag, `
+                  $latestEzpayClaimSvcTag
+    Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags" 
     @"
     commonLabels:
       env: $env:ENV

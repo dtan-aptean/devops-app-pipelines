@@ -2,6 +2,8 @@ trigger: none
 
 variables:
 - group: helm-chart-svc-principal-config
+- name: docker_image_tags
+  value: ''
 
 resources:
   pipelines:
@@ -65,6 +67,15 @@ stages:
               crmApiSvcSubsMgmtApiKey: $(CRM_API_SVC_SUBS_MGMT_API_KEY)
               crmApiSvcSubsMgmtServiceId: $(CRM_API_SVC_SUBS_MGMT_SERVICE_ID)
 
+          - pwsh: |
+              mkdir -p $(Pipeline.Workspace)/crm_tags
+              echo "$(docker_image_tags)" > $(Pipeline.Workspace)/crm_tags/docker_image_tags.txt
+              echo "Tags written to '$(Pipeline.Workspace)/crm_tags/docker_image_tags.txt'"
+            displayName: 'Save crm_docker_image_tags'
+
+          - publish: $(Pipeline.Workspace)/crm_tags
+            artifact: crm_tags               
+
 - stage: PRF_CRM_Helm_Deploy
   displayName: PRF - CRM Svcs Helm Deploy
   dependsOn: TST_CRM_Helm_Deploy
@@ -86,6 +97,17 @@ stages:
       runOnce:
         deploy:
           steps:
+          - download: current
+            artifact: crm_tags
+            displayName: 'Download crm_docker_image_tags'
+
+          - bash: |
+              echo "Reading file '$(Pipeline.Workspace)/crm_tags/docker_image_tags.txt'"
+              cat $(Pipeline.Workspace)/crm_tags/docker_image_tags.txt
+              TAGS=$(cat $(Pipeline.Workspace)/crm_tags/docker_image_tags.txt)
+              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
+            displayName: 'Set crm_docker_image_tags'  
+
           - template: ../crm/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -142,6 +164,17 @@ stages:
       runOnce:
         deploy:
           steps:
+          - download: current
+            artifact: crm_tags
+            displayName: 'Download crm_docker_image_tags'
+
+          - bash: |
+              echo "Reading file '$(Pipeline.Workspace)/crm_tags/docker_image_tags.txt'"
+              cat $(Pipeline.Workspace)/crm_tags/docker_image_tags.txt
+              TAGS=$(cat $(Pipeline.Workspace)/crm_tags/docker_image_tags.txt)
+              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
+            displayName: 'Set crm_docker_image_tags'  
+
           - template: ../crm/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -198,6 +231,17 @@ stages:
       runOnce:
         deploy:
           steps:
+          - download: current
+            artifact: crm_tags
+            displayName: 'Download crm_docker_image_tags'
+
+          - bash: |
+              echo "Reading file '$(Pipeline.Workspace)/crm_tags/docker_image_tags.txt'"
+              cat $(Pipeline.Workspace)/crm_tags/docker_image_tags.txt
+              TAGS=$(cat $(Pipeline.Workspace)/crm_tags/docker_image_tags.txt)
+              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
+            displayName: 'Set crm_docker_image_tags'  
+                      
           - template: ../crm/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'

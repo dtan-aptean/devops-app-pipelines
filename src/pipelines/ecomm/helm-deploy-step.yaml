@@ -162,11 +162,11 @@ steps:
 
     if ($env:DOCKER_IMAGE_TAGS) {
       $tags = $env:DOCKER_IMAGE_TAGS.Split(',')
-      $latestStorefrontTag = $tags[0]
-      $latestGqlApiSvcTag = $tags[1]
-      $latestErpSvcTag = $tags[2]
-      $latestLangSvcTag = $tags[3]
-      $latestProductRecsSvcTag = $tags[4]
+      $latestStorefrontTag = $tags[0].Split(':')[1]
+      $latestGqlApiSvcTag = $tags[1].Split(':')[1]
+      $latestErpSvcTag = $tags[2].Split(':')[1]
+      $latestLangSvcTag = $tags[3].Split(':')[1]
+      $latestProductRecsSvcTag = $tags[4].Split(':')[1]
       Write-Host ecomm-sf tag: $latestStorefrontTag
       Write-Host gql-api-svc tag: $latestGqlApiSvcTag
       Write-Host erp-svc tag: $latestErpSvcTag
@@ -243,8 +243,9 @@ steps:
         $latestProductRecsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PRODUCT_RECS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
       }
     }
-
-    Write-Host "##vso[task.setvariable variable=docker_image_tags;]$latestStorefrontTag,$latestGqlApiSvcTag,$latestErpSvcTag,$latestLangSvcTag,$latestProductRecsSvcTag"    
+    $allTags = "ecomm-sf:{0},comm-gql-api-svc:{1},ecomm-erp-svc:{2},ecomm-lang-svc:{3},product-recs-svc:{4}" `
+               -f $latestStorefrontTag, $latestGqlApiSvcTag, $latestErpSvcTag, $latestLangSvcTag, $latestProductRecsSvcTag
+    Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags"    
     @"
     deployMode: $env:DEPLOY_MODE
 
