@@ -7,6 +7,8 @@ resources:
 
 variables:
 - group: helm-chart-svc-principal-config
+- name: docker_image_tags
+  value: ''
 
 stages:
 ## ECOMM SVCS ##
@@ -161,6 +163,15 @@ stages:
               productRecsSvcConfigEventsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME)
               productRecsSvcConfigRecommendationsCollectionName: $(PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME)
 
+          - pwsh: |
+              mkdir -p $(Pipeline.Workspace)/tags
+              echo "$(docker_image_tags)" > $(Pipeline.Workspace)/tags/docker_image_tags.txt
+              echo "Tags written to '$(Pipeline.Workspace)/tags/docker_image_tags.txt'"
+            displayName: 'Save docker_image_tags'
+
+          - publish: $(Pipeline.Workspace)/tags
+            artifact: tags 
+
 - stage: STG_Ecomm_Helm_Deploy
   displayName: STG - Ecomm Helm Deploy
   dependsOn: TST_Ecomm_Helm_Deploy
@@ -181,6 +192,17 @@ stages:
       runOnce:
         deploy:
           steps:
+          - download: current
+            artifact: tags
+            displayName: 'Download docker_image_tags'
+
+          - bash: |
+              echo "Reading file '$(Pipeline.Workspace)/tags/docker_image_tags.txt'"
+              cat $(Pipeline.Workspace)/tags/docker_image_tags.txt
+              TAGS=$(cat $(Pipeline.Workspace)/tags/docker_image_tags.txt)
+              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
+            displayName: 'Set docker_image_tags'            
+
           - template: ../ecomm/helm-deploy-step.yaml
             parameters:
               deployMode: 'all'
@@ -333,6 +355,17 @@ stages:
       runOnce:
         deploy:
           steps:
+          - download: current
+            artifact: tags
+            displayName: 'Download docker_image_tags'
+
+          - bash: |
+              echo "Reading file '$(Pipeline.Workspace)/tags/docker_image_tags.txt'"
+              cat $(Pipeline.Workspace)/tags/docker_image_tags.txt
+              TAGS=$(cat $(Pipeline.Workspace)/tags/docker_image_tags.txt)
+              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
+            displayName: 'Set docker_image_tags'       
+
           - template: ../ecomm/helm-deploy-step.yaml
             parameters:
               deployMode: 'all'
@@ -486,6 +519,17 @@ stages:
       runOnce:
         deploy:
           steps:
+          - download: current
+            artifact: tags
+            displayName: 'Download docker_image_tags'
+
+          - bash: |
+              echo "Reading file '$(Pipeline.Workspace)/tags/docker_image_tags.txt'"
+              cat $(Pipeline.Workspace)/tags/docker_image_tags.txt
+              TAGS=$(cat $(Pipeline.Workspace)/tags/docker_image_tags.txt)
+              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
+            displayName: 'Set docker_image_tags'       
+                      
           - template: ../ecomm/helm-deploy-step.yaml
             parameters:
               deployMode: 'service'
