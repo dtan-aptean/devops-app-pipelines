@@ -412,18 +412,7 @@ steps:
       $latestEzpayClaimSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
     }
 
-    $allTags = "ezpay-payment-cancelation-retry-job:{0}, `
-                account-balance-job:{1}, `
-                ezpay-api-svc:{2}, `
-                email-notification-svc-svc:{3}, `
-                erp-integration-svc:{4}, `
-                merchant-ops-svc:{5}, `
-                payfac-notifications-svc:{6}, `
-                payment-ops-svc:{7}, `
-                payments-svc:{8}, `
-                transaction-records-svc:{9}, `
-                wepay-integration-svc:{10}, `
-                ezpay-claim-svc:{11}" `
+    $allTags = "ezpay-payment-cancelation-retry-job:{0},account-balance-job:{1},ezpay-api-svc:{2},email-notification-svc-svc:{3},erp-integration-svc:{4},merchant-ops-svc:{5},payfac-notifications-svc:{6},payment-ops-svc:{7},payments-svc:{8},transaction-records-svc:{9},wepay-integration-svc:{10},ezpay-claim-svc:{11}" `
                -f $latestPaymentCancelRetryJobTag, `
                   $latestAccountBalanceJobTag, `
                   $latestEzpayApiSvcTag, `
