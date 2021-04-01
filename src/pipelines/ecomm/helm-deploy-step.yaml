@@ -160,65 +160,91 @@ steps:
     Write-Host ""
     helm chart export $fullChartName --destination .
 
-    # ECOMM SF 
-    if ($env:STOREFRONT_CONFIG_IMAGE_TAG)
-    {
-      Write-Host Using configured ecomm-sf tag: $env:STOREFRONT_CONFIG_IMAGE_TAG
-      $latestStorefrontTag = $env:STOREFRONT_CONFIG_IMAGE_TAG
+    if ($env:DOCKER_IMAGE_TAGS) {
+      $tags = $env:DOCKER_IMAGE_TAGS.Split(',')
+      $latestStorefrontTag = $tags[0]
+      $latestGqlApiSvcTag = $tags[1]
+      $latestErpSvcTag = $tags[2]
+      $latestLangSvcTag = $tags[3]
+      $latestProductRecsSvcTag = $tags[4]
+      Write-Host ecomm-sf tag: $latestStorefrontTag
+      Write-Host gql-api-svc tag: $latestGqlApiSvcTag
+      Write-Host erp-svc tag: $latestErpSvcTag
+      Write-Host lang-svc tag: $latestLangSvcTag
+      Write-Host product-recs-svc tag: $latestProductRecsSvcTag
     }
-    else
-    {
-      Write-Host Fetching latest ecomm-sf tag.
-      $latestStorefrontTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:STOREFRONT_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+
+    # ECOMM SF 
+    if (!$latestStorefrontTag) {
+      if ($env:STOREFRONT_CONFIG_IMAGE_TAG)
+      {
+        Write-Host Using configured ecomm-sf tag: $env:STOREFRONT_CONFIG_IMAGE_TAG
+        $latestStorefrontTag = $env:STOREFRONT_CONFIG_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest ecomm-sf tag.
+        $latestStorefrontTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:STOREFRONT_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
 
     # GQL API SVC
-    if ($env:GQL_API_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured gql-api-svc tag: $env:GQL_API_SVC_IMAGE_TAG
-      $latestGqlApiSvcTag = $env:GQL_API_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest gql-api-svc tag.
-      $latestGqlApiSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:GQL_API_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestGqlApiSvcTag) {
+      if ($env:GQL_API_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured gql-api-svc tag: $env:GQL_API_SVC_IMAGE_TAG
+        $latestGqlApiSvcTag = $env:GQL_API_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest gql-api-svc tag.
+        $latestGqlApiSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:GQL_API_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
 
     # ERP SVC
-    if ($env:ERP_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured erp-svc tag: $env:ERP_SVC_IMAGE_TAG
-      $latestErpSvcTag = $env:ERP_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest erp-svc tag.
-      $latestErpSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ERP_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestErpSvcTag) {
+      if ($env:ERP_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured erp-svc tag: $env:ERP_SVC_IMAGE_TAG
+        $latestErpSvcTag = $env:ERP_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest erp-svc tag.
+        $latestErpSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ERP_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }  
 
     # LANG SVC
-    if ($env:LANG_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured lang-svc tag: $env:LANG_SVC_IMAGE_TAG
-      $latestLangSvcTag = $env:LANG_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest lang-svc tag.
-      $latestLangSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:LANG_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestLangSvcTag) {
+      if ($env:LANG_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured lang-svc tag: $env:LANG_SVC_IMAGE_TAG
+        $latestLangSvcTag = $env:LANG_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest lang-svc tag.
+        $latestLangSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:LANG_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
 
     # PRODUCT RECS SVC
-    if ($env:PRODUCT_RECS_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured product-recs-svc tag: $env:PRODUCT_RECS_SVC_IMAGE_TAG
-      $latestProductRecsSvcTag = $env:PRODUCT_RECS_SVC_IMAGE_TAG
+    if (!$latestProductRecsSvcTag) {
+      if ($env:PRODUCT_RECS_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured product-recs-svc tag: $env:PRODUCT_RECS_SVC_IMAGE_TAG
+        $latestProductRecsSvcTag = $env:PRODUCT_RECS_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest product-recs-svc tag.
+        $latestProductRecsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PRODUCT_RECS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
-    else
-    {
-      Write-Host Fetching latest product-recs-svc tag.
-      $latestProductRecsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PRODUCT_RECS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
-    }    
+
+    Write-Host "##vso[task.setvariable variable=docker_image_tags;]$latestStorefrontTag,$latestGqlApiSvcTag,$latestErpSvcTag,$latestLangSvcTag,$latestProductRecsSvcTag"    
     @"
     deployMode: $env:DEPLOY_MODE
 
