@@ -280,136 +280,160 @@ steps:
     }
 
     # PAYMENT CANCEL RETRY JOB
-    if ($env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG)
-    {
-      Write-Host Using configured ezpay-payment-cancelation-retry-job tag: $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG
-      $latestPaymentCancelRetryJobTag = $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest ezpay-payment-cancelation-retry-job tag.
-      $latestPaymentCancelRetryJobTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestPaymentCancelRetryJobTag) {
+      if ($env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG)
+      {
+        Write-Host Using configured ezpay-payment-cancelation-retry-job tag: $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG
+        $latestPaymentCancelRetryJobTag = $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest ezpay-payment-cancelation-retry-job tag.
+        $latestPaymentCancelRetryJobTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # ACCOUNT BALANCE UPDATER JOB SVC
-    if ($env:ACCT_BALANCE_JOB_IMAGE_TAG)
-    {
-      Write-Host Using configured account-balance-job tag: $env:ACCT_BALANCE_JOB_IMAGE_TAG
-      $latestAccountBalanceJobTag = $env:ACCT_BALANCE_JOB_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest account-balance-job tag.
-      $latestAccountBalanceJobTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestAccountBalanceJobTag) {
+      if ($env:ACCT_BALANCE_JOB_IMAGE_TAG)
+      {
+        Write-Host Using configured account-balance-job tag: $env:ACCT_BALANCE_JOB_IMAGE_TAG
+        $latestAccountBalanceJobTag = $env:ACCT_BALANCE_JOB_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest account-balance-job tag.
+        $latestAccountBalanceJobTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ACCT_BALANCE_JOB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # EZPAY API SVC
-    if ($env:EZPAY_API_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured ezpay-api-svc tag: $env:EZPAY_API_SVC_IMAGE_TAG
-      $latestEzpayApiSvcTag = $env:EZPAY_API_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest ezpay-api-svc tag.
-      $latestEzpayApiSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_API_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestEzpayApiSvcTag) {
+      if ($env:EZPAY_API_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured ezpay-api-svc tag: $env:EZPAY_API_SVC_IMAGE_TAG
+        $latestEzpayApiSvcTag = $env:EZPAY_API_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest ezpay-api-svc tag.
+        $latestEzpayApiSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_API_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # EMAIL NOTIFICATION SVC
-    if ($env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured email-notification-svc-svc tag: $env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG
-      $latestEmailNotificationSvcTag = $env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest email-notification-svc-svc tag.
-      $latestEmailNotificationSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestEmailNotificationSvcTag) {
+      if ($env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured email-notification-svc-svc tag: $env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG
+        $latestEmailNotificationSvcTag = $env:EMAIL_NOTIFICATION_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest email-notification-svc-svc tag.
+        $latestEmailNotificationSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # ERP INTEGRATION SVC
-    if ($env:ERP_INTEGRATION_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured erp-integration-svc tag: $env:ERP_INTEGRATION_SVC_IMAGE_TAG
-      $latestErpIntegrationSvcTag = $env:ERP_INTEGRATION_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest erp-integration-svc tag.
-      $latestErpIntegrationSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ERP_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestErpIntegrationSvcTag) {
+      if ($env:ERP_INTEGRATION_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured erp-integration-svc tag: $env:ERP_INTEGRATION_SVC_IMAGE_TAG
+        $latestErpIntegrationSvcTag = $env:ERP_INTEGRATION_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest erp-integration-svc tag.
+        $latestErpIntegrationSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ERP_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # MERCHANT OPS SVC
-    if ($env:MERCHANT_OPS_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured merchant-ops-svc tag: $env:MERCHANT_OPS_SVC_IMAGE_TAG
-      $latestMerchantOpsSvcTag = $env:MERCHANT_OPS_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest merchant-ops-svc tag.
-      $latestMerchantOpsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestMerchantOpsSvcTag) {
+      if ($env:MERCHANT_OPS_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured merchant-ops-svc tag: $env:MERCHANT_OPS_SVC_IMAGE_TAG
+        $latestMerchantOpsSvcTag = $env:MERCHANT_OPS_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest merchant-ops-svc tag.
+        $latestMerchantOpsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # PAYFAC NOTIFICATIONS SVC
-    if ($env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured payfac-notifications-svc tag: $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG
-      $latestPayfacNotificationsSvcTag = $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest payfac-notifications-svc tag.
-      $latestPayfacNotificationsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestPayfacNotificationsSvcTag)
+      if ($env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured payfac-notifications-svc tag: $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG
+        $latestPayfacNotificationsSvcTag = $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest payfac-notifications-svc tag.
+        $latestPayfacNotificationsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # PAYMENT OPS SVC
-    if ($env:PAYMENT_OPS_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured payment-ops-svc tag: $env:PAYMENT_OPS_SVC_IMAGE_TAG
-      $latestPaymentOpsSvcTag = $env:PAYMENT_OPS_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest payment-ops-svc tag.
-      $latestPaymentOpsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENT_OPS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestPaymentOpsSvcTag)
+      if ($env:PAYMENT_OPS_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured payment-ops-svc tag: $env:PAYMENT_OPS_SVC_IMAGE_TAG
+        $latestPaymentOpsSvcTag = $env:PAYMENT_OPS_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest payment-ops-svc tag.
+        $latestPaymentOpsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENT_OPS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # PAYMENTS SVC
-    if ($env:PAYMENTS_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured payments-svc tag: $env:PAYMENTS_SVC_IMAGE_TAG
-      $latestPaymentsSvcTag = $env:PAYMENTS_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest payments-svc tag.
-      $latestPaymentsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENTS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestPaymentsSvcTag) {
+      if ($env:PAYMENTS_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured payments-svc tag: $env:PAYMENTS_SVC_IMAGE_TAG
+        $latestPaymentsSvcTag = $env:PAYMENTS_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest payments-svc tag.
+        $latestPaymentsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PAYMENTS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # TRANSACTION RECORDS SVC
-    if ($env:TXN_RECORDS_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured transaction-records-svc tag: $env:TXN_RECORDS_SVC_IMAGE_TAG
-      $latestTxnRecordsSvcTag = $env:TXN_RECORDS_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest transaction-records-svc tag.
-      $latestTxnRecordsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:TXN_RECORDS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestTxnRecordsSvcTag) {
+      if ($env:TXN_RECORDS_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured transaction-records-svc tag: $env:TXN_RECORDS_SVC_IMAGE_TAG
+        $latestTxnRecordsSvcTag = $env:TXN_RECORDS_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest transaction-records-svc tag.
+        $latestTxnRecordsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:TXN_RECORDS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # WEPAY INTEGRATION SVC
-    if ($env:WEPAY_INTEGRATION_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured wepay-integration-svc tag: $env:WEPAY_INTEGRATION_SVC_IMAGE_TAG
-      $latestWepayIntegrationSvcTag = $env:WEPAY_INTEGRATION_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest wepay-integration-svc tag.
-      $latestWepayIntegrationSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestWepayIntegrationSvcTag) {
+      if ($env:WEPAY_INTEGRATION_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured wepay-integration-svc tag: $env:WEPAY_INTEGRATION_SVC_IMAGE_TAG
+        $latestWepayIntegrationSvcTag = $env:WEPAY_INTEGRATION_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest wepay-integration-svc tag.
+        $latestWepayIntegrationSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     # EZPAY CLAIM SVC
-    if ($env:EZPAY_CLAIM_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured ezpay-claim-svc tag: $env:EZPAY_CLAIM_SVC_IMAGE_TAG
-      $latestEzpayClaimSvcTag = $env:EZPAY_CLAIM_SVC_IMAGE_TAG
-    }
-    else
-    {
-      Write-Host Fetching latest ezpay-claim-svc tag.
-      $latestEzpayClaimSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    if (!$latestEzpayClaimSvcTag) {
+      if ($env:EZPAY_CLAIM_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured ezpay-claim-svc tag: $env:EZPAY_CLAIM_SVC_IMAGE_TAG
+        $latestEzpayClaimSvcTag = $env:EZPAY_CLAIM_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest ezpay-claim-svc tag.
+        $latestEzpayClaimSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
 
     $allTags = "ezpay-payment-cancelation-retry-job:{0},account-balance-job:{1},ezpay-api-svc:{2},email-notification-svc-svc:{3},erp-integration-svc:{4},merchant-ops-svc:{5},payfac-notifications-svc:{6},payment-ops-svc:{7},payments-svc:{8},transaction-records-svc:{9},wepay-integration-svc:{10},ezpay-claim-svc:{11}" `
