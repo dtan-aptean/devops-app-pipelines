@@ -358,7 +358,7 @@ steps:
       }
     }
     # PAYFAC NOTIFICATIONS SVC
-    if (!$latestPayfacNotificationsSvcTag)
+    if (!$latestPayfacNotificationsSvcTag) {
       if ($env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG)
       {
         Write-Host Using configured payfac-notifications-svc tag: $env:PAYFAC_NOTIFICATIONS_SVC_IMAGE_TAG
@@ -371,7 +371,7 @@ steps:
       }
     }
     # PAYMENT OPS SVC
-    if (!$latestPaymentOpsSvcTag)
+    if (!$latestPaymentOpsSvcTag) {
       if ($env:PAYMENT_OPS_SVC_IMAGE_TAG)
       {
         Write-Host Using configured payment-ops-svc tag: $env:PAYMENT_OPS_SVC_IMAGE_TAG
