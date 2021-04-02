@@ -68,14 +68,9 @@ stages:
               staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
               staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
 
-          - pwsh: |
-              mkdir -p $(Pipeline.Workspace)/foundation_tags
-              echo "$(docker_image_tags)" > $(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt
-              echo "Tags written to '$(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt'"
-            displayName: 'Save foundation_docker_image_tags'
-
-          - publish: $(Pipeline.Workspace)/foundation_tags
-            artifact: foundation_tags 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags' 
 
 - stage: STG_Foundational_Svcs_Helm_Deploy
   displayName: STG - Foundational Svcs Helm Deploy
@@ -97,16 +92,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: foundation_tags
-            displayName: 'Download foundation_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set foundation_docker_image_tags'    
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags' 
 
           - template: ../foundational-svcs/helm-deploy-step.yaml
             parameters:
@@ -168,16 +156,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: foundation_tags
-            displayName: 'Download foundation_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set foundation_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags' 
 
           - template: ../foundational-svcs/helm-deploy-step.yaml
             parameters:
@@ -239,16 +220,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: foundation_tags
-            displayName: 'Download foundation_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/foundation_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set foundation_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags'
 
           - template: ../foundational-svcs/helm-deploy-step.yaml
             parameters:
@@ -358,14 +332,9 @@ stages:
               executionMode: $(EXECUTION_MODE)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
-          - pwsh: |
-              mkdir -p $(Pipeline.Workspace)/comms_tags
-              echo "$(docker_image_tags)" > $(Pipeline.Workspace)/comms_tags/docker_image_tags.txt
-              echo "Tags written to '$(Pipeline.Workspace)/comms_tags/docker_image_tags.txt'"
-            displayName: 'Save comms_docker_image_tags'
-
-          - publish: $(Pipeline.Workspace)/comms_tags
-            artifact: comms_tags 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'comms_tags' 
 
 - stage: STG_Comms_API_Svc_Helm_Deploy
   displayName: STG - comms-api-svc Helm Deploy
@@ -387,16 +356,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: comms_tags
-            displayName: 'Download comms_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/comms_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/comms_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/comms_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set comms_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'comms_tags' 
 
           - template: ../comms/helm-deploy-step.yaml
             parameters:
@@ -464,16 +426,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: comms_tags
-            displayName: 'Download comms_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/comms_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/comms_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/comms_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set comms_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'comms_tags' 
 
           - template: ../comms/helm-deploy-step.yaml
             parameters:
@@ -541,16 +496,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: comms_tags
-            displayName: 'Download comms_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/comms_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/comms_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/comms_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set comms_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'comms_tags' 
                       
           - template: ../comms/helm-deploy-step.yaml
             parameters:
@@ -657,14 +605,9 @@ stages:
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
-          - pwsh: |
-              mkdir -p $(Pipeline.Workspace)/subs_gql_tags
-              echo "$(docker_image_tags)" > $(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt
-              echo "Tags written to '$(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt'"
-            displayName: 'Save subs_gql_docker_image_tags'
-
-          - publish: $(Pipeline.Workspace)/subs_gql_tags
-            artifact: subs_gql_tags 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags' 
 
 - stage: TST_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: TST - subs mgmt grpc api-svc Helm Deploy
@@ -723,14 +666,9 @@ stages:
               apiKind: GRPC
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
-          - pwsh: |
-              mkdir -p $(Pipeline.Workspace)/subs_grpc_tags
-              echo "$(docker_image_tags)" > $(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt
-              echo "Tags written to '$(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt'"
-            displayName: 'Save subs_grpc_docker_image_tags'
-
-          - publish: $(Pipeline.Workspace)/subs_grpc_tags
-            artifact: subs_grpc_tags 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags' 
 
 - stage: STG_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
   displayName: STG - subs mgmt gql api-svc Helm Deploy
@@ -752,16 +690,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: subs_gql_tags
-            displayName: 'Download subs_gql_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set subs_gql_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags' 
 
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
@@ -820,16 +751,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: subs_grpc_tags
-            displayName: 'Download subs_grpc_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set subs_grpc_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags' 
                       
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
@@ -888,16 +812,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: subs_grpc_tags
-            displayName: 'Download subs_grpc_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set subs_grpc_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags' 
 
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
@@ -956,16 +873,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: subs_gql_tags
-            displayName: 'Download subs_gql_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set subs_gql_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags' 
 
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
@@ -1024,16 +934,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: subs_gql_tags
-            displayName: 'Download subs_gql_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/subs_gql_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set subs_gql_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags' 
 
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
@@ -1092,16 +995,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: subs_grpc_tags
-            displayName: 'Download subs_grpc_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/subs_grpc_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set subs_grpc_docker_image_tags'
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags' 
 
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:

@@ -259,14 +259,9 @@ stages:
               ezpayClaimSvcResourceRequestCpu: $(EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_CPU)
               ezpayClaimSvcResourceRequestMemory: $(EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_MEMORY) 
 
-          - pwsh: |
-              mkdir -p $(Pipeline.Workspace)/ezpay_tags
-              echo "$(docker_image_tags)" > $(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt
-              echo "Tags written to '$(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt'"
-            displayName: 'Save ezpay_docker_image_tags'
-
-          - publish: $(Pipeline.Workspace)/ezpay_tags
-            artifact: ezpay_tags 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'ezpay_tags' 
 
 - stage: PRF_Ezpay_Helm_Deploy
   displayName: PRF - Ezpay Svcs Helm Deploy
@@ -289,16 +284,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: ezpay_tags
-            displayName: 'Download ezpay_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set ezpay_docker_image_tags'  
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'ezpay_tags' 
 
           - template: ../ezpay-svcs/helm-deploy-step.yaml
             parameters:
@@ -533,16 +521,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: ezpay_tags
-            displayName: 'Download ezpay_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set ezpay_docker_image_tags' 
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'ezpay_tags' 
 
           - template: ../ezpay-svcs/helm-deploy-step.yaml
             parameters:
@@ -777,16 +758,9 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: current
-            artifact: ezpay_tags
-            displayName: 'Download ezpay_docker_image_tags'
-
-          - bash: |
-              echo "Reading file '$(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt'"
-              cat $(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt
-              TAGS=$(cat $(Pipeline.Workspace)/ezpay_tags/docker_image_tags.txt)
-              echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
-            displayName: 'Set ezpay_docker_image_tags' 
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'ezpay_tags' 
 
           - template: ../ezpay-svcs/helm-deploy-step.yaml
             parameters:
