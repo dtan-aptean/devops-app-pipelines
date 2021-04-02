@@ -243,7 +243,7 @@ steps:
         $latestProductRecsSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:PRODUCT_RECS_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
       }
     }
-    $allTags = "ecomm-sf:{0},comm-gql-api-svc:{1},ecomm-erp-svc:{2},ecomm-lang-svc:{3},product-recs-svc:{4}" `
+    $allTags = "ecomm-sf:{0},ecomm-gql-api-svc:{1},ecomm-erp-svc:{2},ecomm-lang-svc:{3},product-recs-svc:{4}" `
                -f $latestStorefrontTag, $latestGqlApiSvcTag, $latestErpSvcTag, $latestLangSvcTag, $latestProductRecsSvcTag
     Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags"    
     @"
