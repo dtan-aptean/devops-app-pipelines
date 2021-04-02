@@ -2,6 +2,8 @@ trigger: none
 
 variables:
 - group: helm-chart-svc-principal-config
+- name: docker_image_tags
+  value: ''
 
 resources:
   repositories:
@@ -257,6 +259,10 @@ stages:
               ezpayClaimSvcResourceRequestCpu: $(EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_CPU)
               ezpayClaimSvcResourceRequestMemory: $(EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_MEMORY) 
 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'ezpay_tags' 
+
 - stage: PRF_Ezpay_Helm_Deploy
   displayName: PRF - Ezpay Svcs Helm Deploy
   dependsOn: TST_Ezpay_Helm_Deploy
@@ -278,6 +284,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'ezpay_tags' 
+
           - template: ../ezpay-svcs/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -511,6 +521,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'ezpay_tags' 
+
           - template: ../ezpay-svcs/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -744,6 +758,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'ezpay_tags' 
+
           - template: ../ezpay-svcs/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'

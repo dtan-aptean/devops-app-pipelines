@@ -2,6 +2,8 @@ trigger: none
 
 variables:
 - group: helm-chart-svc-principal-config
+- name: docker_image_tags
+  value: ''
 
 stages:
 
@@ -66,6 +68,10 @@ stages:
               staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
               staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags' 
+
 - stage: STG_Foundational_Svcs_Helm_Deploy
   displayName: STG - Foundational Svcs Helm Deploy
   dependsOn: TST_Foundational_Svcs_Helm_Deploy
@@ -86,6 +92,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags' 
+
           - template: ../foundational-svcs/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -146,6 +156,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags' 
+
           - template: ../foundational-svcs/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -206,6 +220,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags'
+
           - template: ../foundational-svcs/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
@@ -314,6 +332,10 @@ stages:
               executionMode: $(EXECUTION_MODE)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'comms_tags' 
+
 - stage: STG_Comms_API_Svc_Helm_Deploy
   displayName: STG - comms-api-svc Helm Deploy
   dependsOn: TST_Comms_API_Svc_Helm_Deploy
@@ -334,6 +356,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'comms_tags' 
+
           - template: ../comms/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -400,6 +426,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'comms_tags' 
+
           - template: ../comms/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -466,6 +496,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'comms_tags' 
+                      
           - template: ../comms/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
@@ -571,6 +605,10 @@ stages:
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags' 
+
 - stage: TST_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: TST - subs mgmt grpc api-svc Helm Deploy
   dependsOn: []
@@ -628,6 +666,10 @@ stages:
               apiKind: GRPC
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags' 
+
 - stage: STG_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
   displayName: STG - subs mgmt gql api-svc Helm Deploy
   dependsOn: TST_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
@@ -648,6 +690,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags' 
+
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -705,6 +751,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags' 
+                      
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -762,6 +812,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags' 
+
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -819,6 +873,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags' 
+
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -876,6 +934,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags' 
+
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
@@ -933,6 +995,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags' 
+
           - template: ../subs-mgmt/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'

@@ -1,0 +1,12 @@
+parameters:
+  tagName: ''
+ 
+steps:
+- pwsh: |
+    mkdir -p $(Pipeline.Workspace)/${{ parameters.tagName }}
+    echo "$(docker_image_tags)" > $(Pipeline.Workspace)/${{ parameters.tagName }}/docker_image_tags.txt
+    echo "Tags written to '$(Pipeline.Workspace)/${{ parameters.tagName }}/docker_image_tags.txt'"
+  displayName: 'Save ${{ parameters.tagName }}'
+
+- publish: $(Pipeline.Workspace)/${{ parameters.tagName }}
+  artifact: ${{ parameters.tagName }}

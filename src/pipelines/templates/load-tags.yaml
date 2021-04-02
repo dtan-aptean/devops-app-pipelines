@@ -1,0 +1,14 @@
+parameters:
+  tagName: ''
+ 
+steps:
+- download: current
+  artifact: ${{ parameters.tagName }}
+  displayName: 'Download ${{ parameters.tagName }}'
+
+- bash: |
+    echo "Reading file '$(Pipeline.Workspace)/${{ parameters.tagName }}/docker_image_tags.txt'"
+    cat $(Pipeline.Workspace)/${{ parameters.tagName }}/docker_image_tags.txt
+    TAGS=$(cat $(Pipeline.Workspace)/${{ parameters.tagName }}/docker_image_tags.txt)
+    echo "##vso[task.setvariable variable=docker_image_tags;]$TAGS"
+  displayName: 'Load ${{ parameters.tagName }}'  

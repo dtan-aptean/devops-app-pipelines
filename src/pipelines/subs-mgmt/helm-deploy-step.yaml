@@ -51,15 +51,22 @@ steps:
       --top 1 `
       --orderby time_desc | ConvertFrom-Json
 
-    if ($env:IMAGE_TAG) 
-    {
-      Write-Host Using configured tag: $env:IMAGE_TAG      
-      $latestTag = $env:IMAGE_TAG
+    if ($env:DOCKER_IMAGE_TAGS) {
+      $latestTag = $env:DOCKER_IMAGE_TAGS.Split(':')[1]
+      Write-Host subs-mgmt-api-svc tag: $latestTag
     }
-    else
-    {      
-      Write-Host Fetching latest tag. 
-      $latestTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+
+    if (!$latestTag) {
+      if ($env:IMAGE_TAG) 
+      {
+        Write-Host Using configured tag: $env:IMAGE_TAG      
+        $latestTag = $env:IMAGE_TAG
+      }
+      else
+      {      
+        Write-Host Fetching latest tag. 
+        $latestTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
     $imageRepository = "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:CHART_NAME"
 
@@ -72,6 +79,7 @@ steps:
     Write-Host ""
     helm chart export $fullChartName --destination .
 
+    Write-Host "##vso[task.setvariable variable=docker_image_tags;]subs-mgmt-api-svc:$latestTag"  
     @"
     image:
       repository: $imageRepository

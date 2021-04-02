@@ -2,6 +2,8 @@ trigger: none
 
 variables:
 - group: helm-chart-svc-principal-config
+- name: docker_image_tags
+  value: ''
 
 resources:
   pipelines:
@@ -65,6 +67,10 @@ stages:
               crmApiSvcSubsMgmtApiKey: $(CRM_API_SVC_SUBS_MGMT_API_KEY)
               crmApiSvcSubsMgmtServiceId: $(CRM_API_SVC_SUBS_MGMT_SERVICE_ID)
 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'crm_tags'             
+
 - stage: PRF_CRM_Helm_Deploy
   displayName: PRF - CRM Svcs Helm Deploy
   dependsOn: TST_CRM_Helm_Deploy
@@ -86,6 +92,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'crm_tags' 
+
           - template: ../crm/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -142,6 +152,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'crm_tags'  
+
           - template: ../crm/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -198,6 +212,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'crm_tags'  
+                      
           - template: ../crm/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'

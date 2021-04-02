@@ -60,17 +60,26 @@ steps:
     Write-Host ""
     helm chart export $fullChartName --destination .
 
+    if ($env:DOCKER_IMAGE_TAGS) {
+      $latestCrmApiSvcTag = $env:DOCKER_IMAGE_TAGS.Split(':')[1]
+      Write-Host crm-api-svc tag: $latestCrmApiSvcTag
+    }
+
     # CRM API SVC
-    if ($env:CRM_API_SVC_IMAGE_TAG)
-    {
-      Write-Host Using configured crm-api-svc tag: $env:CRM_API_SVC_IMAGE_TAG
-      $latestCrmApiSvcTag = $env:CRM_API_SVC_IMAGE_TAG
+    if (!$latestCrmApiSvcTag) {
+      if ($env:CRM_API_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured crm-api-svc tag: $env:CRM_API_SVC_IMAGE_TAG
+        $latestCrmApiSvcTag = $env:CRM_API_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest crm-api-svc tag.
+        $latestCrmApiSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:CRM_API_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
     }
-    else
-    {
-      Write-Host Fetching latest crm-api-svc tag.
-      $latestCrmApiSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:CRM_API_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
-    }
+
+    Write-Host "##vso[task.setvariable variable=docker_image_tags;]crm-api-svc:$latestCrmApiSvcTag"
     @"
     commonLabels:
       env: $env:ENV
