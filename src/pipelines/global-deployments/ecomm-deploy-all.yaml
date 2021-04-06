@@ -121,7 +121,9 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)              
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)              
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)
@@ -281,7 +283,9 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                         
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)              
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)
@@ -437,7 +441,9 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)    
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                      
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)              
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)

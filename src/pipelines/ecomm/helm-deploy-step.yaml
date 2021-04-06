@@ -88,6 +88,8 @@ parameters:
   storefrontConfigEnableAppInsights: ''
   storefrontConfigAppInsightsInstrumentationKey: ''
   storefrontConfigEnableSQLServerCache: ''
+  storefrontConfigProductId: ''
+  storefrontConfigApteanpaySdkUrl: ''
   # GQL API SVC Params
   gqlAPISvcImageRepositoryName: ''
   gqlAPISvcImageTag: ''
@@ -297,6 +299,7 @@ steps:
       config: 
         tenantId: "$env:STOREFRONT_CONFIG_APTEAN_TENANT_ID"
         storeUrl: "$env:STOREFRONT_CONFIG_STORE_URL"
+        productId: "$env:STOREFRONT_CONFIG_PRODUCT_ID"
         admin:
           emailAddress: "$env:STOREFRONT_CONFIG_ADMIN_EMAIL"
           password: "$env:STOREFRONT_CONFIG_ADMIN_PSW"
@@ -317,6 +320,7 @@ steps:
           apiUrlGrpc: "$env:STOREFRONT_CONFIG_APTEAN_PAY_API_URL_GRPC"
           merchantPortalUrl: "$env:STOREFRONT_CONFIG_MERCHANT_PORTAL_URL"
           apiKey: "$env:STOREFRONT_CONFIG_APTEAN_TENANT_APIM"
+          jsSdkUrl: "$env:STOREFRONT_CONFIG_APTEANPAY_SDK_URL"
           wepay:
             appId: "$env:CONFIG_WEPAY_APP_ID"
             environment: "$env:CONFIG_WEPAY_ENV"
@@ -607,7 +611,9 @@ steps:
     STOREFRONT_CONFIG_HELP_URL_LOCALE: ${{ parameters.storefrontConfigHelpUrlLocale }}
     STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS: ${{ parameters.storefrontConfigEnableAppInsights }}
     STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY: ${{ parameters.storefrontConfigAppInsightsInstrumentationKey }}
-    STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE: ${{ parameters.storefrontConfigEnableSQLServerCache }}    
+    STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE: ${{ parameters.storefrontConfigEnableSQLServerCache }}
+    STOREFRONT_CONFIG_PRODUCT_ID: ${{ parameters.storefrontConfigProductId }}
+    STOREFRONT_CONFIG_APTEANPAY_SDK_URL: ${{ parameters.storefrontConfigApteanpaySdkUrl }}
     # GQL API SVC Params
     GQL_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.gqlAPISvcImageRepositoryName }}
     GQL_API_SVC_IMAGE_TAG: ${{ parameters.gqlAPISvcImageTag }}

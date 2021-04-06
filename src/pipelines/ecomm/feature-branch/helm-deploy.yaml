@@ -121,6 +121,8 @@ stages:
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
               storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)              
 
 - stage: TST_Ecomm_Helm_Deploy
   displayName: TST - Ecomm Helm Deploy
@@ -231,6 +233,8 @@ stages:
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
               storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)
 
 - stage: PRF_Ecomm_Helm_Deploy
   displayName: PRF - Ecomm Helm Deploy
@@ -341,3 +345,5 @@ stages:
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
               storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)

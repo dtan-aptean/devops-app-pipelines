@@ -7,25 +7,25 @@ resources:
     trigger:
       branches:
         include:
-        - release-2021-04-mid
+        - release-*
   - pipeline: ecomm-erp-svc-docker-build-push
     source: ecomm-erp-svc-docker-build-push
     trigger:
       branches:
         include:
-        - release-2021-04-mid
+        - release-*
   - pipeline: ecomm-gql-api-svc-docker-build-push
     source: ecomm-gql-api-svc-docker-build-push
     trigger:
       branches:
         include:
-        - release-2021-04-mid
+        - release-*
   - pipeline: ecomm-lang-svc-docker-build-push
     source: ecomm-lang-svc-docker-build-push
     trigger:
       branches:
         include:
-        - release-2021-04-mid                
+        - release-*                
 
 variables:
 - group: helm-chart-svc-principal-config
@@ -143,6 +143,8 @@ stages:
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
               storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)              
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)
