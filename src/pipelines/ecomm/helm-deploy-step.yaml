@@ -377,7 +377,7 @@ steps:
         storeSDN: "$env:STOREFRONT_CONFIG_STORE_SDN"        
         azureStorage: 
           accountName: "$env:STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME"
-          accountKey: "env:STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY"
+          accountKey: "$env:STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY"
 
     gqlApiService:
       image:
