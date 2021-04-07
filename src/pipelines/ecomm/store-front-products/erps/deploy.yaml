@@ -120,7 +120,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE) 
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                         
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE) 
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                                      
 
 - stage: Apprise_Ecomm_SF_Deploy
   displayName: Apprise - Ecomm Helm Deploy
@@ -229,7 +234,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)   
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                                  
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE) 
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                                               
 
 - stage: M2M_Ecomm_SF_Deploy
   displayName: M2M - Ecomm Helm Deploy
@@ -338,7 +348,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)  
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                       
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)  
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                                   
 
 - stage: Workwise_Ecomm_SF_Deploy
   displayName: Workwise - Ecomm Helm Deploy
@@ -447,7 +462,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)  
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                                                    
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)    
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                                                              
 
 - stage: Justfood_Ecomm_SF_Deploy
   displayName: Justfood - Ecomm Helm Deploy
@@ -556,7 +576,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE) 
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                        
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE) 
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                                     
                            
 - stage: Apprise_CNF_Ecomm_SF_Deploy
   displayName: Apprise_CNF - Ecomm Helm Deploy
@@ -666,7 +691,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                               
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                             
 
 - stage: RossPlayground_Ecomm_SF_Deploy
   displayName: RossPlayground - Ecomm Helm Deploy
@@ -776,7 +806,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE) 
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                              
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)  
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                          
 
 - stage: Ross02_Ecomm_SF_Deploy
   displayName: Ross02 - Ecomm Helm Deploy
@@ -886,5 +921,10 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE) 
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                                               
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                                                             
 

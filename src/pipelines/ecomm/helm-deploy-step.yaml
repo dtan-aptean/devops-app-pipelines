@@ -90,6 +90,9 @@ parameters:
   storefrontConfigEnableSQLServerCache: ''
   storefrontConfigProductId: ''
   storefrontConfigApteanpaySdkUrl: ''
+  storefrontConfigStoreSdn: ''
+  storefrontConfigStorageAccountName: ''
+  storefrontConfigStorageAccountKey: ''
   # GQL API SVC Params
   gqlAPISvcImageRepositoryName: ''
   gqlAPISvcImageTag: ''
@@ -290,7 +293,7 @@ steps:
       ingress:
         annotations:
           kubernetes.io/ingress.class: $env:STOREFRONT_KONG_INGRESS_CLASS
-        path: /ecomm-sf-$env:STOREFRONT_CONFIG_APTEAN_TENANT_ID
+        path: /ecomm-sf-$env:STOREFRONT_CONFIG_STORE_SDN
 
       persistence:         
         images:
@@ -370,8 +373,12 @@ steps:
         enableAppInsights: "$env:STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS"
         enableSQLServerCache: "$env:STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE"
         appInsights:
-          instrumentationKey: "$env:STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY"        
-    
+          instrumentationKey: "$env:STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY"
+        storeSDN: "$env:STOREFRONT_CONFIG_STORE_SDN"        
+        azureStorage: 
+          accountName: "$env:STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME"
+          accountKey: "$env:STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY"
+
     gqlApiService:
       image:
         repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:GQL_API_SVC_IMAGE_REPOSITORY_NAME"
@@ -614,6 +621,9 @@ steps:
     STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE: ${{ parameters.storefrontConfigEnableSQLServerCache }}
     STOREFRONT_CONFIG_PRODUCT_ID: ${{ parameters.storefrontConfigProductId }}
     STOREFRONT_CONFIG_APTEANPAY_SDK_URL: ${{ parameters.storefrontConfigApteanpaySdkUrl }}
+    STOREFRONT_CONFIG_STORE_SDN: ${{ parameters.storefrontConfigStoreSdn }}
+    STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME: ${{ parameters.storefrontConfigStorageAccountName }}
+    STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY: ${{ parameters.storefrontConfigStorageAccountKey }}
     # GQL API SVC Params
     GQL_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.gqlAPISvcImageRepositoryName }}
     GQL_API_SVC_IMAGE_TAG: ${{ parameters.gqlAPISvcImageTag }}

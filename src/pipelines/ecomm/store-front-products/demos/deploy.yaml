@@ -120,7 +120,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                             
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)        
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                 
                                                                                                                                      
 - stage: BakedGoods_Ecomm_SF_Deploy
   displayName: BakedGoods - Ecomm Helm Deploy
@@ -229,7 +234,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)    
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                      
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)       
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                     
               
 - stage: FreshlyProduce_Ecomm_SF_Deploy
   displayName: FreshlyProduce - Ecomm Helm Deploy
@@ -338,7 +348,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)      
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                       
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)  
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                  
 
 - stage: Homefurnishings_Ecomm_SF_Deploy
   displayName: Homefurnishings - Ecomm Helm Deploy
@@ -447,7 +462,12 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)       
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                  
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)   
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                      
 
 - stage: Trial02_Ecomm_SF_Deploy
   displayName: Trial02 - Ecomm Helm Deploy
@@ -558,6 +578,11 @@ stages:
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
               storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE) 
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)         
 
 - stage: IM_Demo01_Ecomm_SF_Deploy
   displayName: IM Demo01- Ecomm Helm Deploy
@@ -668,6 +693,11 @@ stages:
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
               storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)    
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)             
 
 - stage: FB_Demo01_Ecomm_SF_Deploy
   displayName: FB Demo01- Ecomm Helm Deploy
@@ -777,5 +807,10 @@ stages:
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)      
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
-              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)                                                           
+              storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)     
+              storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                                                 
               
