@@ -26,14 +26,22 @@ resources:
     source: ezpay-static-assets-master-build
 
 stages:
-- stage: TST_Ezpay_Helm_Deploy
+- stage: TST_APPROVAL
   displayName: TST - Ezpay Svcs Helm Deploy
   dependsOn: []
 
   jobs:
+  - job: ApprovalJob
+    steps:
+    - bash: echo "Test Approval"   
+
+- stage: TST_Ezpay_Helm_Deploy
+  displayName: TST - Ezpay Svcs Helm Deploy
+  dependsOn: TST_APPROVAL
+
+  jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-tst
     dependsOn: []
 
     pool:
@@ -978,13 +986,12 @@ stages:
 ### MERCHANT PORTAL ###
 - stage: TST_MERCHANT_PORTAL_DEPLOY
   displayName: TST - Merchant Portal Deployment
-  dependsOn: []
+  dependsOn: TST_APPROVAL
 
   jobs:
     - template: ../templates/deploy-ezpay-static.yaml
       parameters:
         variableGroup: ezpay-merchant-tst
-        targetEnvironment: ezpay-tenant-portal-tst
         dropArtifactPath: $(Pipeline.Workspace)/merchant_portal_static_files/drop/tst.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
@@ -1015,13 +1022,12 @@ stages:
 ### PAYER PORTAL ###
 - stage: TST_PAYER_PORTAL_DEPLOY
   displayName: TST - Payer Portal Deployment
-  dependsOn: []
+  dependsOn: TST_APPROVAL
 
   jobs:
     - template: ../templates/deploy-ezpay-static.yaml
       parameters:
         variableGroup: ezpay-payer-tst
-        targetEnvironment: ezpay-payer-portal-tst
         dropArtifactPath: $(Pipeline.Workspace)/payer_portal_static_files/drop/tst.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
@@ -1054,12 +1060,11 @@ stages:
 ## Static Assets ##
 - stage: TST_Static_Assets_Deploy
   displayName: TST Static Assets Deploy
-  dependsOn: []
+  dependsOn: TST_APPROVAL
 
   jobs:
   - template: static-assets/azp-yaml/templates/ezpay-static-assets-deployment-job.yaml@ezpay-backend-services
     parameters:
-      environment: ezpay-static-assets-tst
       serviceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
       storageAccount: stezpaytenantfilestst001
 
@@ -1089,13 +1094,12 @@ stages:
 
 - stage: TST_APTEAN_PAY_JS_LIBRARY_DEPLOY
   displayName: TST - Aptean Pay JS Library Deployment
-  dependsOn: []
+  dependsOn: TST_APPROVAL
 
   jobs:
     - template: ../templates/deploy-ezpay-static.yaml
       parameters:
         variableGroup: apteanpay-js-lib-tst
-        targetEnvironment: apteanpay-js-lib-tst
         dropArtifactPath: $(Pipeline.Workspace)/aptean_pay_js_static_files/drop/tst.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
