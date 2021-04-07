@@ -10,7 +10,7 @@ resources:
   - repository: ezpay-backend-services
     type: git
     name: ezpay-backend-services
-    ref: refs/heads/master 
+    ref: refs/heads/single-gate-approval 
 
   pipelines:
   - pipeline: merchant_portal_static_files
@@ -32,8 +32,10 @@ stages:
 
   jobs:
   - job: ApprovalJob
+    displayName: Ezpay TST Approval
+    environment: ezpay-prf
     steps:
-    - bash: echo "Test Approval"   
+    - bash: echo "Test Approval"
 
 - stage: TST_Ezpay_Helm_Deploy
   displayName: TST - Ezpay Svcs Helm Deploy
