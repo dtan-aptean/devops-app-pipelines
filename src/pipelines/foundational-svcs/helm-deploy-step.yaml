@@ -12,6 +12,7 @@ parameters:
   k8sNamespace: ''
   env: ''
   sentryDsn: ''
+  newRelicApiKey: ''
   # EVENTS SVC PARAMS
   eventsSvcImageRepositoryName: ''
   eventsSvcReplicas: ''
@@ -71,7 +72,7 @@ steps:
       Write-Host events-svc tag: $latestEventsSvcTag
       Write-Host static-web-files-svc tag: $latestStaticWebFilesSvcTag
     }
-    
+
     # EVENTS SVC
     if (!$latestEventsSvcTag) {
       if ($env:EVENTS_SVC_IMAGE_TAG)
@@ -102,7 +103,7 @@ steps:
 
     $allTags = "events-svc:{0},static-web-files-svc:{1}" `
                -f $latestEventsSvcTag, $latestStaticWebFilesSvcTag
-    Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags"  
+    Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags"
     @"
     commonLabels:
       env: $env:ENV
@@ -110,6 +111,8 @@ steps:
     config:
       sentry:
         dsn: "$env:SENTRY_DSN"
+      newRelic:
+        apiKey: "$env:NEW_RELIC_API_KEY"
 
     eventsService:
       image:
@@ -199,6 +202,7 @@ steps:
     CHART_NAME: ${{ parameters.chartName }}
     ENV: ${{ parameters.env }}
     SENTRY_DSN: ${{ parameters.sentryDsn }}
+    NEW_RELIC_API_KEY: ${{ parameters.newRelicApiKey }}
     # EVENTS SVC PARAMS
     EVENTS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.eventsSvcImageRepositoryName }}
     EVENTS_SVC_IMAGE_TAG: ${{ parameters.eventsSvcImageTag }}
