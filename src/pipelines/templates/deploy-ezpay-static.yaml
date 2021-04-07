@@ -2,13 +2,11 @@
 parameters:
   variableGroup: ''
   dropArtifactPath: ''
-  targetEnvironment: ''
   azureServiceConnection: ''
 
 jobs:
 - deployment: Deploy_Website
   displayName: Deploy Website
-  environment: ${{ parameters.targetEnvironment }}
 
   pool:
     vmImage: 'ubuntu-latest'
