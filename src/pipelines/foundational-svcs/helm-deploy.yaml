@@ -57,6 +57,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               sentryDsn: $(SENTRY_DSN)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
