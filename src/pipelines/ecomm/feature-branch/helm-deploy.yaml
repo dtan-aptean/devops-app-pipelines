@@ -122,7 +122,10 @@ stages:
               storefrontConfigAppInsightsInstrumentationKey: $(STOREFRONT_CONFIG_APP_INSIGHTS_INSTRUMENTATION_KEY)
               storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
               storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
-              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)              
+              storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)   
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                         
 
 - stage: TST_Ecomm_Helm_Deploy
   displayName: TST - Ecomm Helm Deploy
@@ -235,6 +238,9 @@ stages:
               storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
               storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)              
 
 - stage: PRF_Ecomm_Helm_Deploy
   displayName: PRF - Ecomm Helm Deploy
@@ -347,3 +353,6 @@ stages:
               storefrontConfigEnableSQLServerCache: $(STOREFRONT_CONFIG_ENABLE_SQL_SERVER_CACHE)
               storefrontConfigProductId: $(STOREFRONT_CONFIG_PRODUCT_ID)
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)
+              storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
+              storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)              
