@@ -48,6 +48,8 @@ stages:
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)
+              configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
+              configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               sentryDsn: $(SENTRY_DSN)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
