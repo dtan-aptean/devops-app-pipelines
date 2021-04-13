@@ -19,13 +19,13 @@ stages:
 
     variables:
     - group: ecomm-sf-dev2
-    - template: helm-variables-dev.yaml
+    - template: ../../helm-variables-dev.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: helm-deploy-step.yaml
+          - template: ../../helm-deploy-step.yaml
             parameters:
               deployMode: 'storefront'
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
