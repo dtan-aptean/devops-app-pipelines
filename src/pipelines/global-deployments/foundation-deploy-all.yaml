@@ -1,5 +1,10 @@
 trigger: none
 
+resources:
+  pipelines:
+  - pipeline: identity-platform-master-build
+    source: identity-platform-master-build
+
 variables:
 - group: helm-chart-svc-principal-config
 - name: docker_image_tags
@@ -1039,3 +1044,43 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
               apiKind: GRPC
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+
+## Identity platform
+- stage: TST_Identity_Platform_Deploy
+  displayName: TST - Identity platform deploy
+  dependsOn: []
+
+  jobs:
+    - template: ./templates/deploy-identity-platform.yaml
+      parameters:
+        variableGroup: identity-platform-tst
+        targetEnvironment: identity-platform-tst
+        dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/tst.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: STG_Identity_Platform_Deploy
+  displayName: STG - Identity platform deploy
+  dependsOn: TST_Identity_Platform_Deploy
+
+  jobs:
+    - template: ./templates/deploy-identity-platform.yaml
+      parameters:
+        variableGroup: identity-platform-stg
+        targetEnvironment: identity-platform-stg
+        dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/stg.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRD_Identity_Platform_Deploy
+  displayName: PRD - Identity platform deploy
+  dependsOn: STG_Identity_Platform_Deploy
+
+  jobs:
+    - template: ./templates/deploy-identity-platform.yaml
+      parameters:
+        variableGroup: identity-platform-prd
+        targetEnvironment: identity-platform-prd
+        dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/prd.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-PRD
+
+
+
