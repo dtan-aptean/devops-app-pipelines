@@ -1051,7 +1051,7 @@ stages:
   dependsOn: []
 
   jobs:
-    - template: ./templates/deploy-identity-platform.yaml
+    - template: ../templates/deploy-identity-platform.yaml
       parameters:
         variableGroup: identity-platform-tst
         targetEnvironment: identity-platform-tst
@@ -1063,7 +1063,7 @@ stages:
   dependsOn: TST_Identity_Platform_Deploy
 
   jobs:
-    - template: ./templates/deploy-identity-platform.yaml
+    - template: ../templates/deploy-identity-platform.yaml
       parameters:
         variableGroup: identity-platform-stg
         targetEnvironment: identity-platform-stg
@@ -1075,7 +1075,7 @@ stages:
   dependsOn: STG_Identity_Platform_Deploy
 
   jobs:
-    - template: ./templates/deploy-identity-platform.yaml
+    - template: ../templates/deploy-identity-platform.yaml
       parameters:
         variableGroup: identity-platform-prd
         targetEnvironment: identity-platform-prd
