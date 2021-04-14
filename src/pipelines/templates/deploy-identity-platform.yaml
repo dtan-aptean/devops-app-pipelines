@@ -1,0 +1,37 @@
+parameters:
+  variableGroup: ''
+  dropArtifactPath: ''
+  targetEnvironment: ''
+  azureServiceConnection: ''
+
+jobs:
+- deployment: Deploy_CustomUI
+  displayName: Deploy CustomUI
+  environment: ${{ parameters.targetEnvironment }}
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  variables:
+  - group: ${{ parameters.variableGroup }}
+
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - task: ExtractFiles@1
+          displayName: Extract assets from zip
+          inputs:
+            archiveFilePatterns: ${{ parameters.dropArtifactPath }}
+            destinationFolder: $(System.DefaultWorkingDirectory)/web
+            cleanDestinationFolder: true
+
+        - task: AzureCLI@2
+          displayName: Push to storage account
+          inputs:
+            azureSubscription: ${{ parameters.azureServiceConnection }}
+            scriptType: 'pscore'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              az storage blob sync --container=‘customui’ --account-name=$(STORAGE_ACCOUNT) --account-key=$(STORAGE_ACCOUNT_KEY) --source=./
+            workingDirectory: '$(System.DefaultWorkingDirectory)/web'
