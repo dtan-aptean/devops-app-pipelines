@@ -58,6 +58,8 @@ stages:
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME) 
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
+              configEventsEgressSubscriptionName: $(EVENTS_EGRESS_SUBSCRIPTION_NAME)
+              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)              
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -116,7 +118,6 @@ stages:
               storefrontConfigUseSessionStateTempDataProvider: $(STOREFRONT_CONFIG_USE_SESSION_STATE_TEMP_DATA_PROVIDER)
               storefrontConfigApteanLanguagePluginApiUrl: $(STOREFRONT_CONFIG_APTEAN_LANGUAGE_PLUGIN_API_URL)
               storefrontConfigEventsEgressConsumerGroup: $(STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP)
-              storefrontConfigEventsCheckpointsBlobContainerName: $(STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME) 
               storefrontConfigHelpUrlTemplate: $(STOREFRONT_CONFIG_HELP_URL_TEMPLATE)
               storefrontConfigHelpUrlLocale: $(STOREFRONT_CONFIG_HELP_URL_LOCALE)                          
               storefrontConfigEnableAppInsights: $(STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS)
