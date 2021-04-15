@@ -35,7 +35,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - ${{ each cluster in $(clusters) }}:
+          - ${{ each cluster in parameters.clusters) }}:
             - template: helm-deploy-step.yaml
               parameters:
                 serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
