@@ -32,6 +32,7 @@ parameters:
   apiKind: ''
   nodeSelectorPool: ''
   imageTag: ''
+  clusters: ''
 
 steps:
 - pwsh: |
@@ -195,21 +196,22 @@ steps:
   inputs:
     helmVersionToInstall: latest
 
-- task: HelmDeploy@0
-  displayName: Helm Deploy
-  name: helmDeploy
-  inputs:
-    connectionType: 'Azure Resource Manager'
-    azureSubscription: ${{ parameters.serviceConnection }}
-    azureResourceGroup: ${{ parameters.aksResourceGroup }}
-    kubernetesCluster: ${{ parameters.aksName }}
-    useClusterAdmin: true
-    namespace: ${{ parameters.k8sNamespace }}
-    command: 'upgrade'
-    chartType: 'FilePath'
-    chartPath: ./${{ parameters.chartName }}
-    releaseName: ${{ parameters.helmReleaseName }}
-    valueFile: ./deploy-values.yaml
-    install: true
-    waitForExecution: false
-    failOnStderr: false
+- ${{ each cluster in parameters.clusters }}:
+  - task: HelmDeploy@0
+    displayName: Helm Deploy
+    name: helmDeploy
+    inputs:
+      connectionType: 'Azure Resource Manager'
+      azureSubscription: ${{ parameters.serviceConnection }}
+      azureResourceGroup: ${{ cluster.resourceGroup }}
+      kubernetesCluster: ${{ cluster.name }}
+      useClusterAdmin: true
+      namespace: ${{ parameters.k8sNamespace }}
+      command: 'upgrade'
+      chartType: 'FilePath'
+      chartPath: ./${{ parameters.chartName }}
+      releaseName: ${{ parameters.helmReleaseName }}
+      valueFile: ./deploy-values.yaml
+      install: true
+      waitForExecution: false
+      failOnStderr: false
