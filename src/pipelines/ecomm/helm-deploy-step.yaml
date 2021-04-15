@@ -22,6 +22,8 @@ parameters:
   configCosmosDatabaseName: ''
   configEventsEgressConnString: ''
   configEventsCheckpointsStorageConnString: ''
+  configEventsEgressSubscriptionName: ''
+  configEventsEgressTopicName: ''
   sentryDsn: ''
   # STOREFRONT Params
   storefrontImageRepositoryName: ''
@@ -82,7 +84,6 @@ parameters:
   storefrontConfigUseSessionStateTempDataProvider: ''
   storefrontConfigApteanLanguagePluginApiUrl: ''
   storefrontConfigEventsEgressConsumerGroup: ''
-  storefrontConfigEventsCheckpointsBlobContainerName: ''
   storefrontConfigHelpUrlTemplate: ''
   storefrontConfigHelpUrlLocale: ''
   storefrontConfigEnableAppInsights: ''
@@ -364,10 +365,8 @@ steps:
             connectionString: "$env:CONFIG_EVENTS_INGRESS_CONN_STRING"
             destination: "$env:CONFIG_EVENTS_INGRESS_DESTINATION"
           egress:
-            connectionString: "$env:CONFIG_EVENTS_EGRESS_CONN_STRING"
-            consumerGroup: "$env:STOREFRONT_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP"
-            checkpointsStorageConnectionString: "$env:CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING"
-            checkpointsBlobContainerName: "$env:STOREFRONT_CONFIG_EVENTS_CHECKPOINTS_BLOB_CONTAINER_NAME"
+            subscriptionName: "$env:CONFIG_EVENTS_EGRESS_SUBSCRIPTION_NAME"
+            topicName: "$env:CONFIG_EVENTS_EGRESS_TOPIC_NAME"
         helpUrlLocale: "$env:STOREFRONT_CONFIG_HELP_URL_LOCALE"
         helpUrlTemplate: "$env:STOREFRONT_CONFIG_HELP_URL_TEMPLATE"
         enableAppInsights: "$env:STOREFRONT_CONFIG_ENABLE_APP_INSIGHTS"
@@ -549,6 +548,8 @@ steps:
     CONFIG_EVENTS_INGRESS_DESTINATION: ${{ parameters.configEventsIngressDestination }}
     CONFIG_EVENTS_EGRESS_CONN_STRING: ${{ parameters.configEventsEgressConnString }}
     CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING: ${{ parameters.configEventsCheckpointsStorageConnString }}
+    CONFIG_EVENTS_EGRESS_SUBSCRIPTION_NAME: ${{ parameters.configEventsEgressSubscriptionName }}
+    CONFIG_EVENTS_EGRESS_TOPIC_NAME: ${{ parameters.configEventsEgressTopicName }}
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
     CONFIG_WEPAY_APP_ID: ${{ parameters.configWepayAppId }}
     CONFIG_WEPAY_ENV: ${{ parameters.configWepayEnv }}
