@@ -7,67 +7,67 @@ resources:
     trigger:
       branches:
         include:
-        - master  
+        - release-*  
   - pipeline: ezpay-account-balance-updater-job-docker-build-push
     source: ezpay-account-balance-updater-job-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-*
   - pipeline: ezpay-api-svc-docker-build-push
     source: ezpay-api-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-*
   - pipeline: ezpay-email-notifications-docker-build-push
     source: ezpay-email-notifications-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-*
   - pipeline: ezpay-erp-integration-svc-docker-build-push
     source: ezpay-erp-integration-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-*
   - pipeline: ezpay-merchant-ops-svc-docker-build-push
     source: ezpay-merchant-ops-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-*
   - pipeline: ezpay-payfac-notifications-docker-build-push
     source: ezpay-payfac-notifications-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-*
   - pipeline: ezpay-payment-ops-svc-docker-build-push
     source: ezpay-payment-ops-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-*
   - pipeline: ezpay-payments-svc-docker-build-push
     source: ezpay-payments-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-*
   - pipeline: ezpay-transaction-records-svc-docker-build-push
     source: ezpay-transaction-records-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-*
   - pipeline: wepay-integration-svc-docker-build-push
     source: wepay-integration-svc-docker-build-push
     trigger:
       branches:
         include:
-        - master
+        - release-*
 
 variables:
 - group: helm-chart-svc-principal-config
