@@ -7,7 +7,7 @@ resources:
     trigger:
       branches:
         include:
-        - master                     
+        - release-*
 
 variables:
 - group: helm-chart-svc-principal-config
