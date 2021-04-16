@@ -42,7 +42,7 @@ variables:
 - name: NODE_SELECTOR_POOL
   value: sharedsvcs
 - name: clusters
-  value:
+  values:
   - name: aks-eastus-shr-apteank8s
     resourceGroup: rg-eastus-shr-apteank8s  
   - name: aks-westus2-shr-apteank8s
