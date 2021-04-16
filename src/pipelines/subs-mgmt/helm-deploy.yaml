@@ -10,14 +10,24 @@ resources:
         - master
 
 parameters:
-  sharedClusters:
-    type: object
+- name: sharedClusters
+  type: object
     name:
     - aks-eastus-shr-apteank8s
     - aks-westus2-shr-apteank8s
     resourceGroup:
     - rg-eastus-shr-apteank8s
     - rg-westus2-shr-apteank8s
+
+# parameters:
+#   sharedClusters:
+#     type: object
+#     name:
+#     - aks-eastus-shr-apteank8s
+#     - aks-westus2-shr-apteank8s
+#     resourceGroup:
+#     - rg-eastus-shr-apteank8s
+#     - rg-westus2-shr-apteank8s
 
 variables:
 - group: helm-chart-svc-principal-config
