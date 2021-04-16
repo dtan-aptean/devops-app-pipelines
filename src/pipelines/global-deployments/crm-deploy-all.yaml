@@ -78,7 +78,6 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: crm-prf
     dependsOn: []
 
     pool:

@@ -340,7 +340,6 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ecomm-prf
 
     pool:
       vmImage: 'ubuntu-latest'
