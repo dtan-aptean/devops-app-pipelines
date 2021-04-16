@@ -209,7 +209,7 @@ steps:
 - ${{ each cluster in parameters.sharedClusters }}:
   - task: HelmDeploy@0
     displayName: Helm Deploy ${{ cluster.name }}
-    name: helmDeploy ${{ cluster.name }}
+    name: helmDeploy_${{ cluster.name }}
     inputs:
       connectionType: 'Azure Resource Manager'
       azureSubscription: ${{ parameters.serviceConnection }}
