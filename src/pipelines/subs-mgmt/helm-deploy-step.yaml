@@ -204,7 +204,7 @@ steps:
   displayName: Helm Installer
   name: helmInstaller
   inputs:
-    helmVersionToInstall:git latest
+    helmVersionToInstall: latest
 
 - ${{ each cluster in parameters.sharedClusters }}:
   - task: HelmDeploy@0
