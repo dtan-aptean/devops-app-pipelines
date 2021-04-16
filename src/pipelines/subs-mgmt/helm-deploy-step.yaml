@@ -208,7 +208,7 @@ steps:
 
 - ${{ each cluster in parameters.sharedClusters }}:
   - task: HelmDeploy@0
-    displayName: Helm Deploy
+    displayName: Helm Deploy ${{ cluster.name }}
     name: helmDeploy
     inputs:
       connectionType: 'Azure Resource Manager'
