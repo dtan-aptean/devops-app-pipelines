@@ -45,7 +45,6 @@ parameters:
     # - aks-westus2-shr-apteank8s,rg-westus2-shr-apteank8s
 
 steps:
-- ${{ each cluster in parameters.sharedClusters }}:
   - pwsh: |
       $env:HELM_EXPERIMENTAL_OCI = 1
 
@@ -213,8 +212,8 @@ steps:
     inputs:
       connectionType: 'Azure Resource Manager'
       azureSubscription: ${{ parameters.serviceConnection }}
-      azureResourceGroup: ${{ cluster.resourceGroup }}
-      kubernetesCluster: ${{ cluster.name }}
+      azureResourceGroup: ${{ parameters.aksResourceGroup }}
+      kubernetesCluster: ${{ parameters.aksName }}
       useClusterAdmin: true
       namespace: ${{ parameters.k8sNamespace }}
       command: 'upgrade'
