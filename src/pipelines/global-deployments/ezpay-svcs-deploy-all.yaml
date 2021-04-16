@@ -270,7 +270,6 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: ezpay-prf
     dependsOn: []
 
     pool:
