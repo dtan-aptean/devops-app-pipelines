@@ -32,7 +32,17 @@ parameters:
   apiKind: ''
   nodeSelectorPool: ''
   imageTag: ''
-  clusters: ''
+  shared-clusters:
+    type: object
+    name:
+    - aks-eastus-shr-apteank8s
+    - aks-westus2-shr-apteank8s
+    resourceGroup:
+    - rg-eastus-shr-apteank8s
+    - rg-westus2-shr-apteank8s
+    # values: 
+    # - aks-eastus-shr-apteank8s,rg-eastus-shr-apteank8s
+    # - aks-westus2-shr-apteank8s,rg-westus2-shr-apteank8s
 
 steps:
 - pwsh: |
@@ -196,7 +206,7 @@ steps:
   inputs:
     helmVersionToInstall: latest
 
-- ${{ each cluster in parameters.clusters }}:
+- ${{ each cluster in parameters.shared-clusters }}:
   - task: HelmDeploy@0
     displayName: Helm Deploy
     name: helmDeploy
