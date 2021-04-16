@@ -204,12 +204,12 @@ steps:
   displayName: Helm Installer
   name: helmInstaller
   inputs:
-    helmVersionToInstall: latest
+    helmVersionToInstall:git latest
 
 - ${{ each cluster in parameters.sharedClusters }}:
   - task: HelmDeploy@0
     displayName: Helm Deploy ${{ cluster.name }}
-    name: helmDeploy
+    name: helmDeploy ${{ cluster.name }}
     inputs:
       connectionType: 'Azure Resource Manager'
       azureSubscription: ${{ parameters.serviceConnection }}
