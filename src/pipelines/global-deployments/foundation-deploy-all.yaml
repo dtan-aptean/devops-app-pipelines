@@ -150,7 +150,6 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: foundational-svcs-stg
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -422,7 +421,6 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: comms-stg
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -808,7 +806,6 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: subs-mgmt-stg
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -869,7 +866,6 @@ stages:
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: subs-mgmt-stg
 
     pool:
       vmImage: 'ubuntu-latest'
