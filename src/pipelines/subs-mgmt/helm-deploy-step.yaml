@@ -32,7 +32,7 @@ parameters:
   apiKind: ''
   nodeSelectorPool: ''
   imageTag: ''
-  shared-clusters:
+  sharedClusters:
     type: object
     name:
     - aks-eastus-shr-apteank8s
@@ -206,7 +206,7 @@ steps:
   inputs:
     helmVersionToInstall: latest
 
-- ${{ each cluster in parameters.shared-clusters }}:
+- ${{ each cluster in parameters.sharedClusters }}:
   - task: HelmDeploy@0
     displayName: Helm Deploy
     name: helmDeploy
