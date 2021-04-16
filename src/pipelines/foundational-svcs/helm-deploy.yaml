@@ -14,6 +14,12 @@ resources:
       branches:
         include:
         - release-*
+  - pipeline: short-url-svc-docker-build-push
+    source: short-url-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - release-*
 
 variables:
 - group: helm-chart-svc-principal-config
@@ -55,7 +61,11 @@ stages:
               chartName: $(CHART_NAME)
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIGS
               env: $(ENV)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
               sentryDsn: $(SENTRY_DSN)
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               # EVENTS SVC PARAMS
@@ -81,3 +91,16 @@ stages:
               staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
               staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
               staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)

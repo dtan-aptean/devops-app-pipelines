@@ -10,7 +10,11 @@ parameters:
   chartName: ''
   helmReleaseName: ''
   k8sNamespace: ''
+  # COMMON CONFIG
   env: ''
+  mongoDbName: ''
+  mongoDbConnString: ''
+  svcBusConnString: ''
   sentryDsn: ''
   newRelicApiKey: ''
   # EVENTS SVC PARAMS
@@ -22,11 +26,8 @@ parameters:
   eventsSvcResourceRequestsMemory: ''
   eventsSvcNodeSelectorPool: ''
   eventsSvcImageTag: ''
-  eventsSvcConfigMongoDbConnString: ''
-  eventsSvcConfigMongoDbName: ''
   eventsSvcConfigMongoDbCollectionName: ''
   eventsSvcConfigMongoDbCollectionNameExceptions: ''
-  eventsSvcConfigServiceBusConnectionString: ''
   # STATIC WEB FILES SVC PARAMS
   staticWebFilesSvcImageRepositoryName: ''
   staticWebFilesSvcReplicas: ''
@@ -37,6 +38,19 @@ parameters:
   staticWebFilesSvcNodeSelectorPool: ''
   staticWebFilesSvcConfigAzureStorageAccountName: ''
   staticWebFilesSvcConfigAzureStorageAccountKey: ''
+  staticWebFilesSvcKongIngressUpstreamHostHeader: ''
+  staticWebFilesSvcKongIngressClass: ''
+  # SHORT URL SVC PARAMS
+  shortUrlSvcImageRepositoryName: ''
+  shortUrlSvcResourceLimitsCpu: ''
+  shortUrlSvcResourceLimitsMemory: ''
+  shortUrlSvcResourceRequestsCpu: ''
+  shortUrlSvcResourceRequestsMemory: ''
+  shortUrlSvcReplicas: ''
+  shortUrlSvcNodeSelectorPool: ''
+  shortUrlSvcMongoDbCollectionName: ''
+  shortUrlSvcKongIngressUpstreamHostHeader: ''
+  shortUrlSvcKongIngressClass: ''
 
 steps:
 - pwsh: |
@@ -69,8 +83,10 @@ steps:
       $tags = $env:DOCKER_IMAGE_TAGS.Split(',')
       $latestEventsSvcTag = $tags[0].Split(':')[1]
       $latestStaticWebFilesSvcTag = $tags[1].Split(':')[1]
+      $latestShortUrlSvcTag = $tags[2].Split(':')[1]
       Write-Host events-svc tag: $latestEventsSvcTag
       Write-Host static-web-files-svc tag: $latestStaticWebFilesSvcTag
+      Write-Host short-url-svc tag: $latestShortUrlSvcTag
     }
 
     # EVENTS SVC
@@ -101,14 +117,35 @@ steps:
       }
     }
 
-    $allTags = "events-svc:{0},static-web-files-svc:{1}" `
-               -f $latestEventsSvcTag, $latestStaticWebFilesSvcTag
+    # SHORT URL SVC
+    if (!$latestShortUrlSvcTag) {
+      if ($env:SHORT_URL_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured short-url-svc tag: $env:SHORT_URL_SVC_IMAGE_TAG
+        $latestShortUrlSvcTag = $env:SHORT_URL_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest short-url-svc tag.
+        $latestShortUrlSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:SHORT_URL_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
+    }
+
+    $allTags = "events-svc:{0},static-web-files-svc:{1},short-url-svc:{2}" `
+               -f $latestEventsSvcTag, `
+                  $latestStaticWebFilesSvcTag, `
+                  $latestShortUrlSvcTag
     Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags"
     @"
     commonLabels:
       env: $env:ENV
 
     config:
+      cosmosMongo: 
+        connectionString: "$env:COSMOSDB_MONGO_CONN_STRING"
+        databaseName: "$env:COSMOSDB_MONGO_DATABASE"
+      serviceBus:
+        connectionString: "$env:EVENTS_SVC_BUS_CONN_STRING"
       sentry:
         dsn: "$env:SENTRY_DSN"
       newRelic:
@@ -136,12 +173,8 @@ steps:
 
       config:
         cosmosMongo:
-          connectionString: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING"
-          databaseName: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE"
           collectionName: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS"
           collectionNameExceptions: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS"
-        serviceBus:
-          connectionString: "$env:EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING"
         eventHub:
           connectionString: "$env:EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING"
 
@@ -171,16 +204,52 @@ steps:
             x-azure-fdid:
             - $env:FRONT_DOOR_ID
         upstream:
-          host_header: $env:KONG_INGRESS_UPSTREAM_HOST_HEADER
+          host_header: $env:STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER
 
       ingress:
         annotations:
-          kubernetes.io/ingress.class: $env:KONG_INGRESS_CLASS
+          kubernetes.io/ingress.class: $env:STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS
 
       config:
         azureStorage:
           accountName: "$env:STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME"
           accountKey: "$env:STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY"
+    
+    shortUrlService:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:SHORT_URL_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestShortUrlSvcTag
+
+      deployment:
+        replicas: $env:SHORT_URL_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:SHORT_URL_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:SHORT_URL_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:SHORT_URL_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY
+
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:SHORT_URL_SVC_KONG_INGRESS_CLASS
+
+      config:
+        cosmosMongo:
+          collectionName: "$env:SHORT_URL_COSMOSDB_MONGO_COLLECTION"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -200,7 +269,11 @@ steps:
     CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
+    # COMMON CONFIG
     ENV: ${{ parameters.env }}
+    COSMOSDB_MONGO_DATABASE: ${{ parameters.mongoDbName }}
+    COSMOSDB_MONGO_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    EVENTS_SVC_BUS_CONN_STRING: ${{ parameters.svcBusConnString }}
     SENTRY_DSN: ${{ parameters.sentryDsn }}
     NEW_RELIC_API_KEY: ${{ parameters.newRelicApiKey }}
     # EVENTS SVC PARAMS
@@ -212,11 +285,8 @@ steps:
     EVENTS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.eventsSvcResourceLimitsMemory }}
     EVENTS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.eventsSvcResourceRequestsCpu }}
     EVENTS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.eventsSvcResourceRequestsMemory }}
-    EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING: ${{ parameters.eventsSvcConfigMongoDbConnString }}
-    EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE: ${{ parameters.eventsSvcConfigMongoDbName }}
     EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS: ${{ parameters.eventsSvcConfigMongoDbCollectionName }}
     EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS: ${{ parameters.eventsSvcConfigMongoDbCollectionNameExceptions }}
-    EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING: ${{ parameters.eventsSvcConfigServiceBusConnectionString }}
     # STATIC WEB FILES SVC PARAMS
     STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.staticWebFilesSvcImageRepositoryName }}
     STATIC_WEB_FILES_SVC_REPLICAS: ${{ parameters.staticWebFilesSvcReplicas }}
@@ -227,6 +297,19 @@ steps:
     STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL: ${{ parameters.staticWebFilesSvcNodeSelectorPool }}
     STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME: ${{ parameters.staticWebFilesSvcConfigAzureStorageAccountName}}
     STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY: ${{ parameters.staticWebFilesSvcConfigAzureStorageAccountKey}}
+    STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.staticWebFilesSvcKongIngressUpstreamHostHeader }}
+    STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS: ${{ parameters.staticWebFilesSvcKongIngressClass }}
+    # SHORT URL SVC PARAMS
+    SHORT_URL_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.shortUrlSvcImageRepositoryName }}
+    SHORT_URL_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.shortUrlSvcResourceLimitsCpu }}
+    SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.shortUrlSvcResourceLimitsMemory }}
+    SHORT_URL_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.shortUrlSvcResourceRequestsCpu }}
+    SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.shortUrlSvcResourceRequestsMemory }}
+    SHORT_URL_SVC_REPLICAS: ${{ parameters.shortUrlSvcReplicas }}
+    SHORT_URL_SVC_NODE_SELECTOR_POOL: ${{ parameters.shortUrlSvcNodeSelectorPool }}
+    SHORT_URL_COSMOSDB_MONGO_COLLECTION: ${{ parameters.shortUrlSvcMongoDbCollectionName }}
+    SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.shortUrlSvcKongIngressUpstreamHostHeader }}
+    SHORT_URL_SVC_KONG_INGRESS_CLASS: ${{ parameters.shortUrlSvcKongIngressClass }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

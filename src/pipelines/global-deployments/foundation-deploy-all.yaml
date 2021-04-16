@@ -46,7 +46,11 @@ stages:
               chartName: $(CHART_NAME)
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIG
               env: $(ENV)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
               sentryDsn: $(SENTRY_DSN)
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               # EVENTS SVC PARAMS
@@ -57,11 +61,8 @@ stages:
               eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
               eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
               eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
-              eventsSvcConfigMongoDbConnString: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING)
-              eventsSvcConfigMongoDbName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE)
               eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
               eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
-              eventsSvcConfigServiceBusConnectionString: $(EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING)
               eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
               # STATIC WEB FILES SVC PARAMS
               staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
@@ -73,6 +74,19 @@ stages:
               staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
               staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
               staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -115,7 +129,11 @@ stages:
               chartName: $(CHART_NAME)
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIG
               env: $(ENV)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
               sentryDsn: $(SENTRY_DSN)
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               # EVENTS SVC PARAMS
@@ -126,11 +144,8 @@ stages:
               eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
               eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
               eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
-              eventsSvcConfigMongoDbConnString: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING)
-              eventsSvcConfigMongoDbName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE)
               eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
               eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
-              eventsSvcConfigServiceBusConnectionString: $(EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING)
               eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
               # STATIC WEB FILES SVC PARAMS
               staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
@@ -142,6 +157,19 @@ stages:
               staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
               staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
               staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
 
 - stage: PRF_Foundational_Svcs_Helm_Deploy
   displayName: PRF - Foundational Svcs Helm Deploy
@@ -180,7 +208,11 @@ stages:
               chartName: $(CHART_NAME)
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIG
               env: $(ENV)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
               sentryDsn: $(SENTRY_DSN)
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               # EVENTS SVC PARAMS
@@ -191,12 +223,11 @@ stages:
               eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
               eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
               eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
-              eventsSvcConfigMongoDbConnString: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING)
-              eventsSvcConfigMongoDbName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE)
               eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
               eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
-              eventsSvcConfigServiceBusConnectionString: $(EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING)
               eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
               # STATIC WEB FILES SVC PARAMS
               staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
               staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
@@ -207,6 +238,17 @@ stages:
               staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
               staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
               staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
 
 - stage: PRD_Foundational_Svcs_Helm_Deploy
   displayName: PRD - Foundational Svcs Helm Deploy
@@ -245,7 +287,11 @@ stages:
               chartName: $(CHART_NAME)
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIG
               env: $(ENV)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
               sentryDsn: $(SENTRY_DSN)
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               # EVENTS SVC PARAMS
@@ -256,11 +302,8 @@ stages:
               eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
               eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
               eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
-              eventsSvcConfigMongoDbConnString: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_CONN_STRING)
-              eventsSvcConfigMongoDbName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_DATABASE)
               eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
               eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
-              eventsSvcConfigServiceBusConnectionString: $(EVENTS_SVC_CONFIG_SVC_BUS_CONN_STRING)
               eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
               # STATIC WEB FILES SVC PARAMS
               staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
@@ -272,6 +315,19 @@ stages:
               staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
               staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
               staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
 
 ## Comms API Svc
 
