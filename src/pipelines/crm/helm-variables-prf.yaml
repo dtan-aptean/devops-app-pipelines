@@ -25,7 +25,7 @@ variables:
 - name: CRM_API_SVC_RESOURCE_LIMITS_CPU
   value: 200m
 - name: CRM_API_SVC_RESOURCE_LIMITS_MEMORY
-  value: 512Mi
+  value: 1.5Gi
 - name: CRM_API_SVC_RESOURCE_REQUESTS_CPU
   value: 10m
 - name: CRM_API_SVC_RESOURCE_REQUESTS_MEMORY
@@ -35,6 +35,6 @@ variables:
 - name: CRM_API_SVC_KONG_INGRESS_CLASS
   value: kong-prf
 - name: CRM_API_SVC_REPLICAS
-  value: 5
+  value: 4
 - name: CRM_API_SVC_NODE_SELECTOR_POOL
   value: prftesting
