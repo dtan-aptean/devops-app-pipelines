@@ -32,6 +32,8 @@ parameters:
   apiKind: ''
   nodeSelectorPool: ''
   imageTag: ''
+  eventsSbConnString: ''
+  eventsSbQueue: ''
 
 steps:
 - pwsh: |
@@ -124,6 +126,9 @@ steps:
         connectionString: "$env:SB_CONN_STRING"
         eventsTopic: "$env:SB_EVENTS_TOPIC"
         platformEventsSubscription: "$env:SB_PLATFORM_EVENTS_SUBSCRIPTION"
+      eventsServiceBus:
+        connectionString: "$env:EVENTS_SB_CONN_STRING"
+        queue: "$env:EVENTS_SB_QUEUE"
       appInsights:
         instrumentationKey: "$env:APP_INSIGHTS_INSTRUMENTATION_KEY"
       b2c:
@@ -175,6 +180,8 @@ steps:
     API_KIND: ${{ parameters.apiKind }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
+    EVENTS_SB_CONN_STRING: ${{ parameters.eventsSbConnString }}
+    EVENTS_SB_QUEUE: ${{ parameters.eventsSbQueue }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

@@ -669,6 +669,8 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -730,6 +732,8 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
               apiKind: GRPC
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -795,6 +799,8 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
 
 - stage: STG_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: STG - subs mgmt grpc api-svc Helm Deploy
@@ -856,6 +862,8 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
               apiKind: GRPC
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
 
 - stage: PRF_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: PRF - subs mgmt grpc api-svc Helm Deploy
@@ -917,6 +925,8 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
               apiKind: GRPC
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
 
 - stage: PRF_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
   displayName: PRF - subs mgmt gql api-svc Helm Deploy
@@ -978,6 +988,8 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
 
 - stage: PRD_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
   displayName: PRD - subs mgmt gql api-svc Helm Deploy
@@ -1039,6 +1051,8 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
 
 - stage: PRD_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: PRD - subs mgmt grpc api-svc Helm Deploy
@@ -1100,6 +1114,8 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
               apiKind: GRPC
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
 
 ## Identity platform
 - stage: TST_Identity_Platform_Deploy
@@ -1137,6 +1153,3 @@ stages:
         targetEnvironment: identity-platform-prd
         dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/prd.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-PRD
-
-
-
