@@ -102,6 +102,8 @@ stages:
               azureTenantId: $(AZURE_TENANT_ID)
               aksName: $(AKS_NAME)
               aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              aksName2: $(AKS_NAME_2)
+              aksResourceGroup2: $(AKS_RESOURCE_GROUP_2)
               containerRegistryName: $(CONTAINER_REGISTRY_NAME)
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)

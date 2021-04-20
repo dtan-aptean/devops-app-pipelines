@@ -17,6 +17,10 @@ variables:
   value: aks-eastus-shr-apteank8s
 - name: AKS_RESOURCE_GROUP
   value: rg-eastus-shr-apteank8s
+- name: AKS_NAME_2
+  value: aks-westus2-shr-apteank8s
+- name: AKS_RESOURCE_GROUP_2
+  value: rg-westus2-shr-apteank8s
   # k6
 - name: K6_SCRIPTS_IMAGE_REPOSITORY_NAME
   value: k6-scripts

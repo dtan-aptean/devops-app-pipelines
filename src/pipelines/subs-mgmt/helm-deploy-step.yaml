@@ -5,6 +5,8 @@ parameters:
   azureTenantId: ''
   aksName: ''
   aksResourceGroup: ''
+  aksName2: ''
+  aksResourceGroup2: ''  
   containerRegistryName: ''
   imageRepositoryName: ''
   chartRepositoryName: ''
@@ -196,13 +198,33 @@ steps:
     helmVersionToInstall: latest
 
 - task: HelmDeploy@0
-  displayName: Helm Deploy
+  displayName: Helm Deploy - EAST
   name: helmDeploy
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscription: ${{ parameters.serviceConnection }}
     azureResourceGroup: ${{ parameters.aksResourceGroup }}
     kubernetesCluster: ${{ parameters.aksName }}
+    useClusterAdmin: true
+    namespace: ${{ parameters.k8sNamespace }}
+    command: 'upgrade'
+    chartType: 'FilePath'
+    chartPath: ./${{ parameters.chartName }}
+    releaseName: ${{ parameters.helmReleaseName }}
+    valueFile: ./deploy-values.yaml
+    install: true
+    waitForExecution: false
+    failOnStderr: false
+
+- task: HelmDeploy@0
+  displayName: Helm Deploy - WEST
+  condition: ne('${{ variables.aksName2 }}', '')
+  name: helmDeploy
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscription: ${{ parameters.serviceConnection }}
+    azureResourceGroup: ${{ parameters.aksResourceGroup2 }}
+    kubernetesCluster: ${{ parameters.aksName2 }}
     useClusterAdmin: true
     namespace: ${{ parameters.k8sNamespace }}
     command: 'upgrade'
