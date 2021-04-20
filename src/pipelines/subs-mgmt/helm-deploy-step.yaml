@@ -199,7 +199,7 @@ steps:
 
 - task: HelmDeploy@0
   displayName: Helm Deploy - EAST
-  name: helmDeploy
+  name: helmDeployEast
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscription: ${{ parameters.serviceConnection }}
@@ -219,7 +219,7 @@ steps:
 - task: HelmDeploy@0
   displayName: Helm Deploy - WEST
   condition: ne('${{ variables.aksName2 }}', '')
-  name: helmDeploy
+  name: helmDeployWest
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscription: ${{ parameters.serviceConnection }}
