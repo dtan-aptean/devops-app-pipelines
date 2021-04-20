@@ -218,7 +218,7 @@ steps:
 
 - task: HelmDeploy@0
   displayName: Helm Deploy - WEST
-  condition: ne('${{ variables.aksName2 }}', '')
+  condition: ne('${{ parameters.aksName2 }}', '')
   name: helmDeployWest
   inputs:
     connectionType: 'Azure Resource Manager'
