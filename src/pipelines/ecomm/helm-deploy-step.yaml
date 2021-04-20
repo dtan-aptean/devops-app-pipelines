@@ -269,6 +269,10 @@ steps:
 
       deployment:
         replicas: $env:STOREFRONT_REPLICAS
+      
+      service:
+        annotations: 
+          konghq.com/plugins: req-transformer-ecomm-sf-$env:STOREFRONT_CONFIG_STORE_SDN
 
       nodeSelector:
         pool: "$env:STOREFRONT_NODE_SELECTOR_POOL"
