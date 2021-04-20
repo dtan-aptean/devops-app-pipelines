@@ -200,6 +200,7 @@ steps:
 - task: HelmDeploy@0
   displayName: Helm Deploy - EAST
   name: helmDeployEast
+  continueOnError: true
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscription: ${{ parameters.serviceConnection }}
