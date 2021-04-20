@@ -75,6 +75,8 @@ stages:
               enableTracing: $(ENABLE_TRACING)
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
 
 - stage: DEV_GRPC_API_Svc_Helm_Deploy
   displayName: DEV - grpc api-svc Helm Deploy
@@ -134,3 +136,5 @@ stages:
               cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)                                                   
               apiKind: GRPC
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
