@@ -239,7 +239,8 @@ stages:
               txnRecordsSvcGeneratePdfStatement: $(TXN_RECORDS_SVC_GENERATE_PDF_STATEMENT)
               txnRecordsSvcGenerateStatementChunkSize: $(TXN_RECORDS_SVC_GENERATE_STATEMENT_CHUNK_SIZE)
               txnRecordsSvcStatementTemplateLogoUrl: $(EZPAY_TEMPLATE_LOGO_URL)
-              txnRecordsSvcCronSchedule: $(TXN_RECORDS_SVC_CRON_SCHEDULE)
+              txnRecordsStmtsRetrieveJobCronSchedule: $(TXN_RECORDS_STMTS_RETRIEVE_CRON_SCHEDULE)
+              txnRecordsStmntsGenerationJobCronSchedule: $(TXN_RECORDS_STMTS_GENERATION_CRON_SCHEDULE)
               txnRecordsSvcSuccessfulJobHistoryLimit: $(TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT)
               txnRecordsSvcFailedJobHistoryLimit: $(TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT)
               # WEPAY INTEGRATION SVC
@@ -480,7 +481,8 @@ stages:
               txnRecordsSvcGeneratePdfStatement: $(TXN_RECORDS_SVC_GENERATE_PDF_STATEMENT)
               txnRecordsSvcGenerateStatementChunkSize: $(TXN_RECORDS_SVC_GENERATE_STATEMENT_CHUNK_SIZE)
               txnRecordsSvcStatementTemplateLogoUrl: $(EZPAY_TEMPLATE_LOGO_URL)
-              txnRecordsSvcCronSchedule: $(TXN_RECORDS_SVC_CRON_SCHEDULE)
+              txnRecordsStmtsRetrieveJobCronSchedule: $(TXN_RECORDS_STMTS_RETRIEVE_CRON_SCHEDULE)
+              txnRecordsStmntsGenerationJobCronSchedule: $(TXN_RECORDS_STMTS_GENERATION_CRON_SCHEDULE)
               txnRecordsSvcSuccessfulJobHistoryLimit: $(TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT)
               txnRecordsSvcFailedJobHistoryLimit: $(TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT)
               # WEPAY INTEGRATION SVC
@@ -717,7 +719,8 @@ stages:
               txnRecordsSvcGeneratePdfStatement: $(TXN_RECORDS_SVC_GENERATE_PDF_STATEMENT)
               txnRecordsSvcGenerateStatementChunkSize: $(TXN_RECORDS_SVC_GENERATE_STATEMENT_CHUNK_SIZE)
               txnRecordsSvcStatementTemplateLogoUrl: $(EZPAY_TEMPLATE_LOGO_URL)
-              txnRecordsSvcCronSchedule: $(TXN_RECORDS_SVC_CRON_SCHEDULE)
+              txnRecordsStmtsRetrieveJobCronSchedule: $(TXN_RECORDS_STMTS_RETRIEVE_CRON_SCHEDULE)
+              txnRecordsStmntsGenerationJobCronSchedule: $(TXN_RECORDS_STMTS_GENERATION_CRON_SCHEDULE)
               txnRecordsSvcSuccessfulJobHistoryLimit: $(TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT)
               txnRecordsSvcFailedJobHistoryLimit: $(TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT)
               # WEPAY INTEGRATION SVC
@@ -955,7 +958,8 @@ stages:
               txnRecordsSvcGeneratePdfStatement: $(TXN_RECORDS_SVC_GENERATE_PDF_STATEMENT)
               txnRecordsSvcGenerateStatementChunkSize: $(TXN_RECORDS_SVC_GENERATE_STATEMENT_CHUNK_SIZE)
               txnRecordsSvcStatementTemplateLogoUrl: $(EZPAY_TEMPLATE_LOGO_URL)
-              txnRecordsSvcCronSchedule: $(TXN_RECORDS_SVC_CRON_SCHEDULE)
+              txnRecordsStmtsRetrieveJobCronSchedule: $(TXN_RECORDS_STMTS_RETRIEVE_CRON_SCHEDULE)
+              txnRecordsStmntsGenerationJobCronSchedule: $(TXN_RECORDS_STMTS_GENERATION_CRON_SCHEDULE)
               txnRecordsSvcSuccessfulJobHistoryLimit: $(TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT)
               txnRecordsSvcFailedJobHistoryLimit: $(TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT)
               # WEPAY INTEGRATION SVC
