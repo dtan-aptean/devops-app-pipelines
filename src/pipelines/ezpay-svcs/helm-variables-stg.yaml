@@ -188,7 +188,7 @@ variables:
 - name: TXN_RECORDS_STMTS_GENERATION_CRON_SCHEDULE
   value: "0 0 5 * *"
 - name: TXN_RECORDS_STMTS_RETRIEVE_CRON_SCHEDULE
-  value: "0 * * * *"  
+  value: "45 * * * *"  
 - name: TXN_RECORDS_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs  
 # WEPAY INTEGRATION SVC
