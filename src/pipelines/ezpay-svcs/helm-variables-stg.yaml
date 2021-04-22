@@ -185,7 +185,9 @@ variables:
   value: 3
 - name: TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT
   value: 3
-- name: TXN_RECORDS_SVC_CRON_SCHEDULE
+- name: TXN_RECORDS_STMTS_GENERATION_CRON_SCHEDULE
+  value: "0 0 5 * *"
+- name: TXN_RECORDS_STMTS_RETRIEVE_CRON_SCHEDULE
   value: "0 * * * *"  
 - name: TXN_RECORDS_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs  
