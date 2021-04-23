@@ -51,6 +51,8 @@ parameters:
   shortUrlSvcMongoDbCollectionName: ''
   shortUrlSvcKongIngressUpstreamHostHeader: ''
   shortUrlSvcKongIngressClass: ''
+  shortUrlSvcEventsIngressQueue: ''
+  shortUrlSvcDomain: ''
 
 steps:
 - pwsh: |
@@ -249,7 +251,10 @@ steps:
 
       config:
         cosmosMongo:
-          collectionName: "$env:SHORT_URL_COSMOSDB_MONGO_COLLECTION"
+          collectionName: "$env:SHORT_URL_SVC_COSMOSDB_MONGO_COLLECTION"
+        events:
+          ingressQueue: "$env:SHORT_URL_SVC_EVENTS_INGRESS_QUEUE"
+        domain: "$env:SHORT_URL_SVC_DOMAIN"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -307,9 +312,11 @@ steps:
     SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.shortUrlSvcResourceRequestsMemory }}
     SHORT_URL_SVC_REPLICAS: ${{ parameters.shortUrlSvcReplicas }}
     SHORT_URL_SVC_NODE_SELECTOR_POOL: ${{ parameters.shortUrlSvcNodeSelectorPool }}
-    SHORT_URL_COSMOSDB_MONGO_COLLECTION: ${{ parameters.shortUrlSvcMongoDbCollectionName }}
+    SHORT_URL_SVC_COSMOSDB_MONGO_COLLECTION: ${{ parameters.shortUrlSvcMongoDbCollectionName }}
     SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.shortUrlSvcKongIngressUpstreamHostHeader }}
     SHORT_URL_SVC_KONG_INGRESS_CLASS: ${{ parameters.shortUrlSvcKongIngressClass }}
+    SHORT_URL_SVC_EVENTS_INGRESS_QUEUE: ${{ parameters.shortUrlSvcEventsIngressQueue }}
+    SHORT_URL_SVC_DOMAIN: ${{ parameters.shortUrlSvcDomain }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
