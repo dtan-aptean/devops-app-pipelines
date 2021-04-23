@@ -19,6 +19,11 @@ parameters:
   k6ScriptsResourceLimitsMemory: ''
   k6ScriptsResourceRequestsCpu: ''
   k6ScriptsResourceRequestsMemory: ''
+  k6StatsDServiceAddress: ''
+  # crm
+  crmLoadTenantId: ''
+  crmLoadTenantSecret: ''
+  crmLoadApiKey: ''
   
 steps:
 - pwsh: |
@@ -66,6 +71,8 @@ steps:
       image:      
         repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:K6_SCRIPTS_IMAGE_REPOSITORY_NAME"
         tag: $latestK6ScriptsTag
+      statsD:
+        address: "$env:K6_STATSD_ADDR"
 
     ecomm:
       nodeSelector:
@@ -102,6 +109,11 @@ steps:
           requests:
             cpu: $env:K6_SCRIPTS_RESOURCE_REQUESTS_CPU
             memory: $env:K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY
+      load:
+        env:
+          crmLoadApiKey: "$env:CRM_LOAD_API_KEY"
+          crmLoadTenantId: "$env:CRM_LOAD_TENANT_ID"
+          crmLoadTenantSecret: "$env:CRM_LOAD_TENANT_SECRET"
 
     foundational:
       nodeSelector:
@@ -143,7 +155,11 @@ steps:
     K6_SCRIPTS_RESOURCE_LIMITS_MEMORY: ${{ parameters.k6ScriptsResourceLimitsMemory }}
     K6_SCRIPTS_RESOURCE_REQUESTS_CPU: ${{ parameters.k6ScriptsResourceRequestsCpu }}
     K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY: ${{ parameters.k6ScriptsResourceRequestsMemory }}
-
+    K6_STATSD_ADDR: ${{ parameters.k6StatsDServiceAddress }}
+    # crm
+    CRM_LOAD_API_KEY: ${{ parameters.crmLoadApiKey }}
+    CRM_LOAD_TENANT_ID: ${{ parameters.crmLoadTenantId }}
+    CRM_LOAD_TENANT_SECRET: ${{ parameters.crmLoadTenantSecret }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

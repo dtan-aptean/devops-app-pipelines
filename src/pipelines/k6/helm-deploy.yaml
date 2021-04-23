@@ -56,4 +56,8 @@ stages:
               k6ScriptsResourceLimitsMemory: $(K6_SCRIPTS_RESOURCE_LIMITS_MEMORY)
               k6ScriptsResourceRequestsCpu: $(K6_SCRIPTS_RESOURCE_REQUESTS_CPU)
               k6ScriptsResourceRequestsMemory: $(K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY)
-              
+              k6StatsDServiceAddress: $(K6_STATSD_ADDR)
+              # crm
+              crmLoadTenantId: $(CRM_LOAD_CRM_TENANT_ID)
+              crmLoadTenantSecret: $(CRM_LOAD_CRM_TENANT_SECRET)
+              crmLoadApiKey: $(CRM_LOAD_CRM_API_KEY)
