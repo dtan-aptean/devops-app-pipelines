@@ -87,6 +87,8 @@ stages:
               shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
               shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)              
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -170,6 +172,8 @@ stages:
               shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
               shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)              
 
 - stage: PRF_Foundational_Svcs_Helm_Deploy
   displayName: PRF - Foundational Svcs Helm Deploy
@@ -249,6 +253,8 @@ stages:
               shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
               shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)              
 
 - stage: PRD_Foundational_Svcs_Helm_Deploy
   displayName: PRD - Foundational Svcs Helm Deploy
@@ -328,6 +334,8 @@ stages:
               shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
               shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)              
 
 ## Comms API Svc
 

@@ -104,3 +104,6 @@ stages:
               shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
               shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)
+
