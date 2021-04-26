@@ -67,7 +67,7 @@ variables:
 - name: SHORT_URL_SVC_REPLICAS
   value: 1
 - name: SHORT_URL_SVC_NODE_SELECTOR_POOL
-  value: 
+  value: sharedsvcs
 - name: SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER
   value: short-url-svc.foundational-svcs-stg.svc
 - name: SHORT_URL_SVC_KONG_INGRESS_CLASS
