@@ -25,6 +25,7 @@ parameters:
   configEventsEgressSubscriptionName: ''
   configEventsEgressTopicName: ''
   sentryDsn: ''
+  newRelicApiKey: ''
   # STOREFRONT Params
   storefrontImageRepositoryName: ''
   storefrontReplicas: ''  
@@ -261,6 +262,8 @@ steps:
     config:
       sentry:
         dsn: "$env:SENTRY_DSN"
+      newRelic:
+        apiKey: "$env:NEW_RELIC_API_KEY"
 
     storefront:
       image:
@@ -559,6 +562,7 @@ steps:
     CONFIG_WEPAY_ENV: ${{ parameters.configWepayEnv }}
     CONFIG_WEPAY_API_VERSION: ${{ parameters.configWepayApiVersion }}
     SENTRY_DSN: ${{ parameters.sentryDsn }}
+    NEW_RELIC_API_KEY: ${{ parameters.newRelicApiKey }}
     # STOREFRONT Params
     STOREFRONT_IMAGE_REPOSITORY_NAME: ${{ parameters.storefrontImageRepositoryName }}
     STOREFRONT_REPLICAS: ${{ parameters.storefrontReplicas }}    
