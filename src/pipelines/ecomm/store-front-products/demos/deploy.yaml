@@ -59,7 +59,8 @@ stages:
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               configEventsEgressSubscriptionName: $(EVENTS_EGRESS_SUBSCRIPTION_NAME)
-              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)              
+              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)          
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -174,7 +175,8 @@ stages:
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               configEventsEgressSubscriptionName: $(EVENTS_EGRESS_SUBSCRIPTION_NAME)
-              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)              
+              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)    
+              newRelicApiKey: $(NEW_RELIC_API_KEY)          
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -403,7 +405,8 @@ stages:
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               configEventsEgressSubscriptionName: $(EVENTS_EGRESS_SUBSCRIPTION_NAME)
-              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)              
+              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)   
+              newRelicApiKey: $(NEW_RELIC_API_KEY)           
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -518,7 +521,8 @@ stages:
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               configEventsEgressSubscriptionName: $(EVENTS_EGRESS_SUBSCRIPTION_NAME)
-              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)              
+              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)     
+              newRelicApiKey: $(NEW_RELIC_API_KEY)         
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -634,7 +638,8 @@ stages:
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               configEventsEgressSubscriptionName: $(EVENTS_EGRESS_SUBSCRIPTION_NAME)
-              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)              
+              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)    
+              newRelicApiKey: $(NEW_RELIC_API_KEY)          
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -750,7 +755,8 @@ stages:
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               configEventsEgressSubscriptionName: $(EVENTS_EGRESS_SUBSCRIPTION_NAME)
-              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)              
+              configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)  
+              newRelicApiKey: $(NEW_RELIC_API_KEY)            
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
