@@ -80,6 +80,7 @@ stages:
               configEventsEgressSubscriptionName: $(EVENTS_EGRESS_SUBSCRIPTION_NAME)
               configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)
               sentryDsn: $(SENTRY_DSN)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)                            
