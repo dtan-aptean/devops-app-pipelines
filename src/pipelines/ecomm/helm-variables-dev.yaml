@@ -110,6 +110,3 @@ variables:
   value: 1
 - name: PRODUCT_RECS_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs     
-
-
-
