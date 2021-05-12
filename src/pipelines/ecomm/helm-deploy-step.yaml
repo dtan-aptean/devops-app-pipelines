@@ -12,6 +12,7 @@ parameters:
   helmReleaseName: ''
   chartName: ''
   env: ''
+  location: ''
   configEventsIngressConnString: ''
   configEventsIngressDestination: '' 
   configWepayAppId: ''
@@ -258,6 +259,7 @@ steps:
 
     commonLabels:
       env: $env:ENV
+      location: $env:LOCATION
 
     config:
       sentry:
@@ -549,6 +551,7 @@ steps:
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
     ENV: ${{ parameters.env }}
+    LOCATION: ${{ parameters.location }}
     CONFIG_COSMOSDB_CONN_STRING: ${{ parameters.configCosmosConnString }}
     CONFIG_COSMOSDB_DATABASE: ${{ parameters.configCosmosDatabaseName }}
     CONFIG_EVENTS_INGRESS_CONN_STRING: ${{ parameters.configEventsIngressConnString }}

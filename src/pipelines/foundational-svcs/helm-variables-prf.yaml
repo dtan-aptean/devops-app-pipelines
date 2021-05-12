@@ -11,6 +11,8 @@ variables:
   value: vetoed-blackbird
 - name: ENV
   value: PRF
+- name: LOCATION
+  value: eastus
 - name: FRONT_DOOR_ID
   value: "4f1d8d14-c243-4c72-81b9-bb7edf6b1c7e"
 - name: AZURE_TENANT_ID

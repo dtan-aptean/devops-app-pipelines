@@ -48,6 +48,7 @@ stages:
               helmReleaseName: apprise-playground
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -164,6 +165,7 @@ stages:
               helmReleaseName: apprise
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -280,6 +282,7 @@ stages:
               helmReleaseName: m2m
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -396,6 +399,7 @@ stages:
               helmReleaseName: workwise
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -510,6 +514,7 @@ stages:
               helmReleaseName: justfood
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -624,6 +629,7 @@ stages:
               helmReleaseName: apprise-cnf
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -741,6 +747,7 @@ stages:
               helmReleaseName: ross-playground
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -858,6 +865,7 @@ stages:
               helmReleaseName: ross02
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)

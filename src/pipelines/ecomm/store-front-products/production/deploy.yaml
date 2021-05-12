@@ -48,6 +48,7 @@ stages:
               helmReleaseName: springscreative
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -164,6 +165,7 @@ stages:
               helmReleaseName: reedrubber
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)

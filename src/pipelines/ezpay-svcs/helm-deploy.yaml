@@ -109,6 +109,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
+              location: $(LOCATION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -344,6 +345,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
+              location: $(LOCATION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)

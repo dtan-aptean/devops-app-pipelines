@@ -11,6 +11,7 @@ parameters:
   helmReleaseName: ''
   k8sNamespace: ''
   env: ''
+  location: ''
   frontDoorId: ''
   # COMMON CRM CONFIGS
   crmClientId: ''
@@ -83,6 +84,7 @@ steps:
     @"
     commonLabels:
       env: $env:ENV
+      location: $env:LOCATION
 
     config:
       sentry:
@@ -151,7 +153,8 @@ steps:
     CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
-    ENV: ${{ parameters.env }}    
+    ENV: ${{ parameters.env }} 
+    LOCATION: ${{ parameters.location }}
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
     SENTRY_DSN: ${{ parameters.sentryDsn }}
     # COMMON CRM CONFIGS

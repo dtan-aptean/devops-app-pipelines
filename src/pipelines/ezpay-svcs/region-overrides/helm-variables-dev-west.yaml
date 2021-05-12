@@ -3,6 +3,8 @@ variables:
   value: aks-westus2-shr-apteank8s
 - name: AKS_RESOURCE_GROUP
   value: rg-westus2-shr-apteank8s
+- name: LOCATION
+  value: westus2
 # PAYMENT CANCEL RETRY JOB 
 - name: PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE
   value: "0 0 29 2 1"

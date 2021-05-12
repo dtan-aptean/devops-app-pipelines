@@ -12,6 +12,7 @@ parameters:
   helmReleaseName: ''
   chartName: ''
   env: ''
+  location: ''
   replicas: ''
   frontDoorId: ''
   kongIngressClass: ''
@@ -89,6 +90,7 @@ steps:
 
     commonLabels:
       env: $env:ENV
+      location: $env:LOCATION
 
     deployment:
       replicas: $env:REPLICAS
@@ -156,6 +158,7 @@ steps:
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
     ENV: ${{ parameters.env }}
+    LOCATION: ${{ parameters.location }}
     REPLICAS: ${{ parameters.replicas }}
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
     KONG_INGRESS_CLASS: ${{ parameters.kongIngressClass }}

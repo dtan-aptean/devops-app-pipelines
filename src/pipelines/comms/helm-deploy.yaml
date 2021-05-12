@@ -49,6 +49,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)

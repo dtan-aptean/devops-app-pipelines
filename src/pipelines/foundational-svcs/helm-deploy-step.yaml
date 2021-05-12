@@ -12,6 +12,7 @@ parameters:
   k8sNamespace: ''
   # COMMON CONFIG
   env: ''
+  location: ''
   mongoDbName: ''
   mongoDbConnString: ''
   svcBusConnString: ''
@@ -141,6 +142,7 @@ steps:
     @"
     commonLabels:
       env: $env:ENV
+      location: $env:LOCATION
 
     config:
       cosmosMongo: 
@@ -276,6 +278,7 @@ steps:
     CHART_NAME: ${{ parameters.chartName }}
     # COMMON CONFIG
     ENV: ${{ parameters.env }}
+    LOCATION: ${{ parameters.location }}
     COSMOSDB_MONGO_DATABASE: ${{ parameters.mongoDbName }}
     COSMOSDB_MONGO_CONN_STRING: ${{ parameters.mongoDbConnString }}
     EVENTS_SVC_BUS_CONN_STRING: ${{ parameters.svcBusConnString }}

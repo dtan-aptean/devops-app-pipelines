@@ -40,6 +40,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
+              location: $(LOCATION)
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
@@ -101,6 +102,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -169,6 +171,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -227,6 +230,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)

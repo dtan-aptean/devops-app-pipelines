@@ -63,6 +63,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               # COMMON CONFIGS
               env: $(ENV)
+              location: $(LOCATION)
               mongoDbName: $(COSMOSDB_MONGO_DATABASE)
               mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
               svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)

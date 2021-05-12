@@ -11,6 +11,8 @@ variables:
   value: inspired-mockingbird
 - name: ENV
   value: DEV
+- name: LOCATION
+  value: eastus
 - name: FRONT_DOOR_ID
   value: "ee747644-4fcd-4532-9270-2598f7e3fa5f"
 - name: AZURE_TENANT_ID

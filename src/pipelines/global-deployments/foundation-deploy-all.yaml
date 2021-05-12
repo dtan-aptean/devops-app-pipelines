@@ -48,6 +48,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               # COMMON CONFIG
               env: $(ENV)
+              location: $(LOCATION)
               mongoDbName: $(COSMOSDB_MONGO_DATABASE)
               mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
               svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
@@ -133,6 +134,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               # COMMON CONFIG
               env: $(ENV)
+              location: $(LOCATION)
               mongoDbName: $(COSMOSDB_MONGO_DATABASE)
               mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
               svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
@@ -214,6 +216,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               # COMMON CONFIG
               env: $(ENV)
+              location: $(LOCATION)
               mongoDbName: $(COSMOSDB_MONGO_DATABASE)
               mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
               svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
@@ -295,6 +298,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               # COMMON CONFIG
               env: $(ENV)
+              location: $(LOCATION)
               mongoDbName: $(COSMOSDB_MONGO_DATABASE)
               mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
               svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
@@ -374,6 +378,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -448,6 +453,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -518,6 +524,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -588,6 +595,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -656,6 +664,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -719,6 +728,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -786,6 +796,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -849,6 +860,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -912,6 +924,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -975,6 +988,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -1038,6 +1052,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)-gql
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
@@ -1101,6 +1116,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)-grpc
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               replicas: $(REPLICAS)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)

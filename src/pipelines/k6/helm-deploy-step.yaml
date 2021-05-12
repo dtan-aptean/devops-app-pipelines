@@ -11,6 +11,7 @@ parameters:
   helmReleaseName: ''
   k8sNamespace: ''
   env: ''
+  location: ''
   # k6
   k6ScriptsImageTag: ''
   k6ScriptsImageRepositoryName: ''
@@ -66,6 +67,7 @@ steps:
     @"
     commonLabels:
       env: $env:ENV
+      location: $env:LOCATION
 
     config:
       image:      
@@ -146,7 +148,8 @@ steps:
     CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
-    ENV: ${{ parameters.env }}    
+    ENV: ${{ parameters.env }} 
+    LOCATION: ${{ parameters.location }}    
     # k6
     K6_SCRIPTS_IMAGE_TAG: ${{ parameters.k6ScriptsImageTag }}
     K6_SCRIPTS_IMAGE_REPOSITORY_NAME: ${{ parameters.k6ScriptsImageRepositoryName }} }}

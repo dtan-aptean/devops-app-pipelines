@@ -11,6 +11,8 @@ variables:
   value: sassy-squid
 - name: ENV
   value: STG
+- name: LOCATION
+  value: eastus
 - name: FRONT_DOOR_ID
   value: "952cae20-d51b-4bd9-be49-bdc0900f9a6f"
 - name: AZURE_TENANT_ID

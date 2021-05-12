@@ -21,6 +21,8 @@ variables:
   value: 10Mi
 - name: ENV
   value: PRD
+- name: LOCATION
+  value: eastus
 - name: FRONT_DOOR_ID
   value: "6e18a8d2-1fa5-4632-b089-0ed2d9d21f28"
 - name: KONG_INGRESS_UPSTREAM_HEADER

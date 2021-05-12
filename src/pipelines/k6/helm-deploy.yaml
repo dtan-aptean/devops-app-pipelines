@@ -48,6 +48,7 @@ stages:
               helmReleaseName: $(HELM_RELEASE_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
+              location: $(LOCATION)
               # k6
               k6ScriptsImageTag: $(K6_SCRIPTS_IMAGE_TAG)
               k6ScriptsImageRepositoryName: $(K6_SCRIPTS_IMAGE_REPOSITORY_NAME)

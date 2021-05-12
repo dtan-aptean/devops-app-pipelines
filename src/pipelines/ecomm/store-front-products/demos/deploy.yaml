@@ -48,6 +48,7 @@ stages:
               helmReleaseName: trial01
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -164,6 +165,7 @@ stages:
               helmReleaseName: bakedgoods
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -280,6 +282,7 @@ stages:
               helmReleaseName: freshlyproduce
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -394,6 +397,7 @@ stages:
               helmReleaseName: homefurnishings
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -510,6 +514,7 @@ stages:
               helmReleaseName: trial02
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -627,6 +632,7 @@ stages:
               helmReleaseName: imdemo01
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -744,6 +750,7 @@ stages:
               helmReleaseName: fbdemo01
               chartName: $(CHART_NAME)
               env: $(ENV)
+              location: $(LOCATION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)

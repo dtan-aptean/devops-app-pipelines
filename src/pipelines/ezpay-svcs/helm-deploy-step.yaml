@@ -11,6 +11,7 @@ parameters:
   helmReleaseName: ''
   k8sNamespace: ''
   env: ''
+  location: ''
   # Common Configs
   wepayGrpcUrl: ''
   wepayBaseUrl: ''
@@ -455,6 +456,7 @@ steps:
     @"
     commonLabels:
       env: $env:ENV
+      location: $env:LOCATION
 
     config:
       serviceBus:
@@ -892,7 +894,8 @@ steps:
     CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
-    ENV: ${{ parameters.env }}    
+    ENV: ${{ parameters.env }} 
+    LOCATION: ${{ parameters.location }}    
     WEPAY_GRPC_URL: ${{ parameters.wepayGrpcUrl }}
     WEPAY_BASE_URL: ${{ parameters.wepayBaseUrl }}
     WEPAY_UPLOAD_BASE_URL: ${{ parameters.wepayUploadBaseUrl }}
