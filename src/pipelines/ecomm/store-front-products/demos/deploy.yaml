@@ -1,16 +1,8 @@
 trigger: none
 
-resources:
-  pipelines:
-  - pipeline: ecomm-sf-docker-build-push
-    source: ecomm-sf-docker-build-push
-    trigger:
-      branches:
-        include:
-        - release-*
-
 variables:
 - group: helm-chart-svc-principal-config
+- group: ecomm-sf-base-config
 
 stages:
 - stage: Trial01_Ecomm_SF_Deploy
