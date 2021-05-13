@@ -14,6 +14,7 @@ parameters:
   location: ''
   newRelicCliApiKey: ''
   newRelicAccountId: ''
+  newRelicApiKey: ''
   # Common Configs
   wepayGrpcUrl: ''
   wepayBaseUrl: ''
@@ -477,6 +478,8 @@ steps:
       nodejsEnv: "$env:NODE_JS_ENV"
       sentry:
         dsn: "$env:SENTRY_DSN"
+      newRelic:
+        apiKey: "$env:NEW_RELIC_API_KEY"        
 
     paymentCancelRetryJob:
       image:
@@ -913,6 +916,7 @@ steps:
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
     NODE_JS_ENV: ${{ parameters.nodeJsEnv }}
     SENTRY_DSN: ${{ parameters.sentryDsn }}
+    NEW_RELIC_API_KEY: ${{ parameters.newRelicApiKey }}
     # PAYMENT_CANCEL_RETRY_JOB
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG: ${{ parameters.paymentCancelRetryJobImageTag }}
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentCancelRetryJobImageRepositoryName }}

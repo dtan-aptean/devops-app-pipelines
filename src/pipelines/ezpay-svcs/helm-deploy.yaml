@@ -134,6 +134,7 @@ stages:
               mongoDbEzpayClaimSvcCollectionName: $(MONGODB_EZPAY_CLAIM_SVC_COLLECTION)
               newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
               newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
               frontDoorId: $(FRONT_DOOR_ID)
               sentryDsn: $(SENTRY_DSN)
               # Cancel Payment Retry Job
@@ -372,6 +373,7 @@ stages:
               mongoDbEzpayClaimSvcCollectionName: $(MONGODB_EZPAY_CLAIM_SVC_COLLECTION)
               newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
               newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
               frontDoorId: $(FRONT_DOOR_ID)
               sentryDsn: $(SENTRY_DSN)
               # Cancel Payment Retry Job

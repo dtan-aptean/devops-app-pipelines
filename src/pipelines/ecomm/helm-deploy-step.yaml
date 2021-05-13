@@ -15,6 +15,7 @@ parameters:
   location: ''
   newRelicCliApiKey: ''
   newRelicAccountId: ''
+  newRelicApiKey: ''
   configEventsIngressConnString: ''
   configEventsIngressDestination: '' 
   configWepayAppId: ''
@@ -28,7 +29,6 @@ parameters:
   configEventsEgressSubscriptionName: ''
   configEventsEgressTopicName: ''
   sentryDsn: ''
-  newRelicApiKey: ''
   # STOREFRONT Params
   storefrontImageRepositoryName: ''
   storefrontReplicas: ''  
