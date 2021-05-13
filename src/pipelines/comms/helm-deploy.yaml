@@ -11,6 +11,7 @@ resources:
 
 variables:
 - group: helm-chart-svc-principal-config
+- group: new-relic-cli
 - name: docker_image_tags
   value: ''
 
@@ -51,6 +52,8 @@ stages:
               env: $(ENV)
               location: $(LOCATION)
               replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
               frontDoorId: $(FRONT_DOOR_ID)
               kongIngressClass: $(KONG_INGRESS_CLASS)
               kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)

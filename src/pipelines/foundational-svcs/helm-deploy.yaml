@@ -23,6 +23,7 @@ resources:
 
 variables:
 - group: helm-chart-svc-principal-config
+- group: new-relic-cli
 - name: docker_image_tags
   value: ''
 
@@ -69,6 +70,8 @@ stages:
               svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
               sentryDsn: $(SENTRY_DSN)
               newRelicApiKey: $(NEW_RELIC_API_KEY)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)              
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)

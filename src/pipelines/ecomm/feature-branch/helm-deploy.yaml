@@ -11,6 +11,7 @@ resources:
 
 variables:
 - group: helm-chart-svc-principal-config
+- group: new-relic-cli
 
 stages:
 - stage: DEV_Ecomm_Helm_Deploy
@@ -53,6 +54,8 @@ stages:
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
               configWepayEnv: $(CONFIG_WEPAY_ENV)
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)         
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
               frontDoorId: $(FRONT_DOOR_ID) 
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
@@ -168,6 +171,8 @@ stages:
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
               configWepayEnv: $(CONFIG_WEPAY_ENV)
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)         
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
               frontDoorId: $(FRONT_DOOR_ID) 
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
@@ -283,6 +288,8 @@ stages:
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
               configWepayEnv: $(CONFIG_WEPAY_ENV)
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)         
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
               frontDoorId: $(FRONT_DOOR_ID) 
               configEventsEgressConnString: $(CONFIG_EVENTS_EGRESS_CONN_STRING)
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)

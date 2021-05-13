@@ -11,6 +11,7 @@ resources:
 
 variables:
 - group: helm-chart-svc-principal-config
+- group: new-relic-cli
 - name: docker_image_tags
   value: ''
 
@@ -51,6 +52,8 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
               frontDoorId: $(FRONT_DOOR_ID)
               # COMMON CRM CONFIGS
               crmClientId: $(CRM_CLIENT_ID)

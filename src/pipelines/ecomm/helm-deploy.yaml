@@ -29,6 +29,7 @@ resources:
 
 variables:
 - group: helm-chart-svc-principal-config
+- group: new-relic-cli
 - name: docker_image_tags
   value: ''
 
@@ -74,6 +75,8 @@ stages:
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
               configWepayEnv: $(CONFIG_WEPAY_ENV)
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)         
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)
@@ -236,6 +239,8 @@ stages:
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
               configWepayEnv: $(CONFIG_WEPAY_ENV)
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)         
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)

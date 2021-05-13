@@ -13,6 +13,8 @@ parameters:
   chartName: ''
   env: ''
   location: ''
+  newRelicCliApiKey: ''
+  newRelicAccountId: ''
   configEventsIngressConnString: ''
   configEventsIngressDestination: '' 
   configWepayAppId: ''

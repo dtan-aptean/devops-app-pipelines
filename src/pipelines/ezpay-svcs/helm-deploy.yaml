@@ -71,6 +71,7 @@ resources:
 
 variables:
 - group: helm-chart-svc-principal-config
+- group: new-relic-cli
 - name: docker_image_tags
   value: ''
 
@@ -131,6 +132,8 @@ stages:
               mongoDbPaymentsSvcCollectionName: $(MONGODB_PAYMENTS_SVC_COLLECTION)
               mongoDbTxnRecordsSvcCollectionName: $(MONGODB_TXN_RECORDS_SVC_COLLECTION)
               mongoDbEzpayClaimSvcCollectionName: $(MONGODB_EZPAY_CLAIM_SVC_COLLECTION)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
               frontDoorId: $(FRONT_DOOR_ID)
               sentryDsn: $(SENTRY_DSN)
               # Cancel Payment Retry Job
@@ -367,6 +370,8 @@ stages:
               mongoDbPaymentsSvcCollectionName: $(MONGODB_PAYMENTS_SVC_COLLECTION)
               mongoDbTxnRecordsSvcCollectionName: $(MONGODB_TXN_RECORDS_SVC_COLLECTION)
               mongoDbEzpayClaimSvcCollectionName: $(MONGODB_EZPAY_CLAIM_SVC_COLLECTION)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
               frontDoorId: $(FRONT_DOOR_ID)
               sentryDsn: $(SENTRY_DSN)
               # Cancel Payment Retry Job

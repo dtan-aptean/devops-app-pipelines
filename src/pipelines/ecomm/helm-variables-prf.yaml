@@ -99,7 +99,7 @@ variables:
   value: sharedsvcs  
 # PRODUCT RECS SVC
 - name: PRODUCT_RECS_SVC_IMAGE_REPOSITORY_NAME
-  value: product-recs-svc
+  value: ecomm-product-recs-svc
 - name: PRODUCT_RECS_SVC_RESOURCE_LIMITS_CPU
   value: 1000m
 - name: PRODUCT_RECS_SVC_RESOURCE_LIMITS_MEMORY

@@ -11,6 +11,7 @@ resources:
 
 variables:
 - group: helm-chart-svc-principal-config
+- group: new-relic-cli
 
 stages:
 - stage: PRF_k6_Helm_Deploy

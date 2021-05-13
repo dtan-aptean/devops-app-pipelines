@@ -12,6 +12,8 @@ parameters:
   k8sNamespace: ''
   env: ''
   location: ''
+  newRelicCliApiKey: ''
+  newRelicAccountId: ''
   # k6
   k6ScriptsImageTag: ''
   k6ScriptsImageRepositoryName: ''
