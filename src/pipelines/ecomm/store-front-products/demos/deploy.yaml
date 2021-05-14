@@ -175,7 +175,7 @@ stages:
               configEventsCheckpointsStorageConnString: $(CONFIG_EVENTS_CHECKPOINTS_STORAGE_CONN_STRING)
               configEventsEgressSubscriptionName: $(EVENTS_EGRESS_SUBSCRIPTION_NAME)
               configEventsEgressTopicName: $(EVENTS_EGRESS_TOPIC_NAME)    
-              newRelicApiKey: $(NEW_RELIC_API_KEY)          
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
               # STOREFRONT Params        
               storefrontImageRepositoryName: $(STOREFRONT_IMAGE_REPOSITORY_NAME)
               storefrontReplicas: $(STOREFRONT_REPLICAS)              
@@ -287,6 +287,7 @@ stages:
               configWepayApiVersion: $(CONFIG_WEPAY_API_VERSION)
               newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
               newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
               frontDoorId: $(FRONT_DOOR_ID) 
               configCosmosConnString: $(CONFIG_COSMOSDB_CONN_STRING)
               configCosmosDatabaseName: $(CONFIG_COSMOSDB_DATABASE_NAME)  
