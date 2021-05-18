@@ -229,6 +229,17 @@ parameters:
   ezpayClaimSvcResourceLimitsMemory: ''
   ezpayClaimSvcResourceRequestCpu: ''
   ezpayClaimSvcResourceRequestMemory: ''
+  # EZPAY CHECKOUT SVC
+  ezpayCheckoutSvcImageRepositoryName: ''
+  ezpayCheckoutSvcImageTag: ''
+  ezpayCheckoutSvcReplicas: ''
+  ezpayCheckoutSvcNodeSelectorPool: ''
+  ezpayCheckoutSvcResourceLimitsCpu: ''
+  ezpayCheckoutSvcResourceLimitsMemory: ''
+  ezpayCheckoutSvcResourceRequestCpu: ''
+  ezpayCheckoutSvcResourceRequestMemory: ''
+  ezpayCheckoutSvcKongIngressUpstreamHostHeader: ''
+  ezpayCheckoutSvcKongIngressClass: ''
 
 steps:
 - pwsh: |
@@ -271,6 +282,7 @@ steps:
       $latestTxnRecordsSvcTag = $tags[9].Split(':')[1]
       $latestWepayIntegrationSvcTag = $tags[10].Split(':')[1]
       $latestEzpayClaimSvcTag = $tags[11].Split(':')[1]
+      $latestEzpayCheckoutSvcTag = $tags[12].Split(':')[1]
       Write-Host ezpay-payment-cancelation-retry-job tag: $latestPaymentCancelRetryJobTag
       Write-Host account-balance-job tag: $latestAccountBalanceJobTag
       Write-Host ezpay-api-svc tag: $latestEzpayApiSvcTag
@@ -283,6 +295,7 @@ steps:
       Write-Host transaction-records-svc tag: $latestTxnRecordsSvcTag
       Write-Host wepay-integration-svc tag: $latestWepayIntegrationSvcTag
       Write-Host ezpay-claim-svc tag: $latestEzpayClaimSvcTag
+      Write-Host ezpay-checkout-svc tag: $latestEzpayCheckoutSvcTag
     }
 
     # PAYMENT CANCEL RETRY JOB
@@ -441,8 +454,21 @@ steps:
         $latestEzpayClaimSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
       }
     }
+    # EZPAY CHECKOUT SVC
+    if (!$latestEzpayCheckoutSvcTag) {
+      if ($env:EZPAY_CHECKOUT_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured ezpay-checkout-svc tag: $env:EZPAY_CHECKOUT_SVC_IMAGE_TAG
+        $latestEzpayCheckoutSvcTag = $env:EZPAY_CHECKOUT_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest ezpay-checkout-svc tag.
+        $latestEzpayCheckoutSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_CHECKOUT_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
+    }
 
-    $allTags = "ezpay-payment-cancelation-retry-job:{0},ezpay-account-balance-updater-job:{1},ezpay-api-svc:{2},ezpay-email-notification-svc:{3},ezpay-erp-integration-svc:{4},ezpay-merchant-ops-svc:{5},ezpay-payfac-notifications-svc:{6},ezpay-payment-ops-svc:{7},ezpay-payments-svc:{8},ezpay-transaction-records-svc:{9},wepay-integration-svc:{10},ezpay-claim-svc:{11}" `
+    $allTags = "ezpay-payment-cancelation-retry-job:{0},ezpay-account-balance-updater-job:{1},ezpay-api-svc:{2},ezpay-email-notification-svc:{3},ezpay-erp-integration-svc:{4},ezpay-merchant-ops-svc:{5},ezpay-payfac-notifications-svc:{6},ezpay-payment-ops-svc:{7},ezpay-payments-svc:{8},ezpay-transaction-records-svc:{9},wepay-integration-svc:{10},ezpay-claim-svc:{11},ezpay-checkout-svc:{12}" `
                -f $latestPaymentCancelRetryJobTag, `
                   $latestAccountBalanceJobTag, `
                   $latestEzpayApiSvcTag, `
@@ -454,7 +480,8 @@ steps:
                   $latestPaymentsSvcTag, `
                   $latestTxnRecordsSvcTag, `
                   $latestWepayIntegrationSvcTag, `
-                  $latestEzpayClaimSvcTag
+                  $latestEzpayClaimSvcTag, `
+                  $latestEzpayCheckoutSvcTag
     Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags" 
     @"
     commonLabels:
@@ -880,6 +907,38 @@ steps:
           databaseName: "$env:EZPAY_CLAIM_SVC_MONGODB_DATABASE"
           ezpayClaimSvcCollection: "$env:EZPAY_CLAIM_SVC_MONGODB_COLLECTION"
 
+    ezpayCheckoutSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:EZPAY_CHECKOUT_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestEzpayCheckoutSvcTag
+
+      deployment:
+        replicas: $env:EZPAY_CHECKOUT_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:EZPAY_CHECKOUT_SVC_NODE_SELECTOR_POOL"      
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY
+      
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS
+
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     # Uncomment for debugging values.
@@ -1124,6 +1183,17 @@ steps:
     EZPAY_CLAIM_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.ezpayClaimSvcResourceLimitsMemory }}
     EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.ezpayClaimSvcResourceRequestCpu }}
     EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.ezpayClaimSvcResourceRequestMemory }}
+    # EZPAY CHECKOUT SVC
+    EZPAY_CHECKOUT_SVC_IMAGE_TAG: ${{ parameters.ezpayCheckoutSvcImageTag }}
+    EZPAY_CHECKOUT_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.ezpayCheckoutSvcImageRepositoryName }}
+    EZPAY_CHECKOUT_SVC_REPLICAS: ${{ parameters.ezpayCheckoutSvcReplicas }}
+    EZPAY_CHECKOUT_SVC_NODE_SELECTOR_POOL: ${{ parameters.ezpayCheckoutSvcNodeSelectorPool }}
+    EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.ezpayCheckoutSvcResourceLimitsCpu }}
+    EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.ezpayCheckoutSvcResourceLimitsMemory }}
+    EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.ezpayCheckoutSvcRequestCpu }}
+    EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.ezpayCheckoutSvcRequestMemory }}
+    EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.ezpayCheckoutSvcKongIngressUpstreamHeader }}
+    EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS: ${{ parameters.ezpayCheckoutSvcKongIngressClass }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

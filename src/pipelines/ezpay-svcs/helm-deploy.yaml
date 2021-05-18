@@ -313,6 +313,16 @@ stages:
               ezpayClaimSvcResourceLimitsMemory: $(EZPAY_CLAIM_SVC_RESOURCE_LIMITS_MEMORY)
               ezpayClaimSvcResourceRequestCpu: $(EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_CPU)
               ezpayClaimSvcResourceRequestMemory: $(EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_MEMORY)
+              # EZPAY CHECKOUT SVC
+              ezpayCheckoutSvcImageRepositoryName: $(EZPAY_CHECKOUT_SVC_IMAGE_REPOSITORY_NAME)
+              ezpayCheckoutSvcReplicas: $(EZPAY_CHECKOUT_SVC_REPLICAS)
+              ezpayCheckoutSvcNodeSelectorPool: $(EZPAY_CHECKOUT_SVC_NODE_SELECTOR_POOL)
+              ezpayCheckoutSvcResourceLimitsCpu: $(EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_CPU)
+              ezpayCheckoutSvcResourceLimitsMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_MEMORY)
+              ezpayCheckoutSvcResourceRequestCpu: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_CPU)
+              ezpayCheckoutSvcResourceRequestMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY)
+              ezpayCheckoutSvcKongIngressUpstreamHostHeader: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)
 
 - stage: DEV_Ezpay_Helm_Deploy_West
   displayName: DEV (WEST) - Ezpay Svcs Helm Deploy
@@ -553,3 +563,13 @@ stages:
               ezpayClaimSvcResourceLimitsMemory: $(EZPAY_CLAIM_SVC_RESOURCE_LIMITS_MEMORY)
               ezpayClaimSvcResourceRequestCpu: $(EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_CPU)
               ezpayClaimSvcResourceRequestMemory: $(EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_MEMORY)
+              # EZPAY CHECKOUT SVC
+              ezpayCheckoutSvcImageRepositoryName: $(EZPAY_CHECKOUT_SVC_IMAGE_REPOSITORY_NAME)
+              ezpayCheckoutSvcReplicas: $(EZPAY_CHECKOUT_SVC_REPLICAS)
+              ezpayCheckoutSvcNodeSelectorPool: $(EZPAY_CHECKOUT_SVC_NODE_SELECTOR_POOL)
+              ezpayCheckoutSvcResourceLimitsCpu: $(EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_CPU)
+              ezpayCheckoutSvcResourceLimitsMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_MEMORY)
+              ezpayCheckoutSvcResourceRequestCpu: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_CPU)
+              ezpayCheckoutSvcResourceRequestMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY)
+              ezpayCheckoutSvcKongIngressUpstreamHostHeader: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)

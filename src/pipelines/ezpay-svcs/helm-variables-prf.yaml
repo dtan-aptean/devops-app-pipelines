@@ -223,3 +223,22 @@ variables:
   value: 1
 - name: EZPAY_CLAIM_SVC_NODE_SELECTOR_POOL
   value: prftesting
+# EZPAY CHECKOUT SVC
+- name: EZPAY_CHECKOUT_SVC_IMAGE_REPOSITORY_NAME
+  value: ezpay-checkout-svc
+- name: EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_CPU
+  value: 50m
+- name: EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_MEMORY
+  value: 128Mi
+- name: EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_CPU
+  value: 10m
+- name: EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY
+  value: 10Mi
+- name: EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER
+  value: ezpay-checkout-svc.ezpay-prf.svc
+- name: EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS
+  value: kong-prf
+- name: EZPAY_CHECKOUT_SVC_REPLICAS
+  value: 1
+- name: EZPAY_CHECKOUT_SVC_NODE_SELECTOR_POOL
+  value: sharedsvcs
