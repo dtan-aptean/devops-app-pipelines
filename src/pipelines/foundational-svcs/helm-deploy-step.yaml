@@ -15,11 +15,11 @@ parameters:
   location: ''
   newRelicCliApiKey: ''
   newRelicAccountId: ''
+  newRelicApiKey: ''
   mongoDbName: ''
   mongoDbConnString: ''
   svcBusConnString: ''
   sentryDsn: ''
-  newRelicApiKey: ''
   # EVENTS SVC PARAMS
   eventsSvcImageRepositoryName: ''
   eventsSvcReplicas: ''
