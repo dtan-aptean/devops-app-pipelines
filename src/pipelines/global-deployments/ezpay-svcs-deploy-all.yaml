@@ -1094,7 +1094,54 @@ stages:
 
           - template: ../templates/save-tags.yaml
             parameters:
-              tagName: 'ezpay_tags'              
+              tagName: 'ezpay_tags'
+
+- stage: PRF_Merchant_Portal_Deploy
+  displayName: PRF - Merchant Portal Deployment
+  dependsOn: TST_Ezpay_Approval
+
+  jobs:
+    - template: ../templates/deploy-ezpay-static.yaml
+      parameters:
+        variableGroup: ezpay-merchant-prf
+        targetEnvironment: ezpay-merchant-prf
+        dropArtifactPath: $(Pipeline.Workspace)/merchant_portal_static_files/drop/prf.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRF_Payer_Portal_Deploy
+  displayName: PRF - Payer Portal Deployment
+  dependsOn: TST_Ezpay_Approval
+
+  jobs:
+    - template: ../templates/deploy-ezpay-static.yaml
+      parameters:
+        variableGroup: ezpay-payer-prf
+        targetEnvironment: ezpay-payer-prf
+        dropArtifactPath: $(Pipeline.Workspace)/payer_portal_static_files/drop/prf.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRF_Static_Assets_Deploy
+  displayName: PRF Static Assets Deploy
+  dependsOn: TST_Ezpay_Approval
+
+  jobs:
+  - template: static-assets/azp-yaml/templates/ezpay-static-assets-deployment-job.yaml@ezpay-backend-services
+    parameters:
+      environment: ezpay-static-prf
+      serviceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+      storageAccount: stezpaytenantfilesprf001
+
+- stage: PRF_Aptean_Pay_Js_Library_Deploy
+  displayName: PRF - Aptean Pay JS Library Deployment
+  dependsOn: TST_Ezpay_Approval
+
+  jobs:
+    - template: ../templates/deploy-ezpay-static.yaml
+      parameters:
+        variableGroup: apteanpay-js-lib-prf
+        targetEnvironment: apteanpay-js-prf
+        dropArtifactPath: $(Pipeline.Workspace)/aptean_pay_js_static_files/drop/prf.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
 - stage: STG_Ezpay_Approval
   displayName: STG - Approval
@@ -1630,6 +1677,18 @@ stages:
         targetEnvironment: ezpay-merchant-stg
         dropArtifactPath: $(Pipeline.Workspace)/merchant_portal_static_files/drop/stg.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: STG_Merchant_Portal_Deploy
+  displayName: STG - Merchant Portal Deployment
+  dependsOn: STG_Ezpay_Approval
+
+  jobs:
+    - template: ../templates/deploy-ezpay-static.yaml
+      parameters:
+        variableGroup: ezpay-merchant-stg
+        targetEnvironment: ezpay-merchant-stg
+        dropArtifactPath: $(Pipeline.Workspace)/merchant_portal_static_files/drop/stg.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG        
 
 - stage: STG_Payer_Portal_Deploy
 
