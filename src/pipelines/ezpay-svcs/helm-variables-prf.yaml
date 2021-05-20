@@ -241,4 +241,4 @@ variables:
 - name: EZPAY_CHECKOUT_SVC_REPLICAS
   value: 1
 - name: EZPAY_CHECKOUT_SVC_NODE_SELECTOR_POOL
-  value: sharedsvcs
+  value: prftesting

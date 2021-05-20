@@ -222,7 +222,7 @@ variables:
 - name: EZPAY_CLAIM_SVC_REPLICAS
   value: 1
 - name: EZPAY_CLAIM_SVC_NODE_SELECTOR_POOL
-  value: 
+  value: sharedsvcs
 # EZPAY CHECKOUT SVC
 - name: EZPAY_CHECKOUT_SVC_IMAGE_REPOSITORY_NAME
   value: ezpay-checkout-svc
