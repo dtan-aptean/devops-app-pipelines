@@ -1199,6 +1199,18 @@ stages:
         dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/stg.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
+- stage: PRF_Identity_Platform_Deploy
+  displayName: PRF - Identity platform deploy
+  dependsOn: TST_Identity_Platform_Deploy
+
+  jobs:
+    - template: ../templates/deploy-identity-platform.yaml
+      parameters:
+        variableGroup: identity-platform-prf
+        targetEnvironment: identity-platform-prf
+        dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/prf.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG    
+        
 - stage: PRD_Identity_Platform_Deploy
   displayName: PRD - Identity platform deploy
   dependsOn: STG_Identity_Platform_Deploy
