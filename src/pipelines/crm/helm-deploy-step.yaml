@@ -20,6 +20,8 @@ parameters:
   crmClientSecret: ''
   crmBackendBaseUrl: ''
   crmNotificationsWebhookUrl: ''
+  serviceBusEventsConnString: ''
+  serviceBusEventsTopicName: ''
   sentryDsn: ''
   # CRM API SVC
   crmApiSvcImageTag: ''
@@ -91,6 +93,9 @@ steps:
     config:
       sentry:
         dsn: "$env:SENTRY_DSN"
+      serviceBus:
+        connectionString: "$env:EVENTS_SB_CONN_STRING"
+        topicName: "$env:EVENTS_SB_TOPIC_NAME"
 
     crmApiSvc:
       image:      
@@ -164,6 +169,8 @@ steps:
     CRM_CLIENT_SECRET: ${{ parameters.crmClientSecret }}
     CRM_BACKEND_BASE_URL: ${{ parameters.crmBackendBaseUrl }}
     CRM_NOTIFICATIONS_WEBHOOK_URL: ${{ parameters.crmNotificationsWebhookUrl}}
+    EVENTS_SB_CONN_STRING: ${{ parameters.serviceBusEventsConnString }}
+    EVENTS_SB_TOPIC_NAME: ${{ parameters.serviceBusEventsTopicName }}
     # CRM GQL API SVC
     CRM_API_SVC_IMAGE_TAG: ${{ parameters.crmApiSvcImageTag }}
     CRM_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.crmApiSvcImageRepositoryName }}

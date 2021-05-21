@@ -56,6 +56,8 @@ stages:
               crmClientSecret: $(CRM_CLIENT_SECRET)
               crmBackendBaseUrl: $(CRM_BACKEND_BASE_URL)
               crmNotificationsWebhookUrl: $(CRM_NOTIFICATIONS_WEBHOOK_URL)
+              serviceBusEventsConnString: $(EVENTS_SB_CONN_STRING)
+              serviceBusEventsTopicName: $(EVENTS_SB_TOPIC_NAME)
               sentryDsn: $(SENTRY_DSN)
               # CRM GQL API SVC         
               crmApiSvcImageRepositoryName: $(CRM_API_SVC_IMAGE_REPOSITORY_NAME)
@@ -123,6 +125,8 @@ stages:
               crmClientSecret: $(CRM_CLIENT_SECRET)
               crmBackendBaseUrl: $(CRM_BACKEND_BASE_URL)
               crmNotificationsWebhookUrl: $(CRM_NOTIFICATIONS_WEBHOOK_URL)
+              serviceBusEventsConnString: $(EVENTS_SB_CONN_STRING)
+              serviceBusEventsTopicName: $(EVENTS_SB_TOPIC_NAME)
               sentryDsn: $(SENTRY_DSN)
               # CRM GQL API SVC         
               crmApiSvcImageRepositoryName: $(CRM_API_SVC_IMAGE_REPOSITORY_NAME)
@@ -186,6 +190,8 @@ stages:
               crmClientSecret: $(CRM_CLIENT_SECRET)
               crmBackendBaseUrl: $(CRM_BACKEND_BASE_URL)
               crmNotificationsWebhookUrl: $(CRM_NOTIFICATIONS_WEBHOOK_URL)
+              serviceBusEventsConnString: $(EVENTS_SB_CONN_STRING)
+              serviceBusEventsTopicName: $(EVENTS_SB_TOPIC_NAME)
               sentryDsn: $(SENTRY_DSN)
               # CRM GQL API SVC         
               crmApiSvcImageRepositoryName: $(CRM_API_SVC_IMAGE_REPOSITORY_NAME)
@@ -249,6 +255,8 @@ stages:
               crmClientSecret: $(CRM_CLIENT_SECRET)
               crmBackendBaseUrl: $(CRM_BACKEND_BASE_URL)
               crmNotificationsWebhookUrl: $(CRM_NOTIFICATIONS_WEBHOOK_URL)
+              serviceBusEventsConnString: $(EVENTS_SB_CONN_STRING)
+              serviceBusEventsTopicName: $(EVENTS_SB_TOPIC_NAME)
               sentryDsn: $(SENTRY_DSN)
               # CRM GQL API SVC         
               crmApiSvcImageRepositoryName: $(CRM_API_SVC_IMAGE_REPOSITORY_NAME)
