@@ -1676,18 +1676,6 @@ stages:
         variableGroup: ezpay-merchant-stg
         targetEnvironment: ezpay-merchant-stg
         dropArtifactPath: $(Pipeline.Workspace)/merchant_portal_static_files/drop/stg.zip
-        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
-
-- stage: STG_Merchant_Portal_Deploy
-  displayName: STG - Merchant Portal Deployment
-  dependsOn: STG_Ezpay_Approval
-
-  jobs:
-    - template: ../templates/deploy-ezpay-static.yaml
-      parameters:
-        variableGroup: ezpay-merchant-stg
-        targetEnvironment: ezpay-merchant-stg
-        dropArtifactPath: $(Pipeline.Workspace)/merchant_portal_static_files/drop/stg.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG        
 
 - stage: STG_Payer_Portal_Deploy
