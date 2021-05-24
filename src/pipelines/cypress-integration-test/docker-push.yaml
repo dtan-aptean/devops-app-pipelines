@@ -1,0 +1,79 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  packageName: 'ecomm-sf'
+  screenshotsFolderExist: false  
+  azureServiceConnection: ''
+
+variables:
+- group: e2e-integration-tests
+
+resources:
+  repositories:
+  - repository: testing-e2e
+    type: git
+    name: testing-e2e
+    ref: refs/heads/master  
+
+stages:
+  - stage: eCommerce_sf
+    displayName: Build and push eCommerce storefront cypress test docker image
+    dependsOn: []
+    
+    jobs:
+    - job: BuildAndPush
+      steps: 
+      - checkout: self
+
+      - checkout: testing-e2e  
+
+      - task: CopyFiles@2
+        displayName: ${{ parameters.packageName }} - Copy test files
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/testing-e2e/src/${{ parameters.packageName }}/cypress
+          Contents: '**'
+          TargetFolder: $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress
+
+      - script: mv $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/integration/${{ parameters.packageName }}.cypress.json $(Pipeline.Workspace)/${{ parameters.packageName }}/cypress.json
+        displayName: ${{ parameters.packageName }} - Add cypress.json
+
+      - task: replacetokens@3
+        displayName: ${{ parameters.packageName }} - Replace tokens in cypress.json
+        inputs:
+          rootDirectory: $(Pipeline.Workspace)/${{ parameters.packageName }}
+          targetFiles: cypress.json
+          encoding: auto
+          writeBOM: true
+          actionOnMissing: fail
+          keepToken: false
+          tokenPrefix: '#{'
+          tokenSuffix: '}#'
+
+      - script: docker build --tag cypress-${{ parameters.packageName }}:6.5.0 --file  $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
+        displayName: ${{ parameters.packageName }} - Build integraton test docker image
+
+      - task: Docker@2
+        displayName: Build Docker Image
+        name: buildDockerImage
+        inputs:
+          containerRegistry: acreastusshrapteancr
+          repository: cypress-ecomm-sf
+          command: 'build'
+          Dockerfile: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile
+          tags: '6.5.0'
+          buildContext: $(Pipeline.Workspace)/${{ parameters.packageName }} 
+          #arguments: ${{ parameters.dockerBuildArguments }}
+          addPipelineData: false
+
+      - task: Docker@2
+        displayName: Push Docker Image
+        name: pushDockerImage
+        inputs:
+          containerRegistry: acreastusshrapteancr
+          repository: cypress-ecomm-sf
+          command: 'push'
+          tags: '6.5.0'
+          addPipelineData: false    
