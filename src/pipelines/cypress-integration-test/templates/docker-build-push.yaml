@@ -40,7 +40,7 @@ jobs:
     name: buildDockerImage
     inputs:
       containerRegistry: 'Pipeline-ACR-SHR'
-      repository: cypress-ecomm-sf
+      repository: 'cypress-ecomm-sf'
       command: 'build'
       Dockerfile: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile
       tags: '6.5.0'
@@ -52,8 +52,8 @@ jobs:
     displayName: Push Docker Image
     name: pushDockerImage
     inputs:
-      containerRegistry: acreastusshrapteancr
-      repository: cypress-ecomm-sf
+      containerRegistry: 'Pipeline-ACR-SHR'
+      repository: 'cypress-ecomm-sf'
       command: 'push'
       tags: '6.5.0'
       addPipelineData: false    
