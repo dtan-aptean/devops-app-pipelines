@@ -40,7 +40,7 @@ jobs:
       repository: 'cypress-ecomm-sf'
       command: 'build'
       Dockerfile: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile
-      tags: '6.5.0'
+      tags: '7.4.0'
       buildContext: $(Pipeline.Workspace)/${{ parameters.packageName }} 
       #arguments: ${{ parameters.dockerBuildArguments }}
       addPipelineData: false
@@ -52,5 +52,5 @@ jobs:
       containerRegistry: 'Pipeline-ACR-SHR'
       repository: 'cypress-ecomm-sf'
       command: 'push'
-      tags: '6.5.0'
+      tags: '7.4.0'
       addPipelineData: false    
