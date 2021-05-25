@@ -32,9 +32,6 @@ jobs:
       tokenPrefix: '#{'
       tokenSuffix: '}#'
 
-  - script: docker build --tag cypress-${{ parameters.packageName }}:6.5.0 --file  $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile $(Pipeline.Workspace)/${{ parameters.packageName }} 
-    displayName: ${{ parameters.packageName }} - Build integraton test docker image
-
   - task: Docker@2
     displayName: Build Docker Image
     name: buildDockerImage
