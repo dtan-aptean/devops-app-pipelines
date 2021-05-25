@@ -39,7 +39,7 @@ jobs:
     displayName: Build Docker Image
     name: buildDockerImage
     inputs:
-      containerRegistry: acreastusshrapteancr
+      containerRegistry: acreastusshrapteancr.azurecr.io
       repository: cypress-ecomm-sf
       command: 'build'
       Dockerfile: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile
