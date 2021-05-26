@@ -51,15 +51,15 @@ stages:
         arguments: ${{ parameters.dockerBuildArguments }}
         addPipelineData: false
 
-#    - task: Docker@2
-#      displayName: Push Docker Image
-#      name: pushDockerImage
-#      inputs:
-#        containerRegistry: ${{ parameters.containerRegistry }}
-#        repository: ${{ parameters.containerRepository }}
-#        command: 'push'
-#        tags: ${{ parameters.fullVersionFriendly }}
-#        addPipelineData: false
+    - task: Docker@2
+      displayName: Push Docker Image
+      name: pushDockerImage
+      inputs:
+        containerRegistry: ${{ parameters.containerRegistry }}
+        repository: ${{ parameters.containerRepository }}
+        command: 'push'
+        tags: ${{ parameters.fullVersionFriendly }}
+        addPipelineData: false
 
     - task: Bash@3
       displayName: Create Noop Artifact
