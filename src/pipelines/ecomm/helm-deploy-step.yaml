@@ -536,7 +536,7 @@ steps:
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     # this line for debugging, will print yaml to console
-    # Get-Content -Path ./deploy-values.yaml
+    Get-Content -Path ./deploy-values.yaml
 
     Write-Host ""
     Write-Host "Helm deploy prep complete!"
