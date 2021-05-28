@@ -29,7 +29,7 @@ stages:
           - template: ../helm-deploy-step.yaml
             parameters:
               deployMode: 'storefront'
-              serviceConnection: 'AzDevOps-Pipeline-Principal-SHR'
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
               svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
               azureTenantId: $(AZURE_TENANT_ID)
