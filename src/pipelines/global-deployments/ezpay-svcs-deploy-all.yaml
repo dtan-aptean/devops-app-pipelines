@@ -154,6 +154,7 @@ stages:
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
+              ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -406,6 +407,7 @@ stages:
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
+              ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -703,6 +705,7 @@ stages:
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
+              ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -955,6 +958,7 @@ stages:
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
+              ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -1276,6 +1280,7 @@ stages:
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
+              ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -1529,6 +1534,7 @@ stages:
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
+              ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -1848,6 +1854,7 @@ stages:
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
+              ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -2102,6 +2109,7 @@ stages:
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
+              ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)

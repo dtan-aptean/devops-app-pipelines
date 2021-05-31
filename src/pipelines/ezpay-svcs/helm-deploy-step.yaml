@@ -90,6 +90,7 @@ parameters:
   ezpayApiSvcLogicAppUrlShortenerUrl: ''
   ezpayApiSvcProductApisOnly: ''
   ezpayApiSvcGrpcUrl: ''
+  ezpayApiSvcBroadcastPlatformEvents: ''
   # EMAIL NOTIFICATION SVC
   emailNotificationSvcImageTag: ''
   emailNotificationSvcImageRepositoryName: ''
@@ -609,6 +610,7 @@ steps:
         invoiceBlobConnectionString: "$env:EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING"
         urlShortenerUrl: "$env:EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL"
         productAPIsOnly: $env:EZPAY_API_SVC_PRODUCT_APIS_ONLY
+        broadcastPlatformEvents: $env:EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS
 
     emailNotificationSvc:
       image:      
@@ -1034,6 +1036,7 @@ steps:
     EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING: ${{ parameters.ezpayApiSvcInvoiceBlobConnString }}
     EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL: ${{ parameters.ezpayApiSvcLogicAppUrlShortenerUrl }}
     EZPAY_API_SVC_PRODUCT_APIS_ONLY: ${{ parameters.ezpayApiSvcProductApisOnly }}
+    EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.ezpayApiSvcBroadcastPlatformEvents }}
     # EMAIL_NOTIFICATION_SVC
     EMAIL_NOTIFICATION_SVC_IMAGE_TAG: ${{ parameters.emailNotificationSvcImageTag }}
     EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.emailNotificationSvcImageRepositoryName }}

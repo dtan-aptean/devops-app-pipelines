@@ -185,6 +185,7 @@ stages:
               ezpayApiSvcInvoiceBlobConnString: $(EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING)
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
+              ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               #ezpayApiSvcNodeJsEnv: $(EZPAY_API_SVC_)  
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
@@ -434,6 +435,7 @@ stages:
               ezpayApiSvcInvoiceBlobConnString: $(EZPAY_API_SVC_INVOICE_BLOB_CONNECTION_STRING)
               ezpayApiSvcLogicAppUrlShortenerUrl: $(EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL)
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
+              ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               #ezpayApiSvcNodeJsEnv: $(EZPAY_API_SVC_)  
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
