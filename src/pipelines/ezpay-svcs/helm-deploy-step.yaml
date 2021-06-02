@@ -611,6 +611,9 @@ steps:
         urlShortenerUrl: "$env:EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL"
         productAPIsOnly: $env:EZPAY_API_SVC_PRODUCT_APIS_ONLY
         broadcastPlatformEvents: $env:EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS
+        newRelic:
+          recordMetricGql: "$env:EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL"
+          recordMetricGrpc: "$env:EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC"
 
     emailNotificationSvc:
       image:      
@@ -882,6 +885,10 @@ steps:
           requests:
             cpu: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY
+      
+      config:
+        newRelic:
+          recordMetric: "$env:WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC"
 
     ezpayClaimSvc:
       image:
@@ -1037,6 +1044,8 @@ steps:
     EZPAY_API_SVC_LOGIC_APP_URL_SHORTENER_URL: ${{ parameters.ezpayApiSvcLogicAppUrlShortenerUrl }}
     EZPAY_API_SVC_PRODUCT_APIS_ONLY: ${{ parameters.ezpayApiSvcProductApisOnly }}
     EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.ezpayApiSvcBroadcastPlatformEvents }}
+    EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL: ${{ parameters.ezpayApiSvcNewRelicRecordMetricGql }}
+    EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC: ${{ parameters.ezpayApiSvcNewRelicRecordMetricGrpc }}
     # EMAIL_NOTIFICATION_SVC
     EMAIL_NOTIFICATION_SVC_IMAGE_TAG: ${{ parameters.emailNotificationSvcImageTag }}
     EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.emailNotificationSvcImageRepositoryName }}
@@ -1174,6 +1183,7 @@ steps:
     WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.wepayIntegrationSvcResourceLimitsMemory }}
     WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.wepayIntegrationSvcResourceRequestCpu }}
     WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.wepayIntegrationSvcResourceRequestMemory }}
+    WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC: ${{ parameters.wepayIntegrationSvcNewRelicRecordMetric }}
     # EZPAY CLAIM SVC
     EZPAY_CLAIM_SVC_IMAGE_TAG: ${{ parameters.ezpayClaimSvcImageTag }}
     EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.ezpayClaimSvcImageRepositoryName }}
