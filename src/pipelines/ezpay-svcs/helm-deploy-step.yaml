@@ -1250,6 +1250,9 @@ steps:
     docker pull newrelic/cli
     $services = "$(docker_image_tags)"
     $serviceList = $services.Split(',')
+    $ezpayApiSvcIndex = $serviceList.IndexOf(($serviceList -match 'ezpay-api-svc')[0])
+    $serviceList += $serviceList[$ezpayApiSvcIndex] -replace 'ezpay-api-svc', 'ezpay-api-svc-grpc'
+    $serviceList[$ezpayApiSvcIndex] = $serviceList[$ezpayApiSvcIndex] -replace 'ezpay-api-svc', 'ezpay-api-svc-gql'
     foreach ($serviceTag in $serviceList)  {
       $service = $serviceTag.Split(':')[0]
       $imageTag = $serviceTag.Split(':')[1]      
