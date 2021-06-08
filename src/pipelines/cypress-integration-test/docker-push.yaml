@@ -21,4 +21,15 @@ stages:
     jobs:
     - template: ./templates/docker-build-push.yaml
       parameters:
-        packageName: ecomm-sf      
+        packageName: ecomm-sf
+        repositoryName: cypress-ecomm-sf
+
+  - stage: eCommerce_api_svc
+    displayName: Build and push eCommerce api svc cypress test docker image
+    dependsOn: []
+
+    jobs:
+    - template: ./templates/docker-build-push.yaml
+      parameters:
+        packageName: ecomm-api-svc 
+        repositoryName: cypress-ecomm-api-svc     

@@ -1,5 +1,6 @@
 parameters:
   packageName: ''
+  repositoryName: ''
   screenshotsFolderExist: false  
   azureServiceConnection: ''
     
@@ -37,7 +38,7 @@ jobs:
     name: buildDockerImage
     inputs:
       containerRegistry: 'Pipeline-ACR-SHR'
-      repository: 'cypress-ecomm-sf'
+      repository: ${{ parameters.packageName }}
       command: 'build'
       Dockerfile: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile
       tags: '7.4.0'
@@ -50,7 +51,7 @@ jobs:
     name: pushDockerImage
     inputs:
       containerRegistry: 'Pipeline-ACR-SHR'
-      repository: 'cypress-ecomm-sf'
+      repository: ${{ parameters.packageName }}
       command: 'push'
       tags: '7.4.0'
       addPipelineData: false    
