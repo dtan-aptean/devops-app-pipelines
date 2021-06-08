@@ -155,6 +155,7 @@ stages:
               storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
               storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
               storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)
+              storefrontConfigStoreType: $(STOREFRONT_CONFIG_STORE_TYPE)
               # GQL API SVC Params
               gqlAPISvcImageRepositoryName: $(GQL_API_SVC_IMAGE_REPOSITORY_NAME)
               gqlAPISvcReplicas: $(GQL_API_SVC_REPLICAS)

@@ -98,6 +98,7 @@ parameters:
   storefrontConfigStoreSdn: ''
   storefrontConfigStorageAccountName: ''
   storefrontConfigStorageAccountKey: ''
+  storefrontConfigStoreType: ''
   # GQL API SVC Params
   gqlAPISvcImageRepositoryName: ''
   gqlAPISvcImageTag: ''
@@ -388,6 +389,7 @@ steps:
         azureStorage: 
           accountName: "$env:STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME"
           accountKey: "$env:STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY"
+        storeType: "$env:STOREFRONT_CONFIG_STORE_TYPE"
 
     gqlApiService:
       image:
@@ -638,6 +640,7 @@ steps:
     STOREFRONT_CONFIG_STORE_SDN: ${{ parameters.storefrontConfigStoreSdn }}
     STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME: ${{ parameters.storefrontConfigStorageAccountName }}
     STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY: ${{ parameters.storefrontConfigStorageAccountKey }}
+    STOREFRONT_CONFIG_STORE_TYPE: ${{ parameters.storefrontConfigStoreType }}
     # GQL API SVC Params
     GQL_API_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.gqlAPISvcImageRepositoryName }}
     GQL_API_SVC_IMAGE_TAG: ${{ parameters.gqlAPISvcImageTag }}

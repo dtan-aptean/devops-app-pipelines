@@ -123,7 +123,8 @@ stages:
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
               storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
               storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
-              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                            
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)
+              storefrontConfigStoreType: $(STOREFRONT_CONFIG_STORE_TYPE)                   
 
 - stage: ReedRubberProducts_Ecomm_SF_Deploy
   displayName: ReedRubberProducts - Ecomm Helm Deploy
@@ -242,5 +243,5 @@ stages:
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
               storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
               storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
-              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                                 
-
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)
+              storefrontConfigStoreType: $(STOREFRONT_CONFIG_STORE_TYPE)                                        

@@ -123,7 +123,8 @@ stages:
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
               storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
               storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
-              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                 
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)
+              storefrontConfigStoreType: $(STOREFRONT_CONFIG_STORE_TYPE)                                
                                                                                                                                      
 - stage: BakedGoods_Ecomm_SF_Deploy
   displayName: BakedGoods - Ecomm Helm Deploy
@@ -242,7 +243,8 @@ stages:
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
               storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
               storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
-              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                     
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)
+              storefrontConfigStoreType: $(STOREFRONT_CONFIG_STORE_TYPE)                               
               
 - stage: FreshlyProduce_Ecomm_SF_Deploy
   displayName: FreshlyProduce - Ecomm Helm Deploy
@@ -362,7 +364,8 @@ stages:
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
               storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
               storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
-              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                  
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)
+              storefrontConfigStoreType: $(STOREFRONT_CONFIG_STORE_TYPE)                              
 
 - stage: Homefurnishings_Ecomm_SF_Deploy
   displayName: Homefurnishings - Ecomm Helm Deploy
@@ -481,7 +484,8 @@ stages:
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
               storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
               storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
-              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                      
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)
+              storefrontConfigStoreType: $(STOREFRONT_CONFIG_STORE_TYPE)                             
 
 - stage: Trial02_Ecomm_SF_Deploy
   displayName: Trial02 - Ecomm Helm Deploy
@@ -601,7 +605,8 @@ stages:
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
               storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
               storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
-              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)         
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)
+              storefrontConfigStoreType: $(STOREFRONT_CONFIG_STORE_TYPE)  
 
 - stage: IM_Demo01_Ecomm_SF_Deploy
   displayName: IM Demo01- Ecomm Helm Deploy
@@ -721,7 +726,8 @@ stages:
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
               storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
               storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
-              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)             
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)
+              storefrontConfigStoreType: $(STOREFRONT_CONFIG_STORE_TYPE)     
 
 - stage: FB_Demo01_Ecomm_SF_Deploy
   displayName: FB Demo01- Ecomm Helm Deploy
@@ -841,5 +847,6 @@ stages:
               storefrontConfigApteanpaySdkUrl: $(STOREFRONT_CONFIG_APTEANPAY_SDK_URL)  
               storefrontConfigStoreSdn: $(STOREFRONT_CONFIG_STORE_SDN)
               storefrontConfigStorageAccountName: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_NAME)
-              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)                                                                 
+              storefrontConfigStorageAccountKey: $(STOREFRONT_CONFIG_STORAGE_ACCOUNT_KEY)
+              storefrontConfigStoreType: $(STOREFRONT_CONFIG_STORE_TYPE)                                                        
               
