@@ -38,7 +38,7 @@ jobs:
     name: buildDockerImage
     inputs:
       containerRegistry: 'Pipeline-ACR-SHR'
-      repository: ${{ parameters.packageName }}
+      repository: ${{ parameters.repositoryName }}
       command: 'build'
       Dockerfile: $(System.DefaultWorkingDirectory)/devops-app-pipelines/src/pipelines/cypress-integration-test/Dockerfile
       tags: '7.4.0'
@@ -51,7 +51,7 @@ jobs:
     name: pushDockerImage
     inputs:
       containerRegistry: 'Pipeline-ACR-SHR'
-      repository: ${{ parameters.packageName }}
+      repository: ${{ parameters.repositoryName }}
       command: 'push'
       tags: '7.4.0'
       addPipelineData: false    
