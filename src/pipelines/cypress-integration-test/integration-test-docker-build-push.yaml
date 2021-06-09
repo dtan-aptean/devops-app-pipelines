@@ -1,0 +1,35 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: e2e-integration-tests
+
+resources:
+  repositories:
+  - repository: testing-e2e
+    type: git
+    name: testing-e2e
+    ref: refs/heads/master  
+
+stages:
+  - stage: eCommerce_sf
+    displayName: Build and push eCommerce storefront cypress test docker image
+    dependsOn: []
+
+    jobs:
+    - template: ./templates/cypress-test-docker-build-push.yaml
+      parameters:
+        packageName: ecomm-sf
+        repositoryName: cypress-ecomm-sf
+
+  - stage: eCommerce_api_svc
+    displayName: Build and push eCommerce api svc cypress test docker image
+    dependsOn: []
+
+    jobs:
+    - template: ./templates/cypress-test-docker-build-push.yaml
+      parameters:
+        packageName: ecomm-api-svc 
+        repositoryName: cypress-ecomm-api-svc     
