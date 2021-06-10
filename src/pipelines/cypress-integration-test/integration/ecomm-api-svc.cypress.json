@@ -3,7 +3,11 @@
     "env": {
         "x-aptean-apim": "#{ECOMM_APIM}#",
         "x-aptean-tenant": "#{ECOMM_TENANT_ID}#",
-        "x-aptean-tenant-secret": "#{ECOMM_TENANT_SECRET}#"
+        "x-aptean-tenant-secret": "#{ECOMM_TENANT_SECRET}#",
+        "gqlTimeout": 5000,
+        "storefrontUrl": "#{ECOMM_PORTAL_BASE_URL}#",
+        "storefrontLogin": "#{ECOMM_USERNAME}#",
+        "storefrontPassword": "#{ECOMM_PASSWORD}#"      
     },
     "chromeWebSecurity": false,
     "defaultCommandTimeout": 120000,
