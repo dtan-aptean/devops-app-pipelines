@@ -11,7 +11,7 @@ resources:
   - repository: testing-e2e
     type: git
     name: testing-e2e
-    ref: refs/heads/master  
+    ref: refs/heads/62067ac6  
 
 stages:
   - stage: eCommerce_sf
