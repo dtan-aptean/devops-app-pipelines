@@ -8,7 +8,8 @@ jobs:
   steps: 
   - checkout: self
 
-  - checkout: testing-e2e  
+  - checkout: testing-e2e
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/62067ac6')
 
   - task: CopyFiles@2
     displayName: ${{ parameters.packageName }} - Copy test files
