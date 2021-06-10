@@ -63,3 +63,7 @@ stages:
               crmLoadTenantId: $(CRM_LOAD_CRM_TENANT_ID)
               crmLoadTenantSecret: $(CRM_LOAD_CRM_TENANT_SECRET)
               crmLoadApiKey: $(CRM_LOAD_CRM_API_KEY)
+              # ecomm
+              ecommTenantId: $(ECOMM_TENANT_ID)
+              ecommTenantSecret: $(ECOMM_TENANT_SECRET)
+              ecommApiKey: $(ECOMM_API_KEY)

@@ -27,7 +27,12 @@ parameters:
   crmLoadTenantId: ''
   crmLoadTenantSecret: ''
   crmLoadApiKey: ''
-  
+  # ecomm
+  ecommTenantId: ''
+  ecommTenantSecret: ''
+  ecommApiKey: ''
+
+
 steps:
 - pwsh: |
     $env:HELM_EXPERIMENTAL_OCI = 1
@@ -81,6 +86,10 @@ steps:
     ecomm:
       nodeSelector:
         pool: "$env:K6_SCRIPTS_NODE_SELECTOR_POOL"
+      config:
+        tenantId: "$env:ECOMM_TENANT_ID"
+        tenantSecret: "$env:ECOMM_TENANT_SECRET"
+        apiKey: "$env:ECOMM_API_KEY"
       pod:
         resources:
           limits:
@@ -165,6 +174,10 @@ steps:
     CRM_LOAD_API_KEY: ${{ parameters.crmLoadApiKey }}
     CRM_LOAD_TENANT_ID: ${{ parameters.crmLoadTenantId }}
     CRM_LOAD_TENANT_SECRET: ${{ parameters.crmLoadTenantSecret }}
+    # ecomm
+    ECOMM_TENANT_ID: ${{ parameters.ecommTenantId }}
+    ECOMM_TENANT_SECRET: ${{ parameters.ecommTenantSecret }}
+    ECOMM_API_KEY: ${{ parameters.ecommApiKey }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
