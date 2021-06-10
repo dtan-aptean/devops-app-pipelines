@@ -9,7 +9,7 @@ jobs:
   - checkout: self
 
   - checkout: testing-e2e
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/62067ac6')
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/UpdateMessageTemplate')
 
   - task: CopyFiles@2
     displayName: ${{ parameters.packageName }} - Copy test files
