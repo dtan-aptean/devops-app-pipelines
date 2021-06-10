@@ -60,7 +60,7 @@ variables:
 - name: GQL_API_SVC_KONG_INGRESS_CLASS
   value: kong-stg 
 - name: GQL_API_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: GQL_API_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs     
 # ERP SVC

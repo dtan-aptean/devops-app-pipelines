@@ -48,9 +48,9 @@ variables:
 - name: GQL_API_SVC_IMAGE_REPOSITORY_NAME
   value: ecomm-gql-api-svc
 - name: GQL_API_SVC_RESOURCE_LIMITS_CPU
-  value: 50m
+  value: 100m
 - name: GQL_API_SVC_RESOURCE_LIMITS_MEMORY
-  value: 64Mi
+  value: 256Mi
 - name: GQL_API_SVC_RESOURCE_REQUESTS_CPU
   value: 10m
 - name: GQL_API_SVC_RESOURCE_REQUESTS_MEMORY
