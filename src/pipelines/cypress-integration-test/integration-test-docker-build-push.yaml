@@ -11,7 +11,7 @@ resources:
   - repository: testing-e2e
     type: git
     name: testing-e2e
-    ref: rrefs/heads/UpdateMessageTemplate  
+    ref: refs/heads/UpdateMessageTemplate  
 
 stages:
   - stage: eCommerce_sf
