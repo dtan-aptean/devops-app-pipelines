@@ -86,6 +86,7 @@ stages:
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
               payerPortalUrl: $(PAYER_PORTAL_URL)
+              apteanpayJsSdk: $(APTEAN_PAY_JS_SDK)
               serviceBusConnString: $(SB_CONN_STRING)
               wepayApiVersion: $(WEPAY_API_VERSION)
               wepayAppId: $(WEPAY_APP_ID)
@@ -295,6 +296,12 @@ stages:
               ezpayCheckoutSvcResourceRequestMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY)
               ezpayCheckoutSvcKongIngressUpstreamHostHeader: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)
+              mongoDbEzpayCheckoutSvcCollectionName: $(MONGODB_EZPAY_CHECKOUT_SVC_COLLECTION)
+              ezpayCheckoutSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
+              ezpayCheckoutSvcSubsMgmtApiKey: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_API_KEY)
+              ezpayCheckoutSvcSubsMgmtServiceId: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID)
+              ezpayCheckoutSvcSessionExpiryInterval: $(EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL)
+              ezpayCheckoutSvcEzpayApiSvcGqlUrl: $(EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC)
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -342,6 +349,7 @@ stages:
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
               payerPortalUrl: $(PAYER_PORTAL_URL)
+              apteanpayJsSdk: $(APTEAN_PAY_JS_SDK)
               serviceBusConnString: $(SB_CONN_STRING)
               wepayApiVersion: $(WEPAY_API_VERSION)
               wepayAppId: $(WEPAY_APP_ID)
@@ -550,6 +558,12 @@ stages:
               ezpayCheckoutSvcResourceRequestMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY)
               ezpayCheckoutSvcKongIngressUpstreamHostHeader: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)
+              mongoDbEzpayCheckoutSvcCollectionName: $(MONGODB_EZPAY_CHECKOUT_SVC_COLLECTION)
+              ezpayCheckoutSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
+              ezpayCheckoutSvcSubsMgmtApiKey: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_API_KEY)
+              ezpayCheckoutSvcSubsMgmtServiceId: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID)
+              ezpayCheckoutSvcSessionExpiryInterval: $(EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL)
+              ezpayCheckoutSvcEzpayApiSvcGqlUrl: $(EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC)
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -643,6 +657,7 @@ stages:
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
               payerPortalUrl: $(PAYER_PORTAL_URL)
+              apteanpayJsSdk: $(APTEAN_PAY_JS_SDK)
               serviceBusConnString: $(SB_CONN_STRING)
               wepayApiVersion: $(WEPAY_API_VERSION)
               wepayAppId: $(WEPAY_APP_ID)
@@ -852,6 +867,12 @@ stages:
               ezpayCheckoutSvcResourceRequestMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY)
               ezpayCheckoutSvcKongIngressUpstreamHostHeader: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)
+              mongoDbEzpayCheckoutSvcCollectionName: $(MONGODB_EZPAY_CHECKOUT_SVC_COLLECTION)
+              ezpayCheckoutSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
+              ezpayCheckoutSvcSubsMgmtApiKey: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_API_KEY)
+              ezpayCheckoutSvcSubsMgmtServiceId: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID)
+              ezpayCheckoutSvcSessionExpiryInterval: $(EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL)
+              ezpayCheckoutSvcEzpayApiSvcGqlUrl: $(EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC)
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -899,6 +920,7 @@ stages:
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
               payerPortalUrl: $(PAYER_PORTAL_URL)
+              apteanpayJsSdk: $(APTEAN_PAY_JS_SDK)
               serviceBusConnString: $(SB_CONN_STRING)
               wepayApiVersion: $(WEPAY_API_VERSION)
               wepayAppId: $(WEPAY_APP_ID)
@@ -1107,6 +1129,12 @@ stages:
               ezpayCheckoutSvcResourceRequestMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY)
               ezpayCheckoutSvcKongIngressUpstreamHostHeader: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)
+              mongoDbEzpayCheckoutSvcCollectionName: $(MONGODB_EZPAY_CHECKOUT_SVC_COLLECTION)
+              ezpayCheckoutSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
+              ezpayCheckoutSvcSubsMgmtApiKey: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_API_KEY)
+              ezpayCheckoutSvcSubsMgmtServiceId: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID)
+              ezpayCheckoutSvcSessionExpiryInterval: $(EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL)
+              ezpayCheckoutSvcEzpayApiSvcGqlUrl: $(EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC)
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -1224,6 +1252,7 @@ stages:
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
               payerPortalUrl: $(PAYER_PORTAL_URL)
+              apteanpayJsSdk: $(APTEAN_PAY_JS_SDK)
               serviceBusConnString: $(SB_CONN_STRING)
               wepayApiVersion: $(WEPAY_API_VERSION)
               wepayAppId: $(WEPAY_APP_ID)
@@ -1433,6 +1462,12 @@ stages:
               ezpayCheckoutSvcResourceRequestMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY)
               ezpayCheckoutSvcKongIngressUpstreamHostHeader: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)
+              mongoDbEzpayCheckoutSvcCollectionName: $(MONGODB_EZPAY_CHECKOUT_SVC_COLLECTION)
+              ezpayCheckoutSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
+              ezpayCheckoutSvcSubsMgmtApiKey: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_API_KEY)
+              ezpayCheckoutSvcSubsMgmtServiceId: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID)
+              ezpayCheckoutSvcSessionExpiryInterval: $(EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL)
+              ezpayCheckoutSvcEzpayApiSvcGqlUrl: $(EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC)
 
 - stage: STG_Ezpay_Helm_Deploy_West
   displayName: STG (WEST) - Ezpay Svcs Helm Deploy
@@ -1481,6 +1516,7 @@ stages:
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
               payerPortalUrl: $(PAYER_PORTAL_URL)
+              apteanpayJsSdk: $(APTEAN_PAY_JS_SDK)
               serviceBusConnString: $(SB_CONN_STRING)
               wepayApiVersion: $(WEPAY_API_VERSION)
               wepayAppId: $(WEPAY_APP_ID)
@@ -1689,6 +1725,12 @@ stages:
               ezpayCheckoutSvcResourceRequestMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY)
               ezpayCheckoutSvcKongIngressUpstreamHostHeader: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)
+              mongoDbEzpayCheckoutSvcCollectionName: $(MONGODB_EZPAY_CHECKOUT_SVC_COLLECTION)
+              ezpayCheckoutSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
+              ezpayCheckoutSvcSubsMgmtApiKey: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_API_KEY)
+              ezpayCheckoutSvcSubsMgmtServiceId: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID)
+              ezpayCheckoutSvcSessionExpiryInterval: $(EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL)
+              ezpayCheckoutSvcEzpayApiSvcGqlUrl: $(EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC)
 
 - stage: STG_Merchant_Portal_Deploy
   displayName: STG - Merchant Portal Deployment
@@ -1804,6 +1846,7 @@ stages:
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
               payerPortalUrl: $(PAYER_PORTAL_URL)
+              apteanpayJsSdk: $(APTEAN_PAY_JS_SDK)
               serviceBusConnString: $(SB_CONN_STRING)
               wepayApiVersion: $(WEPAY_API_VERSION)
               wepayAppId: $(WEPAY_APP_ID)
@@ -2012,7 +2055,13 @@ stages:
               ezpayCheckoutSvcResourceRequestCpu: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_CPU)
               ezpayCheckoutSvcResourceRequestMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY)
               ezpayCheckoutSvcKongIngressUpstreamHostHeader: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER)
-              ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)                   
+              ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)
+              mongoDbEzpayCheckoutSvcCollectionName: $(MONGODB_EZPAY_CHECKOUT_SVC_COLLECTION)
+              ezpayCheckoutSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
+              ezpayCheckoutSvcSubsMgmtApiKey: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_API_KEY)
+              ezpayCheckoutSvcSubsMgmtServiceId: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID)
+              ezpayCheckoutSvcSessionExpiryInterval: $(EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL)
+              ezpayCheckoutSvcEzpayApiSvcGqlUrl: $(EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC)                 
 
 - stage: PRD_Ezpay_Helm_Deploy_West
   displayName: PRD (WEST) - Ezpay Svcs Helm Deploy
@@ -2062,6 +2111,7 @@ stages:
               wepayUploadBaseUrl: $(WEPAY_UPLOAD_BASE_URL)
               merchantPortalUrl: $(MERCHANT_PORTAL_URL)
               payerPortalUrl: $(PAYER_PORTAL_URL)
+              apteanpayJsSdk: $(APTEAN_PAY_JS_SDK)
               serviceBusConnString: $(SB_CONN_STRING)
               wepayApiVersion: $(WEPAY_API_VERSION)
               wepayAppId: $(WEPAY_APP_ID)
@@ -2269,7 +2319,13 @@ stages:
               ezpayCheckoutSvcResourceRequestCpu: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_CPU)
               ezpayCheckoutSvcResourceRequestMemory: $(EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY)
               ezpayCheckoutSvcKongIngressUpstreamHostHeader: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HEADER)
-              ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)                   
+              ezpayCheckoutSvcKongIngressClass: $(EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS)
+              mongoDbEzpayCheckoutSvcCollectionName: $(MONGODB_EZPAY_CHECKOUT_SVC_COLLECTION)
+              ezpayCheckoutSvcSubsMgmtGrpcUrl: $(SUBS_MGMT_GRPC_URL)
+              ezpayCheckoutSvcSubsMgmtApiKey: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_API_KEY)
+              ezpayCheckoutSvcSubsMgmtServiceId: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID)
+              ezpayCheckoutSvcSessionExpiryInterval: $(EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL)
+              ezpayCheckoutSvcEzpayApiSvcGqlUrl: $(EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC)                
 
 - stage: PRD_Merchant_Portal_Deploy
   displayName: PRD - Merchant Portal Deployment

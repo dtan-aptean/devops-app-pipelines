@@ -24,6 +24,7 @@ parameters:
   wepayAppToken: ''  
   merchantPortalUrl: ''
   payerPortalUrl: ''
+  apteanpayJsSdk: ''
   serviceBusConnString: ''
   serviceBusEventsTopic: ''
   serviceBusPlatformEventsTopicConnString: ''
@@ -241,6 +242,12 @@ parameters:
   ezpayCheckoutSvcResourceRequestMemory: ''
   ezpayCheckoutSvcKongIngressUpstreamHostHeader: ''
   ezpayCheckoutSvcKongIngressClass: ''
+  mongoDbEzpayCheckoutSvcCollectionName: ''
+  ezpayCheckoutSvcSubsMgmtGrpcUrl: ''
+  ezpayCheckoutSvcSubsMgmtApiKey: ''
+  ezpayCheckoutSvcSubsMgmtServiceId: ''
+  ezpayCheckoutSvcSessionExpiryInterval: ''
+  ezpayCheckoutSvcEzpayApiSvcGqlUrl: ''
 
 steps:
 - pwsh: |
@@ -947,6 +954,21 @@ steps:
       ingress:
         annotations:
           kubernetes.io/ingress.class: $env:EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS
+      
+      config:
+        cosmosMongo:
+          databaseName: "$env:EZPAY_CHECKOUT_SVC_MONGODB_DATABASE"
+          collectionName: "$env:EZPAY_CHECKOUT_SVC_MONGODB_COLLECTION"
+          connectionString: "$env:EZPAY_CHECKOUT_SVC_MONGODB_CONN_STRING"
+        baseUrl: "$env:EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC"
+        apteanpayJsSdk: "$env:APTEAN_PAY_JS_SDK"
+        apiSvc:
+          grpcUrl: "$env:EZPAY_API_SVC_GRPC_URL"
+        subsMgmt:
+          apiKey: "$env:EZPAY_CHECKOUT_SVC_SUBS_MGMT_API_KEY"
+          grpcUrl: "$env:EZPAY_CHECKOUT_SVC_SUBS_MGMT_GRPC_URL"
+          serviceId: "$env:EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID"
+        sessionExpiryInterval: "$env:EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -978,6 +1000,7 @@ steps:
     EZPAY_API_SVC_GRPC_URL: $ {{ parameters.ezpayApiSvcGrpcUrl }}
     MERCHANT_PORTAL_URL: ${{ parameters.merchantPortalUrl }}
     PAYER_PORTAL_URL: ${{ parameters.payerPortalUrl }}
+    APTEAN_PAY_JS_SDK: ${{ parameters.apteanpayJsSdk }}
     SB_CONN_STRING: ${{ parameters.serviceBusConnString }}    
     SB_EVENTS_TOPIC: ${{ parameters.serviceBusEventsTopic }}
     SB_PLATFORM_EVENTS_TOPIC_CONN_STRING: ${{ parameters.serviceBusPlatformEventsTopicConnString }}
@@ -1207,6 +1230,14 @@ steps:
     EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.ezpayCheckoutSvcRequestMemory }}
     EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.ezpayCheckoutSvcKongIngressUpstreamHeader }}
     EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS: ${{ parameters.ezpayCheckoutSvcKongIngressClass }}
+    EZPAY_CHECKOUT_SVC_MONGODB_DATABASE: ${{ parameters.mongoDbName }}
+    EZPAY_CHECKOUT_SVC_MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    EZPAY_CHECKOUT_SVC_MONGODB_COLLECTION: ${{ parameters.mongoDbEzpayCheckoutSvcCollectionName }}
+    EZPAY_CHECKOUT_SVC_SUBS_MGMT_GRPC_URL: ${{ parameters.ezpayCheckoutSvcSubsMgmtGrpcUrl }}
+    EZPAY_CHECKOUT_SVC_SUBS_MGMT_API_KEY: ${{ parameters.ezpayCheckoutSvcSubsMgmtApiKey }}
+    EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID: ${{ parameters.ezpayCheckoutSvcSubsMgmtServiceId }}
+    EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL: ${{ parameters.ezpayCheckoutSvcSessionExpiryInterval }}
+    EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC: ${{ parameters.ezpayCheckoutSvcEzpayApiSvcGqlUrl }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
