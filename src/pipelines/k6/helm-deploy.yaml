@@ -60,6 +60,10 @@ stages:
               k6ScriptsResourceRequestsMemory: $(K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY)
               k6StatsDServiceAddress: $(K6_STATSD_ADDR)
               # crm
-              crmLoadTenantId: $(CRM_LOAD_CRM_TENANT_ID)
-              crmLoadTenantSecret: $(CRM_LOAD_CRM_TENANT_SECRET)
-              crmLoadApiKey: $(CRM_LOAD_CRM_API_KEY)
+              crmTenantId: $(CRM_TENANT_ID)
+              crmTenantSecret: $(CRM_TENANT_SECRET)
+              crmApiKey: $(CRM_API_KEY)
+              # ecomm
+              ecommTenantId: $(ECOMM_TENANT_ID)
+              ecommTenantSecret: $(ECOMM_TENANT_SECRET)
+              ecommApiKey: $(ECOMM_API_KEY)

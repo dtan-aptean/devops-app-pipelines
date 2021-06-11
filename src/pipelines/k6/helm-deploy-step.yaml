@@ -24,9 +24,13 @@ parameters:
   k6ScriptsResourceRequestsMemory: ''
   k6StatsDServiceAddress: ''
   # crm
-  crmLoadTenantId: ''
-  crmLoadTenantSecret: ''
-  crmLoadApiKey: ''
+  crmTenantId: ''
+  crmTenantSecret: ''
+  crmApiKey: ''
+  # ecomm
+  ecommTenantId: ''
+  ecommTenantSecret: ''
+  ecommApiKey: ''
   
 steps:
 - pwsh: |
@@ -89,6 +93,10 @@ steps:
           requests:
             cpu: $env:K6_SCRIPTS_RESOURCE_REQUESTS_CPU
             memory: $env:K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY
+      config:
+        apiKey: "$env:ECOMM_API_KEY"
+        tenantId: "$env:ECOMM_TENANT_ID"
+        tenantSecret: "$env:ECOMM_TENANT_SECRET"
 
     ezpay:
       nodeSelector:
@@ -113,11 +121,10 @@ steps:
           requests:
             cpu: $env:K6_SCRIPTS_RESOURCE_REQUESTS_CPU
             memory: $env:K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY
-      load:
-        env:
-          crmLoadApiKey: "$env:CRM_LOAD_API_KEY"
-          crmLoadTenantId: "$env:CRM_LOAD_TENANT_ID"
-          crmLoadTenantSecret: "$env:CRM_LOAD_TENANT_SECRET"
+      config:
+        apiKey: "$env:CRM_API_KEY"
+        tenantId: "$env:CRM_TENANT_ID"
+        tenantSecret: "$env:CRM_TENANT_SECRET"
 
     foundational:
       nodeSelector:
@@ -162,9 +169,13 @@ steps:
     K6_SCRIPTS_RESOURCE_REQUESTS_MEMORY: ${{ parameters.k6ScriptsResourceRequestsMemory }}
     K6_STATSD_ADDR: ${{ parameters.k6StatsDServiceAddress }}
     # crm
-    CRM_LOAD_API_KEY: ${{ parameters.crmLoadApiKey }}
-    CRM_LOAD_TENANT_ID: ${{ parameters.crmLoadTenantId }}
-    CRM_LOAD_TENANT_SECRET: ${{ parameters.crmLoadTenantSecret }}
+    CRM_API_KEY: ${{ parameters.crmApiKey }}
+    CRM_TENANT_ID: ${{ parameters.crmTenantId }}
+    CRM_TENANT_SECRET: ${{ parameters.crmTenantSecret }}
+    # ecomm
+    ECOMM_API_KEY: ${{ parameters.ecommApiKey }}
+    ECOMM_TENANT_ID: ${{ parameters.ecommTenantId }}
+    ECOMM_TENANT_SECRET: ${{ parameters.ecommTenantSecret }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
