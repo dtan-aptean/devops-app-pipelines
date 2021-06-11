@@ -1228,7 +1228,7 @@ steps:
     EZPAY_CHECKOUT_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.ezpayCheckoutSvcResourceLimitsMemory }}
     EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.ezpayCheckoutSvcRequestCpu }}
     EZPAY_CHECKOUT_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.ezpayCheckoutSvcRequestMemory }}
-    EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.ezpayCheckoutSvcKongIngressUpstreamHeader }}
+    EZPAY_CHECKOUT_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.ezpayCheckoutSvcKongIngressUpstreamHostHeader }}
     EZPAY_CHECKOUT_SVC_KONG_INGRESS_CLASS: ${{ parameters.ezpayCheckoutSvcKongIngressClass }}
     EZPAY_CHECKOUT_SVC_MONGODB_DATABASE: ${{ parameters.mongoDbName }}
     EZPAY_CHECKOUT_SVC_MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
