@@ -742,9 +742,8 @@ steps:
         $appName = "$env:STOREFRONT_CONFIG_STORE_SDN-$service-$env:ENV-$env:LOCATION".ToLower()
       }            
       Write-Host "Querying APM information for: $appName"
-
       docker run `
-          -e NEW_RELIC_API_KEY=$env:NEW_RELIC_API_KEY `
+          -e NEW_RELIC_API_KEY=$env:NEW_RELIC_CLI_API_KEY `
           -e NEW_RELIC_REGION=US `
           -e NEW_RELIC_ACCOUNT_ID=$env:NEW_RELIC_ACCOUNT_ID `
           newrelic/cli `
@@ -759,7 +758,7 @@ steps:
       Write-Host found appId: $applicationId
       Write-Host "Creating deployment for revision: $imageTag"
       docker run `
-          -e NEW_RELIC_API_KEY=$env:NEW_RELIC_API_KEY `
+          -e NEW_RELIC_API_KEY=$env:NEW_RELIC_CLI_API_KEY `
           -e NEW_RELIC_REGION=US `
           -e NEW_RELIC_ACCOUNT_ID=$env:NEW_RELIC_ACCOUNT_ID `
           newrelic/cli `
@@ -770,7 +769,7 @@ steps:
   workingDirectory: $(System.DefaultWorkingDirectory)
   failOnStderr: false
   env:
-    NEW_RELIC_API_KEY: ${{ parameters.newRelicCliApiKey }}
+    NEW_RELIC_CLI_API_KEY: ${{ parameters.newRelicCliApiKey }}
     NEW_RELIC_ACCOUNT_ID: ${{ parameters.newRelicAccountId }}
     ENV: ${{ parameters.env }} 
     LOCATION: ${{ parameters.location }}
