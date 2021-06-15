@@ -5,6 +5,7 @@ parameters:
   dockerBuildContext: '**'
   dockerBuildArguments: '--target tests'
   agentPool: { vmImage: ubuntu-latest }
+  additionalSteps: []
 
 stages:
 - stage: Build
@@ -39,3 +40,5 @@ stages:
         buildContext: ${{ parameters.dockerBuildContext }}
         arguments: ${{ parameters.dockerBuildArguments }}
         addPipelineData: false
+
+    - ${{ parameters.additionalSteps }}
