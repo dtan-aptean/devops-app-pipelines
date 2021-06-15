@@ -5,6 +5,7 @@ parameters:
   dockerBuildContext: '**'
   dockerBuildArguments: '--target tests'
   agentPool: { vmImage: ubuntu-latest }
+  fullVersionFriendly: ''
 
 stages:
 - stage: Build
@@ -38,4 +39,5 @@ stages:
         Dockerfile: ${{ parameters.dockerFilePath }}
         buildContext: ${{ parameters.dockerBuildContext }}
         arguments: ${{ parameters.dockerBuildArguments }}
+        tags: ${{ parameters.fullVersionFriendly }}
         addPipelineData: false
