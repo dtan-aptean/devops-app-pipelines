@@ -643,6 +643,7 @@ stages:
               batchSize: $(BATCH_SIZE)
               executionMode: $(EXECUTION_MODE)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              nodeJsEnv: 'production'
 
 ## Subs Mgmt
 
@@ -706,7 +707,8 @@ stages:
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
               eventsSbConnString: $(EVENTS_SB_CONN_STRING)
-              eventsSbQueue: $(EVENTS_SB_QUEUE)              
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)           
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -842,7 +844,8 @@ stages:
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
               eventsSbConnString: $(EVENTS_SB_CONN_STRING)
-              eventsSbQueue: $(EVENTS_SB_QUEUE)              
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)            
 
 - stage: STG_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: STG - subs mgmt grpc api-svc Helm Deploy
@@ -1040,7 +1043,8 @@ stages:
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
               eventsSbConnString: $(EVENTS_SB_CONN_STRING)
-              eventsSbQueue: $(EVENTS_SB_QUEUE)              
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)        
 
 - stage: PRD_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
   displayName: PRD - subs mgmt gql api-svc Helm Deploy
@@ -1106,7 +1110,8 @@ stages:
               apiKind: GQL
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
               eventsSbConnString: $(EVENTS_SB_CONN_STRING)
-              eventsSbQueue: $(EVENTS_SB_QUEUE)              
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)  
 
 - stage: PRD_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
   displayName: PRD - subs mgmt grpc api-svc Helm Deploy
