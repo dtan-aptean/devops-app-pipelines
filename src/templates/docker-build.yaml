@@ -6,6 +6,8 @@ parameters:
   dockerBuildArguments: '--target tests'
   agentPool: { vmImage: ubuntu-latest }
   fullVersionFriendly: ''
+  containerRegistry: ''
+  containerRepository: ''
 
 stages:
 - stage: Build
@@ -36,6 +38,8 @@ stages:
       name: buildDockerImage
       inputs:
         command: build
+        containerRegistry: ${{ parameters.containerRegistry }}
+        repository: ${{ parameters.containerRepository }}
         Dockerfile: ${{ parameters.dockerFilePath }}
         buildContext: ${{ parameters.dockerBuildContext }}
         arguments: ${{ parameters.dockerBuildArguments }}
