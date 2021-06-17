@@ -6,10 +6,13 @@
     "x-aptean-tenant": "#{X_APTEAN_TENANT}#", 
     "x-ezpay": "#{X_EZPAY}#" 
   }, 
-  "reporter": "junit",
+  "reporter": "cypress-mochawesome-reporter",
   "reporterOptions": {
-    "mochaFile": "/e2e/cypress/results/test-result-ezpay-api-svc-[hash].xml"
+    "reportDir": "/e2e/cypress/report",
+    "charts": true,
+    "reportPageTitle": "ezpay-api-svc",
+    "embeddedScreenshots": true
   },
-  "videosFolder": "/e2e/cypress/videos",
+  "video": false,
   "screenshotsFolder": "/e2e/cypress/screenshots" 
 }
