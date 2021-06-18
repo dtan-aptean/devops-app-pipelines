@@ -5,6 +5,6 @@ WORKDIR /src
 COPY ./cypress ./cypress
 COPY ./cypress.json ./cypress.json
 
-RUN npm install typescript puppeteer cypress-file-upload axios
+RUN npm install typescript puppeteer cypress-file-upload axios cypress-mochawesome-reporter mocha
 
 ENTRYPOINT ["cypress", "run"] 
