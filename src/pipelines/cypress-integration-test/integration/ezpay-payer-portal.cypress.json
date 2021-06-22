@@ -14,7 +14,9 @@
     "x-aptean-apim": "#{X_APTEAN_APIM}#", 
     "x-aptean-tenant": "#{X_APTEAN_TENANT}#", 
     "x-ezpay": "#{X_EZPAY}#",
-    "x-ezpay-pmt": "#{X_EZPAY_PMT}#"      
+    "x-ezpay-pmt": "#{X_EZPAY_PMT}#",
+    "runtimeEnv": "#{RUNTIME_ENV}#",
+    "storageAccountConnString": "#{STORAGE_ACCOUNT_CONN_STRING}#"          
   }, 
   "supportFile": "cypress/support/index.ts",
   "reporter": "cypress-mochawesome-reporter",
@@ -22,7 +24,7 @@
     "reportDir": "/e2e/cypress/report",
     "charts": true,
     "reportPageTitle": "ezpay-payer-portal",
-    "embeddedScreenshots": true
+    "embeddedScreenshots": false
   },
   "video": false,
   "screenshotsFolder": "/e2e/cypress/screenshots" 

@@ -3,7 +3,10 @@
     "username": "#{ECOMM_USERNAME}#",
     "password": "#{ECOMM_PASSWORD}#",
     "campaignReceiver": "#{ECOMM_CAMPAIGN_RECEIVER}#",
-    "env": {},
+    "env": {
+      "runtimeEnv": "#{RUNTIME_ENV}#",
+      "storageAccountConnString": "#{STORAGE_ACCOUNT_CONN_STRING}#"      
+    },
     "defaultCategory": "Cypress Trees",
     "defaultCategoryUrl": "cypress",
     "defaultLanguage": "English",
@@ -15,7 +18,7 @@
       "reportDir": "/e2e/cypress/report",
       "charts": true,
       "reportPageTitle": "ecomm-sf",
-      "embeddedScreenshots": true
+      "embeddedScreenshots": false
     },
     "video": false,
     "screenshotsFolder": "/e2e/cypress/screenshots",
