@@ -4,14 +4,16 @@
     "authorization": "bearer --BEARER_TOKEN--", 
     "x-aptean-apim": "#{X_APTEAN_APIM}#", 
     "x-aptean-tenant": "#{X_APTEAN_TENANT}#", 
-    "x-ezpay": "#{X_EZPAY}#" 
+    "x-ezpay": "#{X_EZPAY}#",
+    "runtimeEnv": "#{RUNTIME_ENV}#",
+    "storageAccountConnString": "#{STORAGE_ACCOUNT_CONN_STRING}#"     
   }, 
   "reporter": "cypress-mochawesome-reporter",
   "reporterOptions": {
     "reportDir": "/e2e/cypress/report",
     "charts": true,
     "reportPageTitle": "ezpay-api-svc",
-    "embeddedScreenshots": true
+    "embeddedScreenshots": false
   },
   "video": false,
   "screenshotsFolder": "/e2e/cypress/screenshots" 
