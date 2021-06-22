@@ -157,7 +157,8 @@ stages:
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
-              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)              
+              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
+              ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -420,7 +421,8 @@ stages:
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
-              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)              
+              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
+              ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -728,7 +730,8 @@ stages:
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
-              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)              
+              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
+              ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -991,7 +994,8 @@ stages:
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
-              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)              
+              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
+              ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -1323,7 +1327,8 @@ stages:
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
-              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)              
+              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
+              ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -1587,7 +1592,8 @@ stages:
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
-              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)              
+              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
+              ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -1917,7 +1923,8 @@ stages:
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
-              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)              
+              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
+              ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)
@@ -2182,7 +2189,8 @@ stages:
               ezpayApiSvcGrpcUrl: $(EZPAY_API_SVC_GRPC_URL)
               ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
-              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)              
+              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
+              ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
               emailNotificationSvcReplicas: $(EMAIL_NOTIFICATION_SVC_REPLICAS)

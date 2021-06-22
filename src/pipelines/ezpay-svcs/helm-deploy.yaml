@@ -188,6 +188,7 @@ stages:
               ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
               ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
+              ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
               #ezpayApiSvcNodeJsEnv: $(EZPAY_API_SVC_)  
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
@@ -447,7 +448,8 @@ stages:
               ezpayApiSvcProductApisOnly: $(EZPAY_API_SVC_PRODUCT_APIS_ONLY)
               ezpayApiSvcBroadcastPlatformEvents: $(EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS)
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
-              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)              
+              ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
+              ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
               #ezpayApiSvcNodeJsEnv: $(EZPAY_API_SVC_)  
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)

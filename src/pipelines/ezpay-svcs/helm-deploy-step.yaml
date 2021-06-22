@@ -92,6 +92,7 @@ parameters:
   ezpayApiSvcProductApisOnly: ''
   ezpayApiSvcGrpcUrl: ''
   ezpayApiSvcBroadcastPlatformEvents: ''
+  ezpayApiSvcEzpayCheckoutSvcGrpcUrl: ''
   # EMAIL NOTIFICATION SVC
   emailNotificationSvcImageTag: ''
   emailNotificationSvcImageRepositoryName: ''
@@ -604,6 +605,8 @@ steps:
           ezpayApiSvcCollection: "$env:EZPAY_API_SVC_MONGODB_EZPAY_API_SVC_COLLECTION"
         claimSvc:
           grpcUrl: "$env:EZPAY_API_SVC_EZPAY_CLAIM_SVC_GRPC_URL"
+        checkoutSvc:
+          grpcUrl: "$env:EZPAY_API_SVC_EZPAY_CHECKOUT_SVC_GRPC_URL"
         grpcUrl: "$env:EZPAY_API_SVC_GRPC_URL"
         paymentsPlatformFromPhoneNumber: "$env:EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_PHONE_NUMBER"
         paymentsPlatformFromEmail: "$env:EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_EMAIL"
@@ -1047,6 +1050,7 @@ steps:
     EZPAY_API_SVC_B2C_POLICY_NAME: ${{ parameters.ezpayApiSvcB2cPolicyName }}
     EZPAY_API_SVC_SUBS_MGMT_GRPC_URL: ${{ parameters.ezpayApiSvcSubsMgmtGrpcUrl }}
     EZPAY_API_SVC_EZPAY_CLAIM_SVC_GRPC_URL: ${{ parameters.ezpayApiSvcEzpayClaimSvcGrpcUrl }}
+    EZPAY_API_SVC_EZPAY_CHECKOUT_SVC_GRPC_URL: ${{ parameters.ezpayApiSvcEzpayCheckoutSvcGrpcUrl }}    
     EZPAY_API_SVC_SUBS_MGMT_API_KEY: ${{ parameters.ezpayApiSvcSubsMgmtApiKey }}
     EZPAY_API_SVC_SUBS_MGMT_SERVICE_ID: ${{ parameters.ezpayApiSvcSubsMgmtServiceId }}
     EZPAY_API_SVC_MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
