@@ -93,7 +93,7 @@ variables:
 - name: ERP_INTEGRATION_SVC_KONG_INGRESS_CLASS
   value: kong-prf
 - name: ERP_INTEGRATION_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: ERP_INTEGRATION_SVC_NODE_SELECTOR_POOL
   value: prftesting  
 # MERCHANT OPS SVC
@@ -108,7 +108,7 @@ variables:
 - name: MERCHANT_OPS_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: MERCHANT_OPS_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: MERCHANT_OPS_SVC_NODE_SELECTOR_POOL
   value: prftesting
 # PAYFAC NOTIFICATIONS SVC
@@ -138,7 +138,7 @@ variables:
 - name: PAYMENT_OPS_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: PAYMENT_OPS_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: PAYMENT_OPS_SVC_NODE_SELECTOR_POOL
   value: prftesting
 # PAYMENTS SVC & PAYMENTS RETRY JOB
@@ -182,7 +182,7 @@ variables:
 - name: TXN_RECORDS_STMTS_RESOURCE_REQUESTS_MEMORY
   value: 10Mi   
 - name: TXN_RECORDS_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT
   value: 3
 - name: TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT
@@ -220,7 +220,7 @@ variables:
 - name: EZPAY_CLAIM_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi
 - name: EZPAY_CLAIM_SVC_REPLICAS
-  value: 1
+  value: 2
 - name: EZPAY_CLAIM_SVC_NODE_SELECTOR_POOL
   value: prftesting
 # EZPAY CHECKOUT SVC
