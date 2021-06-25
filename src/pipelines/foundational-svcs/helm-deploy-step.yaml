@@ -20,6 +20,7 @@ parameters:
   mongoDbConnString: ''
   svcBusConnString: ''
   sentryDsn: ''
+  subsMgmtGrpcSvcUrl: ''
   # EVENTS SVC PARAMS
   eventsSvcImageRepositoryName: ''
   eventsSvcReplicas: ''
@@ -56,6 +57,26 @@ parameters:
   shortUrlSvcKongIngressClass: ''
   shortUrlSvcEventsIngressQueue: ''
   shortUrlSvcDomain: ''
+  # SUBS MGMT GRPC SVC PARAMS  
+  subsMgmtGrpcSvcImageRepositoryName: ''
+  subsMgmtGrpcSvcResourceLimitsCpu: ''
+  subsMgmtGrpcSvcResourceLimitsMemory: ''
+  subsMgmtGrpcSvcResourceRequestsCpu: ''
+  subsMgmtGrpcSvcResourceRequestsMemory: ''
+  subsMgmtGrpcSvcReplicas: ''
+  subsMgmtGrpcSvcNodeSelectorPool: ''  
+  subsMgmtGrpcSvcCosmosMongoCollection: ''
+  subsMgmtGrpcSvcSbEventsIngressQueue: ''
+  # ATG CONFIG WEB PARAMS
+  atgConfigWebImageRepositoryName: ''
+  atgConfigWebResourceLimitsCpu: ''
+  atgConfigWebResourceLimitsMemory: ''
+  atgConfigWebResourceRequestsCpu: ''
+  atgConfigWebResourceRequestsMemory: ''
+  atgConfigWebReplicas: ''
+  atgConfigWebNodeSelectorPool: ''
+  atgConfigWebKongIngressUpstreamHostHeader: ''
+  atgConfigWebKongIngressClass: ''
 
 steps:
 - pwsh: |
@@ -89,9 +110,13 @@ steps:
       $latestEventsSvcTag = $tags[0].Split(':')[1]
       $latestStaticWebFilesSvcTag = $tags[1].Split(':')[1]
       $latestShortUrlSvcTag = $tags[2].Split(':')[1]
+      $latestSubsMgmtGrpcTag = $tags[3].Split(':')[1]
+      $latestAtgConfigWebTag = $tags[4].Split(':')[1]
       Write-Host events-svc tag: $latestEventsSvcTag
       Write-Host static-web-files-svc tag: $latestStaticWebFilesSvcTag
       Write-Host short-url-svc tag: $latestShortUrlSvcTag
+      Write-Host subs-mgmt-grpc-svc tag: $latestSubsMgmtGrpcTag
+      Write-Host atg-config-web tag: $latestAtgConfigWebTag      
     }
 
     # EVENTS SVC
@@ -136,10 +161,40 @@ steps:
       }
     }
 
-    $allTags = "events-svc:{0},static-web-files-svc:{1},short-url-svc:{2}" `
+    # SUBS MGMT GRPC SVC
+    if (!$latestSubsMgmtGrpcTag) {
+      if ($env:SUBS_MGMT_GRPC_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured subs-mgmt-grpc-svc tag: $env:SUBS_MGMT_GRPC_SVC_IMAGE_TAG
+        $latestSubsMgmtGrpcTag = $env:SUBS_MGMT_GRPC_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest subs-mgmt-grpc-svc tag.
+        $latestSubsMgmtGrpcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
+    }    
+
+    # ATG CONFIG WEB
+    if (!$latestAtgConfigWebTag) {
+      if ($env:ATG_CONFIG_WEB_IMAGE_TAG)
+      {
+        Write-Host Using configured atg-config-web tag: $env:ATG_CONFIG_WEB_IMAGE_TAG
+        $latestAtgConfigWebTag = $env:ATG_CONFIG_WEB_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest atg-config-web tag.
+        $latestAtgConfigWebTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
+    }          
+
+    $allTags = "events-svc:{0},static-web-files-svc:{1},short-url-svc:{2},subs-mgmt-grpc-svc:{3},atg-config-web{4}" `
                -f $latestEventsSvcTag, `
                   $latestStaticWebFilesSvcTag, `
-                  $latestShortUrlSvcTag
+                  $latestShortUrlSvcTag, `
+                  $latestSubsMgmtGrpcTag, `
+                  $latestAtgConfigWebTag
     Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags"
     @"
     commonLabels:
@@ -260,6 +315,69 @@ steps:
           ingressQueue: "$env:SHORT_URL_SVC_EVENTS_INGRESS_QUEUE"
         domain: "$env:SHORT_URL_SVC_DOMAIN"
 
+    subsMgmtGrpcSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestSubsMgmtGrpcTag
+
+      deployment:
+        replicas: $env:SUBS_MGMT_GRPC_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY
+
+      config:
+        cosmosMongo:
+          collectionName: "$env:SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION"
+        sentry: 
+          dsn: "$env:SENTRY_DSN"
+        serviceBus:
+          eventsIngressQueue: "$env:SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE"   
+
+    atgConfigWeb:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME"
+        tag: $latestAtgConfigWebTag
+
+      deployment:
+        replicas: $env:ATG_CONFIG_WEB_REPLICAS
+
+      nodeSelector:
+        pool: "$env:ATG_CONFIG_WEB_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU
+            memory: $env:ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU
+            memory: $env:ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY
+
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:ATG_CONFIG_WEB_KONG_INGRESS_CLASS
+
+      config:
+        subsMgmtGrpcSvcUrl: "$env:SUBS_MGMT_GRPC_SVC_URL"
+
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     # this line for debugging, will print yaml to console
@@ -286,6 +404,7 @@ steps:
     EVENTS_SVC_BUS_CONN_STRING: ${{ parameters.svcBusConnString }}
     SENTRY_DSN: ${{ parameters.sentryDsn }}
     NEW_RELIC_API_KEY: ${{ parameters.newRelicApiKey }}
+    SUBS_MGMT_GRPC_SVC_URL: ${{ parameters.subsMgmtGrpcSvcUrl }}
     # EVENTS SVC PARAMS
     EVENTS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.eventsSvcImageRepositoryName }}
     EVENTS_SVC_IMAGE_TAG: ${{ parameters.eventsSvcImageTag }}
@@ -322,6 +441,26 @@ steps:
     SHORT_URL_SVC_KONG_INGRESS_CLASS: ${{ parameters.shortUrlSvcKongIngressClass }}
     SHORT_URL_SVC_EVENTS_INGRESS_QUEUE: ${{ parameters.shortUrlSvcEventsIngressQueue }}
     SHORT_URL_SVC_DOMAIN: ${{ parameters.shortUrlSvcDomain }}
+    # SUBS MGMT GRPC SVC PARAMS
+    SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.subsMgmtGrpcSvcImageRepositoryName }}
+    SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.subsMgmtGrpcSvcResourceLimitsCpu }}
+    SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.subsMgmtGrpcSvcResourceLimitsMemory }}
+    SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.subsMgmtGrpcSvcResourceRequestsCpu }}
+    SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.subsMgmtGrpcSvcResourceRequestsMemory }}
+    SUBS_MGMT_GRPC_SVC_REPLICAS: ${{ parameters.subsMgmtGrpcSvcReplicas }}    
+    SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL: ${{ parameters.subsMgmtGrpcSvcNodeSelectorPool }}
+    SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION: ${{ parameters.subsMgmtGrpcSvcCosmosMongoCollection }}
+    SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE: ${{ parameters.subsMgmtGrpcSvcSbEventsIngressQueue }}
+    # ATG CONFIG WEB PARAMS
+    ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME: ${{ parameters.atgConfigWebImageRepositoryName }}
+    ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU: ${{ parameters.atgConfigWebResourceLimitsCpu }}
+    ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY: ${{ parameters.atgConfigWebResourceLimitsMemory }}
+    ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU: ${{ parameters.atgConfigWebResourceRequestsCpu }}
+    ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY: ${{ parameters.atgConfigWebResourceRequestsMemory }}
+    ATG_CONFIG_WEB_REPLICAS: ${{ parameters.atgConfigWebReplicas }}
+    ATG_CONFIG_WEB_NODE_SELECTOR_POOL: ${{ parameters.atgConfigWebNodeSelectorPool }}
+    ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER: ${{ parameters.atgConfigWebKongIngressUpstreamHostHeader }}
+    ATG_CONFIG_WEB_KONG_INGRESS_CLASS: ${{ parameters.atgConfigWebKongIngressClass }} 
 
 - task: Kubernetes@1
   displayName: Kubectl Version

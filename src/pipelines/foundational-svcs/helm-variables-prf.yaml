@@ -74,3 +74,37 @@ variables:
   value: short-url-svc.foundational-svcs-prf.svc
 - name: SHORT_URL_SVC_KONG_INGRESS_CLASS
   value: kong-prf
+# SUBS MGMT GRPC SVC PARAMS
+- name: SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME
+  value: subs-mgmt-grpc-svc
+- name: SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU
+  value: 100m
+- name: SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY
+  value: 128Mi
+- name: SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU
+  value: 10m
+- name: SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY
+  value: 10Mi
+- name: SUBS_MGMT_GRPC_SVC_REPLICAS
+  value: 3
+- name: SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL
+  value: sharedsvcs
+# ATG CONFIG WEB PARAMS
+- name: ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME
+  value: atg-config-web
+- name: ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU
+  value: 200m
+- name: ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY
+  value: 256Mi
+- name: ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU
+  value: 10m
+- name: ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY
+  value: 10Mi
+- name: ATG_CONFIG_WEB_REPLICAS
+  value: 3
+- name: ATG_CONFIG_WEB_NODE_SELECTOR_POOL
+  value: sharedsvcs
+- name: ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER
+  value: atg-config-web.foundational-svcs-prf.svc
+- name: ATG_CONFIG_WEB_KONG_INGRESS_CLASS
+  value: kong-prf  
