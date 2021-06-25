@@ -155,6 +155,10 @@ stages:
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               frontDoorId: $(FRONT_DOOR_ID)
               sentryDsn: $(SENTRY_DSN)
+              # New Relic Agent Switches
+              ezpayApiSvcNewRelicAgentEnabled: $(NEW_RELIC_AGENT_ENABLED)
+              erpIntegrationSvcNewRelicAgentEnabled: $(NEW_RELIC_AGENT_ENABLED)
+              wepayIntegrationSvcNewRelicAgentEnabled: $(NEW_RELIC_AGENT_ENABLED)
               # Cancel Payment Retry Job
               paymentCancelRetryJobImageRepositoryName: $(PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME)
               paymentCancelRetryJobConfigCronSchedule: $(PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE)
@@ -435,6 +439,10 @@ stages:
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               frontDoorId: $(FRONT_DOOR_ID)
               sentryDsn: $(SENTRY_DSN)
+              # New Relic Agent Switches
+              ezpayApiSvcNewRelicAgentEnabled: $(NEW_RELIC_AGENT_ENABLED)
+              erpIntegrationSvcNewRelicAgentEnabled: $(NEW_RELIC_AGENT_ENABLED)
+              wepayIntegrationSvcNewRelicAgentEnabled: $(NEW_RELIC_AGENT_ENABLED)
               # Cancel Payment Retry Job
               paymentCancelRetryJobImageRepositoryName: $(PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME)
               paymentCancelRetryJobConfigCronSchedule: $(PAYMENT_CANCEL_RETRY_JOB_CRON_SCHEDULE)

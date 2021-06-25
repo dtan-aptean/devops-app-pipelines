@@ -94,6 +94,7 @@ parameters:
   ezpayApiSvcBroadcastPlatformEvents: ''
   ezpayApiSvcEzpayCheckoutSvcGrpcUrl: ''
   ezpayApiSvcEzpayReportSvcGrpcUrl: ''
+  ezpayApiSvcNewRelicAgentEnabled: ''
   # EMAIL NOTIFICATION SVC
   emailNotificationSvcImageTag: ''
   emailNotificationSvcImageRepositoryName: ''
@@ -124,6 +125,7 @@ parameters:
   erpIntegrationSvcEzpayApiSvcGqlUrl: ''
   erpIntegrationSvcSyncTimeout: ''
   erpIntegrationSvcSyncMaxWaitTime: ''
+  erpIntegrationSvcNewRelicAgentEnabled: ''
   # MERCHANT OPS SVC
   merchantOpsSvcImageRepositoryName: ''
   merchantOpsSvcImageTag: ''
@@ -225,6 +227,7 @@ parameters:
   wepayIntegrationSvcResourceRequestCpu: ''
   wepayIntegrationSvcResourceRequestMemory: ''
   wepayIntegrationSvcRequestTimeout: ''
+  wepayIntegrationSvcNewRelicAgentEnabled: ''
   # EZPAY CLAIM SVC
   ezpayClaimSvcImageRepositoryName: ''
   ezpayClaimSvcImageTag: ''
@@ -660,6 +663,7 @@ steps:
         productAPIsOnly: $env:EZPAY_API_SVC_PRODUCT_APIS_ONLY
         broadcastPlatformEvents: $env:EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS
         newRelic:
+          agentEnabled: $env:EZPAY_API_SVC_NEW_RELIC_AGENT_ENABLED
           recordMetricGql: "$env:EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL"
           recordMetricGrpc: "$env:EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC"
 
@@ -735,6 +739,8 @@ steps:
           gqlUrl: "$env:ERP_INTEGRATION_SVC_GQL_URL_EZPAY_API_SVC"
         syncTimeout: "$env:ERP_INTEGRATION_SVC_SYNC_TIMEOUT"
         syncMaxWaitTime: "$env:ERP_INTEGRATION_SVC_SYNC_MAX_WAIT_TIME"
+        newRelic:
+          agentEnabled: $env:ERP_INTEGRATION_SVC_NEW_RELIC_AGENT_ENABLED
 
     merchantOpsSvc:
       image:
@@ -937,6 +943,7 @@ steps:
       config:
         requestTimeout: "$env:WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS"
         newRelic:
+          agentEnabled: $env:WEPAY_INTEGRATION_SVC_NEW_RELIC_AGENT_ENABLED
           recordMetric: "$env:WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC"
 
     ezpayClaimSvc:
@@ -1149,6 +1156,7 @@ steps:
     EZPAY_API_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.ezpayApiSvcBroadcastPlatformEvents }}
     EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL: ${{ parameters.ezpayApiSvcNewRelicRecordMetricGql }}
     EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC: ${{ parameters.ezpayApiSvcNewRelicRecordMetricGrpc }}
+    EZPAY_API_SVC_NEW_RELIC_AGENT_ENABLED: ${{ parameters.ezpayApiSvcNewRelicAgentEnabled }}
     # EMAIL_NOTIFICATION_SVC
     EMAIL_NOTIFICATION_SVC_IMAGE_TAG: ${{ parameters.emailNotificationSvcImageTag }}
     EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.emailNotificationSvcImageRepositoryName }}
@@ -1182,6 +1190,7 @@ steps:
     ERP_INTEGRATION_SVC_GQL_URL_EZPAY_API_SVC: ${{ parameters.erpIntegrationSvcEzpayApiSvcGqlUrl }}
     ERP_INTEGRATION_SVC_SYNC_TIMEOUT: ${{ parameters.erpIntegrationSvcSyncTimeout }}
     ERP_INTEGRATION_SVC_SYNC_MAX_WAIT_TIME: ${{ parameters.erpIntegrationSvcSyncMaxWaitTime }}
+    ERP_INTEGRATION_SVC_NEW_RELIC_AGENT_ENABLED: ${{ parameters.erpIntegrationSvcNewRelicAgentEnabled }}
     # MERCHANT_OPS_SVC
     MERCHANT_OPS_SVC_IMAGE_TAG: ${{ parameters.merchantOpsSvcImageTag }}
     MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.merchantOpsSvcImageRepositoryName }}
@@ -1288,6 +1297,7 @@ steps:
     WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.wepayIntegrationSvcResourceRequestMemory }}
     WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC: ${{ parameters.wepayIntegrationSvcNewRelicRecordMetric }}
     WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS: ${{ parameters.wepayIntegrationSvcRequestTimeout }}
+    WEPAY_INTEGRATION_SVC_NEW_RELIC_AGENT_ENABLED: ${{ parameters.wepayIntegrationSvcNewRelicAgentEnabled }}
     # EZPAY CLAIM SVC
     EZPAY_CLAIM_SVC_IMAGE_TAG: ${{ parameters.ezpayClaimSvcImageTag }}
     EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.ezpayClaimSvcImageRepositoryName }}
