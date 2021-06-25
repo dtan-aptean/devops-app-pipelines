@@ -223,6 +223,7 @@ parameters:
   wepayIntegrationSvcResourceLimitsMemory: ''
   wepayIntegrationSvcResourceRequestCpu: ''
   wepayIntegrationSvcResourceRequestMemory: ''
+  wepayIntegrationSvcRequestTimeout: ''
   # EZPAY CLAIM SVC
   ezpayClaimSvcImageRepositoryName: ''
   ezpayClaimSvcImageTag: ''
@@ -897,6 +898,7 @@ steps:
             memory: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY
       
       config:
+        requestTimeout: "$env:WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS"
         newRelic:
           recordMetric: "$env:WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC"
 
@@ -1211,6 +1213,7 @@ steps:
     WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.wepayIntegrationSvcResourceRequestCpu }}
     WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.wepayIntegrationSvcResourceRequestMemory }}
     WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC: ${{ parameters.wepayIntegrationSvcNewRelicRecordMetric }}
+    WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS: ${{ parameters.wepayIntegrationSvcRequestTimeout }}
     # EZPAY CLAIM SVC
     EZPAY_CLAIM_SVC_IMAGE_TAG: ${{ parameters.ezpayClaimSvcImageTag }}
     EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.ezpayClaimSvcImageRepositoryName }}

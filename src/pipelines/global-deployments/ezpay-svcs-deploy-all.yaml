@@ -278,7 +278,8 @@ stages:
               wepayIntegrationSvcResourceLimitsMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY)
               wepayIntegrationSvcResourceRequestCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU)
               wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)
-              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)              
+              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)
+              wepayIntegrationSvcRequestTimeout: $(WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS)
               # EZPAY CLAIM SVC
               ezpayClaimSvcImageRepositoryName: $(EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME)
               ezpayClaimSvcReplicas: $(EZPAY_CLAIM_SVC_REPLICAS)
@@ -541,7 +542,8 @@ stages:
               wepayIntegrationSvcResourceLimitsMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY)
               wepayIntegrationSvcResourceRequestCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU)
               wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)
-              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)              
+              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)
+              wepayIntegrationSvcRequestTimeout: $(WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS)
               # EZPAY CLAIM SVC
               ezpayClaimSvcImageRepositoryName: $(EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME)
               ezpayClaimSvcReplicas: $(EZPAY_CLAIM_SVC_REPLICAS)
@@ -851,7 +853,8 @@ stages:
               wepayIntegrationSvcResourceLimitsMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY)
               wepayIntegrationSvcResourceRequestCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU)
               wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)
-              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)              
+              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)
+              wepayIntegrationSvcRequestTimeout: $(WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS)
               # EZPAY CLAIM SVC
               ezpayClaimSvcImageRepositoryName: $(EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME)
               ezpayClaimSvcReplicas: $(EZPAY_CLAIM_SVC_REPLICAS)
@@ -1114,7 +1117,8 @@ stages:
               wepayIntegrationSvcResourceLimitsMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY)
               wepayIntegrationSvcResourceRequestCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU)
               wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)
-              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)              
+              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)
+              wepayIntegrationSvcRequestTimeout: $(WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS)
               # EZPAY CLAIM SVC
               ezpayClaimSvcImageRepositoryName: $(EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME)
               ezpayClaimSvcReplicas: $(EZPAY_CLAIM_SVC_REPLICAS)
@@ -1448,7 +1452,8 @@ stages:
               wepayIntegrationSvcResourceLimitsMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY)
               wepayIntegrationSvcResourceRequestCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU)
               wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)
-              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)              
+              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)
+              wepayIntegrationSvcRequestTimeout: $(WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS)
               # EZPAY CLAIM SVC
               ezpayClaimSvcImageRepositoryName: $(EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME)
               ezpayClaimSvcReplicas: $(EZPAY_CLAIM_SVC_REPLICAS)
@@ -1712,7 +1717,8 @@ stages:
               wepayIntegrationSvcResourceLimitsMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY)
               wepayIntegrationSvcResourceRequestCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU)
               wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)
-              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)              
+              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)
+              wepayIntegrationSvcRequestTimeout: $(WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS)
               # EZPAY CLAIM SVC
               ezpayClaimSvcImageRepositoryName: $(EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME)
               ezpayClaimSvcReplicas: $(EZPAY_CLAIM_SVC_REPLICAS)
@@ -2044,7 +2050,8 @@ stages:
               wepayIntegrationSvcResourceLimitsMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_LIMITS_MEMORY)
               wepayIntegrationSvcResourceRequestCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU)
               wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)
-              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)              
+              wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)
+              wepayIntegrationSvcRequestTimeout: $(WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS)
               # EZPAY CLAIM SVC
               ezpayClaimSvcImageRepositoryName: $(EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME)
               ezpayClaimSvcReplicas: $(EZPAY_CLAIM_SVC_REPLICAS)
@@ -2310,6 +2317,7 @@ stages:
               wepayIntegrationSvcResourceRequestCpu: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU)
               wepayIntegrationSvcResourceRequestMemory: $(WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY)
               wepayIntegrationSvcNewRelicRecordMetric: $(WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC)
+              wepayIntegrationSvcRequestTimeout: $(WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS)
               # EZPAY CLAIM SVC
               ezpayClaimSvcImageRepositoryName: $(EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME)
               ezpayClaimSvcReplicas: $(EZPAY_CLAIM_SVC_REPLICAS)
