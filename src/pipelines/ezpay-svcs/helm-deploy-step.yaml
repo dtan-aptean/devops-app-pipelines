@@ -93,6 +93,7 @@ parameters:
   ezpayApiSvcGrpcUrl: ''
   ezpayApiSvcBroadcastPlatformEvents: ''
   ezpayApiSvcEzpayCheckoutSvcGrpcUrl: ''
+  ezpayApiSvcEzpayReportSvcGrpcUrl: ''
   # EMAIL NOTIFICATION SVC
   emailNotificationSvcImageTag: ''
   emailNotificationSvcImageRepositoryName: ''
@@ -250,6 +251,24 @@ parameters:
   ezpayCheckoutSvcSubsMgmtServiceId: ''
   ezpayCheckoutSvcSessionExpiryInterval: ''
   ezpayCheckoutSvcEzpayApiSvcGqlUrl: ''
+  # EZPAY REPORT SVC
+  ezpayReportSvcImageTag: ''
+  ezpayReportSvcImageRepositoryName: ''
+  ezpayReportSvcReplicas: ''
+  ezpayReportSvcNodeSelectorPool: ''
+  ezpayReportSvcResourceLimitsCpu: ''
+  ezpayReportSvcResourceLimitsMemory: ''
+  ezpayReportSvcResourceRequestCpu: ''
+  ezpayReportSvcResourceRequestMemory: ''
+  mongoDbEzpayReportSvcCollectionName: ''
+  ezpayReportSvcSbPlatformEventsSubscription: ''
+  ezpayReportSvcBroadcastPlatformEvents: ''
+  ezpayReportSvcProcessPlatformEvents: ''
+  ezpayReportSvcBlobUrl: ''
+  ezpayReportSvcBlobContainer: ''
+  ezpayReportSvcBlobConnString: ''
+  ezpayReportSvcBlobSasTokenTtlMinutes: ''
+  ezpayReportSvcReportDocTtlMinutes: ''
 
 steps:
 - pwsh: |
@@ -293,6 +312,7 @@ steps:
       $latestWepayIntegrationSvcTag = $tags[10].Split(':')[1]
       $latestEzpayClaimSvcTag = $tags[11].Split(':')[1]
       $latestEzpayCheckoutSvcTag = $tags[12].Split(':')[1]
+      $latestEzpayReportSvcTag = $tags[13].Split(':')[1]
       Write-Host ezpay-payment-cancelation-retry-job tag: $latestPaymentCancelRetryJobTag
       Write-Host account-balance-job tag: $latestAccountBalanceJobTag
       Write-Host ezpay-api-svc tag: $latestEzpayApiSvcTag
@@ -306,6 +326,7 @@ steps:
       Write-Host wepay-integration-svc tag: $latestWepayIntegrationSvcTag
       Write-Host ezpay-claim-svc tag: $latestEzpayClaimSvcTag
       Write-Host ezpay-checkout-svc tag: $latestEzpayCheckoutSvcTag
+      Write-Host ezpay-reports-svc tag: $latestEzpayReportSvcTag
     }
 
     # PAYMENT CANCEL RETRY JOB
@@ -477,8 +498,21 @@ steps:
         $latestEzpayCheckoutSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_CHECKOUT_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
       }
     }
+    # EZPAY REPORT SVC
+    if (!$latestEzpayReportSvcTag) {
+      if ($env:EZPAY_REPORT_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured ezpay-reports-svc tag: $env:EZPAY_REPORT_SVC_IMAGE_TAG
+        $latestEzpayReportSvcTag = $env:EZPAY_REPORT_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest ezpay-reports-svc tag.
+        $latestEzpayReportSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_REPORT_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
+    }
 
-    $allTags = "ezpay-payment-cancelation-retry-job:{0},ezpay-account-balance-updater-job:{1},ezpay-api-svc:{2},ezpay-email-notification-svc:{3},ezpay-erp-integration-svc:{4},ezpay-merchant-ops-svc:{5},ezpay-payfac-notifications-svc:{6},ezpay-payment-ops-svc:{7},ezpay-payments-svc:{8},ezpay-transaction-records-svc:{9},wepay-integration-svc:{10},ezpay-claim-svc:{11},ezpay-checkout-svc:{12}" `
+    $allTags = "ezpay-payment-cancelation-retry-job:{0},ezpay-account-balance-updater-job:{1},ezpay-api-svc:{2},ezpay-email-notification-svc:{3},ezpay-erp-integration-svc:{4},ezpay-merchant-ops-svc:{5},ezpay-payfac-notifications-svc:{6},ezpay-payment-ops-svc:{7},ezpay-payments-svc:{8},ezpay-transaction-records-svc:{9},wepay-integration-svc:{10},ezpay-claim-svc:{11},ezpay-checkout-svc:{12},ezpay-reports-svc:{13}" `
                -f $latestPaymentCancelRetryJobTag, `
                   $latestAccountBalanceJobTag, `
                   $latestEzpayApiSvcTag, `
@@ -491,7 +525,8 @@ steps:
                   $latestTxnRecordsSvcTag, `
                   $latestWepayIntegrationSvcTag, `
                   $latestEzpayClaimSvcTag, `
-                  $latestEzpayCheckoutSvcTag
+                  $latestEzpayCheckoutSvcTag, `
+                  $latestEzpayReportSvcTag `
     Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags" 
     @"
     commonLabels:
@@ -608,6 +643,8 @@ steps:
           grpcUrl: "$env:EZPAY_API_SVC_EZPAY_CLAIM_SVC_GRPC_URL"
         checkoutSvc:
           grpcUrl: "$env:EZPAY_API_SVC_EZPAY_CHECKOUT_SVC_GRPC_URL"
+        reportSvc:
+          grpcUrl: "$env:EZPAY_API_SVC_EZPAY_REPORT_SVC_GRPC_URL"
         grpcUrl: "$env:EZPAY_API_SVC_GRPC_URL"
         paymentsPlatformFromPhoneNumber: "$env:EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_PHONE_NUMBER"
         paymentsPlatformFromEmail: "$env:EZPAY_API_SVC_PAYMENTS_PLATFORM_FROM_EMAIL"
@@ -974,6 +1011,42 @@ steps:
           grpcUrl: "$env:EZPAY_CHECKOUT_SVC_SUBS_MGMT_GRPC_URL"
           serviceId: "$env:EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID"
         sessionExpiryInterval: "$env:EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL"
+    
+    ezpayReportSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:EZPAY_REPORT_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestEzpayReportSvcTag
+
+      deployment:
+        replicas: $env:EZPAY_REPORT_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:EZPAY_REPORT_SVC_NODE_SELECTOR_POOL"      
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:EZPAY_REPORT_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:EZPAY_REPORT_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:EZPAY_REPORT_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:EZPAY_REPORT_SVC_RESOURCE_REQUESTS_MEMORY
+      
+      config:
+        azureBlobStorage:
+          url: "$env:EZPAY_REPORT_SVC_BLOB_URL"
+          containerName: "$env:EZPAY_REPORT_SVC_BLOB_CONTAINER"
+          connectionString: "$env:EZPAY_REPORT_SVC_BLOB_CONNECTION_STRING"
+          sasTokenTTLMinutes: "$env:EZPAY_REPORT_SVC_BLOB_SAS_TOKEN_TTL_MINUTES"
+        cosmosMongo:
+          databaseName: "$env:EZPAY_REPORT_SVC_MONGODB_DATABASE"
+          collectionName: "$env:EZPAY_REPORT_SVC_MONGODB_COLLECTION"
+          connectionString: "$env:EZPAY_REPORT_SVC_MONGODB_CONN_STRING"
+          reportDocTTLMinutes: "$env:EZPAY_REPORT_SVC_REPORT_DOC_TTL_MINUTES"
+        serviceBus:
+          platformEventsSubscription: "$env:EZPAY_REPORT_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION"
+        broadcastPlatformEvents: "$env:EZPAY_REPORT_SVC_BROADCAST_PLATFORM_EVENTS"
+        processPlatformEvents: "$env:EZPAY_REPORT_SVC_PROCESS_PLATFORM_EVENTS"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -1052,7 +1125,8 @@ steps:
     EZPAY_API_SVC_B2C_POLICY_NAME: ${{ parameters.ezpayApiSvcB2cPolicyName }}
     EZPAY_API_SVC_SUBS_MGMT_GRPC_URL: ${{ parameters.ezpayApiSvcSubsMgmtGrpcUrl }}
     EZPAY_API_SVC_EZPAY_CLAIM_SVC_GRPC_URL: ${{ parameters.ezpayApiSvcEzpayClaimSvcGrpcUrl }}
-    EZPAY_API_SVC_EZPAY_CHECKOUT_SVC_GRPC_URL: ${{ parameters.ezpayApiSvcEzpayCheckoutSvcGrpcUrl }}    
+    EZPAY_API_SVC_EZPAY_CHECKOUT_SVC_GRPC_URL: ${{ parameters.ezpayApiSvcEzpayCheckoutSvcGrpcUrl }}
+    EZPAY_API_SVC_EZPAY_REPORT_SVC_GRPC_URL: ${{ parameters.ezpayApiSvcEzpayReportSvcGrpcUrl }}    
     EZPAY_API_SVC_SUBS_MGMT_API_KEY: ${{ parameters.ezpayApiSvcSubsMgmtApiKey }}
     EZPAY_API_SVC_SUBS_MGMT_SERVICE_ID: ${{ parameters.ezpayApiSvcSubsMgmtServiceId }}
     EZPAY_API_SVC_MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
@@ -1245,6 +1319,26 @@ steps:
     EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID: ${{ parameters.ezpayCheckoutSvcSubsMgmtServiceId }}
     EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL: ${{ parameters.ezpayCheckoutSvcSessionExpiryInterval }}
     EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC: ${{ parameters.ezpayCheckoutSvcEzpayApiSvcGqlUrl }}
+    # EZPAY REPORT SVC
+    EZPAY_REPORT_SVC_IMAGE_TAG: ${{ parameters.ezpayReportSvcImageTag }}
+    EZPAY_REPORT_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.ezpayReportSvcImageRepositoryName }}
+    EZPAY_REPORT_SVC_REPLICAS: ${{ parameters.ezpayReportSvcReplicas }}
+    EZPAY_REPORT_SVC_NODE_SELECTOR_POOL: ${{ parameters.ezpayReportSvcNodeSelectorPool }}
+    EZPAY_REPORT_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.ezpayReportSvcResourceLimitsCpu }}
+    EZPAY_REPORT_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.ezpayReportSvcResourceLimitsMemory }}
+    EZPAY_REPORT_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.ezpayReportSvcResourceRequestCpu }}
+    EZPAY_REPORT_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.ezpayReportSvcResourceRequestMemory }}
+    EZPAY_REPORT_SVC_MONGODB_COLLECTION: ${{ parameters.mongoDbEzpayReportSvcCollectionName }}
+    EZPAY_REPORT_SVC_MONGODB_DATABASE: ${{ parameters.mongoDbName }}
+    EZPAY_REPORT_SVC_MONGODB_CONN_STRING: ${{ parameters.mongoDbConnString }}
+    EZPAY_REPORT_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION: ${{ parameters.ezpayReportSvcSbPlatformEventsSubscription }}
+    EZPAY_REPORT_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.ezpayReportSvcBroadcastPlatformEvents}}
+    EZPAY_REPORT_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.ezpayReportSvcProcessPlatformEvents }}
+    EZPAY_REPORT_SVC_BLOB_URL: ${{ parameters.ezpayReportSvcBlobUrl }}
+    EZPAY_REPORT_SVC_BLOB_CONTAINER: ${{ parameters.ezpayReportSvcBlobContainer }}
+    EZPAY_REPORT_SVC_BLOB_CONNECTION_STRING: ${{ parameters.ezpayReportSvcBlobConnString }}
+    EZPAY_REPORT_SVC_BLOB_SAS_TOKEN_TTL_MINUTES: ${{ parameters.ezpayReportSvcBlobSasTokenTtlMinutes }}
+    EZPAY_REPORT_SVC_REPORT_DOC_TTL_MINUTES: ${{ parameters.ezpayReportSvcReportDocTtlMinutes }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

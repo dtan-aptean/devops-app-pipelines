@@ -68,6 +68,24 @@ resources:
       branches:
         include:
         - release-*
+  - pipeline: ezpay-claim-svc-docker-build-push
+    source: ezpay-claim-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - release-*
+  - pipeline: ezpay-checkout-svc-docker-build-push
+    source: ezpay-checkout-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - release-*
+  - pipeline: ezpay-reports-svc-docker-build-push
+    source: ezpay-reports-svc-docker-build-push
+    trigger:
+      branches:
+        include:
+        - release-*
 
 variables:
 - group: helm-chart-svc-principal-config
@@ -189,6 +207,7 @@ stages:
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
               ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
               ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
+              ezpayApiSvcEzpayReportSvcGrpcUrl: $(GRPC_URL_REPORT_SVC)
               #ezpayApiSvcNodeJsEnv: $(EZPAY_API_SVC_)  
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
@@ -335,6 +354,23 @@ stages:
               ezpayCheckoutSvcSubsMgmtServiceId: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID)
               ezpayCheckoutSvcSessionExpiryInterval: $(EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL)
               ezpayCheckoutSvcEzpayApiSvcGqlUrl: $(EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC)
+              # EZPAY REPORT SVC
+              ezpayReportSvcImageRepositoryName: $(EZPAY_REPORT_SVC_IMAGE_REPOSITORY_NAME)
+              ezpayReportSvcReplicas: $(EZPAY_REPORT_SVC_REPLICAS)
+              ezpayReportSvcNodeSelectorPool: $(EZPAY_REPORT_SVC_NODE_SELECTOR_POOL)
+              ezpayReportSvcResourceLimitsCpu: $(EZPAY_REPORT_SVC_RESOURCE_LIMITS_CPU)
+              ezpayReportSvcResourceLimitsMemory: $(EZPAY_REPORT_SVC_RESOURCE_LIMITS_MEMORY)
+              ezpayReportSvcResourceRequestCpu: $(EZPAY_REPORT_SVC_RESOURCE_REQUESTS_CPU)
+              ezpayReportSvcResourceRequestMemory: $(EZPAY_REPORT_SVC_RESOURCE_REQUESTS_MEMORY)
+              mongoDbEzpayReportSvcCollectionName: $(MONGODB_EZPAY_REPORT_SVC_COLLECTION)
+              ezpayReportSvcSbPlatformEventsSubscription: $(EZPAY_REPORT_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              ezpayReportSvcBroadcastPlatformEvents: $(EZPAY_REPORT_SVC_BROADCAST_PLATFORM_EVENTS)
+              ezpayReportSvcProcessPlatformEvents: $(EZPAY_REPORT_SVC_PROCESS_PLATFORM_EVENTS)
+              ezpayReportSvcBlobUrl: $(EZPAY_REPORT_SVC_BLOB_URL)
+              ezpayReportSvcBlobContainer: $(EZPAY_REPORT_SVC_BLOB_CONTAINER)
+              ezpayReportSvcBlobConnString: $(EZPAY_REPORT_SVC_BLOB_CONNECTION_STRING)
+              ezpayReportSvcBlobSasTokenTtlMinutes: $(EZPAY_REPORT_SVC_BLOB_SAS_TOKEN_TTL_MINUTES)
+              ezpayReportSvcReportDocTtlMinutes: $(EZPAY_REPORT_SVC_REPORT_DOC_TTL_MINUTES)
 
 - stage: DEV_Ezpay_Helm_Deploy_West
   displayName: DEV (WEST) - Ezpay Svcs Helm Deploy
@@ -451,6 +487,7 @@ stages:
               ezpayApiSvcNewRelicRecordMetricGql: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL)
               ezpayApiSvcNewRelicRecordMetricGrpc: $(EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC)
               ezpayApiSvcEzpayCheckoutSvcGrpcUrl: $(GRPC_URL_CHECKOUT_SVC)
+              ezpayApiSvcEzpayReportSvcGrpcUrl: $(GRPC_URL_REPORT_SVC)
               #ezpayApiSvcNodeJsEnv: $(EZPAY_API_SVC_)  
               # EMAIL NOTIFICATION SVC
               emailNotificationSvcImageRepositoryName: $(EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME)
@@ -598,3 +635,20 @@ stages:
               ezpayCheckoutSvcSubsMgmtServiceId: $(EZPAY_CHECKOUT_SVC_SUBS_MGMT_SERVICE_ID)
               ezpayCheckoutSvcSessionExpiryInterval: $(EZPAY_CHECKOUT_SVC_SESSION_EXPIRY_INTERVAL)
               ezpayCheckoutSvcEzpayApiSvcGqlUrl: $(EZPAY_CHECKOUT_SVC_GQL_URL_EZPAY_API_SVC)
+              # EZPAY REPORT SVC
+              ezpayReportSvcImageRepositoryName: $(EZPAY_REPORT_SVC_IMAGE_REPOSITORY_NAME)
+              ezpayReportSvcReplicas: $(EZPAY_REPORT_SVC_REPLICAS)
+              ezpayReportSvcNodeSelectorPool: $(EZPAY_REPORT_SVC_NODE_SELECTOR_POOL)
+              ezpayReportSvcResourceLimitsCpu: $(EZPAY_REPORT_SVC_RESOURCE_LIMITS_CPU)
+              ezpayReportSvcResourceLimitsMemory: $(EZPAY_REPORT_SVC_RESOURCE_LIMITS_MEMORY)
+              ezpayReportSvcResourceRequestCpu: $(EZPAY_REPORT_SVC_RESOURCE_REQUESTS_CPU)
+              ezpayReportSvcResourceRequestMemory: $(EZPAY_REPORT_SVC_RESOURCE_REQUESTS_MEMORY)
+              mongoDbEzpayReportSvcCollectionName: $(MONGODB_EZPAY_REPORT_SVC_COLLECTION)
+              ezpayReportSvcSbPlatformEventsSubscription: $(EZPAY_REPORT_SVC_SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              ezpayReportSvcBroadcastPlatformEvents: $(EZPAY_REPORT_SVC_BROADCAST_PLATFORM_EVENTS)
+              ezpayReportSvcProcessPlatformEvents: $(EZPAY_REPORT_SVC_PROCESS_PLATFORM_EVENTS)
+              ezpayReportSvcBlobUrl: $(EZPAY_REPORT_SVC_BLOB_URL)
+              ezpayReportSvcBlobContainer: $(EZPAY_REPORT_SVC_BLOB_CONTAINER)
+              ezpayReportSvcBlobConnString: $(EZPAY_REPORT_SVC_BLOB_CONNECTION_STRING)
+              ezpayReportSvcBlobSasTokenTtlMinutes: $(EZPAY_REPORT_SVC_BLOB_SAS_TOKEN_TTL_MINUTES)
+              ezpayReportSvcReportDocTtlMinutes: $(EZPAY_REPORT_SVC_REPORT_DOC_TTL_MINUTES)
