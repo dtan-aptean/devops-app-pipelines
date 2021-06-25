@@ -338,8 +338,6 @@ steps:
       config:
         cosmosMongo:
           collectionName: "$env:SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION"
-        sentry: 
-          dsn: "$env:SENTRY_DSN"
         serviceBus:
           eventsIngressQueue: "$env:SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE"   
 

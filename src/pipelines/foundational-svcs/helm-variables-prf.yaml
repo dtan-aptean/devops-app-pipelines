@@ -88,7 +88,7 @@ variables:
 - name: SUBS_MGMT_GRPC_SVC_REPLICAS
   value: 3
 - name: SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL
-  value: sharedsvcs
+  value: prftesting
 # ATG CONFIG WEB PARAMS
 - name: ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME
   value: atg-config-web
@@ -103,7 +103,7 @@ variables:
 - name: ATG_CONFIG_WEB_REPLICAS
   value: 3
 - name: ATG_CONFIG_WEB_NODE_SELECTOR_POOL
-  value: sharedsvcs
+  value: prftesting
 - name: ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER
   value: atg-config-web.foundational-svcs-prf.svc
 - name: ATG_CONFIG_WEB_KONG_INGRESS_CLASS
