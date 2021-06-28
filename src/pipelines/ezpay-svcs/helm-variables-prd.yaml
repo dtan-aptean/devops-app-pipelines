@@ -21,7 +21,7 @@ variables:
   value: aks-eastus-prd-apteank8s
 - name: AKS_RESOURCE_GROUP
   value: rg-eastus-prd-apteank8s
-- name: NEW_RELIC_AGENT_ENABLED # This could be moved to per service.
+- name: NEW_RELIC_AGENT_ENABLED
   value: true  
 # PAYMENT CANCEL RETRY JOB 
 - name: PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME

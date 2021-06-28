@@ -80,8 +80,8 @@ resources:
       branches:
         include:
         - release-*
-  - pipeline: ezpay-reports-svc-docker-build-push
-    source: ezpay-reports-svc-docker-build-push
+  - pipeline: ezpay-report-svc-docker-build-push
+    source: ezpay-report-svc-docker-build-push
     trigger:
       branches:
         include:
