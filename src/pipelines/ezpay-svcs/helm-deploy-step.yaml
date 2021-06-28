@@ -329,7 +329,7 @@ steps:
       Write-Host wepay-integration-svc tag: $latestWepayIntegrationSvcTag
       Write-Host ezpay-claim-svc tag: $latestEzpayClaimSvcTag
       Write-Host ezpay-checkout-svc tag: $latestEzpayCheckoutSvcTag
-      Write-Host ezpay-reports-svc tag: $latestEzpayReportSvcTag
+      Write-Host ezpay-report-svc tag: $latestEzpayReportSvcTag
     }
 
     # PAYMENT CANCEL RETRY JOB
@@ -505,17 +505,17 @@ steps:
     if (!$latestEzpayReportSvcTag) {
       if ($env:EZPAY_REPORT_SVC_IMAGE_TAG)
       {
-        Write-Host Using configured ezpay-reports-svc tag: $env:EZPAY_REPORT_SVC_IMAGE_TAG
+        Write-Host Using configured ezpay-report-svc tag: $env:EZPAY_REPORT_SVC_IMAGE_TAG
         $latestEzpayReportSvcTag = $env:EZPAY_REPORT_SVC_IMAGE_TAG
       }
       else
       {
-        Write-Host Fetching latest ezpay-reports-svc tag.
+        Write-Host Fetching latest ezpay-report-svc tag.
         $latestEzpayReportSvcTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:EZPAY_REPORT_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
       }
     }
 
-    $allTags = "ezpay-payment-cancelation-retry-job:{0},ezpay-account-balance-updater-job:{1},ezpay-api-svc:{2},ezpay-email-notification-svc:{3},ezpay-erp-integration-svc:{4},ezpay-merchant-ops-svc:{5},ezpay-payfac-notifications-svc:{6},ezpay-payment-ops-svc:{7},ezpay-payments-svc:{8},ezpay-transaction-records-svc:{9},wepay-integration-svc:{10},ezpay-claim-svc:{11},ezpay-checkout-svc:{12},ezpay-reports-svc:{13}" `
+    $allTags = "ezpay-payment-cancelation-retry-job:{0},ezpay-account-balance-updater-job:{1},ezpay-api-svc:{2},ezpay-email-notification-svc:{3},ezpay-erp-integration-svc:{4},ezpay-merchant-ops-svc:{5},ezpay-payfac-notifications-svc:{6},ezpay-payment-ops-svc:{7},ezpay-payments-svc:{8},ezpay-transaction-records-svc:{9},wepay-integration-svc:{10},ezpay-claim-svc:{11},ezpay-checkout-svc:{12},ezpay-report-svc:{13}" `
                -f $latestPaymentCancelRetryJobTag, `
                   $latestAccountBalanceJobTag, `
                   $latestEzpayApiSvcTag, `
@@ -529,7 +529,8 @@ steps:
                   $latestWepayIntegrationSvcTag, `
                   $latestEzpayClaimSvcTag, `
                   $latestEzpayCheckoutSvcTag, `
-                  $latestEzpayReportSvcTag `
+                  $latestEzpayReportSvcTag
+
     Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags" 
     @"
     commonLabels:
