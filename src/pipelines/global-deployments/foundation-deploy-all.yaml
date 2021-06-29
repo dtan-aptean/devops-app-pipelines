@@ -57,6 +57,7 @@ stages:
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
               newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
@@ -92,7 +93,27 @@ stages:
               shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
               shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
-              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)              
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)
+              # SUBS MGMT GRPC SVC PARAMS
+              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
+              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
+              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
+              # ATG CONFIG WEB PARAMS
+              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
+              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
+              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
+              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
+              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
+              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
+              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
+              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
+              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)              
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -145,6 +166,7 @@ stages:
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
               newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
@@ -180,7 +202,27 @@ stages:
               shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
               shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
-              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)              
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)
+              # SUBS MGMT GRPC SVC PARAMS
+              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
+              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
+              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
+              # ATG CONFIG WEB PARAMS
+              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
+              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
+              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
+              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
+              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
+              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
+              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
+              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
+              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)              
 
 - stage: PRF_Foundational_Svcs_Helm_Deploy
   displayName: PRF - Foundational Svcs Helm Deploy
@@ -229,6 +271,7 @@ stages:
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
               newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
@@ -264,7 +307,27 @@ stages:
               shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
               shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
-              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)              
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)
+              # SUBS MGMT GRPC SVC PARAMS
+              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
+              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
+              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
+              # ATG CONFIG WEB PARAMS
+              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
+              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
+              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
+              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
+              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
+              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
+              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
+              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
+              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)              
 
 - stage: PRD_Foundational_Svcs_Helm_Deploy
   displayName: PRD - Foundational Svcs Helm Deploy
@@ -313,6 +376,7 @@ stages:
               newRelicApiKey: $(NEW_RELIC_API_KEY)
               newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
               newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
               # EVENTS SVC PARAMS
               eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
               eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
@@ -348,7 +412,27 @@ stages:
               shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
               shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
               shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
-              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)              
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)
+              # SUBS MGMT GRPC SVC PARAMS
+              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
+              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
+              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
+              # ATG CONFIG WEB PARAMS
+              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
+              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
+              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
+              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
+              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
+              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
+              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
+              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
+              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)              
 
 ## Comms API Svc
 
