@@ -217,6 +217,7 @@ parameters:
   txnRecordsSvcFailedJobHistoryLimit: ''
   txnRecordsStmtsRetrieveJobCronSchedule: ''
   txnRecordsStmntsGenerationJobCronSchedule: ''
+  txnRecordsRetrieveJobChunkSize: ''
   # WEPAY INTEGRATION SVC
   wepayIntegrationSvcImageRepositoryName: ''
   wepayIntegrationSvcImageTag: ''
@@ -918,6 +919,8 @@ steps:
           generatePDFStatement: "$env:TXN_RECORDS_SVC_GENERATE_PDF_STATEMENT"
           generateStatementChunkSize: "$env:TXN_RECORDS_SVC_GENERATE_STATEMENT_CHUNK_SIZE"
           templateLogoUrl: "$env:TXN_RECORDS_SVC_STATEMENT_TEMPLATE_LOGO_URL"
+        retrieveJob:
+          chunkSize: "$env:TXN_RECORDS_RETRIEVE_JOB_CHUNK_SIZE"
         successfulJobsHistoryLimit: $env:TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT
         failedJobsHistoryLimit: $env:TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT
 
@@ -1287,6 +1290,7 @@ steps:
     TXN_RECORDS_STMTS_GENERATION_CRON_SCHEDULE: ${{ parameters.txnRecordsStmntsGenerationJobCronSchedule }}
     TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT: ${{ parameters.txnRecordsSvcSuccessfulJobHistoryLimit }}
     TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT: ${{ parameters.txnRecordsSvcFailedJobHistoryLimit }}
+    TXN_RECORDS_RETRIEVE_JOB_CHUNK_SIZE: ${{ parameters.txnRecordsRetrieveJobChunkSize }}
     # WEPAY_INTEGRATION_SVC
     WEPAY_INTEGRATION_SVC_IMAGE_TAG: ${{ parameters.wepayIntegrationSvcImageTag }}
     WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.wepayIntegrationSvcImageRepositoryName }}

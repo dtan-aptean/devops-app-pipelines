@@ -324,6 +324,7 @@ stages:
               txnRecordsStmntsGenerationJobCronSchedule: $(TXN_RECORDS_STMTS_GENERATION_CRON_SCHEDULE)
               txnRecordsSvcSuccessfulJobHistoryLimit: $(TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT)
               txnRecordsSvcFailedJobHistoryLimit: $(TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT)
+              txnRecordsRetrieveJobChunkSize: $(TXN_RECORDS_RETRIEVE_JOB_CHUNK_SIZE)
               # WEPAY INTEGRATION SVC
               wepayIntegrationSvcImageRepositoryName: $(WEPAY_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME)
               wepayIntegrationSvcReplicas: $(WEPAY_INTEGRATION_SVC_REPLICAS)
@@ -606,6 +607,7 @@ stages:
               txnRecordsSvcStatementTemplateLogoUrl: $(EZPAY_TEMPLATE_LOGO_URL)
               txnRecordsStmtsRetrieveJobCronSchedule: $(TXN_RECORDS_STMTS_RETRIEVE_CRON_SCHEDULE)
               txnRecordsStmntsGenerationJobCronSchedule: $(TXN_RECORDS_STMTS_GENERATION_CRON_SCHEDULE)
+              txnRecordsRetrieveJobChunkSize: $(TXN_RECORDS_RETRIEVE_JOB_CHUNK_SIZE)
               # txnRecordsSvcCronSchedule: $(TXN_RECORDS_SVC_CRON_SCHEDULE) #this is currently unused
               txnRecordsSvcSuccessfulJobHistoryLimit: $(TXN_RECORDS_SVC_SUCCESSFUL_JOB_HISTORY_LIMIT)
               txnRecordsSvcFailedJobHistoryLimit: $(TXN_RECORDS_SVC_FAILED_JOB_HISTORY_LIMIT)
