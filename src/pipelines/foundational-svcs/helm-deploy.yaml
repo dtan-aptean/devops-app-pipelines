@@ -143,3 +143,6 @@ stages:
               atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
               atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
               atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)
+              atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
+              atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
