@@ -77,6 +77,9 @@ parameters:
   atgConfigWebNodeSelectorPool: ''
   atgConfigWebKongIngressUpstreamHostHeader: ''
   atgConfigWebKongIngressClass: ''
+  atgConfigWebAuth0Domain: ''
+  atgConfigWebAuth0ClientId: ''
+  atgConfigWebAuth0ClientSecret: ''
 
 steps:
 - pwsh: |
@@ -375,6 +378,10 @@ steps:
 
       config:
         subsMgmtGrpcSvcUrl: "$env:SUBS_MGMT_GRPC_SVC_URL"
+        auth0:
+          domain: "$env:ATG_CONFIG_WEB_AUTH0_DOMAIN"
+          clientId: "$env:ATG_CONFIG_WEB_AUTH0_CLIENT_ID"
+          clientSecret: "$env:ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -458,7 +465,10 @@ steps:
     ATG_CONFIG_WEB_REPLICAS: ${{ parameters.atgConfigWebReplicas }}
     ATG_CONFIG_WEB_NODE_SELECTOR_POOL: ${{ parameters.atgConfigWebNodeSelectorPool }}
     ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER: ${{ parameters.atgConfigWebKongIngressUpstreamHostHeader }}
-    ATG_CONFIG_WEB_KONG_INGRESS_CLASS: ${{ parameters.atgConfigWebKongIngressClass }} 
+    ATG_CONFIG_WEB_KONG_INGRESS_CLASS: ${{ parameters.atgConfigWebKongIngressClass }}
+    ATG_CONFIG_WEB_AUTH0_DOMAIN: ${{ parameters.atgConfigWebAuth0Domain }}
+    ATG_CONFIG_WEB_AUTH0_CLIENT_ID: ${{ parameters.atgConfigWebAuth0ClientId }}
+    ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET: ${{ parameters.atgConfigWebAuth0ClientSecret }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
