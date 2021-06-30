@@ -146,3 +146,4 @@ stages:
               atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
               atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)

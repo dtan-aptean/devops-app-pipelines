@@ -116,7 +116,8 @@ stages:
               atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)
               atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
-              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)              
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)                            
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -228,7 +229,8 @@ stages:
               atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)
               atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
-              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)              
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)  
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)                          
 
 - stage: PRF_Foundational_Svcs_Helm_Deploy
   displayName: PRF - Foundational Svcs Helm Deploy
@@ -336,7 +338,8 @@ stages:
               atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)
               atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
-              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)              
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)    
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)                        
 
 - stage: PRD_Foundational_Svcs_Helm_Deploy
   displayName: PRD - Foundational Svcs Helm Deploy
@@ -444,7 +447,8 @@ stages:
               atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)
               atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
-              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)              
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)  
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)                          
 
 ## Comms API Svc
 

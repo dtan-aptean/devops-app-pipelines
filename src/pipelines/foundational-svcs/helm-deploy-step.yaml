@@ -80,6 +80,7 @@ parameters:
   atgConfigWebAuth0Domain: ''
   atgConfigWebAuth0ClientId: ''
   atgConfigWebAuth0ClientSecret: ''
+  atgConfigWebHost: ''
 
 steps:
 - pwsh: |
@@ -382,6 +383,7 @@ steps:
           domain: "$env:ATG_CONFIG_WEB_AUTH0_DOMAIN"
           clientId: "$env:ATG_CONFIG_WEB_AUTH0_CLIENT_ID"
           clientSecret: "$env:ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET"
+          hostHeader: "$env:ATG_CONFIG_WEB_HOST"
 
     "@ | Out-File -FilePath ./deploy-values.yaml
 
@@ -469,6 +471,7 @@ steps:
     ATG_CONFIG_WEB_AUTH0_DOMAIN: ${{ parameters.atgConfigWebAuth0Domain }}
     ATG_CONFIG_WEB_AUTH0_CLIENT_ID: ${{ parameters.atgConfigWebAuth0ClientId }}
     ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET: ${{ parameters.atgConfigWebAuth0ClientSecret }}
+    ATG_CONFIG_WEB_HOST: ${{ parameters.atgConfigWebHost }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
