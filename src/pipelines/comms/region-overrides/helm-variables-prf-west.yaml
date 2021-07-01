@@ -1,0 +1,7 @@
+variables:
+- name: AKS_NAME
+  value: aks-westus2-shr-apteank8s
+- name: AKS_RESOURCE_GROUP
+  value: rg-westus2-shr-apteank8s
+- name: LOCATION
+  value: westus2

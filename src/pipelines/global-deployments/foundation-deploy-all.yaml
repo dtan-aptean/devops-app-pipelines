@@ -13,15 +13,32 @@ variables:
 
 stages:
 
-## Foundational Svcs
+# TST/PRF
+- stage: TST_Foundational_Approval
+  displayName: TST/PRF - Approval
+  
+  jobs:
+  - deployment: Deploy_All
+    displayName: Deploy All
+    environment: foundational-approval-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+      
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "TST/PRF - Deploy All Foundational:" APPROVED
+          
 - stage: TST_Foundational_Svcs_Helm_Deploy
-  displayName: TST - Foundational Svcs Helm Deploy
-  dependsOn: []
+  displayName: TST (EAST) - Foundational Svcs Helm Deploy
+  dependsOn: TST_Foundational_Approval
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: foundational-svcs-tst
+    environment: foundational-multi-cluster-tst
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -123,30 +140,28 @@ stages:
             parameters:
               tagName: 'foundational_svc_tags'
 
-- stage: STG_Foundational_Svcs_Helm_Deploy
-  displayName: STG - Foundational Svcs Helm Deploy
-  dependsOn: TST_Foundational_Svcs_Helm_Deploy
+- stage: TST_Foundational_Svcs_Helm_Deploy_West
+  displayName: TST (WEST) - Foundational Svcs Helm Deploy
+  dependsOn: TST_Foundational_Approval
+  condition: false
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: foundational-svcs-stg
+    environment: foundational-multi-cluster-tst
 
     pool:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: foundational-svcs-stg
-    - template: ../foundational-svcs/helm-variables-stg.yaml
+    - group: foundational-svcs-tst-west
+    - template: ../foundational-svcs/helm-variables-tst.yaml
+    - template: ../foundational-svcs/region-overrides/helm-variables-tst-west.yaml
 
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: ../templates/load-tags.yaml
-            parameters:
-              tagName: 'foundational_svc_tags'
-
           - template: ../foundational-svcs/helm-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -229,237 +244,21 @@ stages:
               atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)
               atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
-              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)  
-              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)                          
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
 
-- stage: PRF_Foundational_Svcs_Helm_Deploy
-  displayName: PRF - Foundational Svcs Helm Deploy
-  dependsOn: TST_Foundational_Svcs_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: foundational-svcs-stg
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: foundational-svcs-prf
-    - template: ../foundational-svcs/helm-variables-prf.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../templates/load-tags.yaml
+          - template: ../templates/save-tags.yaml
             parameters:
               tagName: 'foundational_svc_tags'
 
-          - template: ../foundational-svcs/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              chartName: $(CHART_NAME)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              # COMMON CONFIG
-              env: $(ENV)
-              location: $(LOCATION)
-              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
-              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
-              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
-              sentryDsn: $(SENTRY_DSN)
-              newRelicApiKey: $(NEW_RELIC_API_KEY)
-              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
-              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
-              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
-              # EVENTS SVC PARAMS
-              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
-              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
-              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
-              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
-              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
-              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
-              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
-              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
-              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
-              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
-              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
-              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
-              # STATIC WEB FILES SVC PARAMS
-              staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
-              staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
-              staticWebFilesSvcResourceLimitsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU)
-              staticWebFilesSvcResourceLimitsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY)
-              staticWebFilesSvcResourceRequestsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU)
-              staticWebFilesSvcResourceRequestsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY)
-              staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
-              staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
-              staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
-              # SHORT URL SVC PARAMS
-              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
-              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
-              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
-              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
-              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
-              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
-              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
-              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
-              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
-              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
-              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
-              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)
-              # SUBS MGMT GRPC SVC PARAMS
-              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
-              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
-              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
-              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
-              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
-              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
-              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
-              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
-              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
-              # ATG CONFIG WEB PARAMS
-              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
-              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
-              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
-              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
-              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
-              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
-              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
-              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
-              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)
-              atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
-              atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
-              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)    
-              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)                        
-
-- stage: PRD_Foundational_Svcs_Helm_Deploy
-  displayName: PRD - Foundational Svcs Helm Deploy
-  dependsOn: STG_Foundational_Svcs_Helm_Deploy
+- stage: TST_Comms_Api_Svc_Helm_Deploy
+  displayName: TST (EAST) - Comms Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: foundational-svcs-prd
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: foundational-svcs-prd
-    - template: ../foundational-svcs/helm-variables-prd.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../templates/load-tags.yaml
-            parameters:
-              tagName: 'foundational_svc_tags'
-
-          - template: ../foundational-svcs/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              chartName: $(CHART_NAME)
-              helmReleaseName: $(HELM_RELEASE_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              # COMMON CONFIG
-              env: $(ENV)
-              location: $(LOCATION)
-              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
-              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
-              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
-              sentryDsn: $(SENTRY_DSN)
-              newRelicApiKey: $(NEW_RELIC_API_KEY)
-              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
-              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
-              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
-              # EVENTS SVC PARAMS
-              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
-              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
-              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
-              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
-              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
-              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
-              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
-              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
-              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
-              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
-              # STATIC WEB FILES SVC PARAMS
-              staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
-              staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
-              staticWebFilesSvcResourceLimitsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU)
-              staticWebFilesSvcResourceLimitsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY)
-              staticWebFilesSvcResourceRequestsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU)
-              staticWebFilesSvcResourceRequestsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY)
-              staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
-              staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
-              staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
-              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
-              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
-              # SHORT URL SVC PARAMS
-              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
-              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
-              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
-              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
-              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
-              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
-              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
-              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
-              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
-              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
-              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
-              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)
-              # SUBS MGMT GRPC SVC PARAMS
-              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
-              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
-              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
-              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
-              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
-              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
-              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
-              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
-              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
-              # ATG CONFIG WEB PARAMS
-              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
-              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
-              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
-              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
-              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
-              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
-              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
-              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
-              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)
-              atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
-              atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
-              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)  
-              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)                          
-
-## Comms API Svc
-
-- stage: TST_Comms_API_Svc_Helm_Deploy
-  displayName: TST - comms-api-svc Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: comms-tst
+    environment: foundational-multi-cluster-tst
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -525,14 +324,1276 @@ stages:
             parameters:
               tagName: 'comms_tags'
 
-- stage: STG_Comms_API_Svc_Helm_Deploy
-  displayName: STG - comms-api-svc Helm Deploy
-  dependsOn: TST_Comms_API_Svc_Helm_Deploy
+- stage: TST_Comms_Api_Svc_Helm_Deploy_West
+  displayName: TST (WEST) - Comms Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: comms-stg
+    environment: foundational-multi-cluster-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: comms-api-svc-tst-west
+    - template: ../comms/helm-variables-tst.yaml
+    - template: ../comms/region-overrides/helm-variables-tst-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../comms/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_COMMS_API_SVC_DATABASE)
+              cosmosContainer: $(COSMOSDB_COMMS_API_SVC_CONTAINER)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              managementConnectionString: $(SB_MANAGEMENT_CONN_STRING)
+              sbSmsReqQueue: $(SB_SMS_REQ_QUEUE)
+              sbEmailReqQueue: $(SB_EMAIL_REQ_QUEUE)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
+              smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
+              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+              batchSize: $(BATCH_SIZE)
+              executionMode: $(EXECUTION_MODE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'comms_tags'
+
+- stage: TST_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy
+  displayName: TST (EAST) - Subs Mgmt Gql Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-tst
+    - template: ../subs-mgmt/helm-variables-tst.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)           
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags'
+
+- stage: TST_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy_West
+  displayName: TST (WEST) - Subs Mgmt Gql Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-tst-west
+    - template: ../subs-mgmt/helm-variables-tst.yaml
+    - template: ../subs-mgmt/region-overrides/helm-variables-tst-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)        
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags'
+
+- stage: TST_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy
+  displayName: TST (EAST) - Subs Mgmt Grpc Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-tst
+    - template: ../subs-mgmt/helm-variables-tst.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags'
+
+- stage: TST_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy_West
+  displayName: TST (WEST) - Subs Mgmt Grpc Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-tst
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-tst-west
+    - template: ../subs-mgmt/helm-variables-tst.yaml
+    - template: ../subs-mgmt/region-overrides/helm-variables-tst-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags'
+
+- stage: TST_Identity_Platform_Deploy
+  displayName: TST - Identity platform deploy
+  dependsOn: TST_Foundational_Approval
+
+  jobs:
+    - template: ../templates/deploy-identity-platform.yaml
+      parameters:
+        variableGroup: identity-platform-tst
+        targetEnvironment: identity-platform-tst
+        dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/tst.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+- stage: PRF_Foundational_Svcs_Helm_Deploy
+  displayName: PRF (EAST) - Foundational Svcs Helm Deploy
+  dependsOn: TST_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prf
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-prf
+    - template: ../foundational-svcs/helm-variables-prf.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../foundational-svcs/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIG
+              env: $(ENV)
+              location: $(LOCATION)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
+              sentryDsn: $(SENTRY_DSN)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
+              # EVENTS SVC PARAMS
+              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
+              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
+              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
+              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
+              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
+              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
+              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
+              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
+              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
+              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
+              # STATIC WEB FILES SVC PARAMS
+              staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
+              staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
+              staticWebFilesSvcResourceLimitsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU)
+              staticWebFilesSvcResourceLimitsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY)
+              staticWebFilesSvcResourceRequestsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU)
+              staticWebFilesSvcResourceRequestsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY)
+              staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
+              staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
+              staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)
+              # SUBS MGMT GRPC SVC PARAMS
+              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
+              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
+              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
+              # ATG CONFIG WEB PARAMS
+              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
+              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
+              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
+              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
+              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
+              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
+              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
+              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
+              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)  
+              atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
+              atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)    
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags'
+
+- stage: PRF_Foundational_Svcs_Helm_Deploy_West
+  displayName: PRF (WEST) - Foundational Svcs Helm Deploy
+  dependsOn: TST_Foundational_Approval
+  condition: false
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prf
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-prf-west
+    - template: ../foundational-svcs/helm-variables-prf.yaml
+    - template: ../foundational-svcs/region-overrides/helm-variables-prf-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../foundational-svcs/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIG
+              env: $(ENV)
+              location: $(LOCATION)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
+              sentryDsn: $(SENTRY_DSN)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
+              # EVENTS SVC PARAMS
+              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
+              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
+              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
+              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
+              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
+              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
+              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
+              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
+              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
+              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
+              # STATIC WEB FILES SVC PARAMS
+              staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
+              staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
+              staticWebFilesSvcResourceLimitsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU)
+              staticWebFilesSvcResourceLimitsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY)
+              staticWebFilesSvcResourceRequestsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU)
+              staticWebFilesSvcResourceRequestsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY)
+              staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
+              staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
+              staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)   
+              # SUBS MGMT GRPC SVC PARAMS
+              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
+              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
+              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
+              # ATG CONFIG WEB PARAMS
+              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
+              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
+              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
+              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
+              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
+              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
+              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
+              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
+              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)
+              atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
+              atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)   
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags'
+
+- stage: PRF_Comms_Api_Svc_Helm_Deploy
+  displayName: PRF (EAST) - Comms Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prf
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: comms-api-svc-prf
+    - template: ../comms/helm-variables-prf.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../comms/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_COMMS_API_SVC_DATABASE)
+              cosmosContainer: $(COSMOSDB_COMMS_API_SVC_CONTAINER)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              managementConnectionString: $(SB_MANAGEMENT_CONN_STRING)
+              sbSmsReqQueue: $(SB_SMS_REQ_QUEUE)
+              sbEmailReqQueue: $(SB_EMAIL_REQ_QUEUE)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
+              smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
+              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+              batchSize: $(BATCH_SIZE)
+              executionMode: $(EXECUTION_MODE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'comms_tags'
+
+- stage: PRF_Comms_Api_Svc_Helm_Deploy_West
+  displayName: PRF (WEST) - Comms Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
+  condition: false
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prf
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: comms-api-svc-prf-west
+    - template: ../comms/helm-variables-prf.yaml
+    - template: ../comms/region-overrides/helm-variables-prf-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../comms/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_COMMS_API_SVC_DATABASE)
+              cosmosContainer: $(COSMOSDB_COMMS_API_SVC_CONTAINER)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              managementConnectionString: $(SB_MANAGEMENT_CONN_STRING)
+              sbSmsReqQueue: $(SB_SMS_REQ_QUEUE)
+              sbEmailReqQueue: $(SB_EMAIL_REQ_QUEUE)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
+              smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
+              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+              batchSize: $(BATCH_SIZE)
+              executionMode: $(EXECUTION_MODE)
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'comms_tags'
+
+- stage: PRF_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy
+  displayName: PRF (EAST) - Subs Mgmt Gql Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prf
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-prf
+    - template: ../subs-mgmt/helm-variables-prf.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags'
+
+- stage: PRF_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy_West
+  displayName: PRF (WEST) - Subs Mgmt Gql Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
+  condition: false
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prf
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-prf-west
+    - template: ../subs-mgmt/helm-variables-prf.yaml
+    - template: ../subs-mgmt/region-overrides/helm-variables-prf-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags'
+
+- stage: PRF_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy
+  displayName: PRF (EAST) - Subs Mgmt Grpc Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prf
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-prf
+    - template: ../subs-mgmt/helm-variables-prf.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags'
+
+- stage: PRF_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy_West
+  displayName: PRF (WEST) - Subs Mgmt Grpc Api Svc Helm Deploy
+  dependsOn: TST_Foundational_Approval
+  condition: false
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prf
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-prf-west
+    - template: ../subs-mgmt/helm-variables-prf.yaml
+    - template: ../subs-mgmt/region-overrides/helm-variables-prf-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags'
+
+- stage: PRF_Identity_Platform_Deploy
+  displayName: PRF - Identity platform deploy
+  dependsOn: TST_Foundational_Approval
+
+  jobs:
+    - template: ../templates/deploy-identity-platform.yaml
+      parameters:
+        variableGroup: identity-platform-prf
+        targetEnvironment: identity-platform-prf
+        dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/prf.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+# STG
+
+- stage: STG_Foundational_Approval
+  displayName: STG - Approval
+  dependsOn:
+  - TST_Foundational_Svcs_Helm_Deploy
+  # - TST_Foundational_Svcs_Helm_Deploy_West
+  - TST_Comms_Api_Svc_Helm_Deploy
+  - TST_Comms_Api_Svc_Helm_Deploy_West
+  - TST_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy
+  - TST_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy_West
+  - TST_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy
+  - TST_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy_West
+  - TST_Identity_Platform_Deploy
+  - PRF_Foundational_Svcs_Helm_Deploy
+  # - PRF_Foundational_Svcs_Helm_Deploy_West
+  - PRF_Comms_Api_Svc_Helm_Deploy
+  # - PRF_Comms_Api_Svc_Helm_Deploy_West
+  - PRF_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy
+  # - PRF_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy_West
+  - PRF_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy
+  # - PRF_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy_West
+  - PRF_Identity_Platform_Deploy
+  
+  jobs:
+  - deployment: Deploy_All
+    displayName: Deploy All
+    environment: foundational-approval-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+      
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "STG - Deploy All Foundational:" APPROVED
+
+- stage: STG_Foundational_Svcs_Helm_Deploy
+  displayName: STG (EAST) - Foundational Svcs Helm Deploy
+  dependsOn: STG_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-stg
+    - template: ../foundational-svcs/helm-variables-stg.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags'
+
+          - template: ../foundational-svcs/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIG
+              env: $(ENV)
+              location: $(LOCATION)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
+              sentryDsn: $(SENTRY_DSN)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
+              # EVENTS SVC PARAMS
+              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
+              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
+              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
+              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
+              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
+              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
+              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
+              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
+              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
+              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
+              # STATIC WEB FILES SVC PARAMS
+              staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
+              staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
+              staticWebFilesSvcResourceLimitsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU)
+              staticWebFilesSvcResourceLimitsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY)
+              staticWebFilesSvcResourceRequestsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU)
+              staticWebFilesSvcResourceRequestsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY)
+              staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
+              staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
+              staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN) 
+              # SUBS MGMT GRPC SVC PARAMS
+              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
+              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
+              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
+              # ATG CONFIG WEB PARAMS
+              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
+              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
+              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
+              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
+              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
+              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
+              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
+              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
+              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)     
+              atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
+              atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+
+- stage: STG_Foundational_Svcs_Helm_Deploy_West
+  displayName: STG (WEST) - Foundational Svcs Helm Deploy
+  dependsOn: STG_Foundational_Approval
+  condition: false
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-stg-west
+    - template: ../foundational-svcs/helm-variables-stg.yaml
+    - template: ../foundational-svcs/region-overrides/helm-variables-stg-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags'
+
+          - template: ../foundational-svcs/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIG
+              env: $(ENV)
+              location: $(LOCATION)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
+              sentryDsn: $(SENTRY_DSN)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
+              # EVENTS SVC PARAMS
+              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
+              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
+              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
+              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
+              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
+              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
+              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
+              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
+              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
+              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
+              # STATIC WEB FILES SVC PARAMS
+              staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
+              staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
+              staticWebFilesSvcResourceLimitsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU)
+              staticWebFilesSvcResourceLimitsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY)
+              staticWebFilesSvcResourceRequestsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU)
+              staticWebFilesSvcResourceRequestsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY)
+              staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
+              staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
+              staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)     
+              # SUBS MGMT GRPC SVC PARAMS
+              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
+              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
+              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
+              # ATG CONFIG WEB PARAMS
+              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
+              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
+              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
+              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
+              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
+              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
+              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
+              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
+              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS) 
+              atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
+              atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+
+- stage: STG_Comms_Api_Svc_Helm_Deploy
+  displayName: STG (EAST) - Comms Api Svc Helm Deploy
+  dependsOn: STG_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-stg
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -598,21 +1659,23 @@ stages:
               executionMode: $(EXECUTION_MODE)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
-- stage: PRF_Comms_API_Svc_Helm_Deploy
-  displayName: PRF - comms-api-svc Helm Deploy
-  dependsOn: TST_Comms_API_Svc_Helm_Deploy
+- stage: STG_Comms_Api_Svc_Helm_Deploy_West
+  displayName: STG (WEST) - Comms Api Svc Helm Deploy
+  dependsOn: STG_Foundational_Approval
+  condition: false
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: comms-stg
+    environment: foundational-multi-cluster-stg
 
     pool:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: comms-api-svc-prf
-    - template: ../comms/helm-variables-prf.yaml
+    - group: comms-api-svc-stg-west
+    - template: ../comms/helm-variables-stg.yaml
+    - template: ../comms/region-overrides/helm-variables-stg-west.yaml
 
     strategy:
       runOnce:
@@ -671,14 +1734,545 @@ stages:
               executionMode: $(EXECUTION_MODE)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
 
-- stage: PRD_Comms_API_Svc_Helm_Deploy
-  displayName: PRD - comms-api-svc Helm Deploy
-  dependsOn: STG_Comms_API_Svc_Helm_Deploy
+- stage: STG_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy
+  displayName: STG (EAST) - Subs Mgmt Gql Api Svc Helm Deploy
+  dependsOn: STG_Foundational_Approval
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: comms-prd
+    environment: foundational-multi-cluster-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-stg
+    - template: ../subs-mgmt/helm-variables-stg.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags'
+
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)
+
+- stage: STG_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy_West
+  displayName: STG (WEST) - Subs Mgmt Gql Api Svc Helm Deploy
+  dependsOn: STG_Foundational_Approval
+  condition: false
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-stg-west
+    - template: ../subs-mgmt/helm-variables-stg.yaml
+    - template: ../subs-mgmt/region-overrides/helm-variables-stg-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags'
+
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)
+
+- stage: STG_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy
+  displayName: STG (EAST) - Subs Mgmt Grpc Api Svc Helm Deploy
+  dependsOn: STG_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-stg
+    - template: ../subs-mgmt/helm-variables-stg.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags'
+
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)              
+
+- stage: STG_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy_West
+  displayName: STG (WEST) - Subs Mgmt Grpc Api Svc Helm Deploy
+  dependsOn: STG_Foundational_Approval
+  condition: false
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-stg
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-stg-west
+    - template: ../subs-mgmt/helm-variables-stg.yaml
+    - template: ../subs-mgmt/region-overrides/helm-variables-stg-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags'
+
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+
+- stage: STG_Identity_Platform_Deploy
+  displayName: STG - Identity platform deploy
+  dependsOn: STG_Foundational_Approval
+
+  jobs:
+    - template: ../templates/deploy-identity-platform.yaml
+      parameters:
+        variableGroup: identity-platform-stg
+        targetEnvironment: identity-platform-stg
+        dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/stg.zip
+        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+
+# PRD
+
+- stage: PRD_Foundational_Approval
+  displayName: PRD - Approval
+  dependsOn:
+  - STG_Foundational_Svcs_Helm_Deploy
+  # - STG_Foundational_Svcs_Helm_Deploy_West
+  - STG_Comms_Api_Svc_Helm_Deploy
+  # - STG_Comms_Api_Svc_Helm_Deploy_West
+  - STG_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy
+  # - STG_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy_West
+  - STG_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy
+  # - STG_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy_West
+  - STG_Identity_Platform_Deploy
+
+  jobs:
+  - deployment: Deploy_All
+    displayName: Deploy All
+    environment: foundational-approval-prd
+
+    pool:
+      vmImage: 'ubuntu-latest'
+      
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "PRD - Deploy All Foundational:" APPROVED
+
+- stage: PRD_Foundational_Svcs_Helm_Deploy
+  displayName: PRD (EAST) - Foundational Svcs Helm Deploy
+  dependsOn: PRD_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prd
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-prd
+    - template: ../foundational-svcs/helm-variables-prd.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags'
+
+          - template: ../foundational-svcs/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIG
+              env: $(ENV)
+              location: $(LOCATION)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
+              sentryDsn: $(SENTRY_DSN)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
+              # EVENTS SVC PARAMS
+              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
+              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
+              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
+              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
+              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
+              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
+              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
+              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
+              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
+              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
+              # STATIC WEB FILES SVC PARAMS
+              staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
+              staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
+              staticWebFilesSvcResourceLimitsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU)
+              staticWebFilesSvcResourceLimitsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY)
+              staticWebFilesSvcResourceRequestsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU)
+              staticWebFilesSvcResourceRequestsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY)
+              staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
+              staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
+              staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)      
+              # SUBS MGMT GRPC SVC PARAMS
+              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
+              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
+              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
+              # ATG CONFIG WEB PARAMS
+              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
+              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
+              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
+              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
+              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
+              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
+              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
+              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
+              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS)
+              atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
+              atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+
+- stage: PRD_Foundational_Svcs_Helm_Deploy_West
+  displayName: PRD (WEST) - Foundational Svcs Helm Deploy
+  dependsOn: PRD_Foundational_Approval
+  condition: false
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prd
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: foundational-svcs-prd-west
+    - template: ../foundational-svcs/helm-variables-prd.yaml
+    - template: ../foundational-svcs/region-overrides/helm-variables-prd-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'foundational_svc_tags'
+
+          - template: ../foundational-svcs/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              chartName: $(CHART_NAME)
+              helmReleaseName: $(HELM_RELEASE_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              # COMMON CONFIG
+              env: $(ENV)
+              location: $(LOCATION)
+              mongoDbName: $(COSMOSDB_MONGO_DATABASE)
+              mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
+              svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
+              sentryDsn: $(SENTRY_DSN)
+              newRelicApiKey: $(NEW_RELIC_API_KEY)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              subsMgmtGrpcSvcUrl: $(SUBS_MGMT_GRPC_SVC_URL)
+              # EVENTS SVC PARAMS
+              eventsSvcImageRepositoryName: $(EVENTS_SVC_IMAGE_REPOSITORY_NAME)
+              eventsSvcReplicas: $(EVENTS_SVC_REPLICAS)
+              eventsSvcResourceLimitsCpu: $(EVENTS_SVC_RESOURCE_LIMITS_CPU)
+              eventsSvcResourceLimitsMemory: $(EVENTS_SVC_RESOURCE_LIMITS_MEMORY)
+              eventsSvcResourceRequestsCpu: $(EVENTS_SVC_RESOURCE_REQUESTS_CPU)
+              eventsSvcResourceRequestsMemory: $(EVENTS_SVC_RESOURCE_REQUESTS_MEMORY)
+              eventsSvcNodeSelectorPool: $(EVENTS_SVC_NODE_SELECTOR_POOL)
+              eventsSvcConfigMongoDbCollectionName: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS)
+              eventsSvcConfigMongoDbCollectionNameExceptions: $(EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS)
+              eventsSvcConfigEventHubConnectionString: $(EVENTS_SVC_CONFIG_EVENT_HUB_CONN_STRING)
+              staticWebFilesSvcKongIngressUpstreamHostHeader: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              staticWebFilesSvcKongIngressClass: $(STATIC_WEB_FILES_SVC_KONG_INGRESS_CLASS)
+              # STATIC WEB FILES SVC PARAMS
+              staticWebFilesSvcImageRepositoryName: $(STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME)
+              staticWebFilesSvcReplicas: $(STATIC_WEB_FILES_SVC_REPLICAS)
+              staticWebFilesSvcResourceLimitsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_CPU)
+              staticWebFilesSvcResourceLimitsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_LIMITS_MEMORY)
+              staticWebFilesSvcResourceRequestsCpu: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_CPU)
+              staticWebFilesSvcResourceRequestsMemory: $(STATIC_WEB_FILES_SVC_RESOURCE_REQUESTS_MEMORY)
+              staticWebFilesSvcNodeSelectorPool: $(STATIC_WEB_FILES_SVC_NODE_SELECTOR_POOL)
+              staticWebFilesSvcConfigAzureStorageAccountName: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_NAME)
+              staticWebFilesSvcConfigAzureStorageAccountKey: $(STATIC_WEB_FILES_SVC_AZ_STORAGE_ACCT_KEY)
+              # SHORT URL SVC PARAMS
+              shortUrlSvcImageRepositoryName: $(SHORT_URL_SVC_IMAGE_REPOSITORY_NAME)
+              shortUrlSvcResourceLimitsCpu: $(SHORT_URL_SVC_RESOURCE_LIMITS_CPU)
+              shortUrlSvcResourceLimitsMemory: $(SHORT_URL_SVC_RESOURCE_LIMITS_MEMORY)
+              shortUrlSvcResourceRequestsCpu: $(SHORT_URL_SVC_RESOURCE_REQUESTS_CPU)
+              shortUrlSvcResourceRequestsMemory: $(SHORT_URL_SVC_RESOURCE_REQUESTS_MEMORY)
+              shortUrlSvcReplicas: $(SHORT_URL_SVC_REPLICAS)
+              shortUrlSvcNodeSelectorPool: $(SHORT_URL_SVC_NODE_SELECTOR_POOL)
+              shortUrlSvcMongoDbCollectionName: $(SHORT_URL_COSMOSDB_MONGO_COLLECTION_MAIN)
+              shortUrlSvcKongIngressUpstreamHostHeader: $(SHORT_URL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              shortUrlSvcKongIngressClass: $(SHORT_URL_SVC_KONG_INGRESS_CLASS)
+              shortUrlSvcEventsIngressQueue: $(SHORT_URL_SVC_EVENTS_INGRESS_QUEUE)
+              shortUrlSvcDomain: $(SHORT_URL_SVC_DOMAIN)     
+              # SUBS MGMT GRPC SVC PARAMS
+              subsMgmtGrpcSvcImageRepositoryName: $(SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGrpcSvcResourceLimitsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGrpcSvcResourceLimitsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGrpcSvcResourceRequestsCpu: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGrpcSvcResourceRequestsMemory: $(SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGrpcSvcReplicas: $(SUBS_MGMT_GRPC_SVC_REPLICAS)
+              subsMgmtGrpcSvcNodeSelectorPool: $(SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGrpcSvcCosmosMongoCollection: $(SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION)
+              subsMgmtGrpcSvcSbEventsIngressQueue: $(SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE)
+              # ATG CONFIG WEB PARAMS
+              atgConfigWebImageRepositoryName: $(ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME)
+              atgConfigWebResourceLimitsCpu: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU)
+              atgConfigWebResourceLimitsMemory: $(ATG_CONFIG_WEB_RESOURCE_LIMITS_MEMORY)
+              atgConfigWebResourceRequestsCpu: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_CPU)
+              atgConfigWebResourceRequestsMemory: $(ATG_CONFIG_WEB_RESOURCE_REQUESTS_MEMORY)
+              atgConfigWebReplicas: $(ATG_CONFIG_WEB_REPLICAS)
+              atgConfigWebNodeSelectorPool: $(ATG_CONFIG_WEB_NODE_SELECTOR_POOL)
+              atgConfigWebKongIngressUpstreamHostHeader: $(ATG_CONFIG_WEB_KONG_INGRESS_UPSTREAM_HEADER)
+              atgConfigWebKongIngressClass: $(ATG_CONFIG_WEB_KONG_INGRESS_CLASS) 
+              atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
+              atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
+              atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+
+- stage: PRD_Comms_Api_Svc_Helm_Deploy
+  displayName: PRD (EAST) - Comms Api Svc Helm Deploy
+  dependsOn: PRD_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prd
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -743,158 +2337,24 @@ stages:
               batchSize: $(BATCH_SIZE)
               executionMode: $(EXECUTION_MODE)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              nodeJsEnv: 'production'
 
-## Subs Mgmt
-
-- stage: TST_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
-  displayName: TST - subs mgmt gql api-svc Helm Deploy
-  dependsOn: []
+- stage: PRD_Comms_Api_Svc_Helm_Deploy_West
+  displayName: PRD (WEST) - Comms Api Svc Helm Deploy
+  dependsOn: PRD_Foundational_Approval
+  condition: false
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: subs-mgmt-tst
+    environment: foundational-multi-cluster-prd
 
     pool:
       vmImage: 'ubuntu-latest'
 
     variables:
-    - group: subs-mgmt-api-svc-tst
-    - template: ../subs-mgmt/helm-variables-tst.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../subs-mgmt/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-gql
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              location: $(LOCATION)
-              replicas: $(REPLICAS)
-              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
-              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              b2cClientId: $(B2C_CLIENT_ID)
-              b2cDomainHost: $(B2C_DOMAIN_HOST)
-              b2cTenantId: $(B2C_TENANT_ID)
-              b2cPolicyName: $(B2C_POLICY_NAME)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
-              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
-              apiKind: GQL
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
-              eventsSbQueue: $(EVENTS_SB_QUEUE)
-              enableIntrospection: $(ENABLE_INTROSPECTION)           
-
-          - template: ../templates/save-tags.yaml
-            parameters:
-              tagName: 'subs_gql_tags'
-
-- stage: TST_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
-  displayName: TST - subs mgmt grpc api-svc Helm Deploy
-  dependsOn: []
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: subs-mgmt-tst
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: subs-mgmt-api-svc-tst
-    - template: ../subs-mgmt/helm-variables-tst.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../subs-mgmt/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              location: $(LOCATION)
-              replicas: $(REPLICAS)
-              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
-              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              b2cClientId: $(B2C_CLIENT_ID)
-              b2cDomainHost: $(B2C_DOMAIN_HOST)
-              b2cTenantId: $(B2C_TENANT_ID)
-              b2cPolicyName: $(B2C_POLICY_NAME)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
-              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
-              apiKind: GRPC
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
-              eventsSbQueue: $(EVENTS_SB_QUEUE)              
-
-          - template: ../templates/save-tags.yaml
-            parameters:
-              tagName: 'subs_grpc_tags'
-
-- stage: STG_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
-  displayName: STG - subs mgmt gql api-svc Helm Deploy
-  dependsOn: TST_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: subs-mgmt-stg
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: subs-mgmt-api-svc-stg
-    - template: ../subs-mgmt/helm-variables-stg.yaml
+    - group: comms-api-svc-prd-west
+    - template: ../comms/helm-variables-prd.yaml
+    - template: ../comms/region-overrides/helm-variables-prd-west.yaml
 
     strategy:
       runOnce:
@@ -902,13 +2362,13 @@ stages:
           steps:
           - template: ../templates/load-tags.yaml
             parameters:
-              tagName: 'subs_gql_tags'
+              tagName: 'comms_tags'
 
-          - template: ../subs-mgmt/helm-deploy-step.yaml
+          - template: ../comms/helm-deploy-step.yaml
             parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
               azureTenantId: $(AZURE_TENANT_ID)
               aksName: $(AKS_NAME)
               aksResourceGroup: $(AKS_RESOURCE_GROUP)
@@ -916,7 +2376,7 @@ stages:
               imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
               chartRepositoryName: $(CHART_REPOSITORY_NAME)
               k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-gql
+              helmReleaseName: $(HELM_RELEASE_NAME)
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
@@ -930,230 +2390,37 @@ stages:
               resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
               resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
               resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_COMMS_API_SVC_DATABASE)
+              cosmosContainer: $(COSMOSDB_COMMS_API_SVC_CONTAINER)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              managementConnectionString: $(SB_MANAGEMENT_CONN_STRING)
+              sbSmsReqQueue: $(SB_SMS_REQ_QUEUE)
+              sbEmailReqQueue: $(SB_EMAIL_REQ_QUEUE)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
               b2cClientId: $(B2C_CLIENT_ID)
               b2cDomainHost: $(B2C_DOMAIN_HOST)
               b2cTenantId: $(B2C_TENANT_ID)
               b2cPolicyName: $(B2C_POLICY_NAME)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
-              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
-              apiKind: GQL
+              subsMgmtGrpcUrl: $(GRPC_URL_SUBS_MGMT)
+              subsMgmtServiceId: $(SUBS_MGMT_SERVICE_ID)
+              subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
+              smsFromPhoneNumber: $(SMS_FROM_PHONE_NUMBER)
+              processPlatformEvents: $(PROCESS_PLATFORM_EVENTS)
+              batchSize: $(BATCH_SIZE)
+              executionMode: $(EXECUTION_MODE)
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
-              eventsSbQueue: $(EVENTS_SB_QUEUE)
-              enableIntrospection: $(ENABLE_INTROSPECTION)            
 
-- stage: STG_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
-  displayName: STG - subs mgmt grpc api-svc Helm Deploy
-  dependsOn: TST_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
+- stage: PRD_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy
+  displayName: PRD (EAST) - Subs Mgmt Gql Api Svc Helm Deploy
+  dependsOn: PRD_Foundational_Approval
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: subs-mgmt-stg
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: subs-mgmt-api-svc-stg
-    - template: ../subs-mgmt/helm-variables-stg.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../templates/load-tags.yaml
-            parameters:
-              tagName: 'subs_grpc_tags'
-
-          - template: ../subs-mgmt/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              location: $(LOCATION)
-              replicas: $(REPLICAS)
-              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
-              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              b2cClientId: $(B2C_CLIENT_ID)
-              b2cDomainHost: $(B2C_DOMAIN_HOST)
-              b2cTenantId: $(B2C_TENANT_ID)
-              b2cPolicyName: $(B2C_POLICY_NAME)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
-              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
-              apiKind: GRPC
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
-              eventsSbQueue: $(EVENTS_SB_QUEUE)              
-
-- stage: PRF_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
-  displayName: PRF - subs mgmt grpc api-svc Helm Deploy
-  dependsOn: TST_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: subs-mgmt-stg
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: subs-mgmt-api-svc-prf
-    - template: ../subs-mgmt/helm-variables-prf.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../templates/load-tags.yaml
-            parameters:
-              tagName: 'subs_grpc_tags'
-
-          - template: ../subs-mgmt/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              location: $(LOCATION)
-              replicas: $(REPLICAS)
-              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
-              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              b2cClientId: $(B2C_CLIENT_ID)
-              b2cDomainHost: $(B2C_DOMAIN_HOST)
-              b2cTenantId: $(B2C_TENANT_ID)
-              b2cPolicyName: $(B2C_POLICY_NAME)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
-              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
-              apiKind: GRPC
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
-              eventsSbQueue: $(EVENTS_SB_QUEUE)              
-
-- stage: PRF_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
-  displayName: PRF - subs mgmt gql api-svc Helm Deploy
-  dependsOn: TST_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: subs-mgmt-stg
-
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    variables:
-    - group: subs-mgmt-api-svc-prf
-    - template: ../subs-mgmt/helm-variables-prf.yaml
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../templates/load-tags.yaml
-            parameters:
-              tagName: 'subs_gql_tags'
-
-          - template: ../subs-mgmt/helm-deploy-step.yaml
-            parameters:
-              serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
-              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
-              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
-              azureTenantId: $(AZURE_TENANT_ID)
-              aksName: $(AKS_NAME)
-              aksResourceGroup: $(AKS_RESOURCE_GROUP)
-              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
-              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
-              chartRepositoryName: $(CHART_REPOSITORY_NAME)
-              k8sNamespace: $(K8S_NAMESPACE)
-              helmReleaseName: $(HELM_RELEASE_NAME)-gql
-              chartName: $(CHART_NAME)
-              env: $(ENV)
-              location: $(LOCATION)
-              replicas: $(REPLICAS)
-              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
-              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
-              frontDoorId: $(FRONT_DOOR_ID)
-              kongIngressClass: $(KONG_INGRESS_CLASS)
-              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
-              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
-              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
-              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
-              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
-              b2cClientId: $(B2C_CLIENT_ID)
-              b2cDomainHost: $(B2C_DOMAIN_HOST)
-              b2cTenantId: $(B2C_TENANT_ID)
-              b2cPolicyName: $(B2C_POLICY_NAME)
-              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
-              serviceBusConnectionString: $(SB_CONN_STRING)
-              sbEventsTopic: $(SB_EVENTS_TOPIC)
-              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
-              cosmosConnString: $(COSMOSDB_CONN_STRING)
-              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
-              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
-              apiKind: GQL
-              nodeSelectorPool: $(NODE_SELECTOR_POOL)
-              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
-              eventsSbQueue: $(EVENTS_SB_QUEUE)
-              enableIntrospection: $(ENABLE_INTROSPECTION)        
-
-- stage: PRD_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
-  displayName: PRD - subs mgmt gql api-svc Helm Deploy
-  dependsOn: STG_Subs_Mgmt_GQL_API_Svc_Helm_Deploy
-
-  jobs:
-  - deployment: Helm_Deploy
-    displayName: Helm Deploy
-    environment: subs-mgmt-prd
+    environment: foundational-multi-cluster-prd
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1211,16 +2478,85 @@ stages:
               nodeSelectorPool: $(NODE_SELECTOR_POOL)
               eventsSbConnString: $(EVENTS_SB_CONN_STRING)
               eventsSbQueue: $(EVENTS_SB_QUEUE)
-              enableIntrospection: $(ENABLE_INTROSPECTION)  
+              enableIntrospection: $(ENABLE_INTROSPECTION)
 
-- stage: PRD_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
-  displayName: PRD - subs mgmt grpc api-svc Helm Deploy
-  dependsOn: STG_Subs_Mgmt_GRPC_API_Svc_Helm_Deploy
+- stage: PRD_Subs_Mgmt_Gql_Api_Svc_Helm_Deploy_West
+  displayName: PRD (WEST) - Subs Mgmt Gql Api Svc Helm Deploy
+  dependsOn: PRD_Foundational_Approval
+  condition: false
 
   jobs:
   - deployment: Helm_Deploy
     displayName: Helm Deploy
-    environment: subs-mgmt-prd
+    environment: foundational-multi-cluster-prd
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+    - group: subs-mgmt-api-svc-prd-west
+    - template: ../subs-mgmt/helm-variables-prd.yaml
+    - template: ../subs-mgmt/region-overrides/helm-variables-prd-west.yaml
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_gql_tags'
+
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-gql
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GQL
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+              enableIntrospection: $(ENABLE_INTROSPECTION)
+
+- stage: PRD_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy
+  displayName: PRD (EAST) - Subs Mgmt Grpc Api Svc Helm Deploy
+  dependsOn: PRD_Foundational_Approval
+
+  jobs:
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prd
 
     pool:
       vmImage: 'ubuntu-latest'
@@ -1279,46 +2615,77 @@ stages:
               eventsSbConnString: $(EVENTS_SB_CONN_STRING)
               eventsSbQueue: $(EVENTS_SB_QUEUE)              
 
-## Identity platform
-- stage: TST_Identity_Platform_Deploy
-  displayName: TST - Identity platform deploy
-  dependsOn: []
+- stage: PRD_Subs_Mgmt_Grpc_Api_Svc_Helm_Deploy_West
+  displayName: PRD (WEST) - Subs Mgmt Grpc Api Svc Helm Deploy
+  dependsOn: PRD_Foundational_Approval
+  condition: false
 
   jobs:
-    - template: ../templates/deploy-identity-platform.yaml
-      parameters:
-        variableGroup: identity-platform-tst
-        targetEnvironment: identity-platform-tst
-        dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/tst.zip
-        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+  - deployment: Helm_Deploy
+    displayName: Helm Deploy
+    environment: foundational-multi-cluster-prd
 
-- stage: STG_Identity_Platform_Deploy
-  displayName: STG - Identity platform deploy
-  dependsOn: TST_Identity_Platform_Deploy
+    pool:
+      vmImage: 'ubuntu-latest'
 
-  jobs:
-    - template: ../templates/deploy-identity-platform.yaml
-      parameters:
-        variableGroup: identity-platform-stg
-        targetEnvironment: identity-platform-stg
-        dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/stg.zip
-        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
+    variables:
+    - group: subs-mgmt-api-svc-prd-west
+    - template: ../subs-mgmt/helm-variables-prd.yaml
+    - template: ../subs-mgmt/region-overrides/helm-variables-prd-west.yaml
 
-- stage: PRF_Identity_Platform_Deploy
-  displayName: PRF - Identity platform deploy
-  dependsOn: TST_Identity_Platform_Deploy
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'subs_grpc_tags'
 
-  jobs:
-    - template: ../templates/deploy-identity-platform.yaml
-      parameters:
-        variableGroup: identity-platform-prf
-        targetEnvironment: identity-platform-prf
-        dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/prf.zip
-        azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG    
-        
+          - template: ../subs-mgmt/helm-deploy-step.yaml
+            parameters:
+              serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
+              svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_PRD)
+              svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_PRD)
+              azureTenantId: $(AZURE_TENANT_ID)
+              aksName: $(AKS_NAME)
+              aksResourceGroup: $(AKS_RESOURCE_GROUP)
+              containerRegistryName: $(CONTAINER_REGISTRY_NAME)
+              imageRepositoryName: $(IMAGE_REPOSITORY_NAME)
+              chartRepositoryName: $(CHART_REPOSITORY_NAME)
+              k8sNamespace: $(K8S_NAMESPACE)
+              helmReleaseName: $(HELM_RELEASE_NAME)-grpc
+              chartName: $(CHART_NAME)
+              env: $(ENV)
+              location: $(LOCATION)
+              replicas: $(REPLICAS)
+              newRelicCliApiKey: $(NEW_RELIC_CLI_API_KEY)
+              newRelicAccountId: $(NEW_RELIC_ACCOUNT_ID)
+              frontDoorId: $(FRONT_DOOR_ID)
+              kongIngressClass: $(KONG_INGRESS_CLASS)
+              kongIngressUpstreamHostHeader: $(KONG_INGRESS_UPSTREAM_HEADER)
+              resourceLimitsCpu: $(RESOURCE_LIMITS_CPU)
+              resourceLimitsMemory: $(RESOURCE_LIMITS_MEMORY)
+              resourceRequestsCpu: $(RESOURCE_REQUESTS_CPU)
+              resourceRequestsMemory: $(RESOURCE_REQUESTS_MEMORY)
+              b2cClientId: $(B2C_CLIENT_ID)
+              b2cDomainHost: $(B2C_DOMAIN_HOST)
+              b2cTenantId: $(B2C_TENANT_ID)
+              b2cPolicyName: $(B2C_POLICY_NAME)
+              appInsightsKey: $(APP_INSIGHTS_INSTRUMENTATION_KEY)
+              serviceBusConnectionString: $(SB_CONN_STRING)
+              sbEventsTopic: $(SB_EVENTS_TOPIC)
+              sbPlatformEventsSubscription: $(SB_PLATFORM_EVENTS_SUBSCRIPTION)
+              cosmosConnString: $(COSMOSDB_CONN_STRING)
+              cosmosDatabase: $(COSMOSDB_SUBS_MGMT_DATABASE)
+              cosmosContainer: $(COSMOSDB_SUBS_MGMT_CONTAINER)
+              apiKind: GRPC
+              nodeSelectorPool: $(NODE_SELECTOR_POOL)
+              eventsSbConnString: $(EVENTS_SB_CONN_STRING)
+              eventsSbQueue: $(EVENTS_SB_QUEUE)
+
 - stage: PRD_Identity_Platform_Deploy
   displayName: PRD - Identity platform deploy
-  dependsOn: STG_Identity_Platform_Deploy
+  dependsOn: PRD_Foundational_Approval
 
   jobs:
     - template: ../templates/deploy-identity-platform.yaml
