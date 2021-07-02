@@ -1,13 +1,11 @@
 parameters:
   variableGroup: ''
   dropArtifactPath: ''
-  targetEnvironment: ''
   azureServiceConnection: ''
 
 jobs:
 - deployment: Deploy_CustomUI
   displayName: Deploy CustomUI
-  environment: ${{ parameters.targetEnvironment }}
 
   pool:
     vmImage: 'ubuntu-latest'

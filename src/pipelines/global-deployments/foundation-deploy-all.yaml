@@ -674,7 +674,6 @@ stages:
     - template: ../templates/deploy-identity-platform.yaml
       parameters:
         variableGroup: identity-platform-tst
-        targetEnvironment: identity-platform-tst
         dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/tst.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
@@ -1324,7 +1323,6 @@ stages:
     - template: ../templates/deploy-identity-platform.yaml
       parameters:
         variableGroup: identity-platform-prf
-        targetEnvironment: identity-platform-prf
         dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/prf.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
@@ -2012,7 +2010,6 @@ stages:
     - template: ../templates/deploy-identity-platform.yaml
       parameters:
         variableGroup: identity-platform-stg
-        targetEnvironment: identity-platform-stg
         dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/stg.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-DEV-TST-STG
 
@@ -2691,6 +2688,5 @@ stages:
     - template: ../templates/deploy-identity-platform.yaml
       parameters:
         variableGroup: identity-platform-prd
-        targetEnvironment: identity-platform-prd
         dropArtifactPath: $(Pipeline.Workspace)/identity-platform-master-build/drop/prd.zip
         azureServiceConnection: AzDevOps-Pipeline-Principal-PRD
