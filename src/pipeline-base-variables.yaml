@@ -4,6 +4,8 @@ variables:
 # NOTE: MAJOR_VERSION_MONTH is meant to be a two digit value i.e. 01
 - name: MAJOR_VERSION_MONTH
   value: 07
+- name: BATCH_VERSION
+  value: "late"
 - name: MINOR_VERSION
   value: $[counter(variables['MAJOR_VERSION_MONTH'], 100)]
 - name: FULL_VERSION
@@ -11,4 +13,6 @@ variables:
 - name: FRIENDLY_NAME
   value: 'Late July 2021'
 - name: FULL_VERSION_FRIENDLY
-  value: $(MAJOR_VERSION_YEAR)$(MAJOR_VERSION_MONTH).$(MINOR_VERSION).1-late.jul.2021
+  value: $(MAJOR_VERSION_YEAR)$(MAJOR_VERSION_MONTH).$(MINOR_VERSION).1-$(BATCH_VERSION).jul.2021
+- name: RELEASE_VERSION
+  value: release-$(MAJOR_VERSION_YEAR).$(MAJOR_VERSION_MONTH).$(BATCH_VERSION)
