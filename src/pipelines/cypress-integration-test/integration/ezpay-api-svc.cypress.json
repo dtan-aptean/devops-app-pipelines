@@ -13,6 +13,8 @@
     "x-aptean-tenant": "#{X_APTEAN_TENANT}#", 
     "x-aptean-account": "#{X_APTEAN_ACCOUNT}",    
     "x-aptean-tenant-secret": "#{X_APTEAN_TENANT_SECRET}#",
+    "x-aptean-apim-checkout-consumer": "#{X_APTEAN_APIM_CHECKOUT_CONSUMER}#",
+    "x-aptean-product": "#{X_APTEAN_PRODUCT}#",
     "wepay-base-url": "#{WEPAY_API_URL}#",
     "wepay-app-id": "#{WEPAY_APP_ID}#",
     "wepay-app-secret": "#{WEPAY_APP_SECRET}#",
