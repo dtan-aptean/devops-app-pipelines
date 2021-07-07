@@ -107,6 +107,8 @@ parameters:
   gqlAPISvcResourceLimitsMemory: ''
   gqlAPISvcResourceRequestsCpu: ''
   gqlAPISvcResourceRequestsMemory: ''
+  gqlAPISvcResourceKedaTriggerCpu: ''
+  gqlAPISvcResourceKedaTriggerMemory: ''
   gqlAPISvcKongIngressClass: ''
   gqlAPISvcKongIngressUpstreamHostHeader: '' 
   gqlAPISvcNodeSelectorPool: ''
@@ -123,6 +125,8 @@ parameters:
   erpSvcResourceLimitsMemory: ''
   erpSvcResourceRequestsCpu: ''
   erpSvcResourceRequestsMemory: ''
+  erpSvcResourceKedaTriggerCpu: ''
+  erpSvcResourceKedaTriggerMemory: ''  
   erpSvcNodeSelectorPool: ''
   erpSvcConfigCosmosCollectionName: ''
   # LANG SVC Params
@@ -135,10 +139,18 @@ parameters:
   langSvcResourceLimitsMemory: ''
   langSvcResourceRequestsCpu: ''
   langSvcResourceRequestsMemory: ''
+  langSvcResourceKedaTriggerCpu: ''
+  langSvcResourceKedaTriggerMemory: ''  
   langSvcNodeSelectorPool: ''
   langSvcConfigCacheRetainSeconds: ''
   langSvcConfigCosmosCollectionName: ''
   # PRODUCT RECS SVC Params
+  productRecsSvcResourceLimitsCpu: ''
+  productRecsSvcResourceLimitsMemory: ''
+  productRecsSvcResourceRequestsCpu: ''
+  productRecsSvcResourceRequestsMemory: ''
+  productRecsSvcResourceKedaTriggerCpu: ''
+  productRecsSvcResourceKedaTriggerMemory: ''   
   productRecsSvcConfigEventsEgressConsumerGroup: ''
   productRecsSvcConfigEventsCheckpointsBlobContainerName: ''
   productRecsSvcConfigEventsCollectionName: ''
@@ -424,6 +436,17 @@ steps:
           kubernetes.io/ingress.class: $env:GQL_API_SVC_KONG_INGRESS_CLASS
         path: /ecomm-gql-api-svc
 
+      keda:
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:GQL_API_SVC_RESOURCE_KEDA_TRIGGER_CPU"        
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:GQL_API_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
+
       config:
         erpIntegrationSvc:
           grpcUrl: $env:GQL_API_SVC_CONFIG_GRPC_URL_ERP_INTEGRATION
@@ -452,6 +475,17 @@ steps:
           requests:
             cpu: $env:ERP_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:ERP_SVC_RESOURCE_REQUESTS_MEMORY
+
+      keda:
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:ERP_SVC_RESOURCE_KEDA_TRIGGER_CPU"        
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:ERP_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
 
       config:
         cosmos:
@@ -494,6 +528,17 @@ steps:
         annotations:
           kubernetes.io/ingress.class: $env:LANG_SVC_KONG_INGRESS_CLASS
         path: /ecomm-lang-svc
+
+      keda:
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:LANG_SVC_RESOURCE_KEDA_TRIGGER_CPU"        
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:LANG_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
         
       config: 
         cacheRetainSeconds: $env:LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS
@@ -521,6 +566,17 @@ steps:
           requests:
             cpu: $env:PRODUCT_RECS_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:PRODUCT_RECS_SVC_RESOURCE_REQUESTS_MEMORY
+
+      keda:
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:PRODUCT_RECS_SVC_RESOURCE_KEDA_TRIGGER_CPU"        
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:PRODUCT_RECS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
 
       config:
         cosmos:
@@ -649,6 +705,8 @@ steps:
     GQL_API_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.gqlAPISvcResourceLimitsMemory }}
     GQL_API_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.gqlAPISvcResourceRequestsCpu }}
     GQL_API_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.gqlAPISvcResourceRequestsMemory }}
+    GQL_API_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.gqlAPISvcResourceKedaTriggerCpu }}
+    GQL_API_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.gqlAPISvcResourceKedaTriggerMemory }}    
     GQL_API_SVC_KONG_INGRESS_CLASS: ${{ parameters.gqlAPISvcKongIngressClass }}
     GQL_API_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.gqlAPISvcKongIngressUpstreamHostHeader }}    
     GQL_API_SVC_NODE_SELECTOR_POOL: ${{ parameters.gqlAPISvcNodeSelectorPool }}
@@ -665,6 +723,8 @@ steps:
     ERP_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.erpSvcResourceLimitsMemory }}
     ERP_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.erpSvcResourceRequestsCpu }}
     ERP_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.erpSvcResourceRequestsMemory }}
+    ERP_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.erpSvcResourceKedaTriggerCpu }}
+    ERP_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.erpSvcResourceKedaTriggerMemory }}     
     ERP_SVC_NODE_SELECTOR_POOL: ${{ parameters.erpSvcNodeSelectorPool }}
     ERP_SVC_CONFIG_COSMOSDB_COLLECTION_NAME: ${{ parameters.erpSvcConfigCosmosCollectionName }}
     # LANG SVC Params
@@ -677,10 +737,18 @@ steps:
     LANG_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.langSvcResourceLimitsMemory }}
     LANG_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.langSvcResourceRequestsCpu }}
     LANG_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.langSvcResourceRequestsMemory }}
+    LANG_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.langSvcResourceKedaTriggerCpu }}
+    LANG_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.langSvcResourceKedaTriggerMemory }}     
     LANG_SVC_NODE_SELECTOR_POOL: ${{ parameters.langSvcNodeSelectorPool }}
     LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS: ${{ parameters.langSvcConfigCacheRetainSeconds }}
     LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME: ${{ parameters.langSvcConfigCosmosCollectionName }}
     # PRODUCT RECS SVC Params
+    PRODUCT_RECS_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.productRecsSvcResourceLimitsCpu }}
+    PRODUCT_RECS_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.productRecsSvcResourceLimitsMemory }}
+    PRODUCT_RECS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.productRecsSvcResourceRequestsCpu }}
+    PRODUCT_RECS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.productRecsSvcResourceRequestsMemory }}
+    PRODUCT_RECS_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.productRecsSvcResourceKedaTriggerCpu }}
+    PRODUCT_RECS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.productRecsSvcResourceKedaTriggerMemory }}       
     PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME: ${{ parameters.productRecsSvcConfigEventsCollectionName }}
     PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME: ${{ parameters.productRecsSvcConfigRecommendationsCollectionName }}
     PRODUCT_RECS_SVC_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP: ${{ parameters.productRecsSvcConfigEventsEgressConsumerGroup }}
