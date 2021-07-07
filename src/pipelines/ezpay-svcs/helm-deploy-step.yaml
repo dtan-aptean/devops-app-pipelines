@@ -1,4 +1,5 @@
 parameters:
+  releaseVersion: ''
   serviceConnection: ''
   svcPrincipalClientId: ''
   svcPrincipalSecret: ''
@@ -289,8 +290,20 @@ steps:
     $latestHelmChart = az acr repository show-tags `
       --name $env:CONTAINER_REGISTRY_NAME `
       --repository $env:CHART_REPOSITORY_NAME `
-      --top 1 `
+      --top 5 `
       --orderby time_desc | ConvertFrom-Json
+    
+    foreach($chart in $latestHelmChart)
+    {
+      if($chart -eq $RELEASE_VERSION)
+      {
+        $latestHelmChart = $chart
+        break
+      }
+    }
+#releaseVersion
+#check to match release_version
+#if not default to most recent
 
     Write-Host ""
     $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
