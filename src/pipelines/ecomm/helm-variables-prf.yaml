@@ -125,6 +125,6 @@ variables:
 - name: PRODUCT_RECS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY
   value: 0.75Gi    
 - name: PRODUCT_RECS_SVC_REPLICAS
-  value: 2
+  value: 0
 - name: PRODUCT_RECS_SVC_NODE_SELECTOR_POOL
   value: sharedsvcs   
