@@ -55,6 +55,10 @@ variables:
   value: 10m
 - name: GQL_API_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi  
+- name: GQL_API_SVC_RESOURCE_KEDA_TRIGGER_CPU
+  value: 750m
+- name: GQL_API_SVC_RESOURCE_KEDA_TRIGGER_MEMORY
+  value: 0.75Gi   
 - name: GQL_API_SVC_KONG_INGRESS_UPSTREAM_HEADER
   value: ecomm-gql-api-svc.ecomm-prf.svc
 - name: GQL_API_SVC_KONG_INGRESS_CLASS
@@ -73,7 +77,11 @@ variables:
 - name: ERP_SVC_RESOURCE_REQUESTS_CPU
   value: 10m
 - name: ERP_SVC_RESOURCE_REQUESTS_MEMORY
-  value: 10Mi  
+  value: 10Mi 
+- name: ERP_SVC_RESOURCE_KEDA_TRIGGER_CPU
+  value: 750m
+- name: ERP_SVC_RESOURCE_KEDA_TRIGGER_MEMORY
+  value: 0.75Gi    
 - name: ERP_SVC_REPLICAS
   value: 2
 - name: ERP_SVC_NODE_SELECTOR_POOL
@@ -89,6 +97,10 @@ variables:
   value: 10m
 - name: LANG_SVC_RESOURCE_REQUESTS_MEMORY
   value: 10Mi
+- name: LANG_SVC_RESOURCE_KEDA_TRIGGER_CPU
+  value: 200m
+- name: LANG_SVC_RESOURCE_KEDA_TRIGGER_MEMORY
+  value: 384Mi  
 - name: LANG_SVC_KONG_INGRESS_UPSTREAM_HEADER
   value: ecomm-lang-svc.ecomm-prf.svc
 - name: LANG_SVC_KONG_INGRESS_CLASS
@@ -107,7 +119,11 @@ variables:
 - name: PRODUCT_RECS_SVC_RESOURCE_REQUESTS_CPU
   value: 10m
 - name: PRODUCT_RECS_SVC_RESOURCE_REQUESTS_MEMORY
-  value: 10Mi  
+  value: 10Mi 
+- name: PRODUCT_RECS_SVC_RESOURCE_KEDA_TRIGGER_CPU
+  value: 750m
+- name: PRODUCT_RECS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY
+  value: 0.75Gi    
 - name: PRODUCT_RECS_SVC_REPLICAS
   value: 2
 - name: PRODUCT_RECS_SVC_NODE_SELECTOR_POOL
