@@ -109,6 +109,8 @@ parameters:
   gqlAPISvcResourceRequestsMemory: ''
   gqlAPISvcResourceKedaTriggerCpu: ''
   gqlAPISvcResourceKedaTriggerMemory: ''
+  gqlAPISvcResourceKedaMinReplicas: ''
+  gqlAPISvcResourceKedaMaxReplicas: ''
   gqlAPISvcKongIngressClass: ''
   gqlAPISvcKongIngressUpstreamHostHeader: '' 
   gqlAPISvcNodeSelectorPool: ''
@@ -126,7 +128,9 @@ parameters:
   erpSvcResourceRequestsCpu: ''
   erpSvcResourceRequestsMemory: ''
   erpSvcResourceKedaTriggerCpu: ''
-  erpSvcResourceKedaTriggerMemory: ''  
+  erpSvcResourceKedaTriggerMemory: ''
+  erpSvcResourceKedaMinReplicas: ''
+  erpSvcResourceKedaMaxReplicas: ''
   erpSvcNodeSelectorPool: ''
   erpSvcConfigCosmosCollectionName: ''
   # LANG SVC Params
@@ -140,7 +144,9 @@ parameters:
   langSvcResourceRequestsCpu: ''
   langSvcResourceRequestsMemory: ''
   langSvcResourceKedaTriggerCpu: ''
-  langSvcResourceKedaTriggerMemory: ''  
+  langSvcResourceKedaTriggerMemory: '' 
+  langSvcResourceKedaMinReplicas: ''
+  langSvcResourceKedaMaxReplicas: '' 
   langSvcNodeSelectorPool: ''
   langSvcConfigCacheRetainSeconds: ''
   langSvcConfigCosmosCollectionName: ''
@@ -151,6 +157,8 @@ parameters:
   productRecsSvcResourceRequestsMemory: ''
   productRecsSvcResourceKedaTriggerCpu: ''
   productRecsSvcResourceKedaTriggerMemory: ''   
+  productRecsSvcResourceKedaMinReplicas: ''
+  productRecsSvcResourceKedaMaxReplicas: ''
   productRecsSvcConfigEventsEgressConsumerGroup: ''
   productRecsSvcConfigEventsCheckpointsBlobContainerName: ''
   productRecsSvcConfigEventsCollectionName: ''
@@ -437,6 +445,8 @@ steps:
         path: /ecomm-gql-api-svc
 
       keda:
+        minReplicaCount: $env:GQL_API_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:GQL_API_SVC_RESOURCE_KEDA_MAX_REPLICAS
         triggers:
         - type: cpu
           metadata:
@@ -477,6 +487,8 @@ steps:
             memory: $env:ERP_SVC_RESOURCE_REQUESTS_MEMORY
 
       keda:
+        minReplicaCount: $env:ERP_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:ERP_SVC_RESOURCE_KEDA_MAX_REPLICAS      
         triggers:
         - type: cpu
           metadata:
@@ -530,6 +542,8 @@ steps:
         path: /ecomm-lang-svc
 
       keda:
+        minReplicaCount: $env:LANG_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:LANG_SVC_RESOURCE_KEDA_MAX_REPLICAS      
         triggers:
         - type: cpu
           metadata:
@@ -568,6 +582,8 @@ steps:
             memory: $env:PRODUCT_RECS_SVC_RESOURCE_REQUESTS_MEMORY
 
       keda:
+        minReplicaCount: $env:PRODUCT_RECS_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:PRODUCT_RECS_SVC_RESOURCE_KEDA_MAX_REPLICAS      
         triggers:
         - type: cpu
           metadata:
@@ -706,7 +722,9 @@ steps:
     GQL_API_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.gqlAPISvcResourceRequestsCpu }}
     GQL_API_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.gqlAPISvcResourceRequestsMemory }}
     GQL_API_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.gqlAPISvcResourceKedaTriggerCpu }}
-    GQL_API_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.gqlAPISvcResourceKedaTriggerMemory }}    
+    GQL_API_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.gqlAPISvcResourceKedaTriggerMemory }}  
+    GQL_API_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.gqlAPISvcResourceKedaMinReplicas }}
+    GQL_API_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.gqlAPISvcResourceKedaMaxReplicas }}  
     GQL_API_SVC_KONG_INGRESS_CLASS: ${{ parameters.gqlAPISvcKongIngressClass }}
     GQL_API_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.gqlAPISvcKongIngressUpstreamHostHeader }}    
     GQL_API_SVC_NODE_SELECTOR_POOL: ${{ parameters.gqlAPISvcNodeSelectorPool }}
@@ -724,7 +742,9 @@ steps:
     ERP_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.erpSvcResourceRequestsCpu }}
     ERP_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.erpSvcResourceRequestsMemory }}
     ERP_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.erpSvcResourceKedaTriggerCpu }}
-    ERP_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.erpSvcResourceKedaTriggerMemory }}     
+    ERP_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.erpSvcResourceKedaTriggerMemory }} 
+    ERP_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.erpSvcResourceKedaMinReplicas }}
+    ERP_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.erpSvcResourceKedaMaxReplicas }}          
     ERP_SVC_NODE_SELECTOR_POOL: ${{ parameters.erpSvcNodeSelectorPool }}
     ERP_SVC_CONFIG_COSMOSDB_COLLECTION_NAME: ${{ parameters.erpSvcConfigCosmosCollectionName }}
     # LANG SVC Params
@@ -738,7 +758,9 @@ steps:
     LANG_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.langSvcResourceRequestsCpu }}
     LANG_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.langSvcResourceRequestsMemory }}
     LANG_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.langSvcResourceKedaTriggerCpu }}
-    LANG_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.langSvcResourceKedaTriggerMemory }}     
+    LANG_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.langSvcResourceKedaTriggerMemory }} 
+    LANG_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.langSvcResourceKedaMinReplicas }}
+    LANG_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.langSvcResourceKedaMaxReplicas }}          
     LANG_SVC_NODE_SELECTOR_POOL: ${{ parameters.langSvcNodeSelectorPool }}
     LANG_SVC_CONFIG_ECOMM_CACHE_RETAIN_SECONDS: ${{ parameters.langSvcConfigCacheRetainSeconds }}
     LANG_SVC_CONFIG_COSMOSDB_COLLECTION_NAME: ${{ parameters.langSvcConfigCosmosCollectionName }}
@@ -748,7 +770,9 @@ steps:
     PRODUCT_RECS_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.productRecsSvcResourceRequestsCpu }}
     PRODUCT_RECS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.productRecsSvcResourceRequestsMemory }}
     PRODUCT_RECS_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.productRecsSvcResourceKedaTriggerCpu }}
-    PRODUCT_RECS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.productRecsSvcResourceKedaTriggerMemory }}       
+    PRODUCT_RECS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.productRecsSvcResourceKedaTriggerMemory }}  
+    PRODUCT_RECS_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.productRecsSvcResourceKedaMinReplicas }}
+    PRODUCT_RECS_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.productRecsSvcResourceKedaMaxReplicas }}       
     PRODUCT_RECS_SVC_CONFIG_COSMOSDB_EVENTS_COLLECTION_NAME: ${{ parameters.productRecsSvcConfigEventsCollectionName }}
     PRODUCT_RECS_SVC_CONFIG_COSMOSDB_RECOMMENDATIONS_COLLECTION_NAME: ${{ parameters.productRecsSvcConfigRecommendationsCollectionName }}
     PRODUCT_RECS_SVC_CONFIG_EVENTS_EGRESS_CONSUMER_GROUP: ${{ parameters.productRecsSvcConfigEventsEgressConsumerGroup }}
