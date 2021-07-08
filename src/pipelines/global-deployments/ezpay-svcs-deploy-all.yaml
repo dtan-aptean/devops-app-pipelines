@@ -68,6 +68,7 @@ stages:
           steps:
           - template: ../ezpay-svcs/helm-deploy-step.yaml
             parameters:
+              # releaseVersion: $(RELEASE_VERSION)
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
               svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
