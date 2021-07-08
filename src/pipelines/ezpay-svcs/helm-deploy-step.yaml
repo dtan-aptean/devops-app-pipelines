@@ -286,14 +286,16 @@ steps:
     $env:SP_SECRET | helm registry login $fullRegistryName `
       --username $env:SP_CLIENT_ID `
       --password-stdin
-
-    $latestHelmChart = az acr repository show-tags `
+=
+    $helmCharts = az acr repository show-tags `
       --name $env:CONTAINER_REGISTRY_NAME `
       --repository $env:CHART_REPOSITORY_NAME `
-      --top 5 `
+      --top 10 `
       --orderby time_desc | ConvertFrom-Json
-    
-    foreach($chart in $latestHelmChart)
+      
+    $latestHelmChart = helmCharts[0]
+
+    foreach($chart in $helmCharts)
     {
       if($chart -eq $RELEASE_VERSION)
       {
@@ -301,6 +303,7 @@ steps:
         break
       }
     }
+
 #releaseVersion
 #check to match release_version
 #if not default to most recent
