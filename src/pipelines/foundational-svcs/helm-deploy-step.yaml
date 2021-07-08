@@ -67,6 +67,16 @@ parameters:
   subsMgmtGrpcSvcNodeSelectorPool: ''  
   subsMgmtGrpcSvcCosmosMongoCollection: ''
   subsMgmtGrpcSvcSbEventsIngressQueue: ''
+  subsMgmtGrpcSvcMemoryCacheObservabilityEnabled: ''
+  subsMgmtGrpcSvcMemoryCacheEnabled: ''
+  subsMgmtGrpcSvcCacheExpirationSecsProductsList: ''
+  subsMgmtGrpcSvcCacheExpirationSecsProductsItem: ''
+  subsMgmtGrpcSvcCacheExpirationSecsPlatformSvcsList: ''
+  subsMgmtGrpcSvcCacheExpirationSecsPlatformSvcsItem: ''
+  subsMgmtGrpcSvcCacheExpirationSecsTenantsList: ''
+  subsMgmtGrpcSvcCacheExpirationSecsTenantsItem: ''
+  subsMgmtGrpcSvcCacheExpirationSecsSubscriptionsList: ''
+  subsMgmtGrpcSvcCacheExpirationSecsSubscriptionsItem: ''
   # ATG CONFIG WEB PARAMS
   atgConfigWebImageRepositoryName: ''
   atgConfigWebResourceLimitsCpu: ''
@@ -343,7 +353,18 @@ steps:
         cosmosMongo:
           collectionName: "$env:SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION"
         serviceBus:
-          eventsIngressQueue: "$env:SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE"   
+          eventsIngressQueue: "$env:SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE"
+        cache:
+          memoryCacheObservabilityEnabled: "$env:SUBS_MGMT_GRPC_SVC_MEMORY_CACHE_OBSERVABILITY_ENABLED"
+          memoryCacheEnabled: "$env:SUBS_MGMT_GRPC_SVC_MEMORY_CACHE_ENABLED"
+          cacheExpirationSecsProductsList: $env:SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_PRODUCTS_LIST
+          cacheExpirationSecsProductsItem: $env:SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_PRODUCTS_ITEM
+          cacheExpirationSecsPlatformSvcsList: $env:SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_PLATFORM_SVCS_LIST
+          cacheExpirationSecsPlatformSvcsItem: $env:SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_PLATFORM_SVCS_ITEM
+          cacheExpirationSecsTenantsList: $env:SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_TENANTS_LIST
+          cacheExpirationSecsTenantsItem: $env:SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_TENANTS_ITEM
+          cacheExpirationSecsSubscriptionsList: $env:SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_SUBSCRIPTIONS_LIST
+          cacheExpirationSecsSubscriptionsItem: $env:SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_SUBSCRIPTIONS_ITEM
 
     atgConfigWeb:
       image:
@@ -458,6 +479,16 @@ steps:
     SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL: ${{ parameters.subsMgmtGrpcSvcNodeSelectorPool }}
     SUBS_MGMT_GRPC_SVC_COSMOSDB_MONGO_COLLECTION: ${{ parameters.subsMgmtGrpcSvcCosmosMongoCollection }}
     SUBS_MGMT_GRPC_SVC_SB_EVENTS_INGRESS_QUEUE: ${{ parameters.subsMgmtGrpcSvcSbEventsIngressQueue }}
+    SUBS_MGMT_GRPC_SVC_MEMORY_CACHE_OBSERVABILITY_ENABLED: ${{ parameters.subsMgmtGrpcSvcMemoryCacheObservabilityEnabled }}
+    SUBS_MGMT_GRPC_SVC_MEMORY_CACHE_ENABLED: ${{ parameters.subsMgmtGrpcSvcMemoryCacheEnabled }}
+    SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_PRODUCTS_LIST: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsProductsList }}
+    SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_PRODUCTS_ITEM: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsProductsItem }}
+    SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_PLATFORM_SVCS_LIST: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsPlatformSvcsList }}
+    SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_PLATFORM_SVCS_ITEM: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsPlatformSvcsItem }}
+    SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_TENANTS_LIST: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsTenantsList }}
+    SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_TENANTS_ITEM: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsTenantsItem }}
+    SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_SUBSCRIPTIONS_LIST: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsSubscriptionsList }}
+    SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_SUBSCRIPTIONS_ITEM: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsSubscriptionsItem }}  
     # ATG CONFIG WEB PARAMS
     ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME: ${{ parameters.atgConfigWebImageRepositoryName }}
     ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU: ${{ parameters.atgConfigWebResourceLimitsCpu }}
