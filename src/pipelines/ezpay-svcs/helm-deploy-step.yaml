@@ -304,10 +304,6 @@ steps:
       }
     }
 
-#releaseVersion
-#check to match release_version
-#if not default to most recent
-
     Write-Host ""
     $fullChartName = "$env:CONTAINER_REGISTRY_NAME.azurecr.io" + "/" + $env:CHART_REPOSITORY_NAME + ":" + $latestHelmChart
     Write-Host "fullChartName: $fullChartName"
