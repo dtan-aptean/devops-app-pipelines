@@ -10,6 +10,7 @@ variables:
 - group: new-relic-cli
 - name: docker_image_tags
   value: ''
+- template: ../../pipeline-base-variables.yaml@templates
 
 stages:
 ## ECOMM SVCS ##
@@ -66,6 +67,7 @@ stages:
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -236,6 +238,7 @@ stages:
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -426,6 +429,7 @@ stages:
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -550,6 +554,7 @@ stages:
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -719,6 +724,7 @@ stages:
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -910,6 +916,7 @@ stages:
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -1080,6 +1087,7 @@ stages:
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -1267,6 +1275,7 @@ stages:
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -1415,6 +1424,7 @@ stages:
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)
@@ -1515,6 +1525,7 @@ stages:
               chartName: $(CHART_NAME)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               configEventsIngressConnString: $(CONFIG_EVENTS_INGRESS_CONN_STRING)
               configEventsIngressDestination: $(CONFIG_EVENTS_INGRESS_DESTINATION)
               configWepayAppId: $(CONFIG_WEPAY_APP_ID)

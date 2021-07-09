@@ -82,6 +82,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -370,6 +371,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -703,6 +705,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -991,6 +994,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -1348,6 +1352,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -1637,6 +1642,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -1991,6 +1997,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               nodeJsEnv: 'production'
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
@@ -2281,6 +2288,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               nodeJsEnv: 'production'
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)

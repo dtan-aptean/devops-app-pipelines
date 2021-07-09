@@ -38,6 +38,7 @@ variables:
 - group: new-relic-cli
 - name: docker_image_tags
   value: ''
+- template: ../../pipeline-base-variables.yaml@templates
 
 stages:
 - stage: DEV_Foundational_Svcs_Helm_Deploy_East
@@ -77,6 +78,7 @@ stages:
               # COMMON CONFIGS
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               mongoDbName: $(COSMOSDB_MONGO_DATABASE)
               mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
               svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)
@@ -187,6 +189,7 @@ stages:
               # COMMON CONFIGS
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               mongoDbName: $(COSMOSDB_MONGO_DATABASE)
               mongoDbConnString: $(COSMOSDB_MONGO_CONN_STRING)
               svcBusConnString: $(EVENTS_SVC_BUS_CONN_STRING)

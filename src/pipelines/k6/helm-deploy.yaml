@@ -50,6 +50,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # k6
               k6ScriptsImageTag: $(K6_SCRIPTS_IMAGE_TAG)
               k6ScriptsImageRepositoryName: $(K6_SCRIPTS_IMAGE_REPOSITORY_NAME)
