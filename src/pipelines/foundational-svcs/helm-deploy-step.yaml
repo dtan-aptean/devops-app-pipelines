@@ -203,7 +203,7 @@ steps:
       }
     }          
 
-    $allTags = "events-svc:{0},static-web-files-svc:{1},short-url-svc:{2},subs-mgmt-grpc-svc:{3},atg-config-web{4}" `
+    $allTags = "events-svc:{0},static-web-files-svc:{1},short-url-svc:{2},subs-mgmt-grpc-svc:{3},atg-config-web:{4}" `
                -f $latestEventsSvcTag, `
                   $latestStaticWebFilesSvcTag, `
                   $latestShortUrlSvcTag, `
