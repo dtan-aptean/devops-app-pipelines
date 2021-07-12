@@ -51,11 +51,11 @@ steps:
       --top 10 `
       --orderby time_desc | ConvertFrom-Json
       
-    $latestHelmChart = helmCharts[0]
+    $latestHelmChart = $helmCharts[0]
 
     foreach($chart in $helmCharts)
     {
-      if($chart -eq $RELEASE_VERSION)
+      if($chart -eq $releaseVersion)
       {
         $latestHelmChart = $chart
         break
