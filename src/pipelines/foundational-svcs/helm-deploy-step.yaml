@@ -105,7 +105,7 @@ steps:
 
     foreach($chart in $helmCharts)
     {
-      if($chart -eq $RELEASE_VERSION)
+      if($chart -eq $releaseVersion)
       {
         $latestHelmChart = $chart
         break
