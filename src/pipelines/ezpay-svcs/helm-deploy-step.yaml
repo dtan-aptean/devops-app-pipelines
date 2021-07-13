@@ -659,11 +659,11 @@ steps:
         - type: cpu
           metadata:
             type: AverageValue
-            value: "$env:EZPAY_API_SVC_RESOURCE_KEDA_TRIGGER_CPU"        
+            value: "$env:EZPAY_API_SVC_RESOURCE_KEDA_TRIGGER_CPU"
         - type: memory
           metadata:
             type: AverageValue
-            value: "$env:EZPAY_API_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"          
+            value: "$env:EZPAY_API_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
 
       config:
         cosmos:
@@ -745,7 +745,7 @@ steps:
         - type: memory
           metadata:
             type: AverageValue
-            value: "$EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_TRIGGER_MEMORY
+            value: "$EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
 
       config:
         cosmos:
