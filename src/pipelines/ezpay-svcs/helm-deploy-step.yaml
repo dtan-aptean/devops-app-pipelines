@@ -1159,7 +1159,7 @@ steps:
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     # Uncomment for debugging values.
-    # Get-Content -Path ./deploy-values.yaml
+    Get-Content -Path ./deploy-values.yaml
 
     Write-Host ""
     Write-Host "Helm deploy prep complete!"
