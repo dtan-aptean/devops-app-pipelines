@@ -312,12 +312,12 @@ steps:
       --repository $env:CHART_REPOSITORY_NAME `
       --top 10 `
       --orderby time_desc | ConvertFrom-Json
-      
+        
     $latestHelmChart = $helmCharts[0]
 
     foreach($chart in $helmCharts)
     {
-      if($chart -eq $releaseVersion)
+      if($chart -eq $env:RELEASE_VERSION)
       {
         $latestHelmChart = $chart
         break
@@ -1194,6 +1194,7 @@ steps:
     NODE_JS_ENV: ${{ parameters.nodeJsEnv }}
     SENTRY_DSN: ${{ parameters.sentryDsn }}
     NEW_RELIC_API_KEY: ${{ parameters.newRelicApiKey }}
+    RELEASE_VERSION: $ {{ parameters.releaseVersion }}
     # PAYMENT_CANCEL_RETRY_JOB
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG: ${{ parameters.paymentCancelRetryJobImageTag }}
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentCancelRetryJobImageRepositoryName }}

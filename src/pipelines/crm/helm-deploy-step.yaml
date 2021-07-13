@@ -61,7 +61,7 @@ steps:
 
     foreach($chart in $helmCharts)
     {
-      if($chart -eq $releaseVersion)
+      if($chart -eq $env:RELEASE_VERSION)
       {
         $latestHelmChart = $chart
         break
@@ -176,6 +176,7 @@ steps:
     LOCATION: ${{ parameters.location }}
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
     SENTRY_DSN: ${{ parameters.sentryDsn }}
+    RELEASE_VERSION: $ {{ parameters.releaseVersion }}
     # COMMON CRM CONFIGS
     CRM_CLIENT_ID: ${{ parameters.crmClientId }}
     CRM_CLIENT_SECRET: ${{ parameters.crmClientSecret }}
