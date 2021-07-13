@@ -317,7 +317,6 @@ steps:
 
     foreach($chart in $helmCharts)
     {
-      Write-Host -ForegroundColor DarkYellow "Checking chart: $chart"
       if($chart -eq $env:RELEASE_VERSION)
       {
         $latestHelmChart = $chart
