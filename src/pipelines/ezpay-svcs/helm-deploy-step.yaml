@@ -745,7 +745,7 @@ steps:
         - type: memory
           metadata:
             type: AverageValue
-            value: "$EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
+            value: "$env:EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
 
       config:
         cosmos:
