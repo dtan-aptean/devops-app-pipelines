@@ -28,11 +28,11 @@ resources:
         - release-*                
 
 variables:
+- template: ../../pipeline-base-variables.yaml
 - group: helm-chart-svc-principal-config
 - group: new-relic-cli
 - name: docker_image_tags
   value: ''
-- template: ../../pipeline-base-variables.yaml
 
 stages:
 - stage: DEV_Ecomm_Helm_Deploy_East

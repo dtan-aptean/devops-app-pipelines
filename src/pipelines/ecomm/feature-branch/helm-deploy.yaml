@@ -10,6 +10,7 @@ resources:
         - nop-version-upgrade           
 
 variables:
+- template: ../../pipeline-base-variables.yaml
 - group: helm-chart-svc-principal-config
 - group: new-relic-cli
 
