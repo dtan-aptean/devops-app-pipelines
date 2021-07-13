@@ -5,7 +5,7 @@ variables:
 - group: new-relic-cli
 - name: docker_image_tags
   value: ''
-- template: ../../pipeline-base-variables.yaml@templates
+- template: ../../pipeline-base-variables.yaml
 
 resources:
   repositories:

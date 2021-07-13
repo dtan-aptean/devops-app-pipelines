@@ -92,7 +92,7 @@ variables:
 - group: new-relic-cli
 - name: docker_image_tags
   value: ''
-- template: ../../pipeline-base-variables.yaml@templates
+- template: ../../pipeline-base-variables.yaml
 
 stages:
 - stage: DEV_Ezpay_Helm_Deploy_East
