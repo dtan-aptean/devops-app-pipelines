@@ -70,7 +70,7 @@ steps:
 
     foreach($chart in $helmCharts)
     {
-      if($chart -eq $releaseVersion)
+      if($chart -eq $env:RELEASE_VERSION)
       {
         $latestHelmChart = $chart
         break
@@ -218,6 +218,7 @@ steps:
     EXECUTION_MODE: ${{ parameters.executionMode }}
     NODE_SELECTOR_POOL: ${{ parameters.nodeSelectorPool }}
     IMAGE_TAG: ${{ parameters.imageTag }}
+    RELEASE_VERSION: $ {{ parameters.releaseVersion }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version

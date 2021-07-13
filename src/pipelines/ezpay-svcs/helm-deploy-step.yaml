@@ -314,13 +314,11 @@ steps:
       --orderby time_desc | ConvertFrom-Json
         
     $latestHelmChart = $helmCharts[0]
-    Write-Host -ForegroundColor DarkYellow "Default latest chart: $latestHelmChart"
-    Write-Host -ForegroundColor DarkYellow "Release version: $releaseVersion"
 
     foreach($chart in $helmCharts)
     {
       Write-Host -ForegroundColor DarkYellow "Checking chart: $chart"
-      if($chart -eq $releaseVersion)
+      if($chart -eq $env:RELEASE_VERSION)
       {
         $latestHelmChart = $chart
         break
@@ -1197,6 +1195,7 @@ steps:
     NODE_JS_ENV: ${{ parameters.nodeJsEnv }}
     SENTRY_DSN: ${{ parameters.sentryDsn }}
     NEW_RELIC_API_KEY: ${{ parameters.newRelicApiKey }}
+    RELEASE_VERSION: $ {{ parameters.releaseVersion }}
     # PAYMENT_CANCEL_RETRY_JOB
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_TAG: ${{ parameters.paymentCancelRetryJobImageTag }}
     PAYMENT_CANCEL_RETRY_JOB_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentCancelRetryJobImageRepositoryName }}

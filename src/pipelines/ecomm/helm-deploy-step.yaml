@@ -187,7 +187,7 @@ steps:
 
     foreach($chart in $helmCharts)
     {
-      if($chart -eq $releaseVersion)
+      if($chart -eq $env:RELEASE_VERSION)
       {
         $latestHelmChart = $chart
         break
@@ -654,6 +654,7 @@ steps:
     CONFIG_WEPAY_API_VERSION: ${{ parameters.configWepayApiVersion }}
     SENTRY_DSN: ${{ parameters.sentryDsn }}
     NEW_RELIC_API_KEY: ${{ parameters.newRelicApiKey }}
+    RELEASE_VERSION: $ {{ parameters.releaseVersion }}
     # STOREFRONT Params
     STOREFRONT_IMAGE_REPOSITORY_NAME: ${{ parameters.storefrontImageRepositoryName }}
     STOREFRONT_REPLICAS: ${{ parameters.storefrontReplicas }}    

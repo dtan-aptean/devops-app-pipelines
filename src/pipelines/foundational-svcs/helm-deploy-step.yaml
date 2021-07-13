@@ -115,7 +115,7 @@ steps:
 
     foreach($chart in $helmCharts)
     {
-      if($chart -eq $releaseVersion)
+      if($chart -eq $env:RELEASE_VERSION)
       {
         $latestHelmChart = $chart
         break
@@ -445,6 +445,7 @@ steps:
     SENTRY_DSN: ${{ parameters.sentryDsn }}
     NEW_RELIC_API_KEY: ${{ parameters.newRelicApiKey }}
     SUBS_MGMT_GRPC_SVC_URL: ${{ parameters.subsMgmtGrpcSvcUrl }}
+    RELEASE_VERSION: $ {{ parameters.releaseVersion }}
     # EVENTS SVC PARAMS
     EVENTS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.eventsSvcImageRepositoryName }}
     EVENTS_SVC_IMAGE_TAG: ${{ parameters.eventsSvcImageTag }}

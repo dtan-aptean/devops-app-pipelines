@@ -55,7 +55,7 @@ steps:
 
     foreach($chart in $helmCharts)
     {
-      if($chart -eq $releaseVersion)
+      if($chart -eq $env:RELEASE_VERSION)
       {
         $latestHelmChart = $chart
         break
@@ -170,7 +170,8 @@ steps:
     CHART_REPOSITORY_NAME: ${{ parameters.chartRepositoryName }}
     CHART_NAME: ${{ parameters.chartName }}
     ENV: ${{ parameters.env }} 
-    LOCATION: ${{ parameters.location }}    
+    LOCATION: ${{ parameters.location }}
+    RELEASE_VERSION: $ {{ parameters.releaseVersion }}    
     # k6
     K6_SCRIPTS_IMAGE_TAG: ${{ parameters.k6ScriptsImageTag }}
     K6_SCRIPTS_IMAGE_REPOSITORY_NAME: ${{ parameters.k6ScriptsImageRepositoryName }} }}

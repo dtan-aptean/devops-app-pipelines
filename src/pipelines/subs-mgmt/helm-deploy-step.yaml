@@ -61,7 +61,7 @@ steps:
 
     foreach($chart in $helmCharts)
     {
-      if($chart -eq $releaseVersion)
+      if($chart -eq $env:RELEASE_VERSION)
       {
         $latestHelmChart = $chart
         break
@@ -173,6 +173,7 @@ steps:
     CHART_NAME: ${{ parameters.chartName }}
     ENV: ${{ parameters.env }}
     LOCATION: ${{ parameters.location }}
+    RELEASE_VERSION: $ {{ parameters.releaseVersion }}
     REPLICAS: ${{ parameters.replicas }}
     FRONT_DOOR_ID: ${{ parameters.frontDoorId }}
     KONG_INGRESS_CLASS: ${{ parameters.kongIngressClass }}
