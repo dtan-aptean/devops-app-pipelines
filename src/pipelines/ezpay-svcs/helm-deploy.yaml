@@ -92,6 +92,7 @@ variables:
 - group: new-relic-cli
 - name: docker_image_tags
   value: ''
+- template: ../../pipeline-base-variables.yaml@templates
 
 stages:
 - stage: DEV_Ezpay_Helm_Deploy_East
@@ -129,6 +130,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -413,6 +415,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)

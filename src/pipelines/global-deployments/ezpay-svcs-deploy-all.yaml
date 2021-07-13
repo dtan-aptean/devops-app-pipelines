@@ -5,6 +5,7 @@ variables:
 - group: new-relic-cli
 - name: docker_image_tags
   value: ''
+- template: ../../pipeline-base-variables.yaml@templates
 
 resources:
   repositories:
@@ -67,6 +68,7 @@ stages:
           steps:
           - template: ../ezpay-svcs/helm-deploy-step.yaml
             parameters:
+              # releaseVersion: $(RELEASE_VERSION)
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
               svcPrincipalClientId: $(SVC_PRINCIPAL_CLIENT_ID_SHR)
               svcPrincipalSecret: $(SVC_PRINCIPAL_SECRET_SHR)
@@ -80,6 +82,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -368,6 +371,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -701,6 +705,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -989,6 +994,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -1346,6 +1352,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -1635,6 +1642,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
               wepayBaseUrl: $(WEPAY_BASE_URL)
@@ -1989,6 +1997,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               nodeJsEnv: 'production'
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)
@@ -2279,6 +2288,7 @@ stages:
               k8sNamespace: $(K8S_NAMESPACE)
               env: $(ENV)
               location: $(LOCATION)
+              releaseVersion: $(RELEASE_VERSION)
               nodeJsEnv: 'production'
               # Common Configs
               wepayGrpcUrl: $(WEPAY_GRPC_URL)

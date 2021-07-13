@@ -1,5 +1,6 @@
 parameters:
   imageTag: ''
+  releaseVersion: ''
   serviceConnection: ''
   svcPrincipalClientId: ''
   svcPrincipalSecret: ''
@@ -59,11 +60,22 @@ steps:
       --username $env:SP_CLIENT_ID `
       --password-stdin
 
-    $latestHelmChart = az acr repository show-tags `
+    $helmCharts = az acr repository show-tags `
       --name $env:CONTAINER_REGISTRY_NAME `
       --repository $env:CHART_REPOSITORY_NAME `
-      --top 1 `
+      --top 10 `
       --orderby time_desc | ConvertFrom-Json
+      
+    $latestHelmChart = $helmCharts[0]
+
+    foreach($chart in $helmCharts)
+    {
+      if($chart -eq $releaseVersion)
+      {
+        $latestHelmChart = $chart
+        break
+      }
+    }
 
     if ($env:DOCKER_IMAGE_TAGS) {
       $latestTag = $env:DOCKER_IMAGE_TAGS.Split(':')[1]
