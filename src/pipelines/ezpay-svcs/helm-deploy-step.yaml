@@ -312,11 +312,14 @@ steps:
       --repository $env:CHART_REPOSITORY_NAME `
       --top 10 `
       --orderby time_desc | ConvertFrom-Json
-      
+        
     $latestHelmChart = $helmCharts[0]
+    Write-Host -ForegroundColor DarkYellow "Default latest chart: $latestHelmChart"
+    Write-Host -ForegroundColor DarkYellow "Release version: $releaseVersion"
 
     foreach($chart in $helmCharts)
     {
+      Write-Host -ForegroundColor DarkYellow "Checking chart: $chart"
       if($chart -eq $releaseVersion)
       {
         $latestHelmChart = $chart
