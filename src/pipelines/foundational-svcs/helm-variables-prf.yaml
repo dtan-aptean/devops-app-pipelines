@@ -36,6 +36,14 @@ variables:
   value: 1
 - name: EVENTS_SVC_NODE_SELECTOR_POOL
   value: prftesting
+- name: EVENTS_SVC_RESOURCE_KEDA_MIN_REPLICAS
+  value: 1      
+- name: EVENTS_SVC_RESOURCE_KEDA_MAX_REPLICAS
+  value: 5  
+- name: EVENTS_SVC_RESOURCE_KEDA_TRIGGER_CPU
+  value: 800m
+- name: EVENTS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY
+  value: 384Mi   
 # STATIC WEB FILES SVC PARAMS
 - name: STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME
   value: static-web-files-svc
@@ -74,6 +82,14 @@ variables:
   value: short-url-svc.foundational-svcs-prf.svc
 - name: SHORT_URL_SVC_KONG_INGRESS_CLASS
   value: kong-prf
+- name: SHORT_URL_SVC_RESOURCE_KEDA_MIN_REPLICAS
+  value: 2      
+- name: SHORT_URL_SVC_RESOURCE_KEDA_MAX_REPLICAS
+  value: 5  
+- name: SHORT_URL_SVC_RESOURCE_KEDA_TRIGGER_CPU
+  value: 160m
+- name: SHORT_URL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY
+  value: 192Mi   
 # SUBS MGMT GRPC SVC PARAMS
 - name: SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME
   value: subs-mgmt-grpc-svc
@@ -89,6 +105,14 @@ variables:
   value: 3
 - name: SUBS_MGMT_GRPC_SVC_NODE_SELECTOR_POOL
   value: prftesting
+- name: SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_MIN_REPLICAS
+  value: 1      
+- name: SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_MAX_REPLICAS
+  value: 5  
+- name: SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_TRIGGER_CPU
+  value: 80m
+- name: SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_TRIGGER_MEMORY
+  value: 96Mi     
 # ATG CONFIG WEB PARAMS
 - name: ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME
   value: atg-config-web

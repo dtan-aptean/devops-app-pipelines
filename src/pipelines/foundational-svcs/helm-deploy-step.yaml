@@ -33,6 +33,10 @@ parameters:
   eventsSvcImageTag: ''
   eventsSvcConfigMongoDbCollectionName: ''
   eventsSvcConfigMongoDbCollectionNameExceptions: ''
+  eventsSvcKedaMinReplicas: ''
+  eventsSvcKedaMaxReplicas: ''  
+  eventsSvcKedaTriggerCpu: ''
+  eventsSvcKedaTriggerMemory: ''   
   # STATIC WEB FILES SVC PARAMS
   staticWebFilesSvcImageRepositoryName: ''
   staticWebFilesSvcReplicas: ''
@@ -58,6 +62,10 @@ parameters:
   shortUrlSvcKongIngressClass: ''
   shortUrlSvcEventsIngressQueue: ''
   shortUrlSvcDomain: ''
+  shortUrlSvcKedaMinReplicas: ''
+  shortUrlSvcKedaMaxReplicas: ''  
+  shortUrlSvcKedaTriggerCpu: ''
+  shortUrlSvcKedaTriggerMemory: ''   
   # SUBS MGMT GRPC SVC PARAMS  
   subsMgmtGrpcSvcImageRepositoryName: ''
   subsMgmtGrpcSvcResourceLimitsCpu: ''
@@ -78,6 +86,10 @@ parameters:
   subsMgmtGrpcSvcCacheExpirationSecsTenantsItem: ''
   subsMgmtGrpcSvcCacheExpirationSecsSubscriptionsList: ''
   subsMgmtGrpcSvcCacheExpirationSecsSubscriptionsItem: ''
+  subsMgmtGrpcSvcKedaMinReplicas: ''
+  subsMgmtGrpcSvcKedaMaxReplicas: ''  
+  subsMgmtGrpcSvcKedaTriggerCpu: ''
+  subsMgmtGrpcSvcKedaTriggerMemory: ''  
   # ATG CONFIG WEB PARAMS
   atgConfigWebImageRepositoryName: ''
   atgConfigWebResourceLimitsCpu: ''
@@ -265,6 +277,19 @@ steps:
             cpu: $env:EVENTS_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:EVENTS_SVC_RESOURCE_REQUESTS_MEMORY
 
+      keda:
+        minReplicaCount: $env:EVENTS_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:EVENTS_SVC_RESOURCE_KEDA_MAX_REPLICAS
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:EVENTS_SVC_RESOURCE_KEDA_TRIGGER_CPU"
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:EVENTS_URL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
+
       config:
         cosmosMongo:
           collectionName: "$env:EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS"
@@ -341,6 +366,19 @@ steps:
         annotations:
           kubernetes.io/ingress.class: $env:SHORT_URL_SVC_KONG_INGRESS_CLASS
 
+      keda:
+        minReplicaCount: $env:SHORT_URL_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:SHORT_URL_SVC_RESOURCE_KEDA_MAX_REPLICAS
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:SHORT_URL_SVC_RESOURCE_KEDA_TRIGGER_CPU"
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:SHORT_URL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
+
       config:
         cosmosMongo:
           collectionName: "$env:SHORT_URL_SVC_COSMOSDB_MONGO_COLLECTION"
@@ -367,6 +405,19 @@ steps:
           requests:
             cpu: $env:SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:SUBS_MGMT_GRPC_SVC_RESOURCE_REQUESTS_MEMORY
+
+      keda:
+        minReplicaCount: $env:SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_MAX_REPLICAS
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_TRIGGER_CPU"
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
 
       config:
         cosmosMongo:
@@ -464,6 +515,10 @@ steps:
     EVENTS_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.eventsSvcResourceRequestsMemory }}
     EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS: ${{ parameters.eventsSvcConfigMongoDbCollectionName }}
     EVENTS_SVC_CONFIG_COSMOSDB_MONGO_COLLECTION_EVENTS_EXCEPTIONS: ${{ parameters.eventsSvcConfigMongoDbCollectionNameExceptions }}
+    EVENTS_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.eventsSvcKedaMinReplicas }}
+    EVENTS_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.eventsSvcKedaMaxReplicas }}
+    EVENTS_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.eventsSvcKedaTriggerCpu }}
+    EVENTS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.eventsSvcKedaTriggerMemory }}        
     # STATIC WEB FILES SVC PARAMS
     STATIC_WEB_FILES_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.staticWebFilesSvcImageRepositoryName }}
     STATIC_WEB_FILES_SVC_REPLICAS: ${{ parameters.staticWebFilesSvcReplicas }}
@@ -489,6 +544,10 @@ steps:
     SHORT_URL_SVC_KONG_INGRESS_CLASS: ${{ parameters.shortUrlSvcKongIngressClass }}
     SHORT_URL_SVC_EVENTS_INGRESS_QUEUE: ${{ parameters.shortUrlSvcEventsIngressQueue }}
     SHORT_URL_SVC_DOMAIN: ${{ parameters.shortUrlSvcDomain }}
+    SHORT_URL_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.shortUrlSvcKedaMinReplicas }}
+    SHORT_URL_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.shortUrlSvcKedaMaxReplicas }}
+    SHORT_URL_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.shortUrlSvcKedaTriggerCpu }}
+    SHORT_URL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.shortUrlSvcKedaTriggerMemory }}    
     # SUBS MGMT GRPC SVC PARAMS
     SUBS_MGMT_GRPC_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.subsMgmtGrpcSvcImageRepositoryName }}
     SUBS_MGMT_GRPC_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.subsMgmtGrpcSvcResourceLimitsCpu }}
@@ -509,6 +568,10 @@ steps:
     SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_TENANTS_ITEM: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsTenantsItem }}
     SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_SUBSCRIPTIONS_LIST: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsSubscriptionsList }}
     SUBS_MGMT_GRPC_SVC_CACHE_EXPIRATION_SECS_SUBSCRIPTIONS_ITEM: ${{ parameters.subsMgmtGrpcSvcCacheExpirationSecsSubscriptionsItem }}  
+    SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.subsMgmtGrpcSvcKedaMinReplicas }}
+    SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.subsMgmtGrpcSvcKedaMaxReplicas }}
+    SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.subsMgmtGrpcSvcKedaTriggerCpu }}
+    SUBS_MGMT_GRPC_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.subsMgmtGrpcSvcKedaTriggerMemory }}
     # ATG CONFIG WEB PARAMS
     ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME: ${{ parameters.atgConfigWebImageRepositoryName }}
     ATG_CONFIG_WEB_RESOURCE_LIMITS_CPU: ${{ parameters.atgConfigWebResourceLimitsCpu }}

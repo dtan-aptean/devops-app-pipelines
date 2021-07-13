@@ -1266,7 +1266,7 @@ steps:
     EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL: ${{ parameters.ezpayApiSvcNewRelicRecordMetricGql }}
     EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC: ${{ parameters.ezpayApiSvcNewRelicRecordMetricGrpc }}
     EZPAY_API_SVC_NEW_RELIC_AGENT_ENABLED: ${{ parameters.ezpayApiSvcNewRelicAgentEnabled }}
-    EZPAY_API_SVC_KEDA_MIN_REPLICAS: ${{ parameters.ezpayApiSvcKedaMinReplicas }}
+    EZPAY_API_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.ezpayApiSvcKedaMinReplicas }}
     EZPAY_API_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.ezpayApiSvcKedaMaxReplicas }}
     EZPAY_API_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.ezpayApiSvcKedaTriggerCpu }}
     EZPAY_API_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.ezpayApiSvcKedaTriggerMemory }}
