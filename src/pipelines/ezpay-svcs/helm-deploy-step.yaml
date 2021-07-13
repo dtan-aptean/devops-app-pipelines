@@ -96,6 +96,10 @@ parameters:
   ezpayApiSvcEzpayCheckoutSvcGrpcUrl: ''
   ezpayApiSvcEzpayReportSvcGrpcUrl: ''
   ezpayApiSvcNewRelicAgentEnabled: ''
+  ezpayApiSvcKedaMinReplicas: ''
+  ezpayApiSvcKedaMaxReplicas: ''
+  ezpayApiSvcKedaTriggerCpu: ''
+  ezpayApiSvcKedaTriggerMemory: '' 
   # EMAIL NOTIFICATION SVC
   emailNotificationSvcImageTag: ''
   emailNotificationSvcImageRepositoryName: ''
@@ -112,6 +116,10 @@ parameters:
   emailNotificationSvcPlatformEmail: ''
   emailNotificationSvcPlatformName: ''
   emailNotificationSvcProcessPlatformEvents: ''
+  emailNotificationSvcKedaMinReplicas: ''
+  emailNotificationSvcKedaMaxReplicas: ''
+  emailNotificationSvcKedaTriggerCpu: ''
+  emailNotificationSvcKedaTriggerMemory: ''
   # ERP INTEGRATION SVC
   erpIntegrationSvcImageRepositoryName: ''
   erpIntegrationSvcImageTag: ''
@@ -127,6 +135,10 @@ parameters:
   erpIntegrationSvcSyncTimeout: ''
   erpIntegrationSvcSyncMaxWaitTime: ''
   erpIntegrationSvcNewRelicAgentEnabled: ''
+  erpIntegrationSvcKedaMinReplicas: ''
+  erpIntegrationSvcKedaMaxReplicas: ''
+  erpIntegrationSvcKedaTriggerCpu: ''
+  erpIntegrationSvcKedaTriggerMemory: ''
   # MERCHANT OPS SVC
   merchantOpsSvcImageRepositoryName: ''
   merchantOpsSvcImageTag: ''
@@ -158,6 +170,10 @@ parameters:
   payfacNotificationsSvcProcessPlatformEvents: ''
   payfacNotificationsSvcProcessNotificationEvents: ''
   payfacNotificationsSvcBroadcastPlatformEvents: ''
+  payfacNotificationsSvcKedaMinReplicas: ''
+  payfacNotificationsSvcKedaMaxReplicas: ''
+  payfacNotificationsSvcKedaTriggerCpu: ''
+  payfacNotificationsSvcKedaTriggerMemory: ''  
   # PAYMENT OPS SVC
   paymentOpsSvcImageRepositoryName: ''
   paymentOpsSvcImageTag: ''
@@ -230,6 +246,10 @@ parameters:
   wepayIntegrationSvcResourceRequestMemory: ''
   wepayIntegrationSvcRequestTimeout: ''
   wepayIntegrationSvcNewRelicAgentEnabled: ''
+  wepayIntegrationSvcKedaMinReplicas: ''
+  wepayIntegrationSvcKedaMaxReplicas: ''
+  wepayIntegrationSvcKedaTriggerCpu: ''
+  wepayIntegrationSvcKedaTriggerMemory: ''
   # EZPAY CLAIM SVC
   ezpayClaimSvcImageRepositoryName: ''
   ezpayClaimSvcImageTag: ''
@@ -632,6 +652,19 @@ steps:
         annotations:
           kubernetes.io/ingress.class: $env:EZPAY_API_SVC_KONG_INGRESS_CLASS
 
+      keda:
+        minReplicaCount: $env:EZPAY_API_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:EZPAY_API_SVC_RESOURCE_KEDA_MAX_REPLICAS
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:EZPAY_API_SVC_RESOURCE_KEDA_TRIGGER_CPU"        
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:EZPAY_API_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"          
+
       config:
         cosmos:
           connectionString: "$env:EZPAY_API_SVC_COSMOS_CONN_STRING"
@@ -701,6 +734,19 @@ steps:
             cpu: $env:EMAIL_NOTIFICATION_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:EMAIL_NOTIFICATION_SVC_RESOURCE_REQUESTS_MEMORY
 
+      keda:
+        minReplicaCount: $env:EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_MAX_REPLICAS
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_TRIGGER_CPU"        
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_TRIGGER_MEMORY
+
       config:
         cosmos:
           connectionString: "$env:EMAIL_NOTIFICATION_SVC_COSMOS_CONN_STRING"
@@ -748,6 +794,19 @@ steps:
         annotations:
           kubernetes.io/ingress.class: $env:ERP_INTEGRATION_SVC_KONG_INGRESS_CLASS
 
+      keda:
+        minReplicaCount: $env:ERP_INTEGRATION_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:ERP_INTEGRATION_SVC_RESOURCE_KEDA_MAX_REPLICAS
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:ERP_INTEGRATION_SVC_RESOURCE_KEDA_TRIGGER_CPU"        
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:ERP_INTEGRATION_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
+            
       config:
         ezpay:
           gqlUrl: "$env:ERP_INTEGRATION_SVC_GQL_URL_EZPAY_API_SVC"
@@ -803,6 +862,19 @@ steps:
           requests:
             cpu: $env:PAYFAC_NOTIFICATIONS_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:PAYFAC_NOTIFICATIONS_SVC_RESOURCE_REQUESTS_MEMORY
+
+      keda:
+        minReplicaCount: $env:PAYFAC_NOTIFICATIONS_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:PAYFAC_NOTIFICATIONS_SVC_RESOURCE_KEDA_MAX_REPLICAS
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:PAYFAC_NOTIFICATIONS_SVC_RESOURCE_KEDA_TRIGGER_CPU"        
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:PAYFAC_NOTIFICATIONS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"          
 
       config:
         serviceBus:
@@ -955,7 +1027,20 @@ steps:
           requests:
             cpu: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_CPU
             memory: $env:WEPAY_INTEGRATION_SVC_RESOURCE_REQUESTS_MEMORY
-      
+
+      keda:
+        minReplicaCount: $env:WEPAY_INTEGRATION_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:WEPAY_INTEGRATION_SVC_RESOURCE_KEDA_MAX_REPLICAS
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:WEPAY_INTEGRATION_SVC_RESOURCE_KEDA_TRIGGER_CPU"        
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:WEPAY_INTEGRATION_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
+
       config:
         requestTimeout: "$env:WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS"
         newRelic:
@@ -1173,6 +1258,10 @@ steps:
     EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GQL: ${{ parameters.ezpayApiSvcNewRelicRecordMetricGql }}
     EZPAY_API_SVC_NEW_RELIC_RECORD_METRIC_GRPC: ${{ parameters.ezpayApiSvcNewRelicRecordMetricGrpc }}
     EZPAY_API_SVC_NEW_RELIC_AGENT_ENABLED: ${{ parameters.ezpayApiSvcNewRelicAgentEnabled }}
+    EZPAY_API_SVC_KEDA_MIN_REPLICAS: ${{ parameters.ezpayApiSvcKedaMinReplicas }}
+    EZPAY_API_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.ezpayApiSvcKedaMaxReplicas }}
+    EZPAY_API_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.ezpayApiSvcKedaTriggerCpu }}
+    EZPAY_API_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.ezpayApiSvcKedaTriggerMemory }}
     # EMAIL_NOTIFICATION_SVC
     EMAIL_NOTIFICATION_SVC_IMAGE_TAG: ${{ parameters.emailNotificationSvcImageTag }}
     EMAIL_NOTIFICATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.emailNotificationSvcImageRepositoryName }}
@@ -1192,6 +1281,10 @@ steps:
     EMAIL_NOTIFICATION_SVC_PLATFORM_EMAIL: ${{ parameters.emailNotificationSvcPlatformEmail }}
     EMAIL_NOTIFICATION_SVC_PLATFORM_NAME: ${{ parameters.emailNotificationSvcPlatformName }}
     EMAIL_NOTIFICATION_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.emailNotificationSvcProcessPlatformEvents }}
+    EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.emailNotificationSvcKedaMinReplicas }}
+    EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.emailNotificationSvcKedaMaxReplicas }}
+    EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.emailNotificationSvcKedaTriggerCpu }}
+    EMAIL_NOTIFICATION_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.emailNotificationSvcKedaTriggerMemory }}
     # ERP_INTEGRATION_SVC
     ERP_INTEGRATION_SVC_IMAGE_TAG: ${{ parameters.erpIntegrationSvcImageTag }}
     ERP_INTEGRATION_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.erpIntegrationSvcImageRepositoryName }}
@@ -1207,6 +1300,10 @@ steps:
     ERP_INTEGRATION_SVC_SYNC_TIMEOUT: ${{ parameters.erpIntegrationSvcSyncTimeout }}
     ERP_INTEGRATION_SVC_SYNC_MAX_WAIT_TIME: ${{ parameters.erpIntegrationSvcSyncMaxWaitTime }}
     ERP_INTEGRATION_SVC_NEW_RELIC_AGENT_ENABLED: ${{ parameters.erpIntegrationSvcNewRelicAgentEnabled }}
+    ERP_INTEGRATION_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.erpIntegrationSvcKedaMinReplicas }}
+    ERP_INTEGRATION_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.erpIntegrationSvcKedaMaxReplicas }}
+    ERP_INTEGRATION_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.erpIntegrationSvcKedaTriggerCpu }}
+    ERP_INTEGRATION_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.erpIntegrationSvcKedaTriggerMemory }} 
     # MERCHANT_OPS_SVC
     MERCHANT_OPS_SVC_IMAGE_TAG: ${{ parameters.merchantOpsSvcImageTag }}
     MERCHANT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.merchantOpsSvcImageRepositoryName }}
@@ -1237,6 +1334,10 @@ steps:
     PAYFAC_NOTIFICATIONS_SVC_PROCESS_PLATFORM_EVENTS: ${{ parameters.payfacNotificationsSvcProcessPlatformEvents }}
     PAYFAC_NOTIFICATIONS_SVC_PROCESS_NOTIFICATION_EVENTS: ${{ parameters.payfacNotificationsSvcProcessNotificationEvents }}
     PAYFAC_NOTIFICATIONS_SVC_BROADCAST_PLATFORM_EVENTS: ${{ parameters.payfacNotificationsSvcBroadcastPlatformEvents }}
+    PAYFAC_NOTIFICATIONS_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.payfacNotificationsSvcKedaMinReplicas }}
+    PAYFAC_NOTIFICATIONS_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.payfacNotificationsSvcKedaMaxReplicas }}
+    PAYFAC_NOTIFICATIONS_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.payfacNotificationsSvcKedaTriggerCpu }}
+    PAYFAC_NOTIFICATIONS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.payfacNotificationsSvcKedaTriggerMemory }}    
     # PAYMENT_OPS_SVC
     PAYMENT_OPS_SVC_IMAGE_TAG: ${{ parameters.paymentOpsSvcImageTag }}
     PAYMENT_OPS_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.paymentOpsSvcImageRepositoryName }}
@@ -1315,6 +1416,10 @@ steps:
     WEPAY_INTEGRATION_SVC_NEW_RELIC_RECORD_METRIC: ${{ parameters.wepayIntegrationSvcNewRelicRecordMetric }}
     WEPAY_INTEGRATION_SVC_REQUEST_TIMEOUT_MS: ${{ parameters.wepayIntegrationSvcRequestTimeout }}
     WEPAY_INTEGRATION_SVC_NEW_RELIC_AGENT_ENABLED: ${{ parameters.wepayIntegrationSvcNewRelicAgentEnabled }}
+    WEPAY_INTEGRATION_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.wepayIntegrationSvcKedaMinReplicas }}
+    WEPAY_INTEGRATION_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.wepayIntegrationSvcKedaMaxReplicas }}
+    WEPAY_INTEGRATION_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.wepayIntegrationSvcKedaTriggerCpu }}
+    WEPAY_INTEGRATION_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.wepayIntegrationSvcKedaTriggerMemory }} 
     # EZPAY CLAIM SVC
     EZPAY_CLAIM_SVC_IMAGE_TAG: ${{ parameters.ezpayClaimSvcImageTag }}
     EZPAY_CLAIM_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.ezpayClaimSvcImageRepositoryName }}
