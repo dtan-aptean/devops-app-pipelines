@@ -288,7 +288,7 @@ steps:
         - type: memory
           metadata:
             type: AverageValue
-            value: "$env:EVENTS_URL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
+            value: "$env:EVENTS_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
 
       config:
         cosmosMongo:
