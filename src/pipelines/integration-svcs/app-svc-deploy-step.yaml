@@ -43,16 +43,16 @@ steps:
     DockerRepository: ${{ parameters.imageRepositoryName }}
     DockerImageTag: $(latestTag)
     AppSettings: |    
-      -APP_INSIGHTS_INSTRUMENTATION_KEY ${{ parameters.appInsightsInstrumentationKey }}
-      -APPLICATIONINSIGHTS_CONNECTION_STRING ${{ parameters.appInsightsConnString }}
-      -GQL_URL_SUBS_MGMT ${{ parameters.gqlUrlSubsMgmt }}
-      -SB_CONN_STRING ${{ parameters.sbConnString }}
-      -SB_RESULT_SUBSCRIPTION_NAME ${{ parameters.sbResultSubscriptionName }}
-      -SB_SUBSCRIPTION_NAME ${{ parameters.sbSubscriptionName }}
-      -SB_TOPIC_NAME ${{ parameters.sbTopicName }}
-      -SIGNALR_CONN_STRING ${{ parameters.signalRConnString }}
-      -SUBS_MGMT_API_KEY ${{ parameters.subsMgmtApiKey }}
-      -SUBS_MGMT_TENANT_SECRET ${{ parameters.subsMgmtTenantSecret }}
+      -APP_INSIGHTS_INSTRUMENTATION_KEY ${{ parameters.appInsightsInstrumentationKey }} 
+      -APPLICATIONINSIGHTS_CONNECTION_STRING ${{ parameters.appInsightsConnString }} 
+      -GQL_URL_SUBS_MGMT ${{ parameters.gqlUrlSubsMgmt }} 
+      -SB_CONN_STRING ${{ parameters.sbConnString }} 
+      -SB_RESULT_SUBSCRIPTION_NAME ${{ parameters.sbResultSubscriptionName }} 
+      -SB_SUBSCRIPTION_NAME ${{ parameters.sbSubscriptionName }} 
+      -SB_TOPIC_NAME ${{ parameters.sbTopicName }} 
+      -SIGNALR_CONN_STRING ${{ parameters.signalRConnString }} 
+      -SUBS_MGMT_API_KEY ${{ parameters.subsMgmtApiKey }} 
+      -SUBS_MGMT_TENANT_SECRET ${{ parameters.subsMgmtTenantSecret }} 
 
 
       
