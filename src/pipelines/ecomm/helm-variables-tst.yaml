@@ -25,9 +25,9 @@ variables:
 - name: STOREFRONT_IMAGE_REPOSITORY_NAME
   value: ecomm-sf
 - name: STOREFRONT_RESOURCE_LIMITS_CPU
-  value: 2000m
+  value: 1000m
 - name: STOREFRONT_RESOURCE_LIMITS_MEMORY
-  value: 3Gi
+  value: 2Gi
 - name: STOREFRONT_RESOURCE_REQUESTS_CPU
   value: 10m
 - name: STOREFRONT_RESOURCE_REQUESTS_MEMORY
