@@ -43,58 +43,16 @@ steps:
     DockerRepository: ${{ parameters.imageRepositoryName }}
     DockerImageTag: $(latestTag)
     AppSettings: |    
-      [
-        { 
-          "name": "APP_INSIGHTS_INSTRUMENTATION_KEY",
-          "value": "${{ parameters.appInsightsInstrumentationKey }}",
-          "slotSetting": false
-        },
-        {
-          "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-          "value": "${{ parameters.appInsightsConnString }}",
-          "slotSetting": false
-        },
-        {
-          "name": "GQL_URL_SUBS_MGMT",
-          "value": "${{ parameters.gqlUrlSubsMgmt }}",
-          "slotSetting": false
-        },
-        {
-          "name": "SB_CONN_STRING",
-          "value": "${{ parameters.sbConnString }}",
-          "slotSetting": false
-        },
-        {
-          "name": "SB_RESULT_SUBSCRIPTION_NAME",
-          "value": "${{ parameters.sbResultSubscriptionName }}",
-          "slotSetting": false
-        },
-        {
-          "name": "SB_SUBSCRIPTION_NAME",
-          "value": "${{ parameters.sbSubscriptionName }}",
-          "slotSetting": false
-        },
-        {
-          "name": "SB_TOPIC_NAME",
-          "value": "${{ parameters.sbTopicName }}",
-          "slotSetting": false
-        },
-        {
-          "name": "SIGNALR_CONN_STRING",
-          "value": "${{ parameters.signalRConnString }}",
-          "slotSetting": false
-        },
-        {
-          "name": "SUBS_MGMT_API_KEY",
-          "value": "${{ parameters.subsMgmtApiKey }}",
-          "slotSetting": false
-        },
-        {
-          "name": "SUBS_MGMT_TENANT_SECRET",
-          "value":  "${{ parameters.subsMgmtTenantSecret }}",
-          "slotSetting": false
-        }        
-      ]
+      -APP_INSIGHTS_INSTRUMENTATION_KEY "${{ parameters.appInsightsInstrumentationKey }}"
+      -APPLICATIONINSIGHTS_CONNECTION_STRING "${{ parameters.appInsightsConnString }}"
+      -GQL_URL_SUBS_MGMT "${{ parameters.gqlUrlSubsMgmt }}" 
+      -SB_CONN_STRING "${{ parameters.sbConnString }}"
+      -SB_RESULT_SUBSCRIPTION_NAME "${{ parameters.sbResultSubscriptionName }}"
+      -SB_SUBSCRIPTION_NAME "${{ parameters.sbSubscriptionName }}" 
+      -SB_TOPIC_NAME "${{ parameters.sbTopicName }}"
+      -SIGNALR_CONN_STRING "${{ parameters.signalRConnString }}"
+      -SUBS_MGMT_API_KEY "${{ parameters.subsMgmtApiKey }}"
+      -SUBS_MGMT_TENANT_SECRET "${{ parameters.subsMgmtTenantSecret }}"
 
 
       
