@@ -43,6 +43,9 @@ steps:
     DockerRepository: ${{ parameters.imageRepositoryName }}
     DockerImageTag: $(latestTag)
     AppSettings: |    
+      -DOCKER_REGISTRY_SERVER_URL 'https://acreastusshrapteancr.azurecr.io' 
+      -DOCKER_REGISTRY_SERVER_USERNAME 'acreastusshrapteancr' 
+      -DOCKER_REGISTRY_SERVER_PASSWORD 'txeQF/xpmCiILAsCPWWYQ7/ufW0iFVY6' 
       -APP_INSIGHTS_INSTRUMENTATION_KEY ${{ parameters.appInsightsInstrumentationKey }} 
       -APPLICATIONINSIGHTS_CONNECTION_STRING ${{ parameters.appInsightsConnString }} 
       -GQL_URL_SUBS_MGMT ${{ parameters.gqlUrlSubsMgmt }} 
