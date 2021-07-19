@@ -1,0 +1,66 @@
+
+parameters:
+  serviceConnection: ''
+  svcPrincipalClientId: ''
+  svcPrincipalSecret: ''
+  acrServerUrl: ''
+  acrUsername: ''
+  acrPassword: ''
+  azureTenantId: ''
+  appServiceName: ''
+  containerRegistryName: ''
+  imageRepositoryName: ''
+  appInsightsInstrumentationKey: ''
+  appInsightsConnString: ''
+  gqlUrlSubsMgmt: ''
+  sbConnString: ''
+  sbResultSubscriptionName: ''
+  sbSubscriptionName: ''
+  sbTopicName: ''
+  signalRConnString: ''
+  subsMgmtApiKey: ''
+  subsMgmtTenantSecret: ''
+
+steps:
+- pwsh: |
+    az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
+    $tag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+    Write-Host "The latest tag is $tag"
+    Write-Host "##vso[task.setvariable variable=latestTag;]$tag"
+  displayName: Get Latest Tag
+  name: GetLatestTag
+  env:
+    SP_CLIENT_ID: ${{ parameters.svcPrincipalClientId }}
+    SP_SECRET: ${{ parameters.svcPrincipalSecret }}
+    AZURE_TENANT_ID: ${{ parameters.azureTenantId }}  
+    CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
+    IMAGE_REPOSITORY_NAME: ${{ parameters.imageRepositoryName }}
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    ConnectedServiceName: ${{ parameters.serviceConnection }}
+    appType: 'webAppContainer'
+    WebAppName: ${{ parameters.appServiceName }}
+    DockerNamespace: ${{ parameters.containerRegistryName }}
+    DockerRepository: ${{ parameters.imageRepositoryName }}
+    DockerImageTag: $(latestTag)
+    AppSettings: |    
+      -DOCKER_REGISTRY_SERVER_URL ${{ parameters.acrServerUrl }} 
+      -DOCKER_REGISTRY_SERVER_USERNAME ${{ parameters.acrUsername }} 
+      -DOCKER_REGISTRY_SERVER_PASSWORD ${{ parameters.acrPassword }} 
+      -APP_INSIGHTS_INSTRUMENTATION_KEY ${{ parameters.appInsightsInstrumentationKey }} 
+      -APPLICATIONINSIGHTS_CONNECTION_STRING ${{ parameters.appInsightsConnString }} 
+      -GQL_URL_SUBS_MGMT ${{ parameters.gqlUrlSubsMgmt }} 
+      -SB_CONN_STRING ${{ parameters.sbConnString }} 
+      -SB_RESULT_SUBSCRIPTION_NAME ${{ parameters.sbResultSubscriptionName }} 
+      -SB_SUBSCRIPTION_NAME ${{ parameters.sbSubscriptionName }} 
+      -SB_TOPIC_NAME ${{ parameters.sbTopicName }} 
+      -SIGNALR_CONN_STRING ${{ parameters.signalRConnString }} 
+      -SUBS_MGMT_API_KEY ${{ parameters.subsMgmtApiKey }} 
+      -SUBS_MGMT_TENANT_SECRET ${{ parameters.subsMgmtTenantSecret }} 
+
+
+      
+
+
