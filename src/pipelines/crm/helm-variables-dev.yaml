@@ -8,7 +8,7 @@ variables:
 - name: CHART_REPOSITORY_NAME
   value: "helm/crm-svcs"
 - name: HELM_RELEASE_NAME
-  value: sassy-squid
+  value: apollo
 - name: ENV
   value: DEV
 - name: LOCATION

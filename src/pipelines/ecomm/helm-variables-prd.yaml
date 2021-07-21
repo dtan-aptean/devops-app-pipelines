@@ -8,7 +8,7 @@ variables:
 - name: CHART_REPOSITORY_NAME
   value: "helm/ecomm-svcs"
 - name: HELM_RELEASE_NAME
-  value: greedy-giant
+  value: hermes
 - name: ENV
   value: PRD
 - name: LOCATION

@@ -8,7 +8,7 @@ variables:
 - name: CHART_REPOSITORY_NAME
   value: "helm/ezpay-svcs"
 - name: HELM_RELEASE_NAME
-  value: inspired-mockingbird
+  value: athena
 - name: ENV
   value: TST
 - name: LOCATION
