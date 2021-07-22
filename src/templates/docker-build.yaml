@@ -4,7 +4,7 @@ parameters:
   protoDestPath: ''
   dockerBuildContext: '**'
   dockerBuildArguments: '--target tests'
-  agentPool: { vmImage: ubuntu-latest }
+  agentPool: { vmImage: atg-build-agent-ss-docker-only }
   additionalSteps: []
 
 stages:
