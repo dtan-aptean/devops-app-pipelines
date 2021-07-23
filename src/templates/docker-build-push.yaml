@@ -12,7 +12,7 @@ parameters:
   protoDestPath: ''
   dockerBuildContext: '**'  
   dockerBuildArguments: ''
-  agentPool: { vmImage: ubuntu-latest }
+  agentPool: 'atg-vm-linux-scaleset-docker-only'
   newRelicDotnetAgent: false
 
 stages:
