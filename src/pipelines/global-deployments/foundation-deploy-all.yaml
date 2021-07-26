@@ -158,7 +158,22 @@ stages:
               atgConfigWebAuth0Domain: $(ATG_CONFIG_WEB_AUTH0_DOMAIN)
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
               atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
-              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)                            
+              atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)  
+              # SUBS MGMT GQL SVC PARAMS
+              subsMgmtGqlSvcImageRepositoryName: $(SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGqlSvcResourceLimitsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGqlSvcResourceLimitsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGqlSvcResourceRequestsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGqlSvcResourceRequestsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGqlSvcReplicas: $(SUBS_MGMT_GQL_SVC_REPLICAS)
+              subsMgmtGqlSvcNodeSelectorPool: $(SUBS_MGMT_GQL_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGqlSvcHttp1Port: $(SUBS_MGMT_GQL_SVC_HTTP1_PORT)
+              subsMgmtGqlSvcKedaMinReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MIN_REPLICAS)
+              subsMgmtGqlSvcKedaMaxReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MAX_REPLICAS)  
+              subsMgmtGqlSvcKedaTriggerCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_CPU)
+              subsMgmtGqlSvcKedaTriggerMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY)  
+              subsMgmtGqlSvcKongIngressUpstreamHostHeader: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              subsMgmtGqlSvcKongIngressClass: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_CLASS)                                                         
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -293,6 +308,21 @@ stages:
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
               atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
               atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+              # SUBS MGMT GQL SVC PARAMS
+              subsMgmtGqlSvcImageRepositoryName: $(SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGqlSvcResourceLimitsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGqlSvcResourceLimitsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGqlSvcResourceRequestsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGqlSvcResourceRequestsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGqlSvcReplicas: $(SUBS_MGMT_GQL_SVC_REPLICAS)
+              subsMgmtGqlSvcNodeSelectorPool: $(SUBS_MGMT_GQL_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGqlSvcHttp1Port: $(SUBS_MGMT_GQL_SVC_HTTP1_PORT)
+              subsMgmtGqlSvcKedaMinReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MIN_REPLICAS)
+              subsMgmtGqlSvcKedaMaxReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MAX_REPLICAS)  
+              subsMgmtGqlSvcKedaTriggerCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_CPU)
+              subsMgmtGqlSvcKedaTriggerMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY)
+              subsMgmtGqlSvcKongIngressUpstreamHostHeader: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              subsMgmtGqlSvcKongIngressClass: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_CLASS)                                 
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -858,6 +888,21 @@ stages:
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
               atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)    
               atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+              # SUBS MGMT GQL SVC PARAMS
+              subsMgmtGqlSvcImageRepositoryName: $(SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGqlSvcResourceLimitsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGqlSvcResourceLimitsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGqlSvcResourceRequestsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGqlSvcResourceRequestsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGqlSvcReplicas: $(SUBS_MGMT_GQL_SVC_REPLICAS)
+              subsMgmtGqlSvcNodeSelectorPool: $(SUBS_MGMT_GQL_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGqlSvcHttp1Port: $(SUBS_MGMT_GQL_SVC_HTTP1_PORT)
+              subsMgmtGqlSvcKedaMinReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MIN_REPLICAS)
+              subsMgmtGqlSvcKedaMaxReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MAX_REPLICAS)  
+              subsMgmtGqlSvcKedaTriggerCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_CPU)
+              subsMgmtGqlSvcKedaTriggerMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY)  
+              subsMgmtGqlSvcKongIngressUpstreamHostHeader: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              subsMgmtGqlSvcKongIngressClass: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_CLASS)                               
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -992,6 +1037,21 @@ stages:
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
               atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)   
               atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+              # SUBS MGMT GQL SVC PARAMS
+              subsMgmtGqlSvcImageRepositoryName: $(SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGqlSvcResourceLimitsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGqlSvcResourceLimitsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGqlSvcResourceRequestsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGqlSvcResourceRequestsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGqlSvcReplicas: $(SUBS_MGMT_GQL_SVC_REPLICAS)
+              subsMgmtGqlSvcNodeSelectorPool: $(SUBS_MGMT_GQL_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGqlSvcHttp1Port: $(SUBS_MGMT_GQL_SVC_HTTP1_PORT)
+              subsMgmtGqlSvcKedaMinReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MIN_REPLICAS)
+              subsMgmtGqlSvcKedaMaxReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MAX_REPLICAS)  
+              subsMgmtGqlSvcKedaTriggerCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_CPU)
+              subsMgmtGqlSvcKedaTriggerMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY)  
+              subsMgmtGqlSvcKongIngressUpstreamHostHeader: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              subsMgmtGqlSvcKongIngressClass: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_CLASS)                               
 
           - template: ../templates/save-tags.yaml
             parameters:
@@ -1602,6 +1662,21 @@ stages:
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
               atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
               atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+              # SUBS MGMT GQL SVC PARAMS
+              subsMgmtGqlSvcImageRepositoryName: $(SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGqlSvcResourceLimitsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGqlSvcResourceLimitsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGqlSvcResourceRequestsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGqlSvcResourceRequestsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGqlSvcReplicas: $(SUBS_MGMT_GQL_SVC_REPLICAS)
+              subsMgmtGqlSvcNodeSelectorPool: $(SUBS_MGMT_GQL_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGqlSvcHttp1Port: $(SUBS_MGMT_GQL_SVC_HTTP1_PORT)
+              subsMgmtGqlSvcKedaMinReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MIN_REPLICAS)
+              subsMgmtGqlSvcKedaMaxReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MAX_REPLICAS)  
+              subsMgmtGqlSvcKedaTriggerCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_CPU)
+              subsMgmtGqlSvcKedaTriggerMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY)    
+              subsMgmtGqlSvcKongIngressUpstreamHostHeader: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              subsMgmtGqlSvcKongIngressClass: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_CLASS)                             
 
 - stage: STG_Foundational_Svcs_Helm_Deploy_West
   displayName: STG (WEST) - Foundational Svcs Helm Deploy
@@ -1736,6 +1811,21 @@ stages:
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
               atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
               atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+              # SUBS MGMT GQL SVC PARAMS
+              subsMgmtGqlSvcImageRepositoryName: $(SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGqlSvcResourceLimitsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGqlSvcResourceLimitsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGqlSvcResourceRequestsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGqlSvcResourceRequestsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGqlSvcReplicas: $(SUBS_MGMT_GQL_SVC_REPLICAS)
+              subsMgmtGqlSvcNodeSelectorPool: $(SUBS_MGMT_GQL_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGqlSvcHttp1Port: $(SUBS_MGMT_GQL_SVC_HTTP1_PORT)
+              subsMgmtGqlSvcKedaMinReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MIN_REPLICAS)
+              subsMgmtGqlSvcKedaMaxReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MAX_REPLICAS)  
+              subsMgmtGqlSvcKedaTriggerCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_CPU)
+              subsMgmtGqlSvcKedaTriggerMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY)  
+              subsMgmtGqlSvcKongIngressUpstreamHostHeader: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              subsMgmtGqlSvcKongIngressClass: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_CLASS)                               
 
 - stage: STG_Comms_Api_Svc_Helm_Deploy
   displayName: STG (EAST) - Comms Api Svc Helm Deploy
@@ -2333,6 +2423,21 @@ stages:
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
               atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
               atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+              # SUBS MGMT GQL SVC PARAMS
+              subsMgmtGqlSvcImageRepositoryName: $(SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGqlSvcResourceLimitsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGqlSvcResourceLimitsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGqlSvcResourceRequestsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGqlSvcResourceRequestsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGqlSvcReplicas: $(SUBS_MGMT_GQL_SVC_REPLICAS)
+              subsMgmtGqlSvcNodeSelectorPool: $(SUBS_MGMT_GQL_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGqlSvcHttp1Port: $(SUBS_MGMT_GQL_SVC_HTTP1_PORT)
+              subsMgmtGqlSvcKedaMinReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MIN_REPLICAS)
+              subsMgmtGqlSvcKedaMaxReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MAX_REPLICAS)  
+              subsMgmtGqlSvcKedaTriggerCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_CPU)
+              subsMgmtGqlSvcKedaTriggerMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY) 
+              subsMgmtGqlSvcKongIngressUpstreamHostHeader: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              subsMgmtGqlSvcKongIngressClass: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_CLASS)                                
 
 - stage: PRD_Foundational_Svcs_Helm_Deploy_West
   displayName: PRD (WEST) - Foundational Svcs Helm Deploy
@@ -2467,6 +2572,21 @@ stages:
               atgConfigWebAuth0ClientId: $(ATG_CONFIG_WEB_AUTH0_CLIENT_ID)
               atgConfigWebAuth0ClientSecret: $(ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET)
               atgConfigWebHost: $(ATG_CONFIG_WEB_HOST)
+              # SUBS MGMT GQL SVC PARAMS
+              subsMgmtGqlSvcImageRepositoryName: $(SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME)
+              subsMgmtGqlSvcResourceLimitsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_CPU)
+              subsMgmtGqlSvcResourceLimitsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_MEMORY)
+              subsMgmtGqlSvcResourceRequestsCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_CPU)
+              subsMgmtGqlSvcResourceRequestsMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_MEMORY)
+              subsMgmtGqlSvcReplicas: $(SUBS_MGMT_GQL_SVC_REPLICAS)
+              subsMgmtGqlSvcNodeSelectorPool: $(SUBS_MGMT_GQL_SVC_NODE_SELECTOR_POOL)
+              subsMgmtGqlSvcHttp1Port: $(SUBS_MGMT_GQL_SVC_HTTP1_PORT)
+              subsMgmtGqlSvcKedaMinReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MIN_REPLICAS)
+              subsMgmtGqlSvcKedaMaxReplicas: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MAX_REPLICAS)  
+              subsMgmtGqlSvcKedaTriggerCpu: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_CPU)
+              subsMgmtGqlSvcKedaTriggerMemory: $(SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY) 
+              subsMgmtGqlSvcKongIngressUpstreamHostHeader: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_UPSTREAM_HEADER)
+              subsMgmtGqlSvcKongIngressClass: $(SUBS_MGMT_GQL_SVC_KONG_INGRESS_CLASS)                                
 
 - stage: PRD_Comms_Api_Svc_Helm_Deploy
   displayName: PRD (EAST) - Comms Api Svc Helm Deploy

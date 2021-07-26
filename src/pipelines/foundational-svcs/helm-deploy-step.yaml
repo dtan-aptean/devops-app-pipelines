@@ -104,6 +104,21 @@ parameters:
   atgConfigWebAuth0ClientId: ''
   atgConfigWebAuth0ClientSecret: ''
   atgConfigWebHost: ''
+  # SUBS MGMT GQL SVC PARAMS
+  subsMgmtGqlSvcImageRepositoryName: ''
+  subsMgmtGqlSvcResourceLimitsCpu: ''
+  subsMgmtGqlSvcResourceLimitsMemory: ''
+  subsMgmtGqlSvcResourceRequestsCpu: ''
+  subsMgmtGqlSvcResourceRequestsMemory: ''
+  subsMgmtGqlSvcReplicas: ''
+  subsMgmtGqlSvcNodeSelectorPool: ''
+  subsMgmtGqlSvcHttp1Port: ''
+  subsMgmtGqlSvcKedaMinReplicas: ''
+  subsMgmtGqlSvcKedaMaxReplicas: ''
+  subsMgmtGqlSvcKedaTriggerCpu: ''
+  subsMgmtGqlSvcKedaTriggerMemory: ''
+  subsMgmtGqlSvcKongIngressUpstreamHostHeader: ''
+  subsMgmtGqlSvcKongIngressClass: ''
 
 steps:
 - pwsh: |
@@ -157,11 +172,13 @@ steps:
       $latestShortUrlSvcTag = $tags[2].Split(':')[1]
       $latestSubsMgmtGrpcTag = $tags[3].Split(':')[1]
       $latestAtgConfigWebTag = $tags[4].Split(':')[1]
+      $latestSubsMgmtGqlTag = $tags[5].Split(':')[1]
       Write-Host events-svc tag: $latestEventsSvcTag
       Write-Host static-web-files-svc tag: $latestStaticWebFilesSvcTag
       Write-Host short-url-svc tag: $latestShortUrlSvcTag
       Write-Host subs-mgmt-grpc-svc tag: $latestSubsMgmtGrpcTag
-      Write-Host atg-config-web tag: $latestAtgConfigWebTag      
+      Write-Host atg-config-web tag: $latestAtgConfigWebTag
+      Write-Host subs-mgmt-gql-svc tag: $latestSubsMgmtGqlTag      
     }
 
     # EVENTS SVC
@@ -232,14 +249,30 @@ steps:
         Write-Host Fetching latest atg-config-web tag.
         $latestAtgConfigWebTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:ATG_CONFIG_WEB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
       }
-    }          
+    }     
 
-    $allTags = "events-svc:{0},static-web-files-svc:{1},short-url-svc:{2},subs-mgmt-grpc-svc:{3},atg-config-web:{4}" `
+    # SUBS MGMT GQL SVC
+    if (!$latestSubsMgmtGqlTag) {
+      if ($env:SUBS_MGMT_GQL_SVC_IMAGE_TAG)
+      {
+        Write-Host Using configured subs-mgmt-gql-svc tag: $env:SUBS_MGMT_GQL_SVC_IMAGE_TAG
+        $latestSubsMgmtGqlTag = $env:SUBS_MGMT_GQL_SVC_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest subs-mgmt-gql-svc tag.
+        $latestSubsMgmtGqlTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }      
+    }     
+
+    $allTags = "events-svc:{0},static-web-files-svc:{1},short-url-svc:{2},subs-mgmt-grpc-svc:{3},atg-config-web:{4},subs-mgmt-gql-svc:{5}" `
                -f $latestEventsSvcTag, `
                   $latestStaticWebFilesSvcTag, `
                   $latestShortUrlSvcTag, `
                   $latestSubsMgmtGrpcTag, `
-                  $latestAtgConfigWebTag
+                  $latestAtgConfigWebTag, `
+                  $latestSubsMgmtGqlTag
+
     Write-Host "##vso[task.setvariable variable=docker_image_tags;]$allTags"
     @"
     commonLabels:
@@ -476,6 +509,55 @@ steps:
           clientSecret: "$env:ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET"
         hostHeader: "$env:ATG_CONFIG_WEB_HOST"
 
+    subsMgmtGqlSvc:
+      image:
+        repository: "$env:CONTAINER_REGISTRY_NAME.azurecr.io/$env:SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME"
+        tag: $latestSubsMgmtGqlTag
+
+      deployment:
+        replicas: $env:SUBS_MGMT_GQL_SVC_REPLICAS
+
+      nodeSelector:
+        pool: "$env:SUBS_MGMT_GQL_SVC_NODE_SELECTOR_POOL"
+
+      pod:
+        resources:
+          limits:
+            cpu: $env:SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_CPU
+            memory: $env:SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_MEMORY
+          requests:
+            cpu: $env:SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_CPU
+            memory: $env:SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_MEMORY
+
+      kongIngress:
+        route:
+          headers:
+            x-azure-fdid:
+            - $env:FRONT_DOOR_ID
+        upstream:
+          host_header: $env:SUBS_MGMT_GQL_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: $env:SUBS_MGMT_GQL_SVC_KONG_INGRESS_CLASS
+
+      keda:
+        minReplicaCount: $env:SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MIN_REPLICAS
+        maxReplicaCount: $env:SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MAX_REPLICAS
+        triggers:
+        - type: cpu
+          metadata:
+            type: AverageValue
+            value: "$env:SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_CPU"
+        - type: memory
+          metadata:
+            type: AverageValue
+            value: "$env:SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY"
+
+      config:
+        http1Port: "$env:SUBS_MGMT_GQL_SVC_HTTP1_PORT"
+        subsMgmtGrpcSvcUrl: "$env:SUBS_MGMT_GRPC_SVC_URL"
+
     "@ | Out-File -FilePath ./deploy-values.yaml
 
     # this line for debugging, will print yaml to console
@@ -586,6 +668,21 @@ steps:
     ATG_CONFIG_WEB_AUTH0_CLIENT_ID: ${{ parameters.atgConfigWebAuth0ClientId }}
     ATG_CONFIG_WEB_AUTH0_CLIENT_SECRET: ${{ parameters.atgConfigWebAuth0ClientSecret }}
     ATG_CONFIG_WEB_HOST: ${{ parameters.atgConfigWebHost }}
+    # SUBS MGMT GQL SVC PARAMS
+    SUBS_MGMT_GQL_SVC_IMAGE_REPOSITORY_NAME: ${{ parameters.subsMgmtGqlSvcImageRepositoryName }}
+    SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_CPU: ${{ parameters.subsMgmtGqlSvcResourceLimitsCpu }}
+    SUBS_MGMT_GQL_SVC_RESOURCE_LIMITS_MEMORY: ${{ parameters.subsMgmtGqlSvcResourceLimitsMemory }}
+    SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_CPU: ${{ parameters.subsMgmtGqlSvcResourceRequestsCpu }}
+    SUBS_MGMT_GQL_SVC_RESOURCE_REQUESTS_MEMORY: ${{ parameters.subsMgmtGqlSvcResourceRequestsMemory }}
+    SUBS_MGMT_GQL_SVC_REPLICAS: ${{ parameters.subsMgmtGqlSvcReplicas }}    
+    SUBS_MGMT_GQL_SVC_NODE_SELECTOR_POOL: ${{ parameters.subsMgmtGqlSvcNodeSelectorPool }}
+    SUBS_MGMT_GQL_SVC_HTTP1_PORT: ${{ parameters.subsMgmtGqlSvcHttp1Port }}  
+    SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MIN_REPLICAS: ${{ parameters.subsMgmtGqlSvcKedaMinReplicas }}
+    SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_MAX_REPLICAS: ${{ parameters.subsMgmtGqlSvcKedaMaxReplicas }}
+    SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_CPU: ${{ parameters.subsMgmtGqlSvcKedaTriggerCpu }}
+    SUBS_MGMT_GQL_SVC_RESOURCE_KEDA_TRIGGER_MEMORY: ${{ parameters.subsMgmtGqlSvcKedaTriggerMemory }}
+    SUBS_MGMT_GQL_SVC_KONG_INGRESS_UPSTREAM_HOST_HEADER: ${{ parameters.subsMgmtGqlSvcKongIngressUpstreamHostHeader }}
+    SUBS_MGMT_GQL_SVC_KONG_INGRESS_CLASS: ${{ parameters.subsMgmtGqlSvcKongIngressClass }}
 
 - task: Kubernetes@1
   displayName: Kubectl Version
