@@ -17,7 +17,7 @@ stages:
 
     variables:
     - group: atg-commhub-tst
-    - name: latestTag
+    - name: docker_image_tags
       value: ''
 
     strategy:
@@ -47,6 +47,10 @@ stages:
               subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
               subsMgmtTenantSecret: $(SUBS_MGMT_TENANT_SECRET)      
 
+          - template: ../templates/save-tags.yaml
+            parameters:
+              tagName: 'integration_tags'    
+
 - stage: STG_Atg_Comm_Hub_Deploy
   displayName: STG - Atg Comm Hub Deploy
   dependsOn: TST_Atg_Comm_Hub_Deploy  
@@ -61,13 +65,17 @@ stages:
 
     variables:
     - group: atg-commhub-stg
-    - name: latestTag
+    - name: docker_image_tags
       value: ''
 
     strategy:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'integration_tags' 
+
           - template: ../integration-svcs/app-svc-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -105,13 +113,17 @@ stages:
 
     variables:
     - group: atg-commhub-prf
-    - name: latestTag
+    - name: docker_image_tags
       value: ''
 
     strategy:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'integration_tags' 
+
           - template: ../integration-svcs/app-svc-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-DEV-TST-STG'
@@ -149,13 +161,17 @@ stages:
 
     variables:
     - group: atg-commhub-prd
-    - name: latestTag
+    - name: docker_image_tags
       value: ''
 
     strategy:
       runOnce:
         deploy:
           steps:
+          - template: ../templates/load-tags.yaml
+            parameters:
+              tagName: 'integration_tags' 
+
           - template: ../integration-svcs/app-svc-deploy-step.yaml
             parameters:
               serviceConnection: 'AzDevOps-Pipeline-Principal-PRD'
@@ -178,5 +194,4 @@ stages:
               signalRConnString: $(SIGNALR_CONN_STRING)
               subsMgmtApiKey: $(SUBS_MGMT_API_KEY)
               subsMgmtTenantSecret: $(SUBS_MGMT_TENANT_SECRET)                   
-
                           
