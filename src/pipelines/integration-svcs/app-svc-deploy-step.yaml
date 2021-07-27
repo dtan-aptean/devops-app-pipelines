@@ -24,9 +24,28 @@ parameters:
 steps:
 - pwsh: |
     az login --service-principal -u $env:SP_CLIENT_ID -p $env:SP_SECRET --tenant $env:AZURE_TENANT_ID
-    $tag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
-    Write-Host "The latest tag is $tag"
-    Write-Host "##vso[task.setvariable variable=latestTag;]$tag"
+    
+    if ($env:DOCKER_IMAGE_TAGS) {
+      $latestIntegrationCommHubTag = $env:DOCKER_IMAGE_TAGS.Split(':')[1]
+      Write-Host atg-comm-hub tag: $latestIntegrationCommHubTag
+    }
+
+    # INTEGRATION COMM HUB
+    if (!$latestIntegrationCommHubTag) {
+      if ($env:INTEGRATION_COMM_HUB_IMAGE_TAG)
+      {
+        Write-Host Using configured atg-comm-hub tag: $env:INTEGRATION_COMM_HUB_IMAGE_TAG
+        $latestIntegrationCommHubTag = $env:INTEGRATION_COMM_HUB_IMAGE_TAG
+      }
+      else
+      {
+        Write-Host Fetching latest atg-comm-hub tag.
+        $latestIntegrationCommHubTag = az acr repository show-tags --name $env:CONTAINER_REGISTRY_NAME --repository $env:INTEGRATION_COMM_HUB_IMAGE_REPOSITORY_NAME --top 1 --orderby time_desc | ConvertFrom-Json
+      }
+    }
+    
+    Write-Host "The latest atg-comm-hub tag is $latestIntegrationCommHubTag"
+    Write-Host "##vso[task.setvariable variable=docker_image_tags;]atg-comm-hub:$latestIntegrationCommHubTag"
   displayName: Get Latest Tag
   name: GetLatestTag
   env:
@@ -34,7 +53,7 @@ steps:
     SP_SECRET: ${{ parameters.svcPrincipalSecret }}
     AZURE_TENANT_ID: ${{ parameters.azureTenantId }}  
     CONTAINER_REGISTRY_NAME: ${{ parameters.containerRegistryName }}
-    IMAGE_REPOSITORY_NAME: ${{ parameters.imageRepositoryName }}
+    INTEGRATION_COMM_HUB_IMAGE_REPOSITORY_NAME: ${{ parameters.imageRepositoryName }}
 
 - task: AzureRmWebAppDeployment@4
   inputs:
@@ -59,8 +78,3 @@ steps:
       -SIGNALR_CONN_STRING ${{ parameters.signalRConnString }} 
       -SUBS_MGMT_API_KEY ${{ parameters.subsMgmtApiKey }} 
       -SUBS_MGMT_TENANT_SECRET ${{ parameters.subsMgmtTenantSecret }} 
-
-
-      
-
-
